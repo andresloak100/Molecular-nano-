@@ -1,0 +1,233 @@
+{
+  "schema_version": 1,
+  "description": "All-electron CCSD(T)/cc-pVDZ recomputation of the Temelso 2006 supporting-information absolute energies at the supplied geometries, with an SCF initial-guess scan.",
+  "level_of_theory": "all-electron UHF/UCCSD(T) and RHF/RCCSD(T), cc-pVDZ, no frozen orbitals",
+  "agreement_threshold_hartree": 1e-07,
+  "initial_guesses_scanned": [
+    "minao",
+    "atom",
+    "huckel",
+    "1e"
+  ],
+  "species": [
+    {
+      "species": "methane",
+      "source_label": "CH4",
+      "variant": "RCCSD(T)",
+      "published_energy_hartree": -40.362981446705,
+      "recomputed_energy_hartree": -40.390318874715824,
+      "difference_hartree": -0.027337428010824283,
+      "difference_kcal_per_mol": -17.1544949622355,
+      "reproduces_published_value": false,
+      "selected_initial_guess": "minao",
+      "hartree_fock_s2": 0.0,
+      "scf_solution_spread_kcal_per_mol": 1.7389019525637648e-10,
+      "scf_attempts": [
+        {
+          "initial_guess": "minao",
+          "converged": true,
+          "hartree_fock_energy_hartree": -40.19833566924791,
+          "hartree_fock_s2": 0.0
+        },
+        {
+          "initial_guess": "atom",
+          "converged": true,
+          "hartree_fock_energy_hartree": -40.19833566924797,
+          "hartree_fock_s2": 0.0
+        },
+        {
+          "initial_guess": "huckel",
+          "converged": true,
+          "hartree_fock_energy_hartree": -40.198335669247875,
+          "hartree_fock_s2": 0.0
+        },
+        {
+          "initial_guess": "1e",
+          "converged": true,
+          "hartree_fock_energy_hartree": -40.19833566924769,
+          "hartree_fock_s2": 0.0
+        }
+      ]
+    },
+    {
+      "species": "ethynyl_radical",
+      "source_label": "CCH",
+      "variant": "UCCSD(T)",
+      "published_energy_hartree": -76.404097045377,
+      "recomputed_energy_hartree": -76.40409705209798,
+      "difference_hartree": -6.720981104990642e-09,
+      "difference_kcal_per_mol": -4.217479291072692e-06,
+      "reproduces_published_value": true,
+      "selected_initial_guess": "atom",
+      "hartree_fock_s2": 1.2211765927622,
+      "scf_solution_spread_kcal_per_mol": 8.760364231060809,
+      "scf_attempts": [
+        {
+          "initial_guess": "minao",
+          "converged": true,
+          "hartree_fock_energy_hartree": -76.14314000369592,
+          "hartree_fock_s2": 0.7591362615162538
+        },
+        {
+          "initial_guess": "atom",
+          "converged": true,
+          "hartree_fock_energy_hartree": -76.15710053281916,
+          "hartree_fock_s2": 1.2211765927622
+        },
+        {
+          "initial_guess": "huckel",
+          "converged": true,
+          "hartree_fock_energy_hartree": -76.14314000369589,
+          "hartree_fock_s2": 0.759136289080848
+        },
+        {
+          "initial_guess": "1e",
+          "converged": true,
+          "hartree_fock_energy_hartree": -76.15710053281416,
+          "hartree_fock_s2": 1.221175320037153
+        }
+      ]
+    },
+    {
+      "species": "methane_ethynyl_ts",
+      "source_label": "CH3-H-CCH",
+      "variant": "UCCSD(T)",
+      "published_energy_hartree": -116.790593477289,
+      "recomputed_energy_hartree": -116.79059349505718,
+      "difference_hartree": -1.7768186921784945e-08,
+      "difference_kcal_per_mol": -1.1149705558150202e-05,
+      "reproduces_published_value": true,
+      "selected_initial_guess": "minao",
+      "hartree_fock_s2": 1.2142534514070444,
+      "scf_solution_spread_kcal_per_mol": 22.91771044342239,
+      "scf_attempts": [
+        {
+          "initial_guess": "minao",
+          "converged": true,
+          "hartree_fock_energy_hartree": -116.33910329510498,
+          "hartree_fock_s2": 1.2142534514070444
+        },
+        {
+          "initial_guess": "atom",
+          "converged": true,
+          "hartree_fock_energy_hartree": -116.33910329510546,
+          "hartree_fock_s2": 1.2142555133198716
+        },
+        {
+          "initial_guess": "huckel",
+          "converged": true,
+          "hartree_fock_energy_hartree": -116.33910329510543,
+          "hartree_fock_s2": 1.2142564814181398
+        },
+        {
+          "initial_guess": "1e",
+          "converged": true,
+          "hartree_fock_energy_hartree": -116.30258159855892,
+          "hartree_fock_s2": 0.7594702873035146
+        }
+      ]
+    },
+    {
+      "species": "acetylene",
+      "source_label": "HCCH",
+      "variant": "RCCSD(T)",
+      "published_energy_hartree": -77.115274196558,
+      "recomputed_energy_hartree": -77.11527420465117,
+      "difference_hartree": -8.093167025435832e-09,
+      "difference_kcal_per_mol": -5.078538950752716e-06,
+      "reproduces_published_value": true,
+      "selected_initial_guess": "minao",
+      "hartree_fock_s2": 0.0,
+      "scf_solution_spread_kcal_per_mol": 8.025701319525069e-11,
+      "scf_attempts": [
+        {
+          "initial_guess": "minao",
+          "converged": true,
+          "hartree_fock_energy_hartree": -76.82291692573082,
+          "hartree_fock_s2": 0.0
+        },
+        {
+          "initial_guess": "atom",
+          "converged": true,
+          "hartree_fock_energy_hartree": -76.82291692573095,
+          "hartree_fock_s2": 0.0
+        },
+        {
+          "initial_guess": "huckel",
+          "converged": true,
+          "hartree_fock_energy_hartree": -76.82291692573088,
+          "hartree_fock_s2": 0.0
+        },
+        {
+          "initial_guess": "1e",
+          "converged": true,
+          "hartree_fock_energy_hartree": -76.82291692573085,
+          "hartree_fock_s2": 0.0
+        }
+      ]
+    },
+    {
+      "species": "methyl_radical",
+      "source_label": "CH3",
+      "variant": "UCCSD(T)",
+      "published_energy_hartree": -39.718644173874,
+      "recomputed_energy_hartree": -39.71864416685577,
+      "difference_hartree": 7.018229553068522e-09,
+      "difference_kcal_per_mol": 4.4040055071843655e-06,
+      "reproduces_published_value": true,
+      "selected_initial_guess": "minao",
+      "hartree_fock_s2": 0.7618977579686241,
+      "scf_solution_spread_kcal_per_mol": 7.40148010578423e-10,
+      "scf_attempts": [
+        {
+          "initial_guess": "minao",
+          "converged": true,
+          "hartree_fock_energy_hartree": -39.56348873059095,
+          "hartree_fock_s2": 0.7618977579686241
+        },
+        {
+          "initial_guess": "atom",
+          "converged": true,
+          "hartree_fock_energy_hartree": -39.56348873059116,
+          "hartree_fock_s2": 0.7618977416206323
+        },
+        {
+          "initial_guess": "huckel",
+          "converged": true,
+          "hartree_fock_energy_hartree": -39.56348873059213,
+          "hartree_fock_s2": 0.7618975685139326
+        },
+        {
+          "initial_guess": "1e",
+          "converged": true,
+          "hartree_fock_energy_hartree": -39.563488730592105,
+          "hartree_fock_s2": 0.761897602044344
+        }
+      ]
+    }
+  ],
+  "reproduced": [
+    "ethynyl_radical",
+    "methane_ethynyl_ts",
+    "acetylene",
+    "methyl_radical"
+  ],
+  "not_reproduced": [
+    "methane"
+  ],
+  "barrier_kcal_per_mol": {
+    "from_published_absolute_energies": -14.75587590429406,
+    "from_recomputed_absolute_energies": 2.3986121257151725,
+    "published_methane_entry_replaced_by_recomputed": 2.398619057932522,
+    "published_table_4_value": 2.4,
+    "published_table_5_rccsd_t_tz": 2.2
+  },
+  "findings": [
+    "Four of the five SI entries reproduce to under 1e-7 Hartree at all-electron CCSD(T)/cc-pVDZ on the supplied geometries, which fixes the method, basis, core treatment and geometry.",
+    "The methane entry is the sole entry that does not reproduce, by -17.15 kcal/mol, and it is the entire source of the -14.76 kcal/mol barrier implied by the SI absolute energies.",
+    "Substituting only the recomputed methane energy into the otherwise unchanged SI set gives +2.40 kcal/mol, matching the paper's own Table 4 value. The SI methane entry therefore appears to be a transcription or tabulation error rather than a different calculation.",
+    "The ethynyl radical has multiple stable UHF solutions on this geometry. The default minao guess converges to one 8.7 kcal/mol above the lowest, and stability analysis calls both stable. Using it makes the correct published ethynyl entry look wrong by 14.3 kcal/mol. The guess scan is required for a correct result, not a precaution.",
+    "This localization does not validate the reaction model, the method for diamondoid mechanosynthesis, or the transition structure, which the paper's Table 1 reports with three imaginary modes and is therefore not a verified first-order saddle."
+  ],
+  "published_barrier_recovered_after_methane_substitution": true
+}
