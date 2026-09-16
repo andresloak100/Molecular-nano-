@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "reaction": "C2H + iso-C4H10 -> C2H2 + t-C4H9",
+  "why_this_reaction": "The abstraction site is a tertiary C-H, the closest available small-molecule proxy for the adamantane bridgehead C-H targeted by the 53-atom candidate. The methane calibration covers a primary C-H and does not cover the bond the tool must break.",
+  "level_of_theory": "all-electron UHF/UCCSD(T) and RHF/RCCSD(T), cc-pVDZ, no frozen orbitals",
+  "agreement_threshold_hartree": 1e-07,
+  "initial_guesses_scanned": [
+    "minao",
+    "atom",
+    "huckel",
+    "1e"
+  ],
+  "status": "running",
+  "species": [
+    {
+      "species": "ethynyl_radical",
+      "source_label": "CCH",
+      "variant": "UCCSD(T)",
+      "basis_functions": 33,
+      "published_energy_hartree": -76.404097045377,
+      "recomputed_energy_hartree": -76.40409705209798,
+      "difference_kcal_per_mol": -4.217479291072692e-06,
+      "reproduces_published_value": true,
+      "selected_initial_guess": "atom",
+      "hartree_fock_s2": 1.2211765927622,
+      "scf_solution_spread_kcal_per_mol": 8.760364231060809,
+      "scf_attempts": [
+        {
+          "initial_guess": "minao",
+          "converged": true,
+          "hartree_fock_energy_hartree": -76.14314000369592,
+          "hartree_fock_s2": 0.7591362615162538
+        },
+        {
+          "initial_guess": "atom",
+          "converged": true,
+          "hartree_fock_energy_hartree": -76.15710053281916,
+          "hartree_fock_s2": 1.2211765927622
+        },
+        {
+          "initial_guess": "huckel",
+          "converged": true,
+          "hartree_fock_energy_hartree": -76.14314000369589,
+          "hartree_fock_s2": 0.759136289080848
+        },
+        {
+          "initial_guess": "1e",
+          "converged": true,
+          "hartree_fock_energy_hartree": -76.15710053281416,
+          "hartree_fock_s2": 1.221175320037153
+        }
+      ],
+      "elapsed_seconds": 0.924413416069001
+    },
+    {
+      "species": "acetylene",
+      "source_label": "HCCH",
+      "variant": "RCCSD(T)",
+      "basis_functions": 38,
+      "published_energy_hartree": -77.115274196558,
+      "recomputed_energy_hartree": -77.11527420465117,
+      "difference_kcal_per_mol": -5.078538950752716e-06,
+      "reproduces_published_value": true,
+      "selected_initial_guess": "minao",
+      "hartree_fock_s2": 0.0,
+      "scf_solution_spread_kcal_per_mol": 8.025701319525069e-11,
+      "scf_attempts": [
+        {
+          "initial_guess": "minao",
+          "converged": true,
+          "hartree_fock_energy_hartree": -76.82291692573082,
+          "hartree_fock_s2": 0.0
+        },
+        {
+          "initial_guess": "atom",
+          "converged": true,
+          "hartree_fock_energy_hartree": -76.82291692573095,
+          "hartree_fock_s2": 0.0
+        },
+        {
+          "initial_guess": "huckel",
+          "converged": true,
+          "hartree_fock_energy_hartree": -76.82291692573088,
+          "hartree_fock_s2": 0.0
+        },
+        {
+          "initial_guess": "1e",
+          "converged": true,
+          "hartree_fock_energy_hartree": -76.82291692573085,
+          "hartree_fock_s2": 0.0
+        }
+      ],
+      "elapsed_seconds": 0.41848233295604587
+    },
+    {
+      "species": "tert_butyl_radical",
+      "source_label": "T-butyl",
+      "variant": "UCCSD(T)",
+      "basis_functions": 101,
+      "published_energy_hartree": -157.332943673808,
+      "recomputed_energy_hartree": -157.3329436708331,
+      "difference_kcal_per_mol": 1.866778126921531e-06,
+      "reproduces_published_value": true,
+      "selected_initial_guess": "minao",
+      "hartree_fock_s2": 0.7641356640171235,
+      "scf_solution_spread_kcal_per_mol": 8.560748074160073e-10,
+      "scf_attempts": [
+        {
+          "initial_guess": "minao",
+          "converged": true,
+          "hartree_fock_energy_hartree": -156.68587114310668,
+          "hartree_fock_s2": 0.7641356640171235
+        },
+        {
+          "initial_guess": "atom",
+          "converged": true,
+          "hartree_fock_energy_hartree": -156.68587114310668,
+          "hartree_fock_s2": 0.7641356274720756
+        },
+        {
+          "initial_guess": "huckel",
+          "converged": true,
+          "hartree_fock_energy_hartree": -156.68587114310532,
+          "hartree_fock_s2": 0.7641358983837989
+        },
+        {
+          "initial_guess": "1e",
+          "converged": true,
+          "hartree_fock_energy_hartree": -156.68587114310668,
+          "hartree_fock_s2": 0.7641359707849169
+        }
+      ],
+      "elapsed_seconds": 152.78249587491155
+    },
+    {
+      "species": "isobutane",
+      "source_label": "Isobutane",
+      "variant": "RCCSD(T)",
+      "basis_functions": 106,
+      "published_energy_hartree": -157.99275508678,
+      "recomputed_energy_hartree": -157.99275510530532,
+      "difference_kcal_per_mol": -1.1624818158820175e-05,
+      "reproduces_published_value": true,
+      "selected_initial_guess": "minao",
+      "hartree_fock_s2": 0.0,
+      "scf_solution_spread_kcal_per_mol": 1.3911215620510119e-09,
+      "scf_attempts": [
+        {
+          "initial_guess": "minao",
+          "converged": true,
+          "hartree_fock_energy_hartree": -157.30917780999994,
+          "hartree_fock_s2": 0.0
+        },
+        {
+          "initial_guess": "atom",
+          "converged": true,
+          "hartree_fock_energy_hartree": -157.30917780999926,
+          "hartree_fock_s2": 0.0
+        },
+        {
+          "initial_guess": "huckel",
+          "converged": true,
+          "hartree_fock_energy_hartree": -157.30917780999795,
+          "hartree_fock_s2": 0.0
+        },
+        {
+          "initial_guess": "1e",
+          "converged": true,
+          "hartree_fock_energy_hartree": -157.30917780999772,
+          "hartree_fock_s2": 0.0
+        }
+      ],
+      "elapsed_seconds": 54.49192333291285
+    }
+  ]
+}
