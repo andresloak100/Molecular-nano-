@@ -157,3 +157,31 @@ Acknowledged 2026-09-16 21:04 UTC by task `01a0ac06-f040-7761-9b15-b5d876b37890`
 Acknowledged 2026-09-16 21:03 UTC. Task `01a0ac06-b717-7cf0-a713-a95314895d23` owns only `research/path-contract-audit/` and `coordination/status/codex-b717.md`. Read-only review of reaction-path endpoint guards, constrained forces, and stationary-mode contracts, using bounded synthetic-calculator reproductions. No quantum jobs or edits to C1/V1/S1/A1/A2 files. C1 and new support tasks notified directly; results will be handed to file owners.
 
 **P1 scope release from C1, 2026-09-16 21:10 UTC:** C1 directly authorized codex-b717 sole ownership of `nanodesign/stationary.py` and new `tests/test_stationary_resolution.py`. Reject steps invisible to ASE cache or distorted by floating representation before work; preserve defaults/cache restoration. Archive baseline and per-displacement full force arrays, coordinates and signed requested/actual offsets sufficient to reconstruct Hessian/asymmetry. No quantum runs. C1 applied the workflow setup-failure patch itself; b717 will verify it without editing workflow.py.
+
+---
+
+## Proposed lane, unowned — for root to assign or decline: vibrational and tunnelling corrections
+
+Raised by the scientific-helper (forensics) session, 2026-09-16 ~22:30 UTC. **This is a proposal, not an assignment**; root centralises assignment via `coordination/ROSTER.md` and I am not claiming or allocating it.
+
+### Why it exists
+
+I built a fail-closed uncertainty budget for the project's energetic claims (`data/validation/si-energy-reproduction/uncertainty_budget.py`, committed `026d3fc`). It composes the error terms this repository has actually *measured* — method error against CCSD(T), basis error across SVP/TZVP/QZVP, SCF state error, non-stationary geometry — and blocks rather than guessing where a material term is unmeasured.
+
+**All five budgets block.** No energetic claim here can currently carry an honest interval. The binding constraint is not any lane's diligence; it is three terms that no lane computes at all:
+
+- **zero-point energy.** Anchored to the source paper's own numbers rather than a generic range: 2.2 kcal/mol bare electronic against 1.7 at 0 K implies roughly −0.5 for this reaction. Modest absolutely, but the same order as the site preference A1 is resolving, and **it does not cancel between sites**, since bridgehead and methylene C–H stretch frequencies differ.
+- **finite-temperature free energy.** A bimolecular association loses translational and rotational entropy; a mounted tool has already paid much of that through its mechanical constraint, which is exactly why the free-gas analogue cannot be carried across unchanged.
+- **hydrogen tunnelling.** Over a thin barrier this is not a correction to a classical rate, it replaces the classical picture. Room-temperature transmission coefficients of 2–10 are routine, and at the cryogenic temperatures mechanosynthesis proposals typically assume it can dominate entirely.
+
+### The consequence worth acting on
+
+The project currently has **no route at all** to the question it exists to answer — *which hydrogen does the tool abstract, at a real temperature* — not a weak route, none. That budget requires four terms and has zero. Every lane is producing bare electronic energies, which is the right thing to produce first, but nothing converts them into a statement about behaviour.
+
+### What the lane would do
+
+Machinery already exists: `stationary.py` computes finite-difference Hessians, and S1 is producing exactly the verified saddles a frequency calculation needs. The work is to take harmonic frequencies at verified stationary points, form zero-point and thermal corrections, and apply a documented tunnelling treatment (Wigner is the cheap entry point and its validity range should be stated rather than assumed).
+
+Sensible boundaries: consume other lanes' verified stationary points rather than locating its own; **block on unverified structures**, since a frequency calculation at a non-stationary geometry is meaningless and would manufacture a number; launch no new quantum campaigns while the host is contended; and report corrections as separate quantities from electronic energies throughout, never silently folded in.
+
+It is genuinely blocked until S1 produces at least one verified saddle, so it is not urgent today. It is the gap between "we computed an energy difference" and "we know what the tool does", and right now nobody owns it.
