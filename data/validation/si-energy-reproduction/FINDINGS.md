@@ -367,9 +367,45 @@ margin collapses from a factor of ~300 on barriers to a factor of ~1.8 here.
 
 **Practical reading:** switching functional would cut the site-difference method
 error from about 3.25 to about 1.82 kcal/mol. Real, but 1.82 still swamps a
-signal of order 1 kcal/mol, which is what §11 and the pyramidalization
-prediction suggest adamantane may deliver. **Not a reason to redo completed
-work**, and not a rescue for the underlying resolution problem.
+signal of order 1 kcal/mol. **Not a reason to redo completed work**, and not a
+rescue for the underlying resolution problem.
+
+### CORRECTION: these rows are the wrong error bar for a one-step site comparison
+
+I recommended the 3.25 figure to the selectivity lane as its method-error bar.
+**That was wrong twice over**, caught by A1:
+
+| Value | What it actually is | Why it was wrong |
+|---|---|---|
+| 3.25 | PBE0-D3/**def2-TZVP**, primary→tertiary | wrong basis *and* wrong comparison |
+| 4.13 | PBE0-D3/def2-SVP, primary→tertiary | right basis, wrong comparison |
+| **0.928** | PBE0-D3/def2-SVP, **secondary→tertiary** | **the correct one** |
+
+That lane works at def2-SVP, so 3.25 was the wrong row — and the flattering one.
+More importantly, primary→tertiary is a **two-step** substitution change, while
+bridgehead-versus-methylene is tertiary-versus-secondary, **one step**. The right
+bar is the §11 calibration, which was computed for exactly that comparison at
+exactly that level, at their request. **I had the right number and pointed at a
+different one.**
+
+**The error is strongly non-uniform across substitution steps**, which sharpens
+the point rather than merely rescaling it:
+
+    primary -> tertiary   (two steps)   4.13
+    secondary-> tertiary  (one step)    0.928
+    implied primary -> secondary        3.20
+
+Most of the method error lives in the step involving **methane**, which is the
+only species here with no alkyl substituent at all — an outlier rather than one
+point on a trend. A comparison that avoids methane avoids the bulk of the error.
+(This decomposition assumes the two errors add across steps, which two
+measurements cannot establish.)
+
+**Consequence: the resolution verdict improves materially.** With a 0.928 bar a
+site difference of order 2 kcal/mol is resolvable and one of order 1 is not.
+With 3.25 or 4.13, nothing that lane could measure would survive. The direction
+is unchanged — PBE0-D3 still overstates the difference by 45% and still flatters
+selectivity.
 
 ## 7. What is NOT established
 
