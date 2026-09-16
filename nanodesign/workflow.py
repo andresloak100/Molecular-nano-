@@ -105,7 +105,7 @@ def run(design_path, output, stage="singlepoint", state="initial", fmax=0.03, st
     reaction = data.get("hydrogen_transfer")
     metadata = data.get("metadata", {})
     for atoms in (initial, final):
-        atoms.calc = PySCFCalculator(settings)
+        atoms.calc = PySCFCalculator(settings, event_log=out / "electronic.jsonl")
     try:
         if stage in {"singlepoint", "relax"}:
             atoms = initial if state == "initial" else final
@@ -133,7 +133,7 @@ def run(design_path, output, stage="singlepoint", state="initial", fmax=0.03, st
                 raise ValueError("Both endpoints relaxed to the same structure; no reaction path.")
             band = [initial] + [initial.copy() for _ in range(images - 2)] + [final]
             for atoms in band[1:-1]:
-                atoms.calc = PySCFCalculator(settings)
+                atoms.calc = PySCFCalculator(settings, event_log=out / "electronic.jsonl")
             neb = NEB(band, k=0.1, climb=False, method="improvedtangent", remove_rotation_and_translation=False)
             neb.interpolate(method="idpp", apply_constraint=True)
             preliminary = FIRE(neb, trajectory=str(out / "band-pre.traj"), logfile=str(out / "band-pre.log"), maxstep=0.05)

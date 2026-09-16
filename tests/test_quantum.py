@@ -1,7 +1,9 @@
 """Numerical checks of the actual quantum backend (no surrogate potentials)."""
 
 from dataclasses import replace
+from datetime import datetime
 import json
+from uuid import UUID
 
 from ase import Atoms
 import numpy as np
@@ -170,3 +172,43 @@ def test_invalid_functional_does_not_fall_back():
     with pytest.raises((QuantumCalculationError, ValueError)):
         atoms.get_forces()
     assert atoms.calc.results == {}
+
+
+def test_event_log_reports_real_calculation_stages_and_appends(tmp_path):
+    atoms = Atoms("H2", positions=[[0, 0, 0], [0, 0, 0.91]])
+    log_path = tmp_path / "run" / "electronic.jsonl"
+    atoms.calc = PySCFCalculator(small_settings(), event_log=log_path)
+    atoms.get_forces()
+    text_before_cached_read = log_path.read_text()
+    atoms.get_potential_energy()
+    assert log_path.read_text() == text_before_cached_read
+
+    records = [json.loads(line) for line in text_before_cached_read.splitlines()]
+    assert [item["event"] for item in records[-3:]] == [
+        "scf_completed", "gradient_started", "calculation_completed",
+    ]
+    cycles = records[:-3]
+    assert cycles and all(item["event"] == "scf_cycle" for item in cycles)
+    assert [item["cycle"] for item in cycles] == list(range(1, len(cycles) + 1))
+    assert all(np.isfinite(item["e_tot"]) for item in cycles)
+    assert records[-3]["converged"] is True
+    assert records[-1]["energy_eV"] == atoms.get_potential_energy()
+    call_id = atoms.calc.diagnostics["call_id"]
+    UUID(call_id)
+    assert {item["call_id"] for item in records} == {call_id}
+    for item in records:
+        assert datetime.fromisoformat(item["timestamp"]).utcoffset().total_seconds() == 0
+        assert np.isfinite(item["elapsed_seconds"])
+        json.dumps(item, allow_nan=False)
+
+    # A failed later geometry appends an identified failure without overwriting
+    # the successful calculation or treating an ASE cache read as a new call.
+    atoms.positions[1] = atoms.positions[0]
+    with pytest.raises(ValueError, match="closer"):
+        atoms.get_forces()
+    updated = log_path.read_text()
+    assert updated.startswith(text_before_cached_read)
+    last = json.loads(updated.splitlines()[-1])
+    assert last["event"] == "calculation_failed"
+    assert last["call_id"] != call_id
+    assert last["error_type"] == "ValueError"

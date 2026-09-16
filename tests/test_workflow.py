@@ -16,7 +16,7 @@ from nanodesign.quantum import QuantumSettings
 class DoubleWell(Calculator):
     implemented_properties = ["energy", "forces"]
 
-    def __init__(self, settings=None):
+    def __init__(self, settings=None, event_log=None):
         super().__init__()
         self.diagnostics = {"test_surface": True}
 

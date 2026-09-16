@@ -9,12 +9,16 @@ environmental effects, and dynamical reaction probabilities are not included.
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from datetime import datetime, timezone
 from importlib.metadata import PackageNotFoundError, version
+import json
 import math
 from numbers import Integral, Real
+from pathlib import Path
 import threading
 import time
 from typing import Any
+from uuid import uuid4
 
 import numpy as np
 from ase.calculators.calculator import Calculator, all_changes
@@ -100,16 +104,29 @@ class PySCFCalculator(Calculator):
     geometry-change tracking. Failed or nonconverged calculations leave no
     usable energy/force result. ``diagnostics`` describes the latest attempt.
     No functional, spin, basis, or SCF fallback is performed automatically.
+
+    ``event_log`` optionally appends JSON records for SCF iterations and major
+    calculation stages. It is an output destination, not a physical setting.
+    SCF cycle numbers are one-based; ``e_tot`` in those records is in Hartree
+    before adding dispersion. A new call UUID distinguishes successive ASE
+    geometries; reads served from ASE's cache do not create additional events.
     """
 
     implemented_properties = ["energy", "forces"]
 
-    def __init__(self, settings: QuantumSettings | None = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        settings: QuantumSettings | None = None,
+        *,
+        event_log: str | Path | None = None,
+        **kwargs: Any,
+    ) -> None:
         super().__init__(**kwargs)
         self._settings = settings if settings is not None else QuantumSettings()
         if not isinstance(self.settings, QuantumSettings):
             raise TypeError("settings must be a QuantumSettings instance")
         self.diagnostics: dict[str, Any] = {}
+        self.event_log = Path(event_log) if event_log is not None else None
 
     @property
     def settings(self) -> QuantumSettings:
@@ -125,7 +142,9 @@ class PySCFCalculator(Calculator):
         super().calculate(atoms, properties, system_changes)
         self.results = {}
         started = time.monotonic()
+        call_id = str(uuid4())
         self.diagnostics = {
+            "call_id": call_id,
             "settings": self.settings.to_dict(),
             "scf_converged": False,
             "gradient_completed": False,
@@ -188,6 +207,16 @@ class PySCFCalculator(Calculator):
                     mean_field.grids.level = self.settings.grid_level
                     if self.settings.density_fit:
                         mean_field = mean_field.density_fit()
+                    if self.event_log is not None:
+                        def log_scf_cycle(environment):
+                            self._event(
+                                "scf_cycle", call_id, started,
+                                cycle=int(environment["cycle"]) + 1,
+                                e_tot=self._finite_or_none(environment["e_tot"]),
+                                energy_unit="Hartree",
+                            )
+
+                        mean_field.callback = log_scf_cycle
                     dft_energy = float(mean_field.kernel())
                     self.diagnostics.update(
                         scf_converged=bool(mean_field.converged),
@@ -197,6 +226,13 @@ class PySCFCalculator(Calculator):
                         beta_electrons=int(molecule.nelec[1]),
                         basis_functions=int(molecule.nao_nr()),
                         reference="RKS" if self.settings.spin == 0 else "UKS",
+                    )
+                    self._event(
+                        "scf_completed", call_id, started,
+                        converged=bool(mean_field.converged),
+                        cycles=self.diagnostics["scf_cycles"],
+                        e_tot=self._finite_or_none(dft_energy),
+                        energy_unit="Hartree",
                     )
                     if not mean_field.converged:
                         raise QuantumCalculationError(
@@ -219,6 +255,7 @@ class PySCFCalculator(Calculator):
                     gradients.grid_response = True
                     if self.settings.density_fit:
                         gradients.auxbasis_response = True
+                    self._event("gradient_started", call_id, started)
                     gradient = np.asarray(gradients.kernel(), dtype=float)
                     dispersion_energy, dispersion_gradient = self._dispersion(molecule)
                     total_energy = dft_energy + dispersion_energy
@@ -246,16 +283,52 @@ class PySCFCalculator(Calculator):
                         net_force_eV_A=np.sum(forces, axis=0).tolist(),
                     )
                     self.results = {"energy": total_energy * Hartree, "forces": forces}
+                    self._event(
+                        "calculation_completed", call_id, started,
+                        energy_eV=float(self.results["energy"]),
+                        scf_converged=True,
+                        gradient_completed=True,
+                    )
                 finally:
                     lib.num_threads(previous_threads)
         except Exception as error:
             self.results = {}
             self.diagnostics["error"] = str(error)
+            try:
+                self._event(
+                    "calculation_failed", call_id, started,
+                    error_type=type(error).__name__, error=str(error),
+                )
+            except OSError as log_error:
+                # Preserve the original scientific or I/O failure if the log
+                # destination itself cannot be written.
+                self.diagnostics["event_log_error"] = str(log_error)
             if isinstance(error, (QuantumCalculationError, ValueError)):
                 raise
             raise QuantumCalculationError(f"Requested quantum calculation failed: {error}") from error
         finally:
             self.diagnostics["elapsed_seconds"] = time.monotonic() - started
+
+    @staticmethod
+    def _finite_or_none(value: Real) -> float | None:
+        number = float(value)
+        return number if math.isfinite(number) else None
+
+    def _event(self, event: str, call_id: str, started: float, **fields: Any) -> None:
+        """Append one independently parseable record without retaining a buffer."""
+        if self.event_log is None:
+            return
+        record = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "call_id": call_id,
+            "event": event,
+            "elapsed_seconds": time.monotonic() - started,
+            **fields,
+        }
+        line = json.dumps(record, allow_nan=False, separators=(",", ":")) + "\n"
+        self.event_log.parent.mkdir(parents=True, exist_ok=True)
+        with self.event_log.open("a", encoding="utf-8") as stream:
+            stream.write(line)
 
     def _validate_atoms(self) -> None:
         if self.atoms is None or len(self.atoms) == 0:

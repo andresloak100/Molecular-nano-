@@ -47,7 +47,7 @@ nanodesign audit runs/h-abstraction-path/result.json
 pytest -q
 ```
 
-Each output directory must be new, so a new calculation cannot silently overwrite an earlier result. A stopped or unconverged calculation returns a nonzero exit code. Post-start failures are recorded in `result.json`. Geometry trajectories can be opened with `ase gui runs/.../initial.traj` or any viewer supporting extended XYZ.
+Each output directory must be new, so a new calculation cannot silently overwrite an earlier result. A stopped or unconverged calculation returns a nonzero exit code. Post-start failures are recorded in `result.json`. `electronic.jsonl` records electronic convergence iterations and gradient stages for inspecting long calculations. Geometry trajectories can be opened with `ase gui runs/.../initial.traj` or any viewer supporting extended XYZ.
 
 Use the supplied `examples/h-abstraction/design.json` directly to inspect the default candidate. Change `quantum`, input coordinates, or `fixed_indices` in a copied design file to investigate another explicitly defined model. All atom indices are zero-based. Charge is in elementary-charge units; `spin` means **2S = Nα − Nβ**, not multiplicity. Coordinates use Å, output energies eV and forces eV/Å.
 
