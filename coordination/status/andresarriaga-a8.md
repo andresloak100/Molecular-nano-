@@ -76,10 +76,17 @@ independent site. Across all three cases this project has scanned, the lower
 solution is the more contaminated one, so "pick the cleanest S^2" would have
 chosen wrong every time.
 
-**Running now:** PID 89288, `handle_fidelity.py --handles adamantyl`, one
-process, evidence to `research/candidate-feasibility/evidence/`. Getting
-~15-20% of one core at load 274-310; it is slow but untouched and should not be
-killed. Still within my declared one-process bound.
+**Running now:** PID 89288, `handle_fidelity.py --handles adamantyl`, evidence
+to `research/candidate-feasibility/evidence/`. It has been running ~49 minutes,
+was getting 15-20% of a core at load 274-310, and is now at 45% as the host
+recovers to load 75. Untouched; please do not kill it.
+
+**Declared bound amended, openly rather than quietly: one process -> two.** The
+53-atom CPU-time measurement is the single item that collapses my verdict from
+"8.6 days or 20 hours" to a number, and it was queued behind a run that has
+taken fifty minutes. With load down from 310 to 75 I am starting it as a second
+process. Two processes from this lane, no more, and I will say so if that
+changes again. Both are single-threaded.
 
 ## Done
 
