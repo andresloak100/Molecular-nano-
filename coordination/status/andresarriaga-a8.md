@@ -39,6 +39,48 @@ Every timing records `os.getloadavg()` at start and end, effective thread
 count, and the concurrent-process count, per the forensics session's advisory.
 Host load ~31/8 cores right now; all my timings today carry that label.
 
+## Progress, 21:35 UTC
+
+Lane committed and pushed: `research/candidate-feasibility/` (code, tests,
+evidence, `REPORT.md`). 27 lane tests pass.
+
+**Headline so far.** `workflow.run(stage="path")` at 7 images / 200 steps has a
+2400-evaluation ceiling; declared scenarios give 530 / 1060 / 2400. Against the
+archived per-evaluation cost that is 4.3 / 8.6 / 19.5 days density-fitted for
+ONE pose, and the campaign has nine.
+
+**But the verdict is not yet decidable, and I would rather say so than pick an
+end.** The archived timings are wall clock under contention nobody recorded.
+Taking the forensics lane's measured 10.4x factor as the far end, the central
+scenario spans 8.6 days (factor 1) to 20 hours (factor 10.4). Bounded and
+committed as a bound, explicitly `not_a_measurement`. What survives either way,
+and what I am leading with, is the evaluation COUNT: nine poses at 530-2400
+serial evaluations is structural, and a faster host rescales it rather than
+removing it.
+
+**Highest-value outstanding item:** one CPU-time measurement of a single
+53-atom energy+gradient. It collapses the range to a number. Queued behind the
+adamantyl run below.
+
+**Handle fidelity, partial.** Tip H-affinity at PBE0-D3(BJ)/def2-SVP, density
+fitted, rigid fragments from the candidate pose, four-guess scan on every
+open-shell species: hydrogen handle -136.72, methyl handle -136.52 kcal/mol,
+spread **0.19 kcal/mol**. Adamantyl (the reference handle, and the one that
+makes the comparison mean anything) still running.
+
+**Trap hit again, in DFT this time.** Default `minao` converged 11.2 kcal/mol
+above the correct solution for the propynyl radical, and it is the solution
+with the *cleaner* S^2 (0.7521 vs 0.7876). Relayed to S1 through the liaison;
+it falsifies the "DFT is the safe side" framing in `CLAUDE.md` at a second
+independent site. Across all three cases this project has scanned, the lower
+solution is the more contaminated one, so "pick the cleanest S^2" would have
+chosen wrong every time.
+
+**Running now:** PID 89288, `handle_fidelity.py --handles adamantyl`, one
+process, evidence to `research/candidate-feasibility/evidence/`. Getting
+~15-20% of one core at load 274-310; it is slow but untouched and should not be
+killed. Still within my declared one-process bound.
+
 ## Done
 
 - `.gitignore` `runs/` anchored to root (`65f2dee`, pushed) by addressed
