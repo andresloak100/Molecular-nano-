@@ -1,0 +1,287 @@
+{
+  "schema_version": 1,
+  "kind": "cpu_gpu_equivalence_protocol",
+  "created_utc": "2026-09-16T21:17:26.559399+00:00",
+  "status": "planned_not_executed",
+  "quantum_evaluations_completed": 0,
+  "planned_energy_force_evaluations": 10,
+  "execution": {
+    "order": "serial, one CPU and one GPU evaluation per case",
+    "automatic_retries": 0,
+    "endpoint_relaxations": 0,
+    "path_searches": 0,
+    "timing_scope": "Cold paired checks include initialization; record synchronized total energy-plus-force wall time and load. No speed guarantee."
+  },
+  "tolerances": {
+    "energy_hartree": 1e-06,
+    "max_force_component_ev_per_angstrom": 0.0001,
+    "s2": 1e-05
+  },
+  "tolerance_scope": "Provisional engineering parity thresholds, not chemical-accuracy targets; investigate mismatches, never loosen to obtain a pass without review.",
+  "production_gpu_adapter_implemented": false,
+  "design_validated": false,
+  "electronic_state_identity_verified": false,
+  "sources": [
+    "https://pyscf.org/user/gpu.html",
+    "https://github.com/pyscf/gpu4pyscf",
+    "https://github.com/pyscf/gpu4pyscf/blob/master/requirements.txt"
+  ],
+  "cases": [
+    {
+      "id": "h2-rks-direct",
+      "geometry": "inputs/h2-rks-direct.xyz",
+      "geometry_sha256": "ca2b9e7e2dff725c1898f9129306e5de35aceb7f10827ffddf59640e29052187",
+      "coordinate_source": "data/validation/h2-integration/inputs/h2.xyz",
+      "source_record": "source-records/h2-rks-direct.json",
+      "source_record_original": "data/validation/h2-integration/inputs/design.json",
+      "source_record_sha256": "fd328cd9765a5d80b0610b950571c6ad4fa7f002491e9abc224356dfff39fefb",
+      "source_settings_key": "quantum",
+      "settings": {
+        "charge": 0,
+        "spin": 0,
+        "xc": "pbe0",
+        "basis": "def2-svp",
+        "dispersion": null,
+        "grid_level": 3,
+        "conv_tol": 1e-11,
+        "max_cycle": 150,
+        "threads": 2,
+        "memory_mb": 2000,
+        "density_fit": false,
+        "scf_initial_guess": "minao"
+      },
+      "planned_changes_from_record": {
+        "dispersion": {
+          "recorded": "d3bj",
+          "recorded_key_present": true,
+          "planned": null
+        },
+        "scf_initial_guess": {
+          "recorded": null,
+          "recorded_key_present": false,
+          "planned": "minao"
+        }
+      },
+      "atom_count": 2,
+      "symbols": [
+        "H",
+        "H"
+      ],
+      "formula": "H2",
+      "length_unit": "angstrom",
+      "force_scope": "raw forces on every atom, including any anchors; no constraint zeroing",
+      "expected_reference": "RKS",
+      "scientific_status": "fixed geometry only; no verified saddle, path or assembly operation"
+    },
+    {
+      "id": "methane-rks-df",
+      "geometry": "inputs/methane-rks-df.xyz",
+      "geometry_sha256": "98ef73821932c34eea275db3f49c3455309369b25fa98678574d350a37298df1",
+      "coordinate_source": "data/validation/pbe0-svp/inputs/methane.xyz",
+      "source_record": "source-records/methane-rks-df.json",
+      "source_record_original": "data/validation/pbe0-svp/species/methane.json",
+      "source_record_sha256": "353f59f37c9405baabb84e75f3799efa3da7f32cb6522b52f5b8358ac6d6ee17",
+      "source_settings_key": "quantum_settings",
+      "settings": {
+        "charge": 0,
+        "spin": 0,
+        "xc": "pbe0",
+        "basis": "def2-svp",
+        "dispersion": "d3bj",
+        "grid_level": 3,
+        "conv_tol": 1e-09,
+        "max_cycle": 150,
+        "threads": 2,
+        "memory_mb": 2000,
+        "density_fit": true,
+        "scf_initial_guess": "minao"
+      },
+      "planned_changes_from_record": {
+        "density_fit": {
+          "recorded": false,
+          "recorded_key_present": true,
+          "planned": true
+        },
+        "scf_initial_guess": {
+          "recorded": null,
+          "recorded_key_present": false,
+          "planned": "minao"
+        }
+      },
+      "atom_count": 5,
+      "symbols": [
+        "H",
+        "C",
+        "H",
+        "H",
+        "H"
+      ],
+      "formula": "CH4",
+      "length_unit": "angstrom",
+      "force_scope": "raw forces on every atom, including any anchors; no constraint zeroing",
+      "expected_reference": "RKS",
+      "scientific_status": "fixed geometry only; no verified saddle, path or assembly operation"
+    },
+    {
+      "id": "ethynyl-uks-df-minao",
+      "geometry": "inputs/ethynyl-uks-df-minao.xyz",
+      "geometry_sha256": "849a25cefa5341ff37dce2f062ad747e507836494fee7f4cf9a8440b8cd0d5ce",
+      "coordinate_source": "data/validation/pbe0-svp/inputs/ethynyl_radical.xyz",
+      "source_record": "source-records/ethynyl-uks-df-minao.json",
+      "source_record_original": "data/validation/pbe0-svp/species/ethynyl_radical.json",
+      "source_record_sha256": "874a10960875d4876ec879ac761213e908f5851a36b7d5c214c44013cab77ee7",
+      "source_settings_key": "quantum_settings",
+      "settings": {
+        "charge": 0,
+        "spin": 1,
+        "xc": "pbe0",
+        "basis": "def2-svp",
+        "dispersion": "d3bj",
+        "grid_level": 3,
+        "conv_tol": 1e-09,
+        "max_cycle": 150,
+        "threads": 2,
+        "memory_mb": 2000,
+        "density_fit": true,
+        "scf_initial_guess": "minao"
+      },
+      "planned_changes_from_record": {
+        "density_fit": {
+          "recorded": false,
+          "recorded_key_present": true,
+          "planned": true
+        },
+        "scf_initial_guess": {
+          "recorded": null,
+          "recorded_key_present": false,
+          "planned": "minao"
+        }
+      },
+      "atom_count": 3,
+      "symbols": [
+        "C",
+        "C",
+        "H"
+      ],
+      "formula": "C2H",
+      "length_unit": "angstrom",
+      "force_scope": "raw forces on every atom, including any anchors; no constraint zeroing",
+      "expected_reference": "UKS",
+      "scientific_status": "fixed geometry only; no verified saddle, path or assembly operation"
+    },
+    {
+      "id": "ethynyl-uks-df-atom",
+      "geometry": "inputs/ethynyl-uks-df-atom.xyz",
+      "geometry_sha256": "849a25cefa5341ff37dce2f062ad747e507836494fee7f4cf9a8440b8cd0d5ce",
+      "coordinate_source": "data/validation/pbe0-svp/inputs/ethynyl_radical.xyz",
+      "source_record": "source-records/ethynyl-uks-df-atom.json",
+      "source_record_original": "data/validation/pbe0-svp/species/ethynyl_radical.json",
+      "source_record_sha256": "874a10960875d4876ec879ac761213e908f5851a36b7d5c214c44013cab77ee7",
+      "source_settings_key": "quantum_settings",
+      "settings": {
+        "charge": 0,
+        "spin": 1,
+        "xc": "pbe0",
+        "basis": "def2-svp",
+        "dispersion": "d3bj",
+        "grid_level": 3,
+        "conv_tol": 1e-09,
+        "max_cycle": 150,
+        "threads": 2,
+        "memory_mb": 2000,
+        "density_fit": true,
+        "scf_initial_guess": "atom"
+      },
+      "planned_changes_from_record": {
+        "density_fit": {
+          "recorded": false,
+          "recorded_key_present": true,
+          "planned": true
+        },
+        "scf_initial_guess": {
+          "recorded": null,
+          "recorded_key_present": false,
+          "planned": "atom"
+        }
+      },
+      "atom_count": 3,
+      "symbols": [
+        "C",
+        "C",
+        "H"
+      ],
+      "formula": "C2H",
+      "length_unit": "angstrom",
+      "force_scope": "raw forces on every atom, including any anchors; no constraint zeroing",
+      "expected_reference": "UKS",
+      "scientific_status": "fixed geometry only; no verified saddle, path or assembly operation"
+    },
+    {
+      "id": "nominal-ts-uks-df",
+      "geometry": "inputs/nominal-ts-uks-df.xyz",
+      "geometry_sha256": "b4411a8b74750f53c81f4847d8f84acc85099e57fee39c3f10d24387615a3fb1",
+      "coordinate_source": "data/validation/pbe0-svp/inputs/methane_ethynyl_ts.xyz",
+      "source_record": "source-records/nominal-ts-uks-df.json",
+      "source_record_original": "data/validation/pbe0-svp/species/methane_ethynyl_ts.json",
+      "source_record_sha256": "597ee1b7a1a5462e1517a120fbf23eaf6a750ed174dfd6f62fd350e2ac867d7b",
+      "source_settings_key": "quantum_settings",
+      "settings": {
+        "charge": 0,
+        "spin": 1,
+        "xc": "pbe0",
+        "basis": "def2-svp",
+        "dispersion": "d3bj",
+        "grid_level": 3,
+        "conv_tol": 1e-09,
+        "max_cycle": 150,
+        "threads": 2,
+        "memory_mb": 2000,
+        "density_fit": true,
+        "scf_initial_guess": "minao"
+      },
+      "planned_changes_from_record": {
+        "density_fit": {
+          "recorded": false,
+          "recorded_key_present": true,
+          "planned": true
+        },
+        "scf_initial_guess": {
+          "recorded": null,
+          "recorded_key_present": false,
+          "planned": "minao"
+        }
+      },
+      "atom_count": 8,
+      "symbols": [
+        "H",
+        "C",
+        "C",
+        "H",
+        "C",
+        "H",
+        "H",
+        "H"
+      ],
+      "formula": "C3H5",
+      "length_unit": "angstrom",
+      "force_scope": "raw forces on every atom, including any anchors; no constraint zeroing",
+      "expected_reference": "UKS",
+      "scientific_status": "fixed geometry only; no verified saddle, path or assembly operation"
+    }
+  ],
+  "reference_data_license": "Published reference coordinates retain CC BY-NC 4.0; bundled source notes identify origin and conversion. Code license does not relicense those coordinates.",
+  "bundled_files_sha256": {
+    "inputs/h2-rks-direct.xyz": "ca2b9e7e2dff725c1898f9129306e5de35aceb7f10827ffddf59640e29052187",
+    "source-records/h2-rks-direct.json": "fd328cd9765a5d80b0610b950571c6ad4fa7f002491e9abc224356dfff39fefb",
+    "inputs/methane-rks-df.xyz": "98ef73821932c34eea275db3f49c3455309369b25fa98678574d350a37298df1",
+    "source-records/methane-rks-df.json": "353f59f37c9405baabb84e75f3799efa3da7f32cb6522b52f5b8358ac6d6ee17",
+    "inputs/ethynyl-uks-df-minao.xyz": "849a25cefa5341ff37dce2f062ad747e507836494fee7f4cf9a8440b8cd0d5ce",
+    "source-records/ethynyl-uks-df-minao.json": "874a10960875d4876ec879ac761213e908f5851a36b7d5c214c44013cab77ee7",
+    "inputs/ethynyl-uks-df-atom.xyz": "849a25cefa5341ff37dce2f062ad747e507836494fee7f4cf9a8440b8cd0d5ce",
+    "source-records/ethynyl-uks-df-atom.json": "874a10960875d4876ec879ac761213e908f5851a36b7d5c214c44013cab77ee7",
+    "inputs/nominal-ts-uks-df.xyz": "b4411a8b74750f53c81f4847d8f84acc85099e57fee39c3f10d24387615a3fb1",
+    "source-records/nominal-ts-uks-df.json": "597ee1b7a1a5462e1517a120fbf23eaf6a750ed174dfd6f62fd350e2ac867d7b",
+    "source-notes/reference-README.md": "7cf6c14a9efe06aca27516016ac04ea47f74e52f65547f45ad0f8f40cf8986cd",
+    "source-notes/reference-provenance.json": "2aad2f4e2c5de2662ec0f48b9c2909f0b6e31cfc10a873cf59c051bf2f626126"
+  }
+}

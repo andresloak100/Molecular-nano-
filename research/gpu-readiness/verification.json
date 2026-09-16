@@ -1,0 +1,21 @@
+{
+  "checked_utc": "2026-09-16T21:20:45.759997+00:00",
+  "command": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "research/gpu-readiness/test_readiness.py",
+    "research/gpu-readiness/test_equivalence.py",
+    "-q"
+  ],
+  "returncode": 0,
+  "output": "........................................................................ [ 73%]\n..........................                                               [100%]\n98 passed in 3.82s\n",
+  "quantum_evaluations": 0,
+  "gpu_execution_tested": false,
+  "source_sha256": {
+    "gpu_readiness.py": "cb62cd1659fdeadc61c38c0fa1e3606e061ad8b6030c6d765b7484ebfee69a00",
+    "test_readiness.py": "d3c08508d4a9d7795b1d8cb2d1ce184ec61736e03543e832a62f64cc75f00751",
+    "test_equivalence.py": "68c503a6b79a59bc52a66787a4acdc04b480ed33d429efcdb7bdd4ef8fdaab11",
+    "equivalence.py": "a30ffdb4a6344ab4119bbe0a8e8af10f82973d0a7b4a06620cac22eacd2bb8aa"
+  }
+}

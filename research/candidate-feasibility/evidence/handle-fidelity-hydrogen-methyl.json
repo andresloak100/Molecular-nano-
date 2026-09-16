@@ -1,0 +1,1151 @@
+{
+  "schema_version": 1,
+  "question": "Does replacing the adamantane tool handle change the tip's electronic appetite for a hydrogen?",
+  "quantity": "tip H-affinity A(R) = E(R-CC-H) - E(R-CC*) - E(H); only differences across R are interpreted",
+  "method": "PBE0-D3(BJ)/def2-svp, density fitting",
+  "geometry_status": "rigid, taken from the 53-atom candidate pose; no relaxation",
+  "measures": "electronic substituent effect only",
+  "does_not_measure": "mount stiffness, mass, sterics against the substrate, or anchor placement; a reduced handle is a different mechanical boundary condition, not a scaled one",
+  "host_at_start": {
+    "load_average_1min": 226.24462890625,
+    "load_average_5min": 172.48095703125,
+    "load_average_15min": 91.826171875,
+    "logical_cores": 8,
+    "oversubscription_1min": 28.28057861328125
+  },
+  "species": {
+    "H_atom": {
+      "label": "H_atom",
+      "formula": "H",
+      "n_atoms": 1,
+      "charge": 0,
+      "spin": 1,
+      "geometry_status": "unrelaxed_starting_guess",
+      "guess_scan": {
+        "performed": false,
+        "reason": "single atom"
+      },
+      "production_timing": {
+        "wall_seconds": 1.0663587909657508,
+        "cpu_seconds": 0.5096189999999999,
+        "contention_factor_wall_over_cpu": 2.092462782913806,
+        "load_at_start": {
+          "load_average_1min": 226.24462890625,
+          "load_average_5min": 172.48095703125,
+          "load_average_15min": 91.826171875,
+          "logical_cores": 8,
+          "oversubscription_1min": 28.28057861328125
+        },
+        "load_at_end": {
+          "load_average_1min": 226.24462890625,
+          "load_average_5min": 172.48095703125,
+          "load_average_15min": 91.826171875,
+          "logical_cores": 8,
+          "oversubscription_1min": 28.28057861328125
+        },
+        "effective_threads_assumed": 1,
+        "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+        "failed": null
+      },
+      "energy_ev": -13.61501660704176,
+      "energy_hartree": -0.5003426357940676,
+      "max_force_ev_per_angstrom": 6.631668639385629e-31,
+      "production_initial_guess": "minao",
+      "quantum_diagnostics": {
+        "call_id": "983f4bc4-2e9e-44f1-b7ed-e4ab4584a843",
+        "settings": {
+          "charge": 0,
+          "spin": 1,
+          "xc": "pbe0",
+          "basis": "def2-svp",
+          "dispersion": "d3bj",
+          "grid_level": 3,
+          "conv_tol": 1e-09,
+          "max_cycle": 150,
+          "threads": 1,
+          "memory_mb": 2000,
+          "density_fit": true,
+          "scf_initial_guess": "minao"
+        },
+        "scf_converged": true,
+        "gradient_completed": true,
+        "scf_initial_guess": "minao",
+        "initial_guess_scan_performed": false,
+        "ground_state_verified": false,
+        "electronic_state_identity_verified": false,
+        "initial_guess_scope": "One explicitly selected SCF starting guess; no automatic scan or state selection. Convergence does not verify the ground state or exclude other self-consistent solutions.",
+        "model": "nonperiodic all-electron nonrelativistic Kohn-Sham DFT",
+        "energy_scope": "Born-Oppenheimer electronic energy plus nuclear repulsion and specified D3",
+        "versions": {
+          "pyscf": "2.14.0",
+          "libxc": "7.0.0",
+          "numpy": "2.5.3",
+          "ase": "3.29.0",
+          "dftd3": "1.6.0"
+        },
+        "requested_pyscf_threads": 1,
+        "effective_pyscf_threads": 1,
+        "threads_honored": true,
+        "scf_cycles": 5,
+        "electron_count": 1,
+        "alpha_electrons": 1,
+        "beta_electrons": 0,
+        "basis_functions": 5,
+        "reference": "UKS",
+        "s2": 0.75,
+        "expected_s2": 0.75,
+        "s2_deviation": 0.0,
+        "spin_contamination": 0.0,
+        "effective_multiplicity": 2.0,
+        "stability_checked": false,
+        "grid_response": true,
+        "auxiliary_basis_response": true,
+        "dft_energy_hartree": -0.5003426357940676,
+        "dispersion_energy_hartree": 0.0,
+        "total_energy_hartree": -0.5003426357940676,
+        "dispersion_three_body": false,
+        "energy_unit": "eV",
+        "force_unit": "eV/Angstrom",
+        "hartree_eV": 27.211386024367243,
+        "bohr_angstrom": 0.52917721092,
+        "net_force_eV_A": [
+          6.338259119692231e-31,
+          -7.922823899615289e-32,
+          -1.78263537741344e-31
+        ],
+        "elapsed_seconds": 1.0636563340667635
+      },
+      "settings": {
+        "charge": 0,
+        "spin": 1,
+        "xc": "pbe0",
+        "basis": "def2-svp",
+        "dispersion": "d3bj",
+        "grid_level": 3,
+        "conv_tol": 1e-09,
+        "max_cycle": 150,
+        "threads": 1,
+        "memory_mb": 2000,
+        "density_fit": true,
+        "scf_initial_guess": "minao"
+      }
+    },
+    "hydrogen_radical": {
+      "label": "hydrogen_radical",
+      "formula": "C2H",
+      "n_atoms": 3,
+      "charge": 0,
+      "spin": 1,
+      "geometry_status": "unrelaxed_starting_guess_from_candidate_pose",
+      "guess_scan": {
+        "attempts": [
+          {
+            "initial_guess": "minao",
+            "timing": {
+              "wall_seconds": 2.576040375046432,
+              "cpu_seconds": 0.7568800000000002,
+              "contention_factor_wall_over_cpu": 3.403499068605897,
+              "load_at_start": {
+                "load_average_1min": 226.24462890625,
+                "load_average_5min": 172.48095703125,
+                "load_average_15min": 91.826171875,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.28057861328125
+              },
+              "load_at_end": {
+                "load_average_1min": 230.228515625,
+                "load_average_5min": 174.19921875,
+                "load_average_15min": 92.9052734375,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.778564453125
+              },
+              "effective_threads_assumed": 1,
+              "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+              "failed": null
+            },
+            "converged": true,
+            "scf_energy_hartree": -76.45020294411634,
+            "s2": 0.7912576786259313
+          },
+          {
+            "initial_guess": "atom",
+            "timing": {
+              "wall_seconds": 2.8615224580280483,
+              "cpu_seconds": 0.792303,
+              "contention_factor_wall_over_cpu": 3.6116516762249398,
+              "load_at_start": {
+                "load_average_1min": 230.228515625,
+                "load_average_5min": 174.19921875,
+                "load_average_15min": 92.9052734375,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.778564453125
+              },
+              "load_at_end": {
+                "load_average_1min": 227.8876953125,
+                "load_average_5min": 174.64404296875,
+                "load_average_15min": 93.53857421875,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.4859619140625
+              },
+              "effective_threads_assumed": 1,
+              "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+              "failed": null
+            },
+            "converged": true,
+            "scf_energy_hartree": -76.45020294413456,
+            "s2": 0.7912575147096188
+          },
+          {
+            "initial_guess": "huckel",
+            "timing": {
+              "wall_seconds": 2.302521334029734,
+              "cpu_seconds": 1.0191079999999997,
+              "contention_factor_wall_over_cpu": 2.2593496803378392,
+              "load_at_start": {
+                "load_average_1min": 227.8876953125,
+                "load_average_5min": 174.64404296875,
+                "load_average_15min": 93.53857421875,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.4859619140625
+              },
+              "load_at_end": {
+                "load_average_1min": 227.8876953125,
+                "load_average_5min": 174.64404296875,
+                "load_average_15min": 93.53857421875,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.4859619140625
+              },
+              "effective_threads_assumed": 1,
+              "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+              "failed": null
+            },
+            "converged": true,
+            "scf_energy_hartree": -76.45020294411052,
+            "s2": 0.7912545175825798
+          },
+          {
+            "initial_guess": "1e",
+            "timing": {
+              "wall_seconds": 1.6156915000174195,
+              "cpu_seconds": 1.076181,
+              "contention_factor_wall_over_cpu": 1.5013194806611707,
+              "load_at_start": {
+                "load_average_1min": 227.8876953125,
+                "load_average_5min": 174.64404296875,
+                "load_average_15min": 93.53857421875,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.4859619140625
+              },
+              "load_at_end": {
+                "load_average_1min": 227.8876953125,
+                "load_average_5min": 174.64404296875,
+                "load_average_15min": 93.53857421875,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.4859619140625
+              },
+              "effective_threads_assumed": 1,
+              "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+              "failed": null
+            },
+            "converged": true,
+            "scf_energy_hartree": -76.45020294412916,
+            "s2": 0.791255930032464
+          }
+        ],
+        "guesses_requested": [
+          "minao",
+          "atom",
+          "huckel",
+          "1e"
+        ],
+        "guesses_converged": [
+          "minao",
+          "atom",
+          "huckel",
+          "1e"
+        ],
+        "guesses_failed": [],
+        "scan_complete": true,
+        "selected_initial_guess": "atom",
+        "selected_scf_energy_hartree": -76.45020294413456,
+        "solution_spread_kcal_per_mol": 1.508831848070713e-08,
+        "interpretation": "Lowest converged SCF solution among the guesses that converged. This does not prove it is the ground state, nor that no other self-consistent solution exists. Agreement applies only to the converged subset."
+      },
+      "production_timing": {
+        "wall_seconds": 1.5806035830173641,
+        "cpu_seconds": 1.1289700000000007,
+        "contention_factor_wall_over_cpu": 1.400040375756099,
+        "load_at_start": {
+          "load_average_1min": 227.8876953125,
+          "load_average_5min": 174.64404296875,
+          "load_average_15min": 93.53857421875,
+          "logical_cores": 8,
+          "oversubscription_1min": 28.4859619140625
+        },
+        "load_at_end": {
+          "load_average_1min": 231.259765625,
+          "load_average_5min": 176.22705078125,
+          "load_average_15min": 94.572265625,
+          "logical_cores": 8,
+          "oversubscription_1min": 28.907470703125
+        },
+        "effective_threads_assumed": 1,
+        "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+        "failed": null
+      },
+      "energy_ev": -2080.3386528183173,
+      "energy_hartree": -76.45103600953719,
+      "max_force_ev_per_angstrom": 0.680700193190792,
+      "production_initial_guess": "atom",
+      "quantum_diagnostics": {
+        "call_id": "d6de04ac-edd0-4a68-a70d-3dc0ba2fd069",
+        "settings": {
+          "charge": 0,
+          "spin": 1,
+          "xc": "pbe0",
+          "basis": "def2-svp",
+          "dispersion": "d3bj",
+          "grid_level": 3,
+          "conv_tol": 1e-09,
+          "max_cycle": 150,
+          "threads": 1,
+          "memory_mb": 2000,
+          "density_fit": true,
+          "scf_initial_guess": "atom"
+        },
+        "scf_converged": true,
+        "gradient_completed": true,
+        "scf_initial_guess": "atom",
+        "initial_guess_scan_performed": false,
+        "ground_state_verified": false,
+        "electronic_state_identity_verified": false,
+        "initial_guess_scope": "One explicitly selected SCF starting guess; no automatic scan or state selection. Convergence does not verify the ground state or exclude other self-consistent solutions.",
+        "model": "nonperiodic all-electron nonrelativistic Kohn-Sham DFT",
+        "energy_scope": "Born-Oppenheimer electronic energy plus nuclear repulsion and specified D3",
+        "versions": {
+          "pyscf": "2.14.0",
+          "libxc": "7.0.0",
+          "numpy": "2.5.3",
+          "ase": "3.29.0",
+          "dftd3": "1.6.0"
+        },
+        "requested_pyscf_threads": 1,
+        "effective_pyscf_threads": 1,
+        "threads_honored": true,
+        "scf_cycles": 10,
+        "electron_count": 13,
+        "alpha_electrons": 7,
+        "beta_electrons": 6,
+        "basis_functions": 33,
+        "reference": "UKS",
+        "s2": 0.7912575147096188,
+        "expected_s2": 0.75,
+        "s2_deviation": 0.0412575147096188,
+        "spin_contamination": 0.0412575147096188,
+        "effective_multiplicity": 2.040840527537239,
+        "stability_checked": false,
+        "grid_response": true,
+        "auxiliary_basis_response": true,
+        "dft_energy_hartree": -76.45020294413456,
+        "dispersion_energy_hartree": -0.0008330654026356408,
+        "total_energy_hartree": -76.45103600953719,
+        "dispersion_three_body": false,
+        "energy_unit": "eV",
+        "force_unit": "eV/Angstrom",
+        "hartree_eV": 27.211386024367243,
+        "bohr_angstrom": 0.52917721092,
+        "net_force_eV_A": [
+          -2.7635013959326685e-15,
+          -1.3924146889563887e-15,
+          6.508127370352668e-13
+        ],
+        "elapsed_seconds": 1.5797054171562195
+      },
+      "settings": {
+        "charge": 0,
+        "spin": 1,
+        "xc": "pbe0",
+        "basis": "def2-svp",
+        "dispersion": "d3bj",
+        "grid_level": 3,
+        "conv_tol": 1e-09,
+        "max_cycle": 150,
+        "threads": 1,
+        "memory_mb": 2000,
+        "density_fit": true,
+        "scf_initial_guess": "atom"
+      }
+    },
+    "hydrogen_hydrogenated": {
+      "label": "hydrogen_hydrogenated",
+      "formula": "C2H2",
+      "n_atoms": 4,
+      "charge": 0,
+      "spin": 0,
+      "geometry_status": "unrelaxed_starting_guess_from_candidate_pose",
+      "guess_scan": {
+        "attempts": [
+          {
+            "initial_guess": "minao",
+            "timing": {
+              "wall_seconds": 0.8028367080260068,
+              "cpu_seconds": 0.5682689999999999,
+              "contention_factor_wall_over_cpu": 1.4127758298024473,
+              "load_at_start": {
+                "load_average_1min": 231.259765625,
+                "load_average_5min": 176.22705078125,
+                "load_average_15min": 94.572265625,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.907470703125
+              },
+              "load_at_end": {
+                "load_average_1min": 231.259765625,
+                "load_average_5min": 176.22705078125,
+                "load_average_15min": 94.572265625,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.907470703125
+              },
+              "effective_threads_assumed": 1,
+              "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+              "failed": null
+            },
+            "converged": true,
+            "scf_energy_hartree": -77.16817080177043,
+            "s2": 0.0
+          },
+          {
+            "initial_guess": "atom",
+            "timing": {
+              "wall_seconds": 1.5980160001199692,
+              "cpu_seconds": 0.5616650000000005,
+              "contention_factor_wall_over_cpu": 2.8451407869815064,
+              "load_at_start": {
+                "load_average_1min": 231.259765625,
+                "load_average_5min": 176.22705078125,
+                "load_average_15min": 94.572265625,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.907470703125
+              },
+              "load_at_end": {
+                "load_average_1min": 231.259765625,
+                "load_average_5min": 176.22705078125,
+                "load_average_15min": 94.572265625,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.907470703125
+              },
+              "effective_threads_assumed": 1,
+              "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+              "failed": null
+            },
+            "converged": true,
+            "scf_energy_hartree": -77.16817080177049,
+            "s2": 0.0
+          },
+          {
+            "initial_guess": "huckel",
+            "timing": {
+              "wall_seconds": 1.4306119580287486,
+              "cpu_seconds": 0.6851089999999997,
+              "contention_factor_wall_over_cpu": 2.0881523349259012,
+              "load_at_start": {
+                "load_average_1min": 231.259765625,
+                "load_average_5min": 176.22705078125,
+                "load_average_15min": 94.572265625,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.907470703125
+              },
+              "load_at_end": {
+                "load_average_1min": 231.259765625,
+                "load_average_5min": 176.22705078125,
+                "load_average_15min": 94.572265625,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.907470703125
+              },
+              "effective_threads_assumed": 1,
+              "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+              "failed": null
+            },
+            "converged": true,
+            "scf_energy_hartree": -77.16817080177043,
+            "s2": 0.0
+          },
+          {
+            "initial_guess": "1e",
+            "timing": {
+              "wall_seconds": 2.416512707946822,
+              "cpu_seconds": 0.686591,
+              "contention_factor_wall_over_cpu": 3.5195811013351794,
+              "load_at_start": {
+                "load_average_1min": 231.259765625,
+                "load_average_5min": 176.22705078125,
+                "load_average_15min": 94.572265625,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.907470703125
+              },
+              "load_at_end": {
+                "load_average_1min": 231.15869140625,
+                "load_average_5min": 177.11962890625,
+                "load_average_15min": 95.36572265625,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.89483642578125
+              },
+              "effective_threads_assumed": 1,
+              "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+              "failed": null
+            },
+            "converged": true,
+            "scf_energy_hartree": -77.16817080176892,
+            "s2": 0.0
+          }
+        ],
+        "guesses_requested": [
+          "minao",
+          "atom",
+          "huckel",
+          "1e"
+        ],
+        "guesses_converged": [
+          "minao",
+          "atom",
+          "huckel",
+          "1e"
+        ],
+        "guesses_failed": [],
+        "scan_complete": true,
+        "selected_initial_guess": "atom",
+        "selected_scf_energy_hartree": -77.16817080177049,
+        "solution_spread_kcal_per_mol": 9.809190501641752e-10,
+        "interpretation": "Lowest converged SCF solution among the guesses that converged. This does not prove it is the ground state, nor that no other self-consistent solution exists. Agreement applies only to the converged subset."
+      },
+      "production_timing": {
+        "wall_seconds": 1.906643624883145,
+        "cpu_seconds": 0.8684599999999989,
+        "contention_factor_wall_over_cpu": 2.1954305608584708,
+        "load_at_start": {
+          "load_average_1min": 231.15869140625,
+          "load_average_5min": 177.11962890625,
+          "load_average_15min": 95.36572265625,
+          "logical_cores": 8,
+          "oversubscription_1min": 28.89483642578125
+        },
+        "load_at_end": {
+          "load_average_1min": 231.15869140625,
+          "load_average_5min": 177.11962890625,
+          "load_average_15min": 95.36572265625,
+          "logical_cores": 8,
+          "oversubscription_1min": 28.89483642578125
+        },
+        "effective_threads_assumed": 1,
+        "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+        "failed": null
+      },
+      "energy_ev": -2099.882228383006,
+      "energy_hartree": -77.16924917027762,
+      "max_force_ev_per_angstrom": 0.8128142786968156,
+      "production_initial_guess": "atom",
+      "quantum_diagnostics": {
+        "call_id": "8ab9cc78-df8d-482e-a2fe-88dd6e8ab838",
+        "settings": {
+          "charge": 0,
+          "spin": 0,
+          "xc": "pbe0",
+          "basis": "def2-svp",
+          "dispersion": "d3bj",
+          "grid_level": 3,
+          "conv_tol": 1e-09,
+          "max_cycle": 150,
+          "threads": 1,
+          "memory_mb": 2000,
+          "density_fit": true,
+          "scf_initial_guess": "atom"
+        },
+        "scf_converged": true,
+        "gradient_completed": true,
+        "scf_initial_guess": "atom",
+        "initial_guess_scan_performed": false,
+        "ground_state_verified": false,
+        "electronic_state_identity_verified": false,
+        "initial_guess_scope": "One explicitly selected SCF starting guess; no automatic scan or state selection. Convergence does not verify the ground state or exclude other self-consistent solutions.",
+        "model": "nonperiodic all-electron nonrelativistic Kohn-Sham DFT",
+        "energy_scope": "Born-Oppenheimer electronic energy plus nuclear repulsion and specified D3",
+        "versions": {
+          "pyscf": "2.14.0",
+          "libxc": "7.0.0",
+          "numpy": "2.5.3",
+          "ase": "3.29.0",
+          "dftd3": "1.6.0"
+        },
+        "requested_pyscf_threads": 1,
+        "effective_pyscf_threads": 1,
+        "threads_honored": true,
+        "scf_cycles": 7,
+        "electron_count": 14,
+        "alpha_electrons": 7,
+        "beta_electrons": 7,
+        "basis_functions": 38,
+        "reference": "RKS",
+        "s2": 0.0,
+        "expected_s2": 0.0,
+        "s2_deviation": 0.0,
+        "spin_contamination": 0.0,
+        "effective_multiplicity": 1.0,
+        "stability_checked": false,
+        "grid_response": true,
+        "auxiliary_basis_response": true,
+        "dft_energy_hartree": -77.16817080177049,
+        "dispersion_energy_hartree": -0.0010783685071414921,
+        "total_energy_hartree": -77.16924917027762,
+        "dispersion_three_body": false,
+        "energy_unit": "eV",
+        "force_unit": "eV/Angstrom",
+        "hartree_eV": 27.211386024367243,
+        "bohr_angstrom": 0.52917721092,
+        "net_force_eV_A": [
+          -1.073349643418756e-14,
+          -1.0272279943263017e-14,
+          -7.077671781985373e-13
+        ],
+        "elapsed_seconds": 1.9004240420181304
+      },
+      "settings": {
+        "charge": 0,
+        "spin": 0,
+        "xc": "pbe0",
+        "basis": "def2-svp",
+        "dispersion": "d3bj",
+        "grid_level": 3,
+        "conv_tol": 1e-09,
+        "max_cycle": 150,
+        "threads": 1,
+        "memory_mb": 2000,
+        "density_fit": true,
+        "scf_initial_guess": "atom"
+      }
+    },
+    "methyl_radical": {
+      "label": "methyl_radical",
+      "formula": "C3H3",
+      "n_atoms": 6,
+      "charge": 0,
+      "spin": 1,
+      "geometry_status": "unrelaxed_starting_guess_from_candidate_pose",
+      "guess_scan": {
+        "attempts": [
+          {
+            "initial_guess": "minao",
+            "timing": {
+              "wall_seconds": 4.804752832977101,
+              "cpu_seconds": 2.932251000000001,
+              "contention_factor_wall_over_cpu": 1.6385885222571668,
+              "load_at_start": {
+                "load_average_1min": 231.15869140625,
+                "load_average_5min": 177.11962890625,
+                "load_average_15min": 95.36572265625,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.89483642578125
+              },
+              "load_at_end": {
+                "load_average_1min": 231.6259765625,
+                "load_average_5min": 178.11328125,
+                "load_average_15min": 96.1953125,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.9532470703125
+              },
+              "effective_threads_assumed": 1,
+              "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+              "failed": null
+            },
+            "converged": true,
+            "scf_energy_hartree": -115.68288393047862,
+            "s2": 0.7521017275942761
+          },
+          {
+            "initial_guess": "atom",
+            "timing": {
+              "wall_seconds": 3.973362500080839,
+              "cpu_seconds": 2.1639149999999994,
+              "contention_factor_wall_over_cpu": 1.8361915787269094,
+              "load_at_start": {
+                "load_average_1min": 231.6259765625,
+                "load_average_5min": 178.11328125,
+                "load_average_15min": 96.1953125,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.9532470703125
+              },
+              "load_at_end": {
+                "load_average_1min": 232.61669921875,
+                "load_average_5min": 179.20703125,
+                "load_average_15min": 97.06103515625,
+                "logical_cores": 8,
+                "oversubscription_1min": 29.07708740234375
+              },
+              "effective_threads_assumed": 1,
+              "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+              "failed": null
+            },
+            "converged": true,
+            "scf_energy_hartree": -115.70072876260224,
+            "s2": 0.7875815922042051
+          },
+          {
+            "initial_guess": "huckel",
+            "timing": {
+              "wall_seconds": 4.284053708892316,
+              "cpu_seconds": 2.3237769999999998,
+              "contention_factor_wall_over_cpu": 1.843573505070545,
+              "load_at_start": {
+                "load_average_1min": 232.61669921875,
+                "load_average_5min": 179.20703125,
+                "load_average_15min": 97.06103515625,
+                "logical_cores": 8,
+                "oversubscription_1min": 29.07708740234375
+              },
+              "load_at_end": {
+                "load_average_1min": 232.32666015625,
+                "load_average_5min": 180.033203125,
+                "load_average_15min": 97.833984375,
+                "logical_cores": 8,
+                "oversubscription_1min": 29.04083251953125
+              },
+              "effective_threads_assumed": 1,
+              "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+              "failed": null
+            },
+            "converged": true,
+            "scf_energy_hartree": -115.70072876248989,
+            "s2": 0.7875821064683439
+          },
+          {
+            "initial_guess": "1e",
+            "timing": {
+              "wall_seconds": 3.323883708799258,
+              "cpu_seconds": 2.593467999999998,
+              "contention_factor_wall_over_cpu": 1.2816366767584024,
+              "load_at_start": {
+                "load_average_1min": 232.32666015625,
+                "load_average_5min": 180.033203125,
+                "load_average_15min": 97.833984375,
+                "logical_cores": 8,
+                "oversubscription_1min": 29.04083251953125
+              },
+              "load_at_end": {
+                "load_average_1min": 233.34130859375,
+                "load_average_5min": 181.111328125,
+                "load_average_15min": 98.69580078125,
+                "logical_cores": 8,
+                "oversubscription_1min": 29.16766357421875
+              },
+              "effective_threads_assumed": 1,
+              "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+              "failed": null
+            },
+            "converged": true,
+            "scf_energy_hartree": -115.7007287625922,
+            "s2": 0.7875814736495048
+          }
+        ],
+        "guesses_requested": [
+          "minao",
+          "atom",
+          "huckel",
+          "1e"
+        ],
+        "guesses_converged": [
+          "minao",
+          "atom",
+          "huckel",
+          "1e"
+        ],
+        "guesses_failed": [],
+        "scan_complete": true,
+        "selected_initial_guess": "atom",
+        "selected_scf_energy_hartree": -115.70072876260224,
+        "solution_spread_kcal_per_mol": 11.197801148128404,
+        "interpretation": "Lowest converged SCF solution among the guesses that converged. This does not prove it is the ground state, nor that no other self-consistent solution exists. Agreement applies only to the converged subset."
+      },
+      "production_timing": {
+        "wall_seconds": 10.00912241707556,
+        "cpu_seconds": 3.1721809999999984,
+        "contention_factor_wall_over_cpu": 3.1552809934475885,
+        "load_at_start": {
+          "load_average_1min": 233.34130859375,
+          "load_average_5min": 181.111328125,
+          "load_average_15min": 98.69580078125,
+          "logical_cores": 8,
+          "oversubscription_1min": 29.16766357421875
+        },
+        "load_at_end": {
+          "load_average_1min": 226.42138671875,
+          "load_average_5min": 181.33984375,
+          "load_average_15min": 99.73876953125,
+          "logical_cores": 8,
+          "oversubscription_1min": 28.30267333984375
+        },
+        "effective_threads_assumed": 1,
+        "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+        "failed": null
+      },
+      "energy_ev": -3148.4475940464117,
+      "energy_hartree": -115.70331592911295,
+      "max_force_ev_per_angstrom": 0.7654877337867528,
+      "production_initial_guess": "atom",
+      "quantum_diagnostics": {
+        "call_id": "dc7231c2-e13e-4100-8200-c382e30162e7",
+        "settings": {
+          "charge": 0,
+          "spin": 1,
+          "xc": "pbe0",
+          "basis": "def2-svp",
+          "dispersion": "d3bj",
+          "grid_level": 3,
+          "conv_tol": 1e-09,
+          "max_cycle": 150,
+          "threads": 1,
+          "memory_mb": 2000,
+          "density_fit": true,
+          "scf_initial_guess": "atom"
+        },
+        "scf_converged": true,
+        "gradient_completed": true,
+        "scf_initial_guess": "atom",
+        "initial_guess_scan_performed": false,
+        "ground_state_verified": false,
+        "electronic_state_identity_verified": false,
+        "initial_guess_scope": "One explicitly selected SCF starting guess; no automatic scan or state selection. Convergence does not verify the ground state or exclude other self-consistent solutions.",
+        "model": "nonperiodic all-electron nonrelativistic Kohn-Sham DFT",
+        "energy_scope": "Born-Oppenheimer electronic energy plus nuclear repulsion and specified D3",
+        "versions": {
+          "pyscf": "2.14.0",
+          "libxc": "7.0.0",
+          "numpy": "2.5.3",
+          "ase": "3.29.0",
+          "dftd3": "1.6.0"
+        },
+        "requested_pyscf_threads": 1,
+        "effective_pyscf_threads": 1,
+        "threads_honored": true,
+        "scf_cycles": 11,
+        "electron_count": 21,
+        "alpha_electrons": 11,
+        "beta_electrons": 10,
+        "basis_functions": 57,
+        "reference": "UKS",
+        "s2": 0.7875815922042051,
+        "expected_s2": 0.75,
+        "s2_deviation": 0.037581592204205094,
+        "spin_contamination": 0.037581592204205094,
+        "effective_multiplicity": 2.0372349812470874,
+        "stability_checked": false,
+        "grid_response": true,
+        "auxiliary_basis_response": true,
+        "dft_energy_hartree": -115.70072876260224,
+        "dispersion_energy_hartree": -0.0025871665107126416,
+        "total_energy_hartree": -115.70331592911295,
+        "dispersion_three_body": false,
+        "energy_unit": "eV",
+        "force_unit": "eV/Angstrom",
+        "hartree_eV": 27.211386024367243,
+        "bohr_angstrom": 0.52917721092,
+        "net_force_eV_A": [
+          4.829470157119431e-15,
+          -3.011479954295737e-14,
+          -7.648326416642703e-13
+        ],
+        "elapsed_seconds": 10.007316540926695
+      },
+      "settings": {
+        "charge": 0,
+        "spin": 1,
+        "xc": "pbe0",
+        "basis": "def2-svp",
+        "dispersion": "d3bj",
+        "grid_level": 3,
+        "conv_tol": 1e-09,
+        "max_cycle": 150,
+        "threads": 1,
+        "memory_mb": 2000,
+        "density_fit": true,
+        "scf_initial_guess": "atom"
+      }
+    },
+    "methyl_hydrogenated": {
+      "label": "methyl_hydrogenated",
+      "formula": "C3H4",
+      "n_atoms": 7,
+      "charge": 0,
+      "spin": 0,
+      "geometry_status": "unrelaxed_starting_guess_from_candidate_pose",
+      "guess_scan": {
+        "attempts": [
+          {
+            "initial_guess": "minao",
+            "timing": {
+              "wall_seconds": 6.1014518341980875,
+              "cpu_seconds": 1.6064839999999982,
+              "contention_factor_wall_over_cpu": 3.7980159367899673,
+              "load_at_start": {
+                "load_average_1min": 226.42138671875,
+                "load_average_5min": 181.33984375,
+                "load_average_15min": 99.73876953125,
+                "logical_cores": 8,
+                "oversubscription_1min": 28.30267333984375
+              },
+              "load_at_end": {
+                "load_average_1min": 222.22314453125,
+                "load_average_5min": 181.2177734375,
+                "load_average_15min": 100.173828125,
+                "logical_cores": 8,
+                "oversubscription_1min": 27.77789306640625
+              },
+              "effective_threads_assumed": 1,
+              "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+              "failed": null
+            },
+            "converged": true,
+            "scf_energy_hartree": -116.41842094449068,
+            "s2": 0.0
+          },
+          {
+            "initial_guess": "atom",
+            "timing": {
+              "wall_seconds": 6.685154207982123,
+              "cpu_seconds": 1.6561960000000013,
+              "contention_factor_wall_over_cpu": 4.0364511253391,
+              "load_at_start": {
+                "load_average_1min": 222.22314453125,
+                "load_average_5min": 181.2177734375,
+                "load_average_15min": 100.173828125,
+                "logical_cores": 8,
+                "oversubscription_1min": 27.77789306640625
+              },
+              "load_at_end": {
+                "load_average_1min": 218.361328125,
+                "load_average_5min": 181.09765625,
+                "load_average_15min": 100.60595703125,
+                "logical_cores": 8,
+                "oversubscription_1min": 27.295166015625
+              },
+              "effective_threads_assumed": 1,
+              "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+              "failed": null
+            },
+            "converged": true,
+            "scf_energy_hartree": -116.41842094449005,
+            "s2": 0.0
+          },
+          {
+            "initial_guess": "huckel",
+            "timing": {
+              "wall_seconds": 8.972805707948282,
+              "cpu_seconds": 1.8914229999999996,
+              "contention_factor_wall_over_cpu": 4.743944484099159,
+              "load_at_start": {
+                "load_average_1min": 218.361328125,
+                "load_average_5min": 181.09765625,
+                "load_average_15min": 100.60595703125,
+                "logical_cores": 8,
+                "oversubscription_1min": 27.295166015625
+              },
+              "load_at_end": {
+                "load_average_1min": 209.3369140625,
+                "load_average_5min": 180.400390625,
+                "load_average_15min": 101.298828125,
+                "logical_cores": 8,
+                "oversubscription_1min": 26.1671142578125
+              },
+              "effective_threads_assumed": 1,
+              "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+              "failed": null
+            },
+            "converged": true,
+            "scf_energy_hartree": -116.41842094449164,
+            "s2": 0.0
+          },
+          {
+            "initial_guess": "1e",
+            "timing": {
+              "wall_seconds": 9.817679082974792,
+              "cpu_seconds": 2.264430000000001,
+              "contention_factor_wall_over_cpu": 4.335607231389263,
+              "load_at_start": {
+                "load_average_1min": 209.3369140625,
+                "load_average_5min": 180.400390625,
+                "load_average_15min": 101.298828125,
+                "logical_cores": 8,
+                "oversubscription_1min": 26.1671142578125
+              },
+              "load_at_end": {
+                "load_average_1min": 205.62353515625,
+                "load_average_5min": 180.53955078125,
+                "load_average_15min": 102.27099609375,
+                "logical_cores": 8,
+                "oversubscription_1min": 25.70294189453125
+              },
+              "effective_threads_assumed": 1,
+              "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+              "failed": null
+            },
+            "converged": true,
+            "scf_energy_hartree": -116.41842094449082,
+            "s2": 0.0
+          }
+        ],
+        "guesses_requested": [
+          "minao",
+          "atom",
+          "huckel",
+          "1e"
+        ],
+        "guesses_converged": [
+          "minao",
+          "atom",
+          "huckel",
+          "1e"
+        ],
+        "guesses_failed": [],
+        "scan_complete": true,
+        "selected_initial_guess": "huckel",
+        "selected_scf_energy_hartree": -116.41842094449164,
+        "solution_spread_kcal_per_mol": 9.98753941985342e-10,
+        "interpretation": "Lowest converged SCF solution among the guesses that converged. This does not prove it is the ground state, nor that no other self-consistent solution exists. Agreement applies only to the converged subset."
+      },
+      "production_timing": {
+        "wall_seconds": 6.727048917207867,
+        "cpu_seconds": 2.989226999999996,
+        "contention_factor_wall_over_cpu": 2.2504309365624877,
+        "load_at_start": {
+          "load_average_1min": 205.62353515625,
+          "load_average_5min": 180.53955078125,
+          "load_average_15min": 102.27099609375,
+          "logical_cores": 8,
+          "oversubscription_1min": 25.70294189453125
+        },
+        "load_at_end": {
+          "load_average_1min": 202.0498046875,
+          "load_average_5min": 180.21484375,
+          "load_average_15min": 102.61474609375,
+          "logical_cores": 8,
+          "oversubscription_1min": 25.2562255859375
+        },
+        "effective_threads_assumed": 1,
+        "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+        "failed": null
+      },
+      "energy_ev": -3167.98273902314,
+      "energy_hartree": -116.42121927145776,
+      "max_force_ev_per_angstrom": 0.894354436994107,
+      "production_initial_guess": "huckel",
+      "quantum_diagnostics": {
+        "call_id": "c5196409-66b9-479e-9d49-38430b12445f",
+        "settings": {
+          "charge": 0,
+          "spin": 0,
+          "xc": "pbe0",
+          "basis": "def2-svp",
+          "dispersion": "d3bj",
+          "grid_level": 3,
+          "conv_tol": 1e-09,
+          "max_cycle": 150,
+          "threads": 1,
+          "memory_mb": 2000,
+          "density_fit": true,
+          "scf_initial_guess": "huckel"
+        },
+        "scf_converged": true,
+        "gradient_completed": true,
+        "scf_initial_guess": "huckel",
+        "initial_guess_scan_performed": false,
+        "ground_state_verified": false,
+        "electronic_state_identity_verified": false,
+        "initial_guess_scope": "One explicitly selected SCF starting guess; no automatic scan or state selection. Convergence does not verify the ground state or exclude other self-consistent solutions.",
+        "model": "nonperiodic all-electron nonrelativistic Kohn-Sham DFT",
+        "energy_scope": "Born-Oppenheimer electronic energy plus nuclear repulsion and specified D3",
+        "versions": {
+          "pyscf": "2.14.0",
+          "libxc": "7.0.0",
+          "numpy": "2.5.3",
+          "ase": "3.29.0",
+          "dftd3": "1.6.0"
+        },
+        "requested_pyscf_threads": 1,
+        "effective_pyscf_threads": 1,
+        "threads_honored": true,
+        "scf_cycles": 10,
+        "electron_count": 22,
+        "alpha_electrons": 11,
+        "beta_electrons": 11,
+        "basis_functions": 62,
+        "reference": "RKS",
+        "s2": 0.0,
+        "expected_s2": 0.0,
+        "s2_deviation": 0.0,
+        "spin_contamination": 0.0,
+        "effective_multiplicity": 1.0,
+        "stability_checked": false,
+        "grid_response": true,
+        "auxiliary_basis_response": true,
+        "dft_energy_hartree": -116.41842094449164,
+        "dispersion_energy_hartree": -0.0027983269661086708,
+        "total_energy_hartree": -116.42121927145776,
+        "dispersion_three_body": false,
+        "energy_unit": "eV",
+        "force_unit": "eV/Angstrom",
+        "hartree_eV": 27.211386024367243,
+        "bohr_angstrom": 0.52917721092,
+        "net_force_eV_A": [
+          -1.3957389279349533e-13,
+          -4.051865162182962e-13,
+          -5.481171072574398e-13
+        ],
+        "elapsed_seconds": 6.725821417057887
+      },
+      "settings": {
+        "charge": 0,
+        "spin": 0,
+        "xc": "pbe0",
+        "basis": "def2-svp",
+        "dispersion": "d3bj",
+        "grid_level": 3,
+        "conv_tol": 1e-09,
+        "max_cycle": 150,
+        "threads": 1,
+        "memory_mb": 2000,
+        "density_fit": true,
+        "scf_initial_guess": "huckel"
+      }
+    }
+  },
+  "handles": {
+    "hydrogen": {
+      "h_affinity_ev": -5.928558957646821,
+      "h_affinity_kcal_per_mol": -136.71581841364448,
+      "radical_atoms": 3,
+      "hydrogenated_atoms": 4,
+      "cpu_seconds_total": 1.9974299999999996
+    },
+    "methyl": {
+      "h_affinity_ev": -5.920128369686374,
+      "h_affinity_kcal_per_mol": -136.52140443531437,
+      "radical_atoms": 6,
+      "hydrogenated_atoms": 7,
+      "cpu_seconds_total": 6.1614079999999944
+    }
+  },
+  "status": "completed",
+  "comparison": {
+    "h_affinity_kcal_per_mol": {
+      "hydrogen": -136.71581841364448,
+      "methyl": -136.52140443531437
+    },
+    "spread_kcal_per_mol": 0.1944139783301182,
+    "shift_versus_adamantyl_kcal_per_mol": null,
+    "interpretation": "A spread small against the ~7.4 kcal/mol tertiary-versus-primary abstraction difference measured in this repository is evidence that the handle's electronic role is minor at fixed geometry. It is not evidence that the reduced model is mechanically or sterically faithful, and these are rigid-geometry energies, not barriers."
+  },
+  "host_at_end": {
+    "load_average_1min": 202.0498046875,
+    "load_average_5min": 180.21484375,
+    "load_average_15min": 102.61474609375,
+    "logical_cores": 8,
+    "oversubscription_1min": 25.2562255859375
+  }
+}

@@ -6,6 +6,8 @@ The current system is a local Python research application that evaluates explici
 
 The [computation planner](../research/compute-planning/README.md) uses the saved direct/DF timings with explicit stage and cache assumptions. It counts both ordinary and climbing NEB, endpoint work and Hessian displacements. Its projections are scenarios from uncontrolled overlapping measurements, not guaranteed runtimes or accelerator speedups.
 
+The [GPU readiness tools](../research/gpu-readiness/README.md) inspect the environment, prepare a bounded CPU/GPU comparison plan from archived coordinates, and compare supplied result records. They launch no chemistry and implement no GPU solver. Actual GPU execution, energy/force parity and acceleration remain untested.
+
 ## Calculation pipeline
 
 Solid arrows show the current workflow. Dashed arrows show proposed extensions.

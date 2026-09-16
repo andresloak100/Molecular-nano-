@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "question": "Does replacing the adamantane tool handle change the tip's electronic appetite for a hydrogen?",
+  "quantity": "tip H-affinity A(R) = E(R-CC-H) - E(R-CC*) - E(H); only differences across R are interpreted",
+  "method": "PBE0-D3(BJ)/def2-svp, density fitting",
+  "geometry_status": "rigid, taken from the 53-atom candidate pose; no relaxation",
+  "measures": "electronic substituent effect only",
+  "does_not_measure": "mount stiffness, mass, sterics against the substrate, or anchor placement; a reduced handle is a different mechanical boundary condition, not a scaled one",
+  "host_at_start": {
+    "load_average_1min": 192.55615234375,
+    "load_average_5min": 179.189453125,
+    "load_average_15min": 103.60498046875,
+    "logical_cores": 8,
+    "oversubscription_1min": 24.06951904296875
+  },
+  "species": {
+    "H_atom": {
+      "label": "H_atom",
+      "formula": "H",
+      "n_atoms": 1,
+      "charge": 0,
+      "spin": 1,
+      "geometry_status": "unrelaxed_starting_guess",
+      "guess_scan": {
+        "performed": false,
+        "reason": "single atom"
+      },
+      "production_timing": {
+        "wall_seconds": 1.0481602500658482,
+        "cpu_seconds": 0.4924179999999999,
+        "contention_factor_wall_over_cpu": 2.1285985688294264,
+        "load_at_start": {
+          "load_average_1min": 192.55615234375,
+          "load_average_5min": 179.189453125,
+          "load_average_15min": 103.60498046875,
+          "logical_cores": 8,
+          "oversubscription_1min": 24.06951904296875
+        },
+        "load_at_end": {
+          "load_average_1min": 192.55615234375,
+          "load_average_5min": 179.189453125,
+          "load_average_15min": 103.60498046875,
+          "logical_cores": 8,
+          "oversubscription_1min": 24.06951904296875
+        },
+        "effective_threads_assumed": 1,
+        "interpretation": "cpu_seconds is the transferable single-thread cost and a lower bound on uncontended wall clock. wall_seconds is this host under the recorded load and is not a property of the calculation. Neither is a validated result.",
+        "failed": null
+      },
+      "energy_ev": -13.61501660704176,
+      "energy_hartree": -0.5003426357940676,
+      "max_force_ev_per_angstrom": 6.631668639385629e-31,
+      "production_initial_guess": "minao",
+      "quantum_diagnostics": {
+        "call_id": "1120f219-be34-4eea-b05a-cb7853ddca79",
+        "settings": {
+          "charge": 0,
+          "spin": 1,
+          "xc": "pbe0",
+          "basis": "def2-svp",
+          "dispersion": "d3bj",
+          "grid_level": 3,
+          "conv_tol": 1e-09,
+          "max_cycle": 150,
+          "threads": 1,
+          "memory_mb": 2000,
+          "density_fit": true,
+          "scf_initial_guess": "minao"
+        },
+        "scf_converged": true,
+        "gradient_completed": true,
+        "scf_initial_guess": "minao",
+        "initial_guess_scan_performed": false,
+        "ground_state_verified": false,
+        "electronic_state_identity_verified": false,
+        "initial_guess_scope": "One explicitly selected SCF starting guess; no automatic scan or state selection. Convergence does not verify the ground state or exclude other self-consistent solutions.",
+        "model": "nonperiodic all-electron nonrelativistic Kohn-Sham DFT",
+        "energy_scope": "Born-Oppenheimer electronic energy plus nuclear repulsion and specified D3",
+        "versions": {
+          "pyscf": "2.14.0",
+          "libxc": "7.0.0",
+          "numpy": "2.5.3",
+          "ase": "3.29.0",
+          "dftd3": "1.6.0"
+        },
+        "requested_pyscf_threads": 1,
+        "effective_pyscf_threads": 1,
+        "threads_honored": true,
+        "scf_cycles": 5,
+        "electron_count": 1,
+        "alpha_electrons": 1,
+        "beta_electrons": 0,
+        "basis_functions": 5,
+        "reference": "UKS",
+        "s2": 0.75,
+        "expected_s2": 0.75,
+        "s2_deviation": 0.0,
+        "spin_contamination": 0.0,
+        "effective_multiplicity": 2.0,
+        "stability_checked": false,
+        "grid_response": true,
+        "auxiliary_basis_response": true,
+        "dft_energy_hartree": -0.5003426357940676,
+        "dispersion_energy_hartree": 0.0,
+        "total_energy_hartree": -0.5003426357940676,
+        "dispersion_three_body": false,
+        "energy_unit": "eV",
+        "force_unit": "eV/Angstrom",
+        "hartree_eV": 27.211386024367243,
+        "bohr_angstrom": 0.52917721092,
+        "net_force_eV_A": [
+          6.338259119692231e-31,
+          -7.922823899615289e-32,
+          -1.78263537741344e-31
+        ],
+        "elapsed_seconds": 1.047531666001305
+      },
+      "settings": {
+        "charge": 0,
+        "spin": 1,
+        "xc": "pbe0",
+        "basis": "def2-svp",
+        "dispersion": "d3bj",
+        "grid_level": 3,
+        "conv_tol": 1e-09,
+        "max_cycle": 150,
+        "threads": 1,
+        "memory_mb": 2000,
+        "density_fit": true,
+        "scf_initial_guess": "minao"
+      }
+    }
+  },
+  "handles": {},
+  "status": "running"
+}
