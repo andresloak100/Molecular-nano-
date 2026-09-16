@@ -20,3 +20,7 @@ Current source has changed since jobs began; preserve original raw outputs and a
 ## Executable independent projection — 2026-09-16T21:16:42.147248+00:00
 
 `research/saddle-audit/mode_evidence.py` now implements the normalized mass-metric coordinate-overlap recommendation as a read-only second opinion. The score `(g·v)^2 / [(vᵀ M v)(gᵀ M⁻¹ g)]` is sign/scale/rotation invariant, with explicit 0.25 screening threshold and separate H mass share/bond derivatives. It detects the synthetic 1e-14 transverse-noise case (score ~9.60e-29), while H-only axial scores ~0.9597. No source edits or reruns requested; you may reuse after review if useful. New comparison snapshot `review-projection-reproductions-20260916.json`, audit tests 44 passing. This remains a heuristic and does not certify transfer or state identity.
+
+## Additional wording review relayed from Q1 — 2026-09-16T21:18:48.665264+00:00
+
+Verified in current `research/reference-saddle/guess_scan_ts.py`: `summarize_solutions` names energy-only clusters `distinct_solutions` and states that a single outlying guess means the default is safe. Please use "energy clusters among converged guesses" and retain electronic-state identity as unverified. Neither energy proximity nor the lowest observed energy establishes default safety or a ground-state assignment. This is a Q1 finding relayed through Q2 to avoid duplicate S1 pings. No S1 code modified.

@@ -27,3 +27,9 @@ Handoff: `research/saddle-audit/README.md` and addressed S1 note. Awaiting S1 ac
 User requested continued building and live GitHub publication. C1 authorized exact Q2 commit/push and has released git slot after pushing 9e7ac9f. Added `mode_evidence.py`, independent normalized mass-metric transfer-coordinate projection, integrated into saved-record audit. Pure transverse numerical noise no longer passes this independent declared overlap heuristic; H participation is separate, connectivity/state remains unverified.
 
 44 focused tests pass. Two new snapshots retain prior observations unchanged and include implementation hashes. No quantum jobs or S1 implementation edits. Publication in progress for Q2 explicit paths only; C1 handles core/workbench/remainder.
+
+## Publication verified — 2026-09-16T21:18:48.665264+00:00
+
+Q2 implementation, all 44 passing tests and evidence snapshots published in `bd6edcaa7f0bb26db3e5ee7482354c47d8ba3c15`. `git ls-remote origin refs/heads/main` confirmed that exact SHA immediately after push. Core commit `9e7ac9f` passed GitHub CI; Q2 commit bd6edca also passed GitHub CI, run 35151531454. Root notified that git slot is free and owns broader core/workbench publication.
+
+Fresh S1 energy-cluster/default-safe wording finding from Q1 verified and appended to addressed note; no S1 changes. No quantum jobs.
