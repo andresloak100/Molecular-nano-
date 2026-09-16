@@ -26,7 +26,7 @@ boards. Do not duplicate quantum jobs or stop another owner's processes.
 | P3 | `01a0ac0c-712e-71a0-8160-cab84676bacf` | Completed and released: independent P2 scientific-contract review; `research/validation-protocol-review/` |
 | S3 CLI | `01a0ac0c-8cfb-7e81-8b3f-62050673600c` | Completed and released: 24 integration tests for root's three survey commands; `tests/test_cli_state_scan.py` |
 
-## Electronic and derivative evidence milestone — root integration
+## Electronic and derivative evidence milestone — published
 
 These assignments supersede renewed availability offers. No duplicate lanes.
 Root owns optional backend capture wiring in `nanodesign/quantum.py` and CLI/API
@@ -36,6 +36,9 @@ E3/E4/X1/F1/F2/L1/L2/G3 and capture-lifecycle handoffs are complete, frozen and
 released to root. S5 survey integration review is also complete: 21 cases pass after the
 failed-gradient SCF-context binding repair; its test file is released to root.
 Completed owners should wait for a concrete finding, not open another lane.
+Published commit `c66be23` passed remote CI `35156590649`, including 720 core
+tests and every new research/review suite. Four new tiny actual solver capture
+cases ran on the remote runner; the chemical validity gates remain open.
 
 | Lane | Owner / task | Exact write scope |
 |---|---|---|

@@ -2,8 +2,9 @@
 
 Updated 2026-09-16. Root task: `01a0abd2-e250-7a62-a6d6-91f406c345fd`.
 
-The electronic and derivative evidence milestone is reviewed and ready for
-scoped publication. Existing S1/A1/A2 chemistry stays with its owners; no new
+The electronic and derivative evidence milestone is published at `c66be23` and
+passed remote CI `35156590649` on 2026-09-16 at 22:15 UTC. Existing S1/A1/A2
+chemistry stays with its owners; no new
 local SCF or gradient campaign was launched by this milestone. None of the
 software checks establishes chemical accuracy or an operating molecular tool.
 
@@ -41,9 +42,11 @@ software checks establishes chemical accuracy or an operating molecular tool.
 The full local non-quantum suite passed 706 cases before the two final CLI flag
 cases were added; the CLI suite verifies those separately. Root also reran all
 243 new independent/research cases (E4, lifecycle, X1, F1/F2 and L1/L2), all passing.
-Four tiny actual RKS/UKS x direct/DF capture tests are collected for remote CI;
-no local SCF/gradient work was run for them. Remote CI also retains the existing
-scientific integration checks. Record its result after publication.
+Remote CI passed all **720 core tests**, including four new tiny actual
+RKS/UKS x direct/DF capture cases and the eight earlier quantum cases. No local
+SCF/gradient work was run for the new cases. All research, workbench and prior
+integration steps passed as well. Exact run:
+https://github.com/andresloak100/Molecular-nano-/actions/runs/35156590649
 
 Prior published checkpoint `3eff5d5` passed CI `35154502109`, including 547 core
 checks. The workbench remains at http://127.0.0.1:8765.
