@@ -125,14 +125,32 @@ spin-contaminated one — has been **wrong in every case examined so far**:
 | Ethynyl radical | UHF/cc-pVDZ | `minao`, S² = 0.7591 | **+8.76 kcal/mol, wrong** |
 | Methane TS | UHF/cc-pVDZ | `1e`, S² = 0.7595 | **+22.92 kcal/mol, wrong** |
 | Propynyl (A2) | PBE0-D3/def2-SVP | `minao`, S² = 0.7521 | **+11.2 kcal/mol, wrong** |
+| **Adamantyl-ethynyl tool tip** (A2) | PBE0-D3/def2-SVP | `minao`, S² = 0.7521 | **+10.4 kcal/mol, wrong** |
 
 In all three the lower, correct solution is the *more* contaminated one. A
 reader economising on compute will reach for exactly this heuristic; it would
 have picked the wrong answer every time.
 
-Three points and variational lowness do not make a selection rule, and none of
+Four points and variational lowness do not make a selection rule, and none of
 this says the low solution is the physically right state — only that it is the
 variationally lower one and that S² does not identify it. Scan the guesses.
+
+**The fourth case is not a proxy.** It is the adamantyl-supported ethynyl tool
+tip itself, C12H15, truncated from the headline 53-atom candidate at its own
+pose. So the trap is confirmed on the actual tool species, not only on
+small-molecule analogues.
+
+**Consequence for the headline candidate, stated as A2 stated it.** The
+archived 53-atom runs record `scf_initial_guess` as null and
+`initial_guess_scan_performed` as null, so they ran on PySCF's `minao` default
+unscanned. Reassuring: both report S² = 0.78462, near the *correct* tool-tip
+solution's 0.7863 rather than the trap's 0.7521, and the extra adamantane is
+closed-shell so it should not shift S² much. Not proof: that compares S² across
+a 53-atom and a 27-atom system, and the entire lesson of the four cases above is
+that **S² is precisely the wrong quantity to select on**. Honest status:
+*probably fine, never checked*. A four-guess SCF-only scan at the archived
+geometry, about 32 minutes of CPU, would settle it, and every downstream number
+in the repository rests on those two records.
 
 ## 4. Retracted numbers
 
