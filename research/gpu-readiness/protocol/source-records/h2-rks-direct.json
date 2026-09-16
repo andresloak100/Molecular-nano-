@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "length_unit": "angstrom",
+  "initial": "h2.xyz",
+  "final": "h2.xyz",
+  "fixed_indices": [],
+  "name": "H2 software integration verification, not an assembly tool",
+  "quantum": {
+    "charge": 0,
+    "spin": 0,
+    "xc": "pbe0",
+    "basis": "def2-svp",
+    "dispersion": "d3bj",
+    "grid_level": 3,
+    "conv_tol": 1e-11,
+    "max_cycle": 150,
+    "threads": 2,
+    "memory_mb": 2000,
+    "density_fit": false
+  }
+}

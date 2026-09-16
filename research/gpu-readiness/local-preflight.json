@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "kind": "gpu_prerequisite_inventory",
+  "checked_utc": "2026-09-16T21:17:24.840651+00:00",
+  "host": {
+    "system": "Darwin",
+    "machine": "arm64",
+    "processor": "arm",
+    "logical_cpus": 8,
+    "memory_bytes": 25769803776,
+    "python": "3.14.7"
+  },
+  "packages": {
+    "numpy": "2.5.3",
+    "ase": "3.29.0",
+    "pyscf": "2.14.0",
+    "dftd3": "1.6.0",
+    "scipy": "1.18.1"
+  },
+  "nvidia_smi": {
+    "status": "command_not_found",
+    "interpretation": "No nvidia-smi in PATH; this alone does not establish GPU absence."
+  },
+  "runtime_probe": {
+    "status": "completed",
+    "pyscf_thread_probe": {
+      "requested": 2,
+      "effective": 1,
+      "honored": false
+    },
+    "cuda": {
+      "status": "unavailable",
+      "error": "ModuleNotFoundError: No module named 'cupy'"
+    }
+  },
+  "prerequisites_observed": false,
+  "remaining_prerequisites": [
+    "gpu4pyscf distribution not recorded in this environment",
+    "cupy distribution not recorded in this environment",
+    "working CUDA runtime with GPU4PySCF imports not established"
+  ],
+  "production_gpu_adapter_implemented": false,
+  "gpu_numerical_parity_measured": false,
+  "gpu_speedup_measured": false,
+  "design_validated": false,
+  "quantum_evaluations": 0,
+  "interpretation": "Inventory/import/device visibility only; exact method/gradient compatibility and memory fit still require the parity protocol. No production GPU adapter is supplied.",
+  "sources": [
+    "https://pyscf.org/user/gpu.html",
+    "https://github.com/pyscf/gpu4pyscf",
+    "https://github.com/pyscf/gpu4pyscf/blob/master/requirements.txt"
+  ]
+}
