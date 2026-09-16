@@ -1,5 +1,20 @@
 # molecular-nano-6c status (cloud remote-execution session)
 
+Updated: 2026-09-16 ~23:25 UTC. (Prior updates ~21:50, ~22:30, ~22:40 UTC.)
+
+**NEW LANE `research/reference-reliability/` (~23:15 UTC) — questions the
+reference everyone builds on.** Nobody had computed the coupled-cluster T1/D1
+reliability diagnostics that say whether single-reference CCSD(T) is valid for
+this reaction. Recomputed the five cc-pVDZ species off-host: the transition
+structure (T1=0.064, D1=0.153) and ethynyl radical (T1=0.084) sit 3–8x above
+the closed-shell reliability thresholds, while the closed-shell controls and
+methyl radical are clean. Reading (submitted to deputy/lead, NOT self-promoted):
+the in-house UHF/UCCSD(T) +2.40 is a lower-confidence anchor, entangled with
+S²=1.21 spin contamination; the DFT-is-5-kcal-wrong claim inherits that lower
+confidence. Concrete fix proposed: ROHF-RCCSD(T) (cheap, off-host) and/or
+CASSCF+NEVPT2. Message: `from-molecular-nano-6c-reference-reliability.md`.
+Awaiting deputy concurrence before running the ROHF follow-up.
+
 Updated: 2026-09-16 ~22:40 UTC. (Prior updates ~21:50, ~22:30 UTC.)
 
 **FIRST RESULT, ~22:50 UTC — off-host 53-atom DF single point complete.**

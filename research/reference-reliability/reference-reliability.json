@@ -1,0 +1,124 @@
+{
+ "generated_utc": "2026-09-16T21:55:00.229423+00:00",
+ "compute_host": {
+  "system": "Linux",
+  "machine": "x86_64",
+  "loadavg": [
+   5.900390625,
+   3.14697265625,
+   2.54345703125
+  ]
+ },
+ "elapsed_seconds": 115.3,
+ "question": "Is single-reference CCSD(T) trustworthy at the transition structure that the in-house +2.40 kcal/mol reference is evaluated on?",
+ "thresholds": {
+  "t1_closed_shell": 0.02,
+  "d1_closed_shell": 0.05,
+  "note": "Closed-shell rules of thumb (Lee-Taylor 1989; Janssen-Nielsen 1998). Open-shell references sit higher intrinsically; read the TS relative to the closed-shell controls."
+ },
+ "species": {
+  "methane.xyz": {
+   "file": "methane.xyz",
+   "charge": 0,
+   "spin_2S": 0,
+   "reference": "RHF/RCCSD(T)",
+   "scf_initial_guess": "atom",
+   "scf_converged": true,
+   "ccsd_converged": true,
+   "hf_s_squared": 0.0,
+   "hf_s_squared_ideal": 0.0,
+   "n_correlated_electrons": 10,
+   "t1_diagnostic": 0.00494,
+   "d1_diagnostic": 0.00869,
+   "largest_t2_amplitude": 0.0325,
+   "t1_exceeds_closed_shell_threshold": false,
+   "d1_exceeds_closed_shell_threshold": false,
+   "role": "reactant (closed shell, control)"
+  },
+  "acetylene.xyz": {
+   "file": "acetylene.xyz",
+   "charge": 0,
+   "spin_2S": 0,
+   "reference": "RHF/RCCSD(T)",
+   "scf_initial_guess": "atom",
+   "scf_converged": true,
+   "ccsd_converged": true,
+   "hf_s_squared": 0.0,
+   "hf_s_squared_ideal": 0.0,
+   "n_correlated_electrons": 14,
+   "t1_diagnostic": 0.01102,
+   "d1_diagnostic": 0.02748,
+   "largest_t2_amplitude": 0.0905,
+   "t1_exceeds_closed_shell_threshold": false,
+   "d1_exceeds_closed_shell_threshold": false,
+   "role": "product (closed shell, control)"
+  },
+  "methyl_radical.xyz": {
+   "file": "methyl_radical.xyz",
+   "charge": 0,
+   "spin_2S": 1,
+   "reference": "UHF/UCCSD(T)",
+   "scf_initial_guess": "atom",
+   "scf_converged": true,
+   "ccsd_converged": true,
+   "hf_s_squared": 0.7619,
+   "hf_s_squared_ideal": 0.75,
+   "n_correlated_electrons": 9,
+   "t1_diagnostic": 0.00876,
+   "d1_diagnostic": 0.01286,
+   "largest_t2_amplitude": 0.0415,
+   "t1_exceeds_closed_shell_threshold": false,
+   "d1_exceeds_closed_shell_threshold": false,
+   "role": "product radical (doublet)"
+  },
+  "ethynyl_radical.xyz": {
+   "file": "ethynyl_radical.xyz",
+   "charge": 0,
+   "spin_2S": 1,
+   "reference": "UHF/UCCSD(T)",
+   "scf_initial_guess": "atom",
+   "scf_converged": true,
+   "ccsd_converged": true,
+   "hf_s_squared": 1.2212,
+   "hf_s_squared_ideal": 0.75,
+   "n_correlated_electrons": 13,
+   "t1_diagnostic": 0.08359,
+   "d1_diagnostic": 0.1534,
+   "largest_t2_amplitude": 0.1044,
+   "t1_exceeds_closed_shell_threshold": true,
+   "d1_exceeds_closed_shell_threshold": true,
+   "role": "reactant radical (doublet)"
+  },
+  "methane_ethynyl_ts.xyz": {
+   "file": "methane_ethynyl_ts.xyz",
+   "charge": 0,
+   "spin_2S": 1,
+   "reference": "UHF/UCCSD(T)",
+   "scf_initial_guess": "atom",
+   "scf_converged": true,
+   "ccsd_converged": true,
+   "hf_s_squared": 1.2143,
+   "hf_s_squared_ideal": 0.75,
+   "n_correlated_electrons": 23,
+   "t1_diagnostic": 0.06384,
+   "d1_diagnostic": 0.15262,
+   "largest_t2_amplitude": 0.1061,
+   "t1_exceeds_closed_shell_threshold": true,
+   "d1_exceeds_closed_shell_threshold": true,
+   "role": "TRANSITION STRUCTURE (doublet)"
+  }
+ },
+ "reading": {
+  "ts_t1_diagnostic": 0.06384,
+  "ts_d1_diagnostic": 0.15262,
+  "ts_largest_t2": 0.1061,
+  "closed_shell_control_max_t1": 0.01102,
+  "ts_over_control_ratio": 5.8
+ },
+ "limits": [
+  "T1/D1 flag single-reference inadequacy; they do not by themselves prove a multireference wavefunction or give a corrected barrier.",
+  "Diagnostics are basis- and geometry-specific (cc-pVDZ, the supplied collinear TS with three reported imaginary modes).",
+  "A confirmed diagnostic makes the +2.40 reference a lower-confidence anchor, not a wrong number; establishing the true barrier needs a multireference method (CASPT2/NEVPT2/MRCI) or ROHF-based RCCSD(T) as the paper used.",
+  "This does not change any DFT result; it changes the confidence attached to the yardstick DFT is measured against."
+ ]
+}
