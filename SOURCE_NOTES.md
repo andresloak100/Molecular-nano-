@@ -8,7 +8,7 @@ Prepared 2026-09-16. Scope: an auditable quantum-chemistry workbench for a propo
 
 2. **Freitas & Merkle (2008), “A Minimal Toolset for Positional Diamond Mechanosynthesis.”** [Published paper](https://www.molecularassembler.com/Papers/MinToolset.pdf), DOI 10.1166/jctn.2008.002. A theoretical toolset and reaction-sequence proposal, useful for selecting structures, intended chemistry, and competing reactions. Its proposed closure is a property of the modeled reaction scheme; it is not a demonstrated fabrication system. [Authors’ overview](https://www.molecularassembler.com/Nanofactory/DMS.htm) explicitly distinguishes computationally studied sequences from experimental realization.
 
-3. **Drexler (1999), “Building Molecular Machine Systems.”** [Author’s preprint](https://www.imm.org/reports/rep008/). Establishes the connection between the requested vision and rigid graphitic/diamondoid structures in vacuum. This historical framing supplies no modern performance guarantee.
+3. **“Building Molecular Machine Systems” (1999), Institute for Molecular Manufacturing report.** [Report page](https://www.imm.org/reports/rep008/). Establishes the connection between the requested vision and rigid graphitic/diamondoid structures in vacuum. This historical framing supplies no modern performance guarantee.
 
 ## Published geometry package delivered
 
