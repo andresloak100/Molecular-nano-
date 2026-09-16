@@ -308,21 +308,44 @@ diagnostics are all load-independent.
 Not attempted. Given the state of the barrier machinery above, the honest
 deliverable is to say so with the reason rather than half-finish it.
 
-**And when barriers do exist, they will still not be the selectivity.** This
-reaction transfers a hydrogen — the lightest nucleus — so nuclear tunnelling
-through the barrier is a large effect at 300 K, commonly a factor of 3 to 30 on
-the rate. It is also **not the same size at both sites**, because it depends on
-the barrier's imaginary frequency and width, which differ between the bridgehead
-and methylene transition structures. Tunnelling can therefore *reorder* a site
-preference: a site with a slightly higher but thinner barrier can win.
+**When barriers do exist they will still not be the selectivity, but tunnelling
+is a smaller worry here than the generic argument suggests.** This reaction
+transfers a hydrogen, so nuclear tunnelling is the standard concern, and a first
+pass through this lane recorded it as a possible factor of 3 to 30 that could
+reorder the sites. That was based on a generic assumption of a 1000–2000i cm⁻¹
+barrier frequency and **is wrong for this reaction.** S1's frequencies for the
+calibration transition structure are 259i / 50i / 50i, and with |ν*| = 259 cm⁻¹:
 
-So the chain from here to an actual selectivity is: electronic difference (this
-lane, running) → zero-point and thermal correction (identified above, not
-affordable yet) → located saddles at both sites (blocked, S1's lane) →
-tunnelling correction. An Eckart correction is closed-form from a located
-saddle's imaginary frequency and so is cheap once the saddles exist. Nothing in
-this lane should be read as a rate or a selectivity, and a
-tunnelling-uncorrected barrier ratio should not be either.
+- Crossover temperature T_c = ħ|ω*| / 2πk_B = **59.3 K**, so 300 K is about five
+  times above crossover and the reaction is in the classical over-barrier regime.
+- The Wigner correction κ = 1 + (ħω*/k_BT)²/24 = **1.064**, a six percent effect
+  on the rate, not an order-of-magnitude one.
+
+Both verified independently here. So the correct statement is neither "tunnelling
+could flip the ordering" nor "tunnelling is negligible", but: **tunnelling must be
+checked against the actual imaginary frequency of each site's own saddle, and for
+the one transition structure where frequencies exist it is a six percent effect.**
+The adamantane bridgehead and methylene saddles could differ, and a six percent
+correction that differs between sites still cannot reorder a preference of a
+kcal/mol.
+
+The chain from here to a real selectivity is therefore: electronic difference
+(this lane, running) → zero-point and thermal correction (identified above, not
+affordable yet) → located saddles at both sites (blocked, S1's lane) → a
+site-specific tunnelling check, cheap and closed-form once the saddles exist.
+Nothing in this lane is a rate or a selectivity.
+
+### The barrier machinery is broken against experiment, not just against us
+
+Worth recording because it raises the stakes on the blocked saddle search. This
+project's evidence that its DFT barriers are wrong had been internal — eight
+functionals giving submerged barriers against an in-house CCSD(T) reference of
++2.40 kcal/mol. An external-validation lane has since found that the calibration
+reaction was **measured**: Opansky & Leone (1996), *J. Phys. Chem.* **100**, for
+C₂H + CH₄ over 154–359 K, k(T) = 1.2e-11 exp(−491/T). The rate *rises* 6.2× with
+temperature, which requires a positive barrier. So every submerged DFT number in
+the repository is excluded by experiment, and the CCSD(T) value is consistent with
+it. The disagreement is not a matter of taste between methods.
 
 ## The other half of the selectivity argument
 

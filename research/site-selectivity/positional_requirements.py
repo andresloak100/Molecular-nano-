@@ -212,6 +212,84 @@ def required_stiffness(margin_angstrom: float, target_probability: float,
     return result
 
 
+def mode_wavenumber(stiffness_n_per_m: float, effective_mass_amu: float) -> float:
+    """Harmonic wavenumber of a mount mode, cm^-1."""
+    stiffness = _positive("stiffness_n_per_m", stiffness_n_per_m)
+    mass = _positive("effective_mass_amu", effective_mass_amu) * atomic_mass
+    return math.sqrt(stiffness / mass) / _WAVENUMBER_TO_ANGULAR
+
+
+def cooling_assessment(margin_angstrom: float, stiffness_n_per_m: float,
+                       effective_mass_amu: float,
+                       temperatures_kelvin=(298.15, 77.0, 4.0)) -> dict:
+    """Does cooling actually help this design, once zero-point motion is kept?
+
+    "Cooling makes more modes quantum" reads as a warning, and for a stiff mode
+    it is one.  But the spread of a *soft* mount mode saturates at a small
+    zero-point floor, so the margin keeps widening as the temperature drops
+    rather than hitting a wall.  Which of those happens is a property of the
+    particular mount, so it is computed rather than assumed.  The classical
+    formula becomes badly optimistic at low temperature and must not be used
+    there; the point of this function is that the honest quantum answer can
+    still be favourable.
+    """
+    margin = _positive("margin_angstrom", margin_angstrom)
+    stiffness = _positive("stiffness_n_per_m", stiffness_n_per_m)
+    wavenumber = mode_wavenumber(stiffness, effective_mass_amu)
+    mass = _positive("effective_mass_amu", effective_mass_amu) * atomic_mass
+    omega = math.sqrt(stiffness / mass)
+    zero_point_sigma = math.sqrt(hbar / (2.0 * mass * omega)) * 1e10
+
+    rows = []
+    for temperature in temperatures_kelvin:
+        temperature = _positive("temperature_kelvin", temperature)
+        classical = math.sqrt(Boltzmann * temperature / stiffness) * 1e10
+        ratio = quantum_correction(wavenumber, temperature)["sigma_quantum_over_sigma_classical"]
+        quantum = classical * ratio
+        rows.append({
+            "temperature_kelvin": temperature,
+            "sigma_classical_angstrom": classical,
+            "sigma_quantum_angstrom": quantum,
+            "classical_understates_by_factor": ratio,
+            "margin_in_quantum_sigma": margin / quantum,
+            "crossover_wavenumber_cm1": crossover_wavenumber(temperature)["crossover_wavenumber_cm1"],
+        })
+
+    coldest = min(rows, key=lambda row: row["temperature_kelvin"])
+    warmest = max(rows, key=lambda row: row["temperature_kelvin"])
+    return {
+        "margin_angstrom": margin,
+        "stiffness_n_per_m": stiffness,
+        "effective_mass_amu": effective_mass_amu,
+        "mode_wavenumber_cm1": wavenumber,
+        "zero_point_sigma_angstrom": zero_point_sigma,
+        "temperatures": rows,
+        # A bare "is it larger" comparison is meaningless here: a mode already at
+        # its zero-point floor still improves by about 1e-8 on cooling, which is
+        # not a design fact. Report the factor and gate the flag on it being
+        # materially bigger than one.
+        "margin_improvement_factor_on_cooling": (
+            coldest["margin_in_quantum_sigma"] / warmest["margin_in_quantum_sigma"]
+        ),
+        "cooling_materially_helps": bool(
+            coldest["margin_in_quantum_sigma"] > 1.01 * warmest["margin_in_quantum_sigma"]
+        ),
+        "cooling_threshold_note": (
+            "cooling_materially_helps requires better than a one percent gain in "
+            "margin-per-spread between the warmest and coldest temperature supplied."
+        ),
+        "margin_in_sigma_floor": margin / zero_point_sigma,
+        "interpretation": (
+            "The quantum spread saturates at the zero-point floor rather than falling to zero, "
+            "so cooling buys a bounded improvement. Whether that bound is comfortable depends on "
+            "the mode: a soft mount has a small floor and the margin keeps widening, while a "
+            "stiff mode is already at its floor at room temperature and cooling buys nothing. "
+            "The classical formula grows steadily more optimistic as temperature falls and must "
+            "not be used to make this call."
+        ),
+    }
+
+
 def assess(margin_angstrom: float, achievable_stiffness_n_per_m: float,
            target_probability: float, temperature_kelvin: float = 298.15) -> dict:
     """Compare a required stiffness against one a mount is believed to supply."""

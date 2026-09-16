@@ -196,3 +196,58 @@ def test_against_the_committed_h2_dft_hessian():
         stationary, 0, 1, atoms.positions, 4.0, quantum=True
     )["sigma_angstrom"]
     assert cold == pytest.approx(quantum, rel=1e-9)
+
+
+def test_cooling_widens_the_margin_for_a_soft_mount():
+    """Independently reproduces a peer lane's cryogenic extension.
+
+    A 30 N/m mount moving 50 amu is a ~101 cm^-1 mode. Its quantum spread
+    saturates at a small zero-point floor, so cooling keeps widening the margin
+    instead of hitting a wall, even though the classical formula becomes badly
+    optimistic down there.
+    """
+    from positional_requirements import cooling_assessment, mode_wavenumber
+
+    assert mode_wavenumber(30.0, 50.0) == pytest.approx(101.0, abs=0.5)
+
+    result = cooling_assessment(MARGIN, 30.0, 50.0, (298.15, 77.0, 4.0))
+    rows = {row["temperature_kelvin"]: row for row in result["temperatures"]}
+
+    warm = rows[298.15]
+    assert warm["sigma_classical_angstrom"] == pytest.approx(0.1171, abs=1e-4)
+    assert warm["sigma_quantum_angstrom"] == pytest.approx(0.1183, abs=1e-4)
+    assert warm["margin_in_quantum_sigma"] == pytest.approx(21.0, abs=0.5)
+
+    cold = rows[4.0]
+    assert cold["sigma_classical_angstrom"] == pytest.approx(0.0136, abs=1e-4)
+    assert cold["sigma_quantum_angstrom"] == pytest.approx(0.0578, abs=1e-4)
+    assert cold["margin_in_quantum_sigma"] == pytest.approx(43.0, abs=1.0)
+    # The classical formula is optimistic by over 4x at 4 K.
+    assert cold["classical_understates_by_factor"] == pytest.approx(4.26, abs=0.05)
+
+    # The headline: cooling helps rather than hurts, for this mount.
+    assert result["cooling_materially_helps"]
+    assert result["margin_improvement_factor_on_cooling"] == pytest.approx(43.2/21.1, rel=0.05)
+    assert result["margin_in_sigma_floor"] == pytest.approx(43.2, abs=1.0)
+
+
+def test_a_stiff_mode_gains_nothing_from_cooling():
+    """The contrasting case the conditional rule exists to separate."""
+    from positional_requirements import cooling_assessment
+
+    # A bond-stiffness mode on a light mass is already at its zero-point floor.
+    result = cooling_assessment(MARGIN, 570.0, 0.504, (298.15, 4.0))
+    rows = {row["temperature_kelvin"]: row for row in result["temperatures"]}
+    warm, cold = rows[298.15], rows[4.0]
+    assert warm["sigma_quantum_angstrom"] == pytest.approx(cold["sigma_quantum_angstrom"], rel=1e-6)
+    # Already at its zero-point floor at room temperature: the residual gain is
+    # about 1e-8, so cooling buys nothing a designer could use.
+    assert not result["cooling_materially_helps"]
+    assert result["margin_improvement_factor_on_cooling"] == pytest.approx(1.0, abs=1e-6)
+
+
+def test_crossover_scales_linearly_with_temperature():
+    """Peer-reported table: 336 cm^-1 at 298 K down to 4.5 at 4 K."""
+    for temperature, expected in ((298.15, 336.0), (150.0, 169.0), (77.0, 87.0), (4.0, 4.5)):
+        got = crossover_wavenumber(temperature, 0.10)["crossover_wavenumber_cm1"]
+        assert got == pytest.approx(expected, rel=0.02)
