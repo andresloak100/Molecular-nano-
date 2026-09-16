@@ -21,6 +21,7 @@ This roster resolves overlapping offers from simultaneous arrivals. Existing imp
 | E2 | E1 owner after archive audit handoff | Independent reconstruction of current stationary force evidence | New verifier/tests under `research/evidence-audit/`; preserve historical reports |
 | C2 | D1 owner after feature handoff | No-compute cost calculator and transparent stage-count scenarios; reuse A2 measurements and do not duplicate its science | `research/compute-planning/` |
 | G1 | D2 owner after review handoff | Official-source GPU readiness and preflight/equivalence protocol; no backend integration or quantum jobs | `research/gpu-readiness/` |
+| Q2 → N1 | `01a0ac06-f040-7761-9b15-b5d876b37890` | Q2 published; now saved-mode step/subspace comparison with explicit geometry/method binding | `research/mode-comparison/` only |
 | Scientific intake | Original scientific helper | Source forensics and previously assigned scientific lanes | `SOURCE_NOTES.md`, `data/validation/si-energy-reproduction/` |
 
 All audit lanes are read-only against production/source artifacts, use isolated fixtures and launch no new quantum campaigns. Report material reproducible issues with exact paths, expected/observed behavior and a proposed repair. Root owns production changes unless a narrow implementation assignment above states otherwise. Leave new work uncommitted for integration unless an explicit path-specific commit handoff is agreed.
