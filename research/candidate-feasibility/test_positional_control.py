@@ -236,3 +236,38 @@ def test_requirement_is_reported_in_newtons_per_metre_consistently():
     )
     assert result["requirements"]["298.15K"]["required_stiffness_n_per_m"] == pytest.approx(expected)
     assert result["requirements"]["298.15K"]["required_stiffness_n_per_m"] == pytest.approx(4.8, abs=0.1)
+
+
+def test_max_operating_temperature_inverts_the_stiffness_requirement():
+    """T_max and the required stiffness must be the same relation, both ways."""
+    from positional_control import NEWTON_PER_METRE_PER_EV_PER_A2, max_operating_temperature
+
+    geometry = competing_site_geometry()
+    radius = geometry["target_radius_angstrom"]
+    stiffness = 7.27 / NEWTON_PER_METRE_PER_EV_PER_A2
+    ceiling = max_operating_temperature(radius, stiffness)
+    # At exactly T_max the error probability must sit on the target.
+    sigma = classical_sigma(stiffness, ceiling)
+    assert error_probability(radius, sigma) == pytest.approx(DREXLER_ERROR_TARGET, rel=1e-6)
+
+
+def test_the_measured_tip_holds_precision_through_room_temperature():
+    """A1's measured 7.27 N/m against this lane's criterion."""
+    from positional_control import NEWTON_PER_METRE_PER_EV_PER_A2, max_operating_temperature
+
+    geometry = competing_site_geometry()
+    radius = geometry["target_radius_angstrom"]
+    ceiling = max_operating_temperature(radius, 7.27 / NEWTON_PER_METRE_PER_EV_PER_A2)
+    assert ceiling == pytest.approx(449.0, abs=5.0)
+    assert ceiling > 298.15
+
+
+def test_a_soft_bending_mount_loses_precision_below_room_temperature():
+    from positional_control import NEWTON_PER_METRE_PER_EV_PER_A2, max_operating_temperature
+
+    geometry = competing_site_geometry()
+    ceiling = max_operating_temperature(
+        geometry["target_radius_angstrom"], 2.0 / NEWTON_PER_METRE_PER_EV_PER_A2
+    )
+    assert ceiling < 298.15
+    assert ceiling == pytest.approx(124.0, abs=5.0)

@@ -316,12 +316,38 @@ def quantum_sigma(stiffness_ev_per_a2: float, reduced_mass_amu: float, temperatu
 # cantilever softens as the cube of its length.
 MOUNT_BRACKET_N_PER_M = (
     ("bending cantilever, soft end", 2.0),
+    # Measured by the A1 lane on a methyl-mounted ethynyl tip, not assumed. A
+    # methyl mount is floppier than the adamantane cage the real candidate
+    # uses, so this is a lower estimate of the true mounted stiffness. It came
+    # in below the 10-100 N/m the positional-assembly literature had everyone
+    # quoting, because that range describes stiff diamondoid bulk while this
+    # tip's soft direction is a transverse bend at 88 cm^-1. Narrow and
+    # protruding is what makes a good abstraction tool and is exactly what
+    # makes it laterally floppy.
+    ("measured methyl-mounted tip (A1 lane)", 7.27),
     ("bending cantilever, stiff end", 20.0),
     ("nm-scale axial strut, low", 130.0),
     ("nm-scale axial strut, high", 400.0),
     ("single C-C bond, axial (hard cap)", 450.0),
 )
 NEWTON_PER_METRE_PER_EV_PER_A2 = 16.02176634
+
+
+def max_operating_temperature(target_radius: float, stiffness_ev_per_a2: float) -> float:
+    """Highest temperature at which a given stiffness still meets the error target.
+
+    This is the useful way to report the result. Stiffness headroom always looks
+    thin - the measured tip clears its requirement by only 1.5x - while the
+    error rate passes by eight orders of magnitude, because sigma falls as the
+    square root of stiffness but the probability falls exponentially in
+    sigma^-2. Both are the same fact. A temperature ceiling states it without
+    either exaggerating the comfort or inviting alarm about the 1.5x.
+
+    Classical equipartition, so it ignores the zero-point floor; that floor
+    matters at low temperature and this quantity is an upper limit, so the two
+    do not interact here.
+    """
+    return stiffness_ev_per_a2 * required_sigma(target_radius) ** 2 / BOLTZMANN_EV_PER_K
 
 
 def mount_feasibility(target_radius: float, temperatures=(77.0, 298.15)) -> dict:
@@ -358,6 +384,7 @@ def mount_feasibility(target_radius: float, temperatures=(77.0, 298.15)) -> dict
         rows[name] = {
             "stiffness_n_per_m": newtons,
             "stiffness_ev_per_angstrom_squared": stiffness,
+            "max_operating_temperature_k": max_operating_temperature(target_radius, stiffness),
             "temperatures": per_temperature,
         }
     requirements = {
