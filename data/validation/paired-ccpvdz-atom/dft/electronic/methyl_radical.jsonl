@@ -1,0 +1,10 @@
+{"timestamp":"2026-09-16T20:48:23.344310+00:00","call_id":"72732aa5-7c82-45f6-9aab-d1fdd1831dd0","event":"scf_cycle","elapsed_seconds":0.14922100002877414,"cycle":1,"e_tot":-39.77652795090391,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T20:48:23.387913+00:00","call_id":"72732aa5-7c82-45f6-9aab-d1fdd1831dd0","event":"scf_cycle","elapsed_seconds":0.19282329105772078,"cycle":2,"e_tot":-39.77960939399676,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T20:48:23.430191+00:00","call_id":"72732aa5-7c82-45f6-9aab-d1fdd1831dd0","event":"scf_cycle","elapsed_seconds":0.2351022909861058,"cycle":3,"e_tot":-39.78299026761568,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T20:48:23.464681+00:00","call_id":"72732aa5-7c82-45f6-9aab-d1fdd1831dd0","event":"scf_cycle","elapsed_seconds":0.26959354104474187,"cycle":4,"e_tot":-39.783085857510414,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T20:48:23.505711+00:00","call_id":"72732aa5-7c82-45f6-9aab-d1fdd1831dd0","event":"scf_cycle","elapsed_seconds":0.31062570796348155,"cycle":5,"e_tot":-39.78309216887101,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T20:48:23.542791+00:00","call_id":"72732aa5-7c82-45f6-9aab-d1fdd1831dd0","event":"scf_cycle","elapsed_seconds":0.3477022498846054,"cycle":6,"e_tot":-39.783092266107616,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T20:48:23.586049+00:00","call_id":"72732aa5-7c82-45f6-9aab-d1fdd1831dd0","event":"scf_cycle","elapsed_seconds":0.39096341584809124,"cycle":7,"e_tot":-39.78309226657956,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T20:48:23.629649+00:00","call_id":"72732aa5-7c82-45f6-9aab-d1fdd1831dd0","event":"scf_completed","elapsed_seconds":0.43457220797427,"converged":true,"cycles":7,"e_tot":-39.783092266580034,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T20:48:23.630169+00:00","call_id":"72732aa5-7c82-45f6-9aab-d1fdd1831dd0","event":"gradient_started","elapsed_seconds":0.43507962487637997}
+{"timestamp":"2026-09-16T20:48:23.803739+00:00","call_id":"72732aa5-7c82-45f6-9aab-d1fdd1831dd0","event":"calculation_completed","elapsed_seconds":0.6086587498430163,"energy_eV":-1082.5711752690866,"scf_converged":true,"gradient_completed":true}

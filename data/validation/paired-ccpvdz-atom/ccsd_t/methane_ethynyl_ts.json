@@ -1,0 +1,160 @@
+{
+  "species": "methane_ethynyl_ts",
+  "status": "completed",
+  "basis": "cc-pvdz",
+  "charge": 0,
+  "spin_2s": 1,
+  "scf_initial_guess": "atom",
+  "electronic_state_identity_verified": false,
+  "geometry_file": "dft/inputs/methane_ethynyl_ts.xyz",
+  "dft_xyz_sha256": "b4411a8b74750f53c81f4847d8f84acc85099e57fee39c3f10d24387615a3fb1",
+  "cc_xyz_sha256": "b4411a8b74750f53c81f4847d8f84acc85099e57fee39c3f10d24387615a3fb1",
+  "energy_ev": -3178.033923430699,
+  "energy_hartree": -116.7905934885064,
+  "quantum_diagnostics": {
+    "schema_version": 2,
+    "status": "completed",
+    "started_utc": "2026-09-16T20:48:24.825551+00:00",
+    "settings": {
+      "charge": 0,
+      "spin": 1,
+      "basis": "cc-pvdz",
+      "scf_conv_tol": 1e-10,
+      "cc_conv_tol": 1e-09,
+      "max_cycle": 150,
+      "threads": 1,
+      "memory_mb": 2000,
+      "max_basis_functions": 150,
+      "scf_initial_guess": "atom"
+    },
+    "reference": "UHF",
+    "variant": "UCCSD(T)",
+    "model": "nonperiodic all-electron nonrelativistic single-reference coupled cluster",
+    "energy_scope": "Born-Oppenheimer electronic energy including nuclear repulsion; fixed geometry",
+    "geometry": {
+      "symbols": [
+        "H",
+        "C",
+        "C",
+        "H",
+        "C",
+        "H",
+        "H",
+        "H"
+      ],
+      "positions_angstrom": [
+        [
+          2.992540851539,
+          0.0,
+          0.0
+        ],
+        [
+          1.913315892938,
+          0.0,
+          0.0
+        ],
+        [
+          0.681299799134,
+          0.0,
+          0.0
+        ],
+        [
+          -0.991075719557,
+          0.0,
+          0.0
+        ],
+        [
+          -2.140296069652,
+          0.0,
+          0.0
+        ],
+        [
+          -2.470323676008,
+          0.525436017626,
+          -0.910081877168
+        ],
+        [
+          -2.470323676008,
+          -1.050872029959,
+          0.0
+        ],
+        [
+          -2.470323676008,
+          0.525436017626,
+          0.910081877168
+        ]
+      ]
+    },
+    "units": {
+      "energy": "Hartree",
+      "secondary_energy": "eV",
+      "length": "angstrom"
+    },
+    "hartree_to_ev": 27.211386024367243,
+    "scf_converged": true,
+    "ccsd_converged": true,
+    "triples_completed": true,
+    "geometry_optimized": false,
+    "forces_computed": false,
+    "scf_stability_checked": false,
+    "scf_initial_guess": "atom",
+    "initial_guess_scan_performed": false,
+    "ground_state_verified": false,
+    "electronic_state_identity_verified": false,
+    "cc_wavefunction_s2_evaluated": false,
+    "frozen_core": false,
+    "density_fitting": false,
+    "dispersion": null,
+    "chemical_accuracy_validated": false,
+    "limitations": [
+      "CCSD(T) is a nonvariational single-reference approximation; convergence does not establish chemical accuracy or suitability for strong correlation.",
+      "Basis convergence, multireference character, reference stability and electronic-state identity require separate checks.",
+      "One explicitly selected SCF guess is used. Convergence, and even local orbital stability, do not certify the ground state or exclude other self-consistent solutions. No automatic state selection or initial-guess scan is performed.",
+      "Reported spin-square values describe the Hartree-Fock determinant, not the correlated CC wavefunction.",
+      "Open-shell UHF/UCCSD(T) is different from the ROHF-based RCCSD(T) used in the published Temelso Table 5 comparator.",
+      "Fixed-geometry energies omit zero-point/thermal effects and do not verify a saddle, reaction path or molecular tool.",
+      "The basis-function cap and advisory memory setting do not guarantee a bounded runtime or peak memory use."
+    ],
+    "versions": {
+      "pyscf": "2.14.0",
+      "numpy": "2.5.3",
+      "ase": "3.29.0"
+    },
+    "requested_pyscf_threads": 1,
+    "effective_pyscf_threads": 1,
+    "threads_honored": true,
+    "basis_functions": 67,
+    "electron_count": 23,
+    "alpha_electrons": 12,
+    "beta_electrons": 11,
+    "scf_cycles": 18,
+    "hf_energy_hartree": -116.33910329510546,
+    "hf_s2": 1.2142555133198716,
+    "hf_expected_s2": 0.75,
+    "hf_s2_deviation": 0.4642555133198716,
+    "hf_effective_multiplicity": 2.420128519992169,
+    "molecular_orbitals": {
+      "alpha": 67,
+      "beta": 67
+    },
+    "occupied_orbitals": {
+      "alpha": 12,
+      "beta": 11
+    },
+    "virtual_orbitals": {
+      "alpha": 55,
+      "beta": 56
+    },
+    "cc_amplitude_convergence_tolerance": 3.1622776601683795e-05,
+    "frozen_orbitals": 0,
+    "ccsd_correlation_energy_hartree": -0.43572635822277017,
+    "ccsd_total_energy_hartree": -116.77482965332823,
+    "triples_correction_hartree": -0.01576383517817155,
+    "total_correlation_energy_hartree": -0.4514901934009417,
+    "total_energy_hartree": -116.7905934885064,
+    "total_energy_ev": -3178.033923430699,
+    "nuclear_repulsion_energy_hartree": 53.39595955146528,
+    "elapsed_seconds": 16.261606707936153
+  },
+  "elapsed_seconds": 16.262602292001247
+}

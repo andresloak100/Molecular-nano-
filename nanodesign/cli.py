@@ -2,38 +2,14 @@
 from __future__ import annotations
 
 import argparse
-from dataclasses import asdict
 import json
 from pathlib import Path
 import sys
 
-from ase.io import write
-
-from .candidates import make_h_abstraction
+from .candidates import create_design
 from .design import load_design
 from .quantum import QuantumSettings
-from .workflow import json_write, run, audit_result, run_characterization
-
-
-def create_design(output, separation, offset):
-    initial, final, metadata = make_h_abstraction(separation, offset)
-    out = Path(output)
-    out.mkdir(parents=True, exist_ok=False)
-    write(out / "initial.xyz", initial)
-    write(out / "final.xyz", final)
-    design = {
-        "schema_version": 1,
-        "length_unit": "angstrom",
-        "name": "Adamantane-supported ethynyl H-abstraction candidate",
-        "scope": "Finite diamondoid cluster in vacuum with fixed distal carbon anchors. Unrelaxed candidate, not a diamond surface or validated assembly tool.",
-        "initial": "initial.xyz", "final": "final.xyz",
-        "fixed_indices": metadata["fixed_indices"],
-        "hydrogen_transfer": {"donor": metadata["target_carbon"], "hydrogen": metadata["transferred_hydrogen"], "acceptor": metadata["tip_apex"]},
-        "quantum": asdict(QuantumSettings()),
-        "metadata": metadata,
-    }
-    json_write(out / "design.json", design)
-    return out / "design.json"
+from .workflow import run, audit_result, run_characterization
 
 
 def main(argv=None):
@@ -59,6 +35,29 @@ def main(argv=None):
     benchmark.add_argument("--out", required=True)
     benchmark.add_argument("--settings", help="JSON quantum settings, or a design JSON containing quantum settings")
     benchmark.add_argument("--reference-dir", help="Directory with the attributed published geometry package")
+    paired = sub.add_parser("compare-methods", help="Compare DFT and CCSD(T) at identical small reference geometries and basis.")
+    paired.add_argument("--out", required=True)
+    paired.add_argument("--reference-dir")
+    paired.add_argument("--basis", default="cc-pvdz", help="Currently cc-pVDZ only; coupled-cluster calculations are expensive")
+    paired.add_argument("--cc-initial-guess", choices=["minao", "atom", "1e", "huckel"], default="minao",
+                        help="Explicit HF starting guess; different converged solutions can give different reference energies")
+    campaign_create = sub.add_parser("campaign-create", help="Snapshot a finite pose grid or existing designs; no quantum jobs are launched.")
+    campaign_create.add_argument("designs", nargs="*", help="Existing design JSON files instead of a generated grid")
+    campaign_create.add_argument("--out", required=True)
+    campaign_create.add_argument("--separations", type=float, nargs="+")
+    campaign_create.add_argument("--offsets", type=float, nargs="+", default=[0.0])
+    campaign_create.add_argument("--settings", help="Quantum settings JSON for generated poses")
+    campaign_create.add_argument("--stage", choices=["singlepoint", "relax", "path"], default="singlepoint")
+    campaign_create.add_argument("--state", choices=["initial", "final"], default="initial")
+    campaign_create.add_argument("--fmax", type=float, default=0.03)
+    campaign_create.add_argument("--steps", type=int, default=200)
+    campaign_create.add_argument("--images", type=int, default=7)
+    campaign_run = sub.add_parser("campaign-run", help="Run a bounded number of jobs, preserving every attempt.")
+    campaign_run.add_argument("directory")
+    campaign_run.add_argument("--max-jobs", type=int, default=1)
+    campaign_run.add_argument("--retry-incomplete", action="store_true", help="Explicitly restart failed/interrupted attempts into new output directories")
+    campaign_report = sub.add_parser("campaign-report", help="Read campaign evidence without choosing an unvalidated winner.")
+    campaign_report.add_argument("directory")
     characterize = sub.add_parser("characterize", help="Compute free-coordinate vibrational modes at a proposed stationary structure.")
     characterize.add_argument("design")
     characterize.add_argument("--structure", required=True, help="Optimized structure or trajectory; coordinates in Å")
@@ -107,6 +106,36 @@ def main(argv=None):
                               "unresolved_near_zero_mode_count": result["stationary"]["unresolved_near_zero_mode_count"],
                               "frequencies_cm1": result["stationary"]["frequencies_cm1"],
                               "design_validated": False}, indent=2))
+        elif args.command == "compare-methods":
+            from .method_comparison import run_method_comparison
+            result = run_method_comparison(args.out, args.reference_dir, args.basis,
+                                           cc_initial_guess=args.cc_initial_guess)
+            print(json.dumps({"result": str(Path(args.out).resolve() / "method_comparison.json"),
+                              "status": result["status"], "computed": result.get("computed"),
+                              "method_validated": False}, indent=2))
+        elif args.command == "campaign-create":
+            from .campaign import create_campaign, create_pose_campaign
+            controls = {name: getattr(args, name) for name in ("stage", "state", "fmax", "steps", "images")}
+            if args.designs:
+                if args.separations is not None or args.settings or args.offsets != [0.0]:
+                    raise ValueError("Existing designs cannot be combined with generated-grid options.")
+                result = create_campaign(args.designs, args.out, **controls)
+            else:
+                if args.separations is None:
+                    raise ValueError("Supply existing designs or explicit --separations for a generated grid.")
+                settings_data = json.loads(Path(args.settings).read_text()) if args.settings else {}
+                settings = QuantumSettings(**settings_data.get("quantum", settings_data))
+                result = create_pose_campaign(args.out, args.separations, args.offsets, settings=settings, **controls)
+            print(json.dumps(result, indent=2))
+        elif args.command == "campaign-run":
+            from .campaign import run_campaign
+            result = run_campaign(args.directory, max_jobs=args.max_jobs, retry_incomplete=args.retry_incomplete)
+            print(json.dumps(result, indent=2))
+            if any(result["counts"].get(status, 0) for status in ("failed", "not_converged", "abandoned", "interrupted")):
+                return 2
+        elif args.command == "campaign-report":
+            from .campaign import campaign_report
+            print(json.dumps(campaign_report(args.directory), indent=2))
     except KeyboardInterrupt:
         print("Calculation interrupted; inspect its result.json and saved trajectories.", file=sys.stderr)
         return 130

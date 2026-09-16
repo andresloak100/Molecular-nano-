@@ -15,7 +15,9 @@ This repository starts with one elementary operation: a supported ethynyl radica
 - Reproducible outputs: input geometries, settings, input hashes, forces, spin diagnostics, trajectories, timings, failure records and outstanding validation work.
 - Published small-molecule geometry seeds for method calibration, with provenance, original units, and identified source inconsistencies.
 - A fixed-geometry comparison with a published methane/ethynyl reaction reference, preserving results species by species. Its discrepancy includes method and geometry differences; it is not a measured assembler error rate.
+- Small-system coupled-cluster energy references, with an explicit same-geometry, same-basis comparison against DFT. Open-shell UHF/UCCSD(T) is identified separately from the paper's ROHF-based reference.
 - Central-difference vibrational characterization of the free coordinates, reporting negative-curvature and unresolved soft modes, numerical Hessian asymmetry and the remaining transition-state checks.
+- Bounded, resumable campaigns over explicit tool poses, with preserved input snapshots, attempt history, worker locking and evidence reports. They do not infer a scientifically validated best tool.
 
 The first structure is a **finite diamondoid cluster**, not a converged diamond surface. The initial coordinates are constructed geometry, not optimized coordinates. A reaction path describes hydrogen transfer at one fixed tool pose; approach, withdrawal, regeneration and entire assembly sequences require additional calculations.
 
@@ -50,6 +52,11 @@ nanodesign audit runs/h-abstraction-path/result.json
 # Compare the default method at published small-molecule geometries.
 nanodesign benchmark --out runs/methane-reference
 
+# Compare DFT and CCSD(T) on the same coordinates and cc-pVDZ basis.
+# Compare explicit HF starting guesses: this reference has multiple solutions.
+nanodesign compare-methods --out runs/paired-reference-minao --cc-initial-guess minao
+nanodesign compare-methods --out runs/paired-reference-atom --cc-initial-guess atom
+
 # Optional: characterize a converged structure. This is expensive:
 # two force evaluations for each free Cartesian coordinate, plus the original.
 # This 53-atom candidate has 141 free coordinates (283 evaluations).
@@ -77,3 +84,20 @@ The reference comparison uses the attributed data in this source checkout. When 
 Read [the physical model](docs/MODEL.md), [source notes](SOURCE_NOTES.md), and [reference geometry provenance](data/reference/provenance.json). The reference data have their own stated licensing terms; see [data/reference/README.md](data/reference/README.md).
 
 For the implemented software layers and the CPU/GPU extension boundary, see [architecture](docs/ARCHITECTURE.md).
+
+## Evaluate a family of tool poses
+
+Create a finite grid without launching calculations, then run an explicit number of jobs. The default is one serial job per invocation. A geometry optimization or reaction-path job can itself require many quantum evaluations; `--max-jobs` is not a time limit.
+
+```bash
+nanodesign campaign-create --out campaigns/pose-study \
+  --separations 3.4 3.6 3.8 --offsets -0.2 0.0 0.2 --stage singlepoint
+nanodesign campaign-report campaigns/pose-study
+nanodesign campaign-run campaigns/pose-study --max-jobs 1
+# Continue the remaining jobs; completed work is not repeated.
+nanodesign campaign-run campaigns/pose-study --max-jobs 1
+```
+
+Alternatively, pass existing design files to `campaign-create`. They must have matching element order, quantum settings, anchor indices and reaction identities. The campaign snapshots their inputs and records hashes. Changing those snapshots or the plan invalidates the campaign. Each retry gets a new directory; `--retry-incomplete` explicitly restarts incomplete work from the original inputs while retaining all earlier evidence. It does not resume an interrupted optimizer trajectory.
+
+Reports preserve plan order and expose energies, force residuals, anchor loads, reaction-basin checks and validation status when available. They do not silently rank an uncalibrated barrier or a failed reaction basin as a useful design. Campaign execution currently supports macOS and Linux. See [campaign interfaces](docs/CAMPAIGNS.md) for integration details.

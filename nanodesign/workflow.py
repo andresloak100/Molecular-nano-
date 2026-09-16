@@ -4,8 +4,10 @@ from __future__ import annotations
 from dataclasses import asdict
 from datetime import datetime, timezone
 import json
+import os
 from pathlib import Path
 import platform
+import tempfile
 import time
 
 import numpy as np
@@ -19,7 +21,23 @@ from .quantum import PySCFCalculator
 
 
 def json_write(path, data):
-    Path(path).write_text(json.dumps(data, indent=2, allow_nan=False) + "\n")
+    """Atomically replace a complete JSON record, retaining the old one on failure."""
+    encoded = json.dumps(data, indent=2, allow_nan=False) + "\n"
+    path = Path(path)
+    temporary_path = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", dir=path.parent,
+            prefix=f".{path.name}.", suffix=".tmp", delete=False,
+        ) as stream:
+            temporary_path = Path(stream.name)
+            stream.write(encoded)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary_path, path)
+    finally:
+        if temporary_path is not None:
+            temporary_path.unlink(missing_ok=True)
 
 
 def force_max(atoms, constrained=True):
@@ -179,39 +197,63 @@ def run(design_path, output, stage="singlepoint", state="initial", fmax=0.03, st
 def run_characterization(design_path, structure_path, output, *, image=-1, step=0.005,
                          fmax=0.03, frequency_tolerance=20.0, max_free_coordinates=120):
     """Constrained curvature check; no transition-state connectivity claim."""
+    from copy import deepcopy
+    from numbers import Integral, Real
+
     from .stationary import characterize_stationary_point
 
     for name, value in (("step", step), ("fmax", fmax), ("frequency_tolerance", frequency_tolerance)):
-        if not np.isfinite(value) or value <= 0:
+        if isinstance(value, bool) or not isinstance(value, Real) or not np.isfinite(value) or value <= 0:
             raise ValueError(f"{name} must be positive and finite.")
     if type(max_free_coordinates) is not int or max_free_coordinates <= 0:
         raise ValueError("max_free_coordinates must be a positive integer.")
+    if isinstance(image, bool) or not isinstance(image, Integral):
+        raise ValueError("image must be an integer selecting exactly one structure.")
+    image = int(image)
     data, initial, _, settings, hashes = load_design(design_path)
     atoms = read(structure_path, index=image)
     validate_pair(initial, atoms, data.get("fixed_indices", []))
     atoms.set_constraint(initial.constraints)
+    # An input trajectory can carry a cached result from a different method.
+    # Archive the supplied geometry without presenting that cache as this run's
+    # energy or forces, then attach the explicitly requested quantum method.
+    atoms.calc = None
     free_coordinates = 3 * (len(atoms) - len(data.get("fixed_indices", [])))
     if free_coordinates > max_free_coordinates:
-        raise ValueError(f"This structure has {free_coordinates} free coordinates and needs at least {2*free_coordinates+1} quantum evaluations. Increase --max-free-coordinates explicitly if intended.")
+        raise ValueError(f"This structure has {free_coordinates} free coordinates and needs {2*free_coordinates+1} quantum evaluations for a complete Hessian. Increase --max-free-coordinates explicitly if intended.")
+    hashes["structure_sha256"] = sha256(structure_path)
     out = Path(output).resolve()
     out.mkdir(parents=True, exist_ok=False)
     started = time.monotonic()
-    hashes["structure_sha256"] = sha256(structure_path)
     result = {"schema_version": 1, "stage": "characterize", "status": "running",
               "started_utc": datetime.now(timezone.utc).isoformat(), "software_version": __version__,
+              "python_version": platform.python_version(),
               "input_hashes": hashes, "design": data, "structure_image": image,
+              "structure_source": str(Path(structure_path).resolve()),
               "quantum_settings": asdict(settings), "expected_force_evaluations": 2*free_coordinates+1,
-              "units": {"length": "angstrom", "energy": "eV", "frequency": "cm^-1"}}
+              "characterization_settings": {"step_angstrom": float(step),
+                  "force_tolerance_ev_per_angstrom": float(fmax),
+                  "frequency_tolerance_cm1": float(frequency_tolerance),
+                  "max_free_coordinates": max_free_coordinates},
+              "force_evaluation_cost_scope": "One initial force evaluation plus two displacements per free Cartesian coordinate if the initial force guard passes; the Hessian reuses the initial result cache.",
+              "units": {"length": "angstrom", "energy": "eV", "force": "eV/angstrom", "frequency": "cm^-1"}}
     json_write(out / "result.json", result)
-    write(out / "input.extxyz", atoms)
-    atoms.calc = PySCFCalculator(settings, event_log=out / "electronic.jsonl")
     try:
-        if force_max(atoms) > fmax:
+        write(out / "input.extxyz", atoms)
+        atoms.calc = PySCFCalculator(settings, event_log=out / "electronic.jsonl")
+        forces = np.asarray(atoms.get_forces(), dtype=float)
+        result["quantum_diagnostics"] = deepcopy(atoms.calc.diagnostics)
+        result["quantum_diagnostics_scope"] = "Initial geometry; electronic.jsonl records subsequent displaced calculations."
+        if forces.shape != (len(atoms), 3) or not np.all(np.isfinite(forces)):
+            raise ValueError("Calculator returned an invalid or nonfinite constrained force array.")
+        initial_force_max = float(np.linalg.norm(forces, axis=1).max())
+        result["initial_free_force_max_ev_per_angstrom"] = initial_force_max
+        result["initial_force_guard_passed"] = bool(initial_force_max <= fmax)
+        if not result["initial_force_guard_passed"]:
             raise ValueError("The structure is not stationary at the requested free-force tolerance. Relax or refine the saddle before an expensive Hessian calculation.")
         result["stationary"] = characterize_stationary_point(atoms, step_angstrom=step,
             force_tolerance_ev_per_angstrom=fmax, frequency_tolerance_cm1=frequency_tolerance,
             max_free_coordinates=max_free_coordinates)
-        result["quantum_diagnostics"] = atoms.calc.diagnostics
         result["status"] = "completed"
     except KeyboardInterrupt:
         result["status"] = "interrupted"
@@ -223,6 +265,9 @@ def run_characterization(design_path, structure_path, output, *, image=-1, step=
         raise
     finally:
         result["elapsed_seconds"] = time.monotonic() - started
+        if "quantum_diagnostics" not in result and getattr(atoms.calc, "diagnostics", None) is not None:
+            result["quantum_diagnostics"] = deepcopy(atoms.calc.diagnostics)
+            result["quantum_diagnostics_scope"] = "Failed or interrupted initial geometry evaluation."
         result["validation"] = {"design_validated": False, "transition_state_validated": False,
             "missing_evidence": ["Mode eigenvector/reactive-coordinate assessment and forward/backward connectivity", "Displacement-step convergence", "Electronic-state stability", "Reaction-specific method calibration"]}
         json_write(out / "result.json", result)

@@ -1,0 +1,122 @@
+{
+  "species": "ethynyl_radical",
+  "status": "completed",
+  "basis": "cc-pvdz",
+  "charge": 0,
+  "spin_2s": 1,
+  "geometry_file": "dft/inputs/ethynyl_radical.xyz",
+  "dft_xyz_sha256": "849a25cefa5341ff37dce2f062ad747e507836494fee7f4cf9a8440b8cd0d5ce",
+  "cc_xyz_sha256": "849a25cefa5341ff37dce2f062ad747e507836494fee7f4cf9a8440b8cd0d5ce",
+  "energy_ev": -2078.4402968419386,
+  "energy_hartree": -76.38127271358898,
+  "quantum_diagnostics": {
+    "schema_version": 1,
+    "status": "completed",
+    "started_utc": "2026-09-16T20:35:41.534919+00:00",
+    "settings": {
+      "charge": 0,
+      "spin": 1,
+      "basis": "cc-pvdz",
+      "scf_conv_tol": 1e-10,
+      "cc_conv_tol": 1e-09,
+      "max_cycle": 150,
+      "threads": 1,
+      "memory_mb": 2000,
+      "max_basis_functions": 150
+    },
+    "reference": "UHF",
+    "variant": "UCCSD(T)",
+    "model": "nonperiodic all-electron nonrelativistic single-reference coupled cluster",
+    "energy_scope": "Born-Oppenheimer electronic energy including nuclear repulsion; fixed geometry",
+    "geometry": {
+      "symbols": [
+        "C",
+        "C",
+        "H"
+      ],
+      "positions_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.54722363512
+        ],
+        [
+          0.0,
+          0.0,
+          -0.683791144275
+        ],
+        [
+          0.0,
+          0.0,
+          1.626085943287
+        ]
+      ]
+    },
+    "units": {
+      "energy": "Hartree",
+      "secondary_energy": "eV",
+      "length": "angstrom"
+    },
+    "hartree_to_ev": 27.211386024367243,
+    "scf_converged": true,
+    "ccsd_converged": true,
+    "triples_completed": true,
+    "geometry_optimized": false,
+    "forces_computed": false,
+    "scf_stability_checked": false,
+    "cc_wavefunction_s2_evaluated": false,
+    "frozen_core": false,
+    "density_fitting": false,
+    "dispersion": null,
+    "chemical_accuracy_validated": false,
+    "limitations": [
+      "CCSD(T) is a nonvariational single-reference approximation; convergence does not establish chemical accuracy or suitability for strong correlation.",
+      "Basis convergence, multireference character, reference stability and electronic-state identity require separate checks.",
+      "Reported spin-square values describe the Hartree-Fock determinant, not the correlated CC wavefunction.",
+      "Open-shell UHF/UCCSD(T) is different from the ROHF-based RCCSD(T) used in the published Temelso Table 5 comparator.",
+      "Fixed-geometry energies omit zero-point/thermal effects and do not verify a saddle, reaction path or molecular tool.",
+      "The basis-function cap and advisory memory setting do not guarantee a bounded runtime or peak memory use."
+    ],
+    "versions": {
+      "pyscf": "2.14.0",
+      "numpy": "2.5.3",
+      "ase": "3.29.0"
+    },
+    "requested_pyscf_threads": 1,
+    "effective_pyscf_threads": 1,
+    "threads_honored": true,
+    "basis_functions": 33,
+    "electron_count": 13,
+    "alpha_electrons": 7,
+    "beta_electrons": 6,
+    "scf_cycles": 14,
+    "hf_energy_hartree": -76.14314000369592,
+    "hf_s2": 0.7591362615162538,
+    "hf_expected_s2": 0.75,
+    "hf_s2_deviation": 0.009136261516253796,
+    "hf_effective_multiplicity": 2.0091154884836797,
+    "molecular_orbitals": {
+      "alpha": 33,
+      "beta": 33
+    },
+    "occupied_orbitals": {
+      "alpha": 7,
+      "beta": 6
+    },
+    "virtual_orbitals": {
+      "alpha": 26,
+      "beta": 27
+    },
+    "cc_amplitude_convergence_tolerance": 3.1622776601683795e-05,
+    "frozen_orbitals": 0,
+    "ccsd_correlation_energy_hartree": -0.22997791732111372,
+    "ccsd_total_energy_hartree": -76.37311792101703,
+    "triples_correction_hartree": -0.008154792571952688,
+    "total_correlation_energy_hartree": -0.2381327098930664,
+    "total_energy_hartree": -76.38127271358898,
+    "total_energy_ev": -2078.4402968419386,
+    "nuclear_repulsion_energy_hartree": 19.79287893735019,
+    "elapsed_seconds": 1.0849295419175178
+  },
+  "elapsed_seconds": 1.0862653751391917
+}

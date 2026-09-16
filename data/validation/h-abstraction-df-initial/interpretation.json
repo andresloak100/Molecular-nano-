@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "archived_utc": "2026-09-16T20:46:47.603397+00:00",
+  "source_run_directory": "runs/h-abstraction-df-initial",
+  "source_input_directory": "runs/h-abstraction-df-input",
+  "copy_policy": "All five calculation artifacts copied byte-for-byte; no scientific result or path was rewritten.",
+  "file_sha256": {
+    "result.json": "d82871657de47d56f4bf5e34298d8270f9cafd3bc28bb9e301985ca5678f9022",
+    "structure.extxyz": "4c6a388d1cb790a58193251b0b1da1176ef455089f1519b639f73b0de588c354",
+    "input-initial.extxyz": "0c350bab7ce1a561ac86a8a66efce6a1a2e4fa009aafd0158aa0a58c6281d85e",
+    "input-final.extxyz": "ea8d078d2c6cb9b859ef6e30b359d3ef35747247f6855cf8c1a50e6011874563",
+    "electronic.jsonl": "bde614b26e8ffe5782785581c483352a4cdb8976737708a971ae5bb47d8e4d9b"
+  },
+  "calculation_scope": "Actual PBE0-D3(BJ)/def2-SVP density-fitting singlepoint and analytical gradient on the unrelaxed 53-atom finite diamondoid candidate in vacuum; fixed anchors do not establish fabrication feasibility.",
+  "geometry_relaxed": false,
+  "method_calibrated": false,
+  "tool_validated": false,
+  "barrier_computed": false,
+  "electronic_state_stability_checked": false,
+  "density_fitting": {
+    "enabled": true,
+    "auxiliary_basis_response_in_forces": true,
+    "changed_input_setting": "quantum.density_fit: false -> true",
+    "precision_against_direct_run": "Observed at this one identical geometry; comparison.json records energy/force differences, not transferable accuracy."
+  },
+  "comparison": "comparison.json",
+  "timing_caveat": "Overlapping runs began under different workloads; this observed ratio is not a controlled benchmark or a general speedup claim. Direct process predates extra event/thread diagnostics; versions and explicit physical settings match.",
+  "data_notice": "These are newly computed results and generated candidate coordinates, not the separately licensed published reference coordinate dataset."
+}

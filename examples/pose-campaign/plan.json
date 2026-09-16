@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-09-16T20:47:20.418724+00:00",
+  "kind": "explicit_pose_campaign",
+  "quantum_settings": {
+    "charge": 0,
+    "spin": 1,
+    "xc": "pbe0",
+    "basis": "def2-svp",
+    "dispersion": "d3bj",
+    "grid_level": 3,
+    "conv_tol": 1e-09,
+    "max_cycle": 150,
+    "threads": 2,
+    "memory_mb": 2000,
+    "density_fit": false
+  },
+  "controls": {
+    "stage": "singlepoint",
+    "state": "initial",
+    "fmax": 0.03,
+    "steps": 200,
+    "images": 7
+  },
+  "designs": [
+    {
+      "id": "pose-0001",
+      "design": "designs/pose-0001/design.json",
+      "input_hashes": {
+        "design_sha256": "c0e31c49f71e134d5d5da59eae32ffa8b8a30a5d00c466ad6c62d51454f66eea",
+        "initial_sha256": "5ee94f90fcca1511d36dfba76286160e23fbda37896dc1accc43c035efbc891f",
+        "final_sha256": "8ae6c06e7851ba39d35970f52d4b2c41a68548dfaa0492970d3175dd93a3d02b"
+      },
+      "source_input_hashes": {
+        "design_sha256": "c0e31c49f71e134d5d5da59eae32ffa8b8a30a5d00c466ad6c62d51454f66eea",
+        "initial_sha256": "5ee94f90fcca1511d36dfba76286160e23fbda37896dc1accc43c035efbc891f",
+        "final_sha256": "8ae6c06e7851ba39d35970f52d4b2c41a68548dfaa0492970d3175dd93a3d02b"
+      },
+      "pose": {
+        "separation_angstrom": 3.4,
+        "lateral_offset_angstrom": -0.2
+      }
+    },
+    {
+      "id": "pose-0002",
+      "design": "designs/pose-0002/design.json",
+      "input_hashes": {
+        "design_sha256": "40ae1a9a2bdfb00fd084b7c13c33416a486535606e31bd79b5f9f19b1381e89f",
+        "initial_sha256": "f46b054b888e720b83b1d53e21185f76e99824001fe91b0244de274197fde508",
+        "final_sha256": "2e3716a13784f51648f9c008ccd14c24fb923cdd6b994d5f1c75b7f22af8a1b7"
+      },
+      "source_input_hashes": {
+        "design_sha256": "40ae1a9a2bdfb00fd084b7c13c33416a486535606e31bd79b5f9f19b1381e89f",
+        "initial_sha256": "f46b054b888e720b83b1d53e21185f76e99824001fe91b0244de274197fde508",
+        "final_sha256": "2e3716a13784f51648f9c008ccd14c24fb923cdd6b994d5f1c75b7f22af8a1b7"
+      },
+      "pose": {
+        "separation_angstrom": 3.4,
+        "lateral_offset_angstrom": 0.0
+      }
+    },
+    {
+      "id": "pose-0003",
+      "design": "designs/pose-0003/design.json",
+      "input_hashes": {
+        "design_sha256": "dae73e6f7a3c808146455d9ca91680c9d0dcc038b5310f7eaf732bacfcd3f72b",
+        "initial_sha256": "c92e65c7df7000a15bcab9d74dee2fd176e46102a3a5906a8bf9be62714974e6",
+        "final_sha256": "4e4476462471945036ec4ca6f8898950f3a182e673ac8b5aa325f01417895d07"
+      },
+      "source_input_hashes": {
+        "design_sha256": "dae73e6f7a3c808146455d9ca91680c9d0dcc038b5310f7eaf732bacfcd3f72b",
+        "initial_sha256": "c92e65c7df7000a15bcab9d74dee2fd176e46102a3a5906a8bf9be62714974e6",
+        "final_sha256": "4e4476462471945036ec4ca6f8898950f3a182e673ac8b5aa325f01417895d07"
+      },
+      "pose": {
+        "separation_angstrom": 3.4,
+        "lateral_offset_angstrom": 0.2
+      }
+    },
+    {
+      "id": "pose-0004",
+      "design": "designs/pose-0004/design.json",
+      "input_hashes": {
+        "design_sha256": "b842dbc1832674c0bcfb10ed6c472f777a223d68a766682d5c19ae3f14e5a76c",
+        "initial_sha256": "483c60d6eff48f5e09f8ead065938dd9f029c631d66af26f98f7c95200279ab6",
+        "final_sha256": "b4eec5b28a1e8c5bc11ac321957dbaec278b46e9b8ed7c451b7587d68dd1c478"
+      },
+      "source_input_hashes": {
+        "design_sha256": "b842dbc1832674c0bcfb10ed6c472f777a223d68a766682d5c19ae3f14e5a76c",
+        "initial_sha256": "483c60d6eff48f5e09f8ead065938dd9f029c631d66af26f98f7c95200279ab6",
+        "final_sha256": "b4eec5b28a1e8c5bc11ac321957dbaec278b46e9b8ed7c451b7587d68dd1c478"
+      },
+      "pose": {
+        "separation_angstrom": 3.6,
+        "lateral_offset_angstrom": -0.2
+      }
+    },
+    {
+      "id": "pose-0005",
+      "design": "designs/pose-0005/design.json",
+      "input_hashes": {
+        "design_sha256": "6b4ca05325e73aebe149a1c19f43f54fcd1776a84584e6397e54c8844d1c24b7",
+        "initial_sha256": "0c350bab7ce1a561ac86a8a66efce6a1a2e4fa009aafd0158aa0a58c6281d85e",
+        "final_sha256": "ea8d078d2c6cb9b859ef6e30b359d3ef35747247f6855cf8c1a50e6011874563"
+      },
+      "source_input_hashes": {
+        "design_sha256": "6b4ca05325e73aebe149a1c19f43f54fcd1776a84584e6397e54c8844d1c24b7",
+        "initial_sha256": "0c350bab7ce1a561ac86a8a66efce6a1a2e4fa009aafd0158aa0a58c6281d85e",
+        "final_sha256": "ea8d078d2c6cb9b859ef6e30b359d3ef35747247f6855cf8c1a50e6011874563"
+      },
+      "pose": {
+        "separation_angstrom": 3.6,
+        "lateral_offset_angstrom": 0.0
+      }
+    },
+    {
+      "id": "pose-0006",
+      "design": "designs/pose-0006/design.json",
+      "input_hashes": {
+        "design_sha256": "fde33801e293c2d58cab3745160d74b6dc13bd2da75450ca32e3a31d98a3a3ff",
+        "initial_sha256": "78b6f15d5f41dbe654c5e30fccd90ea96a8312f66b273873bcae6a2ccd2c952e",
+        "final_sha256": "209201c4cf0953f8c8af338031f8e2ffbda58d578a9915aaf67641145001118a"
+      },
+      "source_input_hashes": {
+        "design_sha256": "fde33801e293c2d58cab3745160d74b6dc13bd2da75450ca32e3a31d98a3a3ff",
+        "initial_sha256": "78b6f15d5f41dbe654c5e30fccd90ea96a8312f66b273873bcae6a2ccd2c952e",
+        "final_sha256": "209201c4cf0953f8c8af338031f8e2ffbda58d578a9915aaf67641145001118a"
+      },
+      "pose": {
+        "separation_angstrom": 3.6,
+        "lateral_offset_angstrom": 0.2
+      }
+    },
+    {
+      "id": "pose-0007",
+      "design": "designs/pose-0007/design.json",
+      "input_hashes": {
+        "design_sha256": "0889873417be887ca9e9b3cf9f4ac00aa1c833d270f669abca6f5bd4f4144058",
+        "initial_sha256": "23efc666c6aa05958ed7ccdade04a12c512a6ddc83b0b7f0ae999e2acfe3c43a",
+        "final_sha256": "7db292de9b605372b009da4d889901ea1e298afc086efd2138c670f2ee561362"
+      },
+      "source_input_hashes": {
+        "design_sha256": "0889873417be887ca9e9b3cf9f4ac00aa1c833d270f669abca6f5bd4f4144058",
+        "initial_sha256": "23efc666c6aa05958ed7ccdade04a12c512a6ddc83b0b7f0ae999e2acfe3c43a",
+        "final_sha256": "7db292de9b605372b009da4d889901ea1e298afc086efd2138c670f2ee561362"
+      },
+      "pose": {
+        "separation_angstrom": 3.8,
+        "lateral_offset_angstrom": -0.2
+      }
+    },
+    {
+      "id": "pose-0008",
+      "design": "designs/pose-0008/design.json",
+      "input_hashes": {
+        "design_sha256": "5e89b9ebd54b45be406c58d49f77fc5168bedff8c9a10abffa6d0e1e6fc92118",
+        "initial_sha256": "9409004bcf8a383905eb2c93c943e53d95942dc15e5efbce92a6464769e234b1",
+        "final_sha256": "3d6fcabcea601a0b3472fa085480ef7c2aa85b8e76771a4d6c9e2ab0133743b1"
+      },
+      "source_input_hashes": {
+        "design_sha256": "5e89b9ebd54b45be406c58d49f77fc5168bedff8c9a10abffa6d0e1e6fc92118",
+        "initial_sha256": "9409004bcf8a383905eb2c93c943e53d95942dc15e5efbce92a6464769e234b1",
+        "final_sha256": "3d6fcabcea601a0b3472fa085480ef7c2aa85b8e76771a4d6c9e2ab0133743b1"
+      },
+      "pose": {
+        "separation_angstrom": 3.8,
+        "lateral_offset_angstrom": 0.0
+      }
+    },
+    {
+      "id": "pose-0009",
+      "design": "designs/pose-0009/design.json",
+      "input_hashes": {
+        "design_sha256": "a55cb56b2ab0ff0cd76087de4cb87b28aa47e2c5ccaf14e468796a56d77f0bdb",
+        "initial_sha256": "b55def21db7a481a82c7cfb8e1cc9d2ea6d7c26ee6d58e84f976606efa2150b8",
+        "final_sha256": "824d7bc306677e793aeceb19be5d88fbe045519c2854d40f3e5bc5fdd6565930"
+      },
+      "source_input_hashes": {
+        "design_sha256": "a55cb56b2ab0ff0cd76087de4cb87b28aa47e2c5ccaf14e468796a56d77f0bdb",
+        "initial_sha256": "b55def21db7a481a82c7cfb8e1cc9d2ea6d7c26ee6d58e84f976606efa2150b8",
+        "final_sha256": "824d7bc306677e793aeceb19be5d88fbe045519c2854d40f3e5bc5fdd6565930"
+      },
+      "pose": {
+        "separation_angstrom": 3.8,
+        "lateral_offset_angstrom": 0.2
+      }
+    }
+  ],
+  "design_validated": false,
+  "automatic_ranking": false,
+  "interpretation": "Comparable numerical evaluations at explicit poses. Absolute energies include pose-dependent deformation and interaction; no success probability or best tool is inferred."
+}

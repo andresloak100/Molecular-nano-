@@ -2,14 +2,16 @@
 
 from dataclasses import replace
 import json
+from pathlib import Path
 
 from ase import Atoms
+from ase.io import read
 from ase.units import Hartree
 import numpy as np
 import pytest
 from pyscf import cc, fci, gto, lib, scf
 
-from nanodesign.highlevel import CCSettings, CoupledClusterCalculationError, coupled_cluster_energy
+from nanodesign.highlevel import CCSettings, CoupledClusterCalculationError, SCF_INITIAL_GUESSES, coupled_cluster_energy
 from nanodesign.quantum import _PYSCF_LOCK
 
 
@@ -53,6 +55,9 @@ def test_two_electron_ccsd_matches_fci_in_same_finite_basis():
     assert result["geometry_optimized"] is False
     assert result["chemical_accuracy_validated"] is False
     assert result["cc_wavefunction_s2_evaluated"] is False
+    assert result["scf_initial_guess"] == result["settings"]["scf_initial_guess"] == "minao"
+    assert result["ground_state_verified"] is result["electronic_state_identity_verified"] is False
+    assert result["initial_guess_scan_performed"] is False
     assert result["dispersion"] is None
     np.testing.assert_array_equal(atoms.positions, before)
     assert atoms.calc is None
@@ -153,6 +158,10 @@ def test_nonfinite_triples_rejected_and_diagnostics_remain_json_safe(monkeypatch
     ({"max_basis_functions": 0}, "positive"), ({"basis": ""}, "nonempty"),
     ({"scf_conv_tol": float("nan")}, "finite"), ({"cc_conv_tol": 0}, "finite"),
     ({"cc_conv_tol": True}, "finite"),
+    ({"scf_initial_guess": "invented"}, "scf_initial_guess"),
+    ({"scf_initial_guess": "vsap"}, "scf_initial_guess"),
+    ({"scf_initial_guess": "chk"}, "scf_initial_guess"),
+    ({"scf_initial_guess": None}, "scf_initial_guess"),
 ])
 def test_invalid_settings_rejected(overrides, error):
     with pytest.raises(ValueError, match=error):
@@ -178,3 +187,29 @@ def test_invalid_geometry_and_electronic_state_rejected():
         coupled_cluster_energy(Atoms(), settings)
     with pytest.raises(TypeError, match="CCSettings"):
         coupled_cluster_energy(atoms, {})
+
+
+@pytest.mark.parametrize("guess", SCF_INITIAL_GUESSES)
+def test_documented_standalone_hf_guesses_are_explicitly_accepted(guess):
+    assert CCSettings(scf_initial_guess=guess).scf_initial_guess == guess
+
+
+@pytest.mark.quantum
+def test_ethynyl_explicit_atom_guess_reaches_distinct_solution_without_certifying_ground_state():
+    """Regression for the real multiple-solution trap, not a universal method benchmark."""
+    path = Path(__file__).resolve().parents[1] / "data/reference/ethynyl_radical.xyz"
+    atoms = read(path)
+    default = coupled_cluster_energy(atoms, CCSettings(spin=1))
+    selected = coupled_cluster_energy(atoms, CCSettings(spin=1, scf_initial_guess="atom"))
+    assert default["total_energy_hartree"] == pytest.approx(-76.381272714, abs=2e-7)
+    assert selected["total_energy_hartree"] == pytest.approx(-76.40409705, abs=2e-7)
+    assert selected["hf_energy_hartree"] < default["hf_energy_hartree"] - .01
+    assert selected["total_energy_hartree"] < default["total_energy_hartree"] - .02
+    assert default["scf_initial_guess"] == "minao"
+    assert selected["scf_initial_guess"] == selected["settings"]["scf_initial_guess"] == "atom"
+    for result in (default, selected):
+        assert result["scf_converged"] is result["ccsd_converged"] is True
+        assert result["ground_state_verified"] is False
+        assert result["electronic_state_identity_verified"] is False
+        assert result["initial_guess_scan_performed"] is False
+        assert any("do not certify the ground state" in limitation for limitation in result["limitations"])

@@ -8,11 +8,17 @@ optimized tool, a bulk diamond surface, or evidence that H transfer is viable.
 from __future__ import annotations
 
 import math
+from dataclasses import asdict
+import json
+from pathlib import Path
 from typing import Any
 
 import numpy as np
 from ase import Atoms
 from ase.constraints import FixAtoms
+from ase.io import write
+
+from .quantum import QuantumSettings
 
 
 _CAGE_CC = 1.54
@@ -20,6 +26,28 @@ _CAGE_CH = 1.09
 _ETHYNYL_CC = 1.21
 _HANDLE_CC = 1.46
 _PRODUCT_CH = 1.06
+
+
+def create_design(output, separation=3.6, offset=0.0, settings=None):
+    """Save an explicit unrelaxed candidate without overwriting existing work."""
+    settings = settings or QuantumSettings()
+    if settings.charge != 0 or settings.spin != 1:
+        raise ValueError("The generated H-abstraction candidate requires a neutral doublet.")
+    initial, final, metadata = make_h_abstraction(separation, offset)
+    out = Path(output)
+    out.mkdir(parents=True, exist_ok=False)
+    write(out / "initial.xyz", initial)
+    write(out / "final.xyz", final)
+    design = {
+        "schema_version": 1, "length_unit": "angstrom",
+        "name": "Adamantane-supported ethynyl H-abstraction candidate",
+        "scope": "Finite diamondoid cluster in vacuum with fixed distal carbon anchors. Unrelaxed candidate, not a diamond surface or validated assembly tool.",
+        "initial": "initial.xyz", "final": "final.xyz", "fixed_indices": metadata["fixed_indices"],
+        "hydrogen_transfer": {"donor": metadata["target_carbon"], "hydrogen": metadata["transferred_hydrogen"], "acceptor": metadata["tip_apex"]},
+        "quantum": asdict(settings), "metadata": metadata,
+    }
+    (out / "design.json").write_text(json.dumps(design, indent=2, allow_nan=False) + "\n")
+    return out / "design.json"
 
 
 def _adamantane() -> tuple[list[str], np.ndarray, list[list[int]]]:

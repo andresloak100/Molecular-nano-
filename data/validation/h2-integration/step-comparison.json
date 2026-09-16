@@ -1,0 +1,22 @@
+{
+  "scope": "H2 integration check only; no general Hessian convergence certificate",
+  "steps_angstrom": [
+    0.003,
+    0.0015
+  ],
+  "stretch_frequencies_cm1": [
+    4383.896609344862,
+    4383.807025644159
+  ],
+  "stretch_frequency_change_cm1": -0.08958370070286037,
+  "negative_mode_counts": [
+    0,
+    0
+  ],
+  "unresolved_mode_counts": [
+    5,
+    5
+  ],
+  "frequency_threshold_cm1": 20.0,
+  "interpretation": "Stretch changes by less than 0.1 cm^-1; low-frequency external modes remain unresolved and more sensitive to residual forces and numerical error."
+}

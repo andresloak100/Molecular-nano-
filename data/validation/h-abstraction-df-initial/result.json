@@ -1,0 +1,1150 @@
+{
+  "schema_version": 1,
+  "stage": "singlepoint",
+  "state": "initial",
+  "status": "completed",
+  "started_utc": "2026-09-16T20:32:32.887975+00:00",
+  "software_version": "0.1.0",
+  "python_version": "3.14.7",
+  "input_hashes": {
+    "design_sha256": "3d2060e5307eebbbc081ed4e6ae922a0333dfe4a0c342d62cd075e1985523107",
+    "initial_sha256": "0c350bab7ce1a561ac86a8a66efce6a1a2e4fa009aafd0158aa0a58c6281d85e",
+    "final_sha256": "ea8d078d2c6cb9b859ef6e30b359d3ef35747247f6855cf8c1a50e6011874563"
+  },
+  "quantum_settings": {
+    "charge": 0,
+    "spin": 1,
+    "xc": "pbe0",
+    "basis": "def2-svp",
+    "dispersion": "d3bj",
+    "grid_level": 3,
+    "conv_tol": 1e-09,
+    "max_cycle": 150,
+    "threads": 2,
+    "memory_mb": 2000,
+    "density_fit": true
+  },
+  "design": {
+    "schema_version": 1,
+    "name": "Adamantane-supported ethynyl H-abstraction candidate",
+    "scope": "Finite diamondoid cluster in vacuum with fixed distal carbon anchors. Unrelaxed candidate, not a diamond surface or validated assembly tool.",
+    "initial": "initial.xyz",
+    "final": "final.xyz",
+    "fixed_indices": [
+      7,
+      8,
+      9,
+      35,
+      36,
+      37
+    ],
+    "hydrogen_transfer": {
+      "donor": 0,
+      "hydrogen": 10,
+      "acceptor": 26
+    },
+    "quantum": {
+      "charge": 0,
+      "spin": 1,
+      "xc": "pbe0",
+      "basis": "def2-svp",
+      "dispersion": "d3bj",
+      "grid_level": 3,
+      "conv_tol": 1e-09,
+      "max_cycle": 150,
+      "threads": 2,
+      "memory_mb": 2000,
+      "density_fit": true
+    },
+    "metadata": {
+      "candidate": "finite_adamantane_ethynyl_h_abstraction",
+      "description": "Unoptimized, atom-conserving H-abstraction endpoints for two finite diamondoid clusters: an adamantane target and an adamantane-bound ethynyl radical tool. Ideal diamond-lattice cages with approximate linkage lengths; not a bulk diamond surface or a validated assembler.",
+      "geometry_status": "unoptimized_starting_guess",
+      "formula": "C22H31",
+      "total_charge": 0,
+      "charge": 0,
+      "spin_multiplicity": 2,
+      "multiplicity": 2,
+      "unpaired_electrons": 1,
+      "target_carbon": 0,
+      "transferred_hydrogen": 10,
+      "tip_apex": 26,
+      "tip_distal": 27,
+      "handle_bridgehead": 28,
+      "substrate_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "tool_indices": [
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "fixed_indices": [
+        7,
+        8,
+        9,
+        35,
+        36,
+        37
+      ],
+      "target_anchor_indices": [
+        7,
+        8,
+        9
+      ],
+      "tool_anchor_indices": [
+        35,
+        36,
+        37
+      ],
+      "reactant_radical_index": 26,
+      "product_radical_index": 0,
+      "reactant_bonds": [
+        [
+          0,
+          4,
+          1
+        ],
+        [
+          0,
+          5,
+          1
+        ],
+        [
+          0,
+          6,
+          1
+        ],
+        [
+          1,
+          4,
+          1
+        ],
+        [
+          1,
+          8,
+          1
+        ],
+        [
+          1,
+          9,
+          1
+        ],
+        [
+          2,
+          5,
+          1
+        ],
+        [
+          2,
+          7,
+          1
+        ],
+        [
+          2,
+          9,
+          1
+        ],
+        [
+          3,
+          6,
+          1
+        ],
+        [
+          3,
+          7,
+          1
+        ],
+        [
+          3,
+          8,
+          1
+        ],
+        [
+          0,
+          10,
+          1
+        ],
+        [
+          1,
+          11,
+          1
+        ],
+        [
+          2,
+          12,
+          1
+        ],
+        [
+          3,
+          13,
+          1
+        ],
+        [
+          4,
+          14,
+          1
+        ],
+        [
+          4,
+          15,
+          1
+        ],
+        [
+          5,
+          16,
+          1
+        ],
+        [
+          5,
+          17,
+          1
+        ],
+        [
+          6,
+          18,
+          1
+        ],
+        [
+          6,
+          19,
+          1
+        ],
+        [
+          7,
+          20,
+          1
+        ],
+        [
+          7,
+          21,
+          1
+        ],
+        [
+          8,
+          22,
+          1
+        ],
+        [
+          8,
+          23,
+          1
+        ],
+        [
+          9,
+          24,
+          1
+        ],
+        [
+          9,
+          25,
+          1
+        ],
+        [
+          26,
+          27,
+          3
+        ],
+        [
+          27,
+          28,
+          1
+        ],
+        [
+          28,
+          32,
+          1
+        ],
+        [
+          28,
+          33,
+          1
+        ],
+        [
+          28,
+          34,
+          1
+        ],
+        [
+          29,
+          32,
+          1
+        ],
+        [
+          29,
+          36,
+          1
+        ],
+        [
+          29,
+          37,
+          1
+        ],
+        [
+          30,
+          33,
+          1
+        ],
+        [
+          30,
+          35,
+          1
+        ],
+        [
+          30,
+          37,
+          1
+        ],
+        [
+          31,
+          34,
+          1
+        ],
+        [
+          31,
+          35,
+          1
+        ],
+        [
+          31,
+          36,
+          1
+        ],
+        [
+          29,
+          38,
+          1
+        ],
+        [
+          30,
+          39,
+          1
+        ],
+        [
+          31,
+          40,
+          1
+        ],
+        [
+          32,
+          41,
+          1
+        ],
+        [
+          32,
+          42,
+          1
+        ],
+        [
+          33,
+          43,
+          1
+        ],
+        [
+          33,
+          44,
+          1
+        ],
+        [
+          34,
+          45,
+          1
+        ],
+        [
+          34,
+          46,
+          1
+        ],
+        [
+          35,
+          47,
+          1
+        ],
+        [
+          35,
+          48,
+          1
+        ],
+        [
+          36,
+          49,
+          1
+        ],
+        [
+          36,
+          50,
+          1
+        ],
+        [
+          37,
+          51,
+          1
+        ],
+        [
+          37,
+          52,
+          1
+        ]
+      ],
+      "product_bonds": [
+        [
+          0,
+          4,
+          1
+        ],
+        [
+          0,
+          5,
+          1
+        ],
+        [
+          0,
+          6,
+          1
+        ],
+        [
+          1,
+          4,
+          1
+        ],
+        [
+          1,
+          8,
+          1
+        ],
+        [
+          1,
+          9,
+          1
+        ],
+        [
+          2,
+          5,
+          1
+        ],
+        [
+          2,
+          7,
+          1
+        ],
+        [
+          2,
+          9,
+          1
+        ],
+        [
+          3,
+          6,
+          1
+        ],
+        [
+          3,
+          7,
+          1
+        ],
+        [
+          3,
+          8,
+          1
+        ],
+        [
+          1,
+          11,
+          1
+        ],
+        [
+          2,
+          12,
+          1
+        ],
+        [
+          3,
+          13,
+          1
+        ],
+        [
+          4,
+          14,
+          1
+        ],
+        [
+          4,
+          15,
+          1
+        ],
+        [
+          5,
+          16,
+          1
+        ],
+        [
+          5,
+          17,
+          1
+        ],
+        [
+          6,
+          18,
+          1
+        ],
+        [
+          6,
+          19,
+          1
+        ],
+        [
+          7,
+          20,
+          1
+        ],
+        [
+          7,
+          21,
+          1
+        ],
+        [
+          8,
+          22,
+          1
+        ],
+        [
+          8,
+          23,
+          1
+        ],
+        [
+          9,
+          24,
+          1
+        ],
+        [
+          9,
+          25,
+          1
+        ],
+        [
+          26,
+          27,
+          3
+        ],
+        [
+          27,
+          28,
+          1
+        ],
+        [
+          28,
+          32,
+          1
+        ],
+        [
+          28,
+          33,
+          1
+        ],
+        [
+          28,
+          34,
+          1
+        ],
+        [
+          29,
+          32,
+          1
+        ],
+        [
+          29,
+          36,
+          1
+        ],
+        [
+          29,
+          37,
+          1
+        ],
+        [
+          30,
+          33,
+          1
+        ],
+        [
+          30,
+          35,
+          1
+        ],
+        [
+          30,
+          37,
+          1
+        ],
+        [
+          31,
+          34,
+          1
+        ],
+        [
+          31,
+          35,
+          1
+        ],
+        [
+          31,
+          36,
+          1
+        ],
+        [
+          29,
+          38,
+          1
+        ],
+        [
+          30,
+          39,
+          1
+        ],
+        [
+          31,
+          40,
+          1
+        ],
+        [
+          32,
+          41,
+          1
+        ],
+        [
+          32,
+          42,
+          1
+        ],
+        [
+          33,
+          43,
+          1
+        ],
+        [
+          33,
+          44,
+          1
+        ],
+        [
+          34,
+          45,
+          1
+        ],
+        [
+          34,
+          46,
+          1
+        ],
+        [
+          35,
+          47,
+          1
+        ],
+        [
+          35,
+          48,
+          1
+        ],
+        [
+          36,
+          49,
+          1
+        ],
+        [
+          36,
+          50,
+          1
+        ],
+        [
+          37,
+          51,
+          1
+        ],
+        [
+          37,
+          52,
+          1
+        ],
+        [
+          26,
+          10,
+          1
+        ]
+      ],
+      "bond_list_format": "[atom_index_1, atom_index_2, nominal_bond_order]; zero-based indices",
+      "separation_angstrom": 3.6,
+      "lateral_offset_angstrom": 0.0,
+      "target_apex_distance_angstrom": 3.6,
+      "initial_bond_lengths_angstrom": {
+        "cage_C_C": 1.54,
+        "cage_C_H": 1.09,
+        "ethynyl_C_C": 1.21,
+        "handle_to_ethynyl_C_C": 1.46,
+        "product_apex_C_H": 1.06
+      },
+      "boundary_condition": "Three distal skeletal carbons fixed in each finite cage",
+      "periodic": false
+    },
+    "length_unit": "angstrom"
+  },
+  "optimization": {
+    "fmax_ev_per_angstrom": 0.03,
+    "max_steps_per_stage": 200,
+    "images": 7
+  },
+  "units": {
+    "length": "angstrom",
+    "energy": "eV",
+    "force": "eV/angstrom"
+  },
+  "structure": {
+    "energy_ev": -23274.37858291648,
+    "free_force_max_ev_per_angstrom": 0.958058153544016,
+    "forces_ev_per_angstrom": [
+      [
+        1.5086006694741802e-14,
+        0.00026996950677768525,
+        -0.8848760219264551
+      ],
+      [
+        -0.5317429287699014,
+        -0.3006249307679667,
+        0.19719244880533582
+      ],
+      [
+        0.5317429287619544,
+        -0.3006249307698849,
+        0.19719244880953765
+      ],
+      [
+        -2.7001657532347683e-14,
+        0.6066643907237537,
+        0.18519494393052216
+      ],
+      [
+        -0.6774605688822197,
+        -0.3901586437957086,
+        -0.4999708447454429
+      ],
+      [
+        0.6774605688816716,
+        -0.3901586437920548,
+        -0.49997084475699793
+      ],
+      [
+        -1.478502899412561e-13,
+        0.7855316535477225,
+        -0.5117886864382903
+      ],
+      [
+        0.6901681962302354,
+        0.39526860321113255,
+        0.5618838823780329
+      ],
+      [
+        -0.6901681962314229,
+        0.39526860321273105,
+        0.5618838823836961
+      ],
+      [
+        -7.774864660030429e-13,
+        -0.7947154762603632,
+        0.5693420925626825
+      ],
+      [
+        3.5665622509621635e-13,
+        -5.681389254365467e-05,
+        0.648981305823298
+      ],
+      [
+        0.36309411865720786,
+        0.2089700805154786,
+        -0.14032989691739625
+      ],
+      [
+        -0.36309411864784513,
+        0.2089700805137202,
+        -0.14032989691696235
+      ],
+      [
+        -2.7967214564253156e-14,
+        -0.4184864929672971,
+        -0.13847776511426396
+      ],
+      [
+        0.3943908164029191,
+        -0.06367104487447683,
+        0.22246819001164164
+      ],
+      [
+        0.14546461518799228,
+        0.3730196174432332,
+        0.22524374941275957
+      ],
+      [
+        -0.39439081639842044,
+        -0.06367104487453963,
+        0.2224681900147416
+      ],
+      [
+        -0.14546461518884862,
+        0.37301961744284495,
+        0.22524374941362163
+      ],
+      [
+        -0.25095910476478933,
+        -0.31303358710378837,
+        0.22624954863518418
+      ],
+      [
+        0.2509591047667532,
+        -0.31303358709986057,
+        0.22624954863670277
+      ],
+      [
+        -0.14608076274270423,
+        -0.08556961187841303,
+        -0.43410016766186776
+      ],
+      [
+        -0.40012471580896036,
+        -0.229273322798335,
+        -0.012090246557486034
+      ],
+      [
+        0.14608076274272708,
+        -0.08556961187838448,
+        -0.4341001676670744
+      ],
+      [
+        0.40012471581197473,
+        -0.22927332279715898,
+        -0.01209024655755026
+      ],
+      [
+        -1.482516233640671e-13,
+        0.16805159717018472,
+        -0.43370367872519633
+      ],
+      [
+        1.7913410732009296e-13,
+        0.4629174607419534,
+        -0.013359273174887469
+      ],
+      [
+        -1.4553626939559344e-12,
+        -3.504099933325981e-05,
+        -0.7554543225676058
+      ],
+      [
+        2.3727178286753323e-12,
+        -0.00047095239243205166,
+        0.357399572210058
+      ],
+      [
+        3.5015399891964235e-12,
+        0.00036762584325345123,
+        -0.18480438652031933
+      ],
+      [
+        0.6018973811439563,
+        0.3410527965618625,
+        -0.1749017648513498
+      ],
+      [
+        -0.6018973811331777,
+        0.3410527965658816,
+        -0.17490176483646072
+      ],
+      [
+        -1.499709804051307e-12,
+        -0.6876668375236469,
+        -0.1626149928296351
+      ],
+      [
+        0.36141265369711545,
+        0.20760849141367882,
+        0.8481651892128133
+      ],
+      [
+        -0.36141265369592807,
+        0.20760849139504464,
+        0.848165189199066
+      ],
+      [
+        -8.088868662106613e-12,
+        -0.4192140332617803,
+        0.8614725880076279
+      ],
+      [
+        -0.6719068434691564,
+        -0.38470414094533206,
+        -0.5492258454064581
+      ],
+      [
+        0.671906843462945,
+        -0.3847041409465652,
+        -0.549225845416506
+      ],
+      [
+        1.8705896762256355e-12,
+        0.7738385637172862,
+        -0.5569583218852985
+      ],
+      [
+        -0.3578561523947943,
+        -0.2059584613668419,
+        0.1007629077034082
+      ],
+      [
+        0.3578561523918713,
+        -0.2059584613622062,
+        0.1007629077082951
+      ],
+      [
+        1.6017390461651578e-12,
+        0.41242558994218953,
+        0.09884523652870791
+      ],
+      [
+        -0.32435895240284585,
+        0.07710567221011426,
+        -0.2525299878784847
+      ],
+      [
+        -0.09850606242410363,
+        -0.3189947599700336,
+        -0.2554004151389278
+      ],
+      [
+        0.3243589523880482,
+        0.07710567220461649,
+        -0.2525299878755446
+      ],
+      [
+        0.09850606242213973,
+        -0.31899475995201604,
+        -0.25540041512891987
+      ],
+      [
+        0.22705588921745484,
+        0.24500320561538205,
+        -0.25716702911483996
+      ],
+      [
+        -0.22705588921417788,
+        0.24500320560960454,
+        -0.25716702911015854
+      ],
+      [
+        0.14467503248831295,
+        0.08475459394232683,
+        0.42106639653476075
+      ],
+      [
+        0.396338285179508,
+        0.22705618968143498,
+        0.014669527344689844
+      ],
+      [
+        -0.14467503248610356,
+        0.08475459394249239,
+        0.42106639654142897
+      ],
+      [
+        -0.39633828517747555,
+        0.2270561896811039,
+        0.014669527342557529
+      ],
+      [
+        1.057837213786393e-12,
+        -0.16640901814672113,
+        0.42067107009986254
+      ],
+      [
+        8.777917083550317e-15,
+        -0.45871367998859325,
+        0.016159356594081083
+      ]
+    ],
+    "anchor_force_sum_ev_per_angstrom": [
+      -6.305758810928792e-12,
+      0.0002520119888893557,
+      0.03769984461614917
+    ],
+    "anchor_force_groups": {
+      "substrate": {
+        "anchor_indices": [
+          7,
+          8,
+          9
+        ],
+        "internal_force_sum_ev_per_angstrom": [
+          -1.9649810131421104e-12,
+          -0.004178269836499604,
+          1.6931098573244117
+        ],
+        "external_holding_force_ev_per_angstrom": [
+          1.9649810131421104e-12,
+          0.004178269836499604,
+          -1.6931098573244117
+        ]
+      },
+      "tool": {
+        "anchor_indices": [
+          35,
+          36,
+          37
+        ],
+        "internal_force_sum_ev_per_angstrom": [
+          -4.340775079644728e-12,
+          0.00443028182538896,
+          -1.6554100127082625
+        ],
+        "external_holding_force_ev_per_angstrom": [
+          4.340775079644728e-12,
+          -0.00443028182538896,
+          1.6554100127082625
+        ]
+      }
+    },
+    "anchor_force_interpretation": "Internal force; global sum can cancel opposing loads. Separate group holding forces are negatives of group internal forces.",
+    "hydrogen_transfer": {
+      "donor_h_angstrom": 1.09,
+      "acceptor_h_angstrom": 2.51
+    },
+    "endpoint_identity_ok": true,
+    "topology_screen": {
+      "assessed": true,
+      "preserved": true,
+      "stretched_expected_bonds": [],
+      "unexpected_close_contacts": [],
+      "criterion": "Heuristic only: expected bonds <=1.35*(covalent radii sum), other contacts >=1.15*sum; no bond-order or spin-density inference."
+    },
+    "quantum_diagnostics": {
+      "call_id": "23d6c007-ed94-41f4-ae66-fcb375b7fec8",
+      "settings": {
+        "charge": 0,
+        "spin": 1,
+        "xc": "pbe0",
+        "basis": "def2-svp",
+        "dispersion": "d3bj",
+        "grid_level": 3,
+        "conv_tol": 1e-09,
+        "max_cycle": 150,
+        "threads": 2,
+        "memory_mb": 2000,
+        "density_fit": true
+      },
+      "scf_converged": true,
+      "gradient_completed": true,
+      "model": "nonperiodic all-electron nonrelativistic Kohn-Sham DFT",
+      "energy_scope": "Born-Oppenheimer electronic energy plus nuclear repulsion and specified D3",
+      "versions": {
+        "pyscf": "2.14.0",
+        "libxc": "7.0.0",
+        "numpy": "2.5.3",
+        "ase": "3.29.0",
+        "dftd3": "1.6.0"
+      },
+      "requested_pyscf_threads": 2,
+      "effective_pyscf_threads": 1,
+      "threads_honored": false,
+      "threading_note": "This PySCF build ran on 1 thread(s) despite threads=2; timings reflect the effective count. Builds without OpenMP cannot use additional cores within one calculation.",
+      "scf_cycles": 14,
+      "electron_count": 163,
+      "alpha_electrons": 82,
+      "beta_electrons": 81,
+      "basis_functions": 463,
+      "reference": "UKS",
+      "s2": 0.7846228439042022,
+      "expected_s2": 0.75,
+      "s2_deviation": 0.03462284390420223,
+      "spin_contamination": 0.03462284390420223,
+      "effective_multiplicity": 2.0343282369413274,
+      "stability_checked": false,
+      "grid_response": true,
+      "auxiliary_basis_response": true,
+      "dft_energy_hartree": -855.2572220156746,
+      "dispersion_energy_hartree": -0.060421932147386864,
+      "total_energy_hartree": -855.317643947822,
+      "dispersion_three_body": false,
+      "energy_unit": "eV",
+      "force_unit": "eV/Angstrom",
+      "hartree_eV": 27.211386024367243,
+      "bohr_angstrom": 0.52917721092,
+      "net_force_eV_A": [
+        7.038497575736734e-13,
+        -5.0472848123206404e-11,
+        1.2473361926668147e-10
+      ],
+      "elapsed_seconds": 701.4406276668888
+    }
+  },
+  "elapsed_seconds": 701.5310956249014,
+  "validation": {
+    "design_validated": false,
+    "numerical_stage_converged": false,
+    "accuracy_claim": "Uncalibrated finite-cluster quantum model; no guaranteed design accuracy.",
+    "missing_evidence": [
+      "Independent reaction-specific quantum benchmark and error estimate",
+      "Larger basis, integration-grid, and cluster/boundary convergence",
+      "Electronic-state stability and alternative spin-state investigation",
+      "Transition-state modes and connectivity (or a separately verified barrierless path)",
+      "Competing reactions, approach/retraction paths, and tip regeneration",
+      "Finite-temperature free energies, tunnelling, and positioning uncertainty",
+      "Experimental confirmation and whole-machine integration"
+    ]
+  }
+}

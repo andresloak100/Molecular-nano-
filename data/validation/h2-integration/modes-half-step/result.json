@@ -1,0 +1,330 @@
+{
+  "schema_version": 1,
+  "stage": "characterize",
+  "status": "completed",
+  "started_utc": "2026-09-16T20:35:28.665208+00:00",
+  "software_version": "0.1.0",
+  "input_hashes": {
+    "design_sha256": "fd328cd9765a5d80b0610b950571c6ad4fa7f002491e9abc224356dfff39fefb",
+    "initial_sha256": "ca2b9e7e2dff725c1898f9129306e5de35aceb7f10827ffddf59640e29052187",
+    "final_sha256": "ca2b9e7e2dff725c1898f9129306e5de35aceb7f10827ffddf59640e29052187",
+    "structure_sha256": "e0d18def76cae5301d045466087882dc2e2b4222ede4cc4560cba5567f5a24f6"
+  },
+  "design": {
+    "schema_version": 1,
+    "length_unit": "angstrom",
+    "initial": "h2.xyz",
+    "final": "h2.xyz",
+    "fixed_indices": [],
+    "name": "H2 software integration verification, not an assembly tool",
+    "quantum": {
+      "charge": 0,
+      "spin": 0,
+      "xc": "pbe0",
+      "basis": "def2-svp",
+      "dispersion": "d3bj",
+      "grid_level": 3,
+      "conv_tol": 1e-11,
+      "max_cycle": 150,
+      "threads": 2,
+      "memory_mb": 2000,
+      "density_fit": false
+    }
+  },
+  "structure_image": -1,
+  "quantum_settings": {
+    "charge": 0,
+    "spin": 0,
+    "xc": "pbe0",
+    "basis": "def2-svp",
+    "dispersion": "d3bj",
+    "grid_level": 3,
+    "conv_tol": 1e-11,
+    "max_cycle": 150,
+    "threads": 2,
+    "memory_mb": 2000,
+    "density_fit": false
+  },
+  "expected_force_evaluations": 13,
+  "units": {
+    "length": "angstrom",
+    "energy": "eV",
+    "frequency": "cm^-1"
+  },
+  "stationary": {
+    "method": "central finite differences of attached-calculator forces",
+    "settings": {
+      "step_angstrom": 0.0015,
+      "force_tolerance_ev_per_angstrom": 0.0005,
+      "frequency_tolerance_cm1": 20.0,
+      "max_free_coordinates": 120
+    },
+    "force_requests": 13,
+    "free_atom_indices": [
+      0,
+      1
+    ],
+    "frozen_atom_indices": [],
+    "free_coordinate_count": 6,
+    "free_masses_amu": [
+      1.008,
+      1.008
+    ],
+    "coordinate_order": "x,y,z for each atom in free_atom_indices",
+    "free_gradient_ev_per_angstrom": [
+      [
+        -2.230752656309648e-15,
+        3.854888737437407e-15,
+        0.00028738602741146805
+      ],
+      [
+        2.2307526563096678e-15,
+        -3.854888737437447e-15,
+        -0.00028738602741146805
+      ]
+    ],
+    "free_force_max_ev_per_angstrom": 0.00028738602741146805,
+    "free_force_cartesian_rms_ev_per_angstrom": 0.00016592240028734823,
+    "stationary_within_force_tolerance": true,
+    "classification": "stationary_point_with_no_resolved_negative_modes",
+    "hessian_ev_per_angstrom2": [
+      [
+        -0.00028572312191894276,
+        -5.123202065276678e-13,
+        -9.679476940956957e-13,
+        0.00028572312199327864,
+        1.4985213776912027e-13,
+        -1.52333733187176e-12
+      ],
+      [
+        -5.123202065276678e-13,
+        -0.00028572312012001424,
+        1.6187280511796145e-12,
+        4.642795880981257e-13,
+        0.00028572312023988087,
+        -2.6462446169331813e-12
+      ],
+      [
+        -9.679476940956957e-13,
+        1.6187280511796145e-12,
+        35.61830430827682,
+        -7.595546367627173e-12,
+        -3.0459763085485843e-12,
+        -35.61830430827587
+      ],
+      [
+        0.00028572312199327864,
+        4.642795880981257e-13,
+        -7.595546367627173e-12,
+        -0.00028572312205832253,
+        -1.0181151933958669e-13,
+        6.7565869655700565e-12
+      ],
+      [
+        1.4985213776912027e-13,
+        0.00028572312023988087,
+        -3.0459763085485843e-12,
+        -1.0181151933958669e-13,
+        -0.00028572312036160587,
+        4.0734883567931005e-12
+      ],
+      [
+        -1.52333733187176e-12,
+        -2.6462446169331813e-12,
+        -35.61830430827587,
+        6.7565869655700565e-12,
+        4.0734883567931005e-12,
+        35.61830430827873
+      ]
+    ],
+    "hessian_asymmetry_max_abs_ev_per_angstrom2": 1.6934819009458264e-11,
+    "hessian_asymmetry_relative_frobenius": 5.324376665373911e-13,
+    "hessian_symmetrized": true,
+    "mass_weighted_eigenvalues_ev_per_angstrom2_amu": [
+      -0.0005669109564327851,
+      -0.0005669109527539967,
+      -9.488874412914188e-13,
+      -9.21746366852038e-16,
+      2.854572554313489e-12,
+      70.67123870689846
+    ],
+    "frequencies_cm1": [
+      -12.416165755941645,
+      -12.416165715656266,
+      -0.0005079692533956728,
+      -1.583200045868163e-05,
+      0.0008810501297649488,
+      4383.807025644159
+    ],
+    "frequency_sign_convention": "Negative signed wavenumbers denote imaginary harmonic frequencies.",
+    "negative_mode_count": 0,
+    "raw_negative_eigenvalue_count": 4,
+    "unresolved_near_zero_mode_count": 5,
+    "resolved_positive_mode_count": 1,
+    "mode_classifications": [
+      "unresolved_near_zero",
+      "unresolved_near_zero",
+      "unresolved_near_zero",
+      "unresolved_near_zero",
+      "unresolved_near_zero",
+      "resolved_positive"
+    ],
+    "cartesian_modes_per_sqrt_amu": [
+      [
+        [
+          0.6942848757021759,
+          0.11832268335994538,
+          1.2164288552690368e-09
+        ],
+        [
+          -0.6942848758516225,
+          -0.11832268252919984,
+          1.2165930614639513e-09
+        ]
+      ],
+      [
+        [
+          0.11832268287177532,
+          -0.6942848755550849,
+          -1.0772830872499875e-09
+        ],
+        [
+          -0.11832268301736996,
+          0.6942848759987135,
+          -1.0773692790507441e-09
+        ]
+      ],
+      [
+        [
+          0.6090127191218073,
+          8.478887914834304e-07,
+          0.3537446161377885
+        ],
+        [
+          0.6090127199961117,
+          8.492633211133863e-07,
+          0.35374461613766106
+        ]
+      ],
+      [
+        [
+          -9.7556433445088e-07,
+          0.7042952124219669,
+          -1.0711193490451745e-08
+        ],
+        [
+          -9.74670865950591e-07,
+          0.7042952121242105,
+          -1.0711221711788752e-08
+        ]
+      ],
+      [
+        [
+          -0.3537446170610127,
+          -4.815731187601829e-07,
+          0.6090127195595246
+        ],
+        [
+          -0.35374461521378425,
+          -4.794424711397241e-07,
+          0.6090127195595767
+        ]
+      ],
+      [
+        [
+          -5.494148224037462e-15,
+          -4.216606538098987e-14,
+          -0.7042952122737548
+        ],
+        [
+          1.4189710350547837e-13,
+          7.03875801638433e-14,
+          0.7042952122737735
+        ]
+      ]
+    ],
+    "mode_normalization": "Each Cartesian mode obeys sum(mass_amu * displacement**2) = 1; sign is arbitrary.",
+    "external_modes_removed": false,
+    "coordinate_space": "all 3N Cartesian coordinates of an unanchored molecule",
+    "irc_performed": false,
+    "transition_state_verified": false,
+    "finite_difference_step_convergence_checked": false,
+    "limitations": [
+      "One resolved imaginary mode at a stationary geometry is necessary but not sufficient for a first-order reaction transition state; IRC or equivalent endpoint connectivity is absent.",
+      "Near-zero modes are unresolved, not verified stable vibrations. Unanchored molecules include numerical translations and rotations; no external-mode projection is performed.",
+      "Fixed anchors define the curvature subspace; global translations and rotations must not be removed from an anchored calculation.",
+      "Central differences have finite-step and electronic-force errors. Hessian symmetry is a diagnostic, not an accuracy guarantee; repeat with other steps and converged electronic settings.",
+      "Local harmonic curvature of the attached potential does not establish free energies, competing reactions, assembly reliability, or model accuracy."
+    ]
+  },
+  "quantum_diagnostics": {
+    "call_id": "1fe36f6d-b46b-4747-aab2-7e4676beaa7d",
+    "settings": {
+      "charge": 0,
+      "spin": 0,
+      "xc": "pbe0",
+      "basis": "def2-svp",
+      "dispersion": "d3bj",
+      "grid_level": 3,
+      "conv_tol": 1e-11,
+      "max_cycle": 150,
+      "threads": 2,
+      "memory_mb": 2000,
+      "density_fit": false
+    },
+    "scf_converged": true,
+    "gradient_completed": true,
+    "model": "nonperiodic all-electron nonrelativistic Kohn-Sham DFT",
+    "energy_scope": "Born-Oppenheimer electronic energy plus nuclear repulsion and specified D3",
+    "versions": {
+      "pyscf": "2.14.0",
+      "libxc": "7.0.0",
+      "numpy": "2.5.3",
+      "ase": "3.29.0",
+      "dftd3": "1.6.0"
+    },
+    "requested_pyscf_threads": 2,
+    "effective_pyscf_threads": 1,
+    "threads_honored": false,
+    "threading_note": "This PySCF build ran on 1 thread(s) despite threads=2; timings reflect the effective count. Builds without OpenMP cannot use additional cores within one calculation.",
+    "scf_cycles": 5,
+    "electron_count": 2,
+    "alpha_electrons": 1,
+    "beta_electrons": 1,
+    "basis_functions": 10,
+    "reference": "RKS",
+    "s2": 0.0,
+    "expected_s2": 0.0,
+    "s2_deviation": 0.0,
+    "spin_contamination": 0.0,
+    "effective_multiplicity": 1.0,
+    "stability_checked": false,
+    "grid_response": true,
+    "auxiliary_basis_response": false,
+    "dft_energy_hartree": -1.1637594912985054,
+    "dispersion_energy_hartree": -6.974204761514212e-05,
+    "total_energy_hartree": -1.1638292333461207,
+    "dispersion_three_body": false,
+    "energy_unit": "eV",
+    "force_unit": "eV/Angstrom",
+    "hartree_eV": 27.211386024367243,
+    "bohr_angstrom": 0.52917721092,
+    "net_force_eV_A": [
+      -1.9721522630525295e-29,
+      4.02319061662716e-29,
+      0.0
+    ],
+    "elapsed_seconds": 1.7352284169755876
+  },
+  "elapsed_seconds": 3.883442125050351,
+  "validation": {
+    "design_validated": false,
+    "transition_state_validated": false,
+    "missing_evidence": [
+      "Mode eigenvector/reactive-coordinate assessment and forward/backward connectivity",
+      "Displacement-step convergence",
+      "Electronic-state stability",
+      "Reaction-specific method calibration"
+    ]
+  }
+}

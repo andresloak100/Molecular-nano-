@@ -1,0 +1,134 @@
+{
+  "species": "methane",
+  "status": "completed",
+  "basis": "cc-pvdz",
+  "charge": 0,
+  "spin_2s": 0,
+  "geometry_file": "dft/inputs/methane.xyz",
+  "dft_xyz_sha256": "98ef73821932c34eea275db3f49c3455309369b25fa98678574d350a37298df1",
+  "cc_xyz_sha256": "98ef73821932c34eea275db3f49c3455309369b25fa98678574d350a37298df1",
+  "energy_ev": -1099.0765585471786,
+  "energy_hartree": -40.390318874715824,
+  "quantum_diagnostics": {
+    "schema_version": 1,
+    "status": "completed",
+    "started_utc": "2026-09-16T20:35:41.252888+00:00",
+    "settings": {
+      "charge": 0,
+      "spin": 0,
+      "basis": "cc-pvdz",
+      "scf_conv_tol": 1e-10,
+      "cc_conv_tol": 1e-09,
+      "max_cycle": 150,
+      "threads": 1,
+      "memory_mb": 2000,
+      "max_basis_functions": 150
+    },
+    "reference": "RHF",
+    "variant": "RCCSD(T)",
+    "model": "nonperiodic all-electron nonrelativistic single-reference coupled cluster",
+    "energy_scope": "Born-Oppenheimer electronic energy including nuclear repulsion; fixed geometry",
+    "geometry": {
+      "symbols": [
+        "H",
+        "C",
+        "H",
+        "H",
+        "H"
+      ],
+      "positions_angstrom": [
+        [
+          -1.102655724252,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.36755190632,
+          -0.519796893599,
+          -0.900314631139
+        ],
+        [
+          0.36755190632,
+          1.039593787198,
+          0.0
+        ],
+        [
+          0.36755190632,
+          -0.519796893599,
+          0.900314631139
+        ]
+      ]
+    },
+    "units": {
+      "energy": "Hartree",
+      "secondary_energy": "eV",
+      "length": "angstrom"
+    },
+    "hartree_to_ev": 27.211386024367243,
+    "scf_converged": true,
+    "ccsd_converged": true,
+    "triples_completed": true,
+    "geometry_optimized": false,
+    "forces_computed": false,
+    "scf_stability_checked": false,
+    "cc_wavefunction_s2_evaluated": false,
+    "frozen_core": false,
+    "density_fitting": false,
+    "dispersion": null,
+    "chemical_accuracy_validated": false,
+    "limitations": [
+      "CCSD(T) is a nonvariational single-reference approximation; convergence does not establish chemical accuracy or suitability for strong correlation.",
+      "Basis convergence, multireference character, reference stability and electronic-state identity require separate checks.",
+      "Reported spin-square values describe the Hartree-Fock determinant, not the correlated CC wavefunction.",
+      "Open-shell UHF/UCCSD(T) is different from the ROHF-based RCCSD(T) used in the published Temelso Table 5 comparator.",
+      "Fixed-geometry energies omit zero-point/thermal effects and do not verify a saddle, reaction path or molecular tool.",
+      "The basis-function cap and advisory memory setting do not guarantee a bounded runtime or peak memory use."
+    ],
+    "versions": {
+      "pyscf": "2.14.0",
+      "numpy": "2.5.3",
+      "ase": "3.29.0"
+    },
+    "requested_pyscf_threads": 1,
+    "effective_pyscf_threads": 1,
+    "threads_honored": true,
+    "basis_functions": 34,
+    "electron_count": 10,
+    "alpha_electrons": 5,
+    "beta_electrons": 5,
+    "scf_cycles": 8,
+    "hf_energy_hartree": -40.19833566924791,
+    "hf_s2": 0.0,
+    "hf_expected_s2": 0.0,
+    "hf_s2_deviation": 0.0,
+    "hf_effective_multiplicity": 1.0,
+    "molecular_orbitals": {
+      "alpha": 34,
+      "beta": 34
+    },
+    "occupied_orbitals": {
+      "alpha": 5,
+      "beta": 5
+    },
+    "virtual_orbitals": {
+      "alpha": 29,
+      "beta": 29
+    },
+    "cc_amplitude_convergence_tolerance": 3.1622776601683795e-05,
+    "frozen_orbitals": 0,
+    "ccsd_correlation_energy_hartree": -0.18816740295496537,
+    "ccsd_total_energy_hartree": -40.38650307220288,
+    "triples_correction_hartree": -0.003815802512945546,
+    "total_correlation_energy_hartree": -0.19198320546791092,
+    "total_energy_hartree": -40.390318874715824,
+    "total_energy_ev": -1099.0765585471786,
+    "nuclear_repulsion_energy_hartree": 13.281184648658488,
+    "elapsed_seconds": 0.27875470905564725
+  },
+  "elapsed_seconds": 0.279969000024721
+}

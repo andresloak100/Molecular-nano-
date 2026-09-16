@@ -18,6 +18,16 @@ The supplied methane transition geometry also has unresolved source limitations:
 
 Inputs and completed species are saved incrementally, with per-species electronic diagnostics. A failure never produces a complete comparison from an incomplete set of species. This is a reference comparison, not an automatically passed physical-validation gate.
 
+## Paired electronic-method comparison
+
+The optional `compare-methods` command adds an internally consistent comparison: PBE0-D3(BJ) and CCSD(T) use identical archived coordinates and the same cc-pVDZ basis. Closed shells use RHF/RCCSD(T); open shells use UHF/UCCSD(T). This removes geometry and basis differences between those two calculations, but the coupled-cluster approximation itself still requires electronic-state, single-reference suitability and basis checks. It is not a reproduction of the paper's open-shell ROHF-based RCCSD(T) calculation. Neither fixed-geometry result is a newly verified activation barrier.
+
+Coupled-cluster calculations return energies only and are limited to small systems by a basis-function guard. They include correlation explicitly and receive no additional D3 correction. The comparison wrapper currently accepts cc-pVDZ only; unsupported choices are rejected before launching the calculation.
+
+The first executed comparison exposed an electronic-solution issue: the default `minao` HF guess gave a nominal CCSD(T) transition-structure relative energy of −11.9239 kcal/mol, whereas an explicit `atom` guess gives +2.3986156 kcal/mol. The DFT value remains −3.5573880 kcal/mol. Both electronic calculations converged; convergence did not identify which reference solution was appropriate. The alternate ethynyl solution reproduces the SI coupled-cluster entry, while an independent recomputation isolates the source methane inconsistency. All original results are preserved.
+
+Use `--cc-initial-guess minao|atom|1e|huckel` to compare explicit starting guesses. A run uses exactly that one choice; it does not automatically search or certify a ground state. Matching charge and alpha-minus-beta electron count does not establish the same spatial electronic state. The `atom` run's ethynyl and transition-structure UHF determinants have S² values of 1.22118 and 1.21426 instead of 0.75. Outputs explicitly record that electronic-state identity is unverified; the −5.9560 kcal/mol DFT−CC difference is not a calibrated DFT error. Raw evidence and its interpretation are preserved in [the validation records](../data/validation/README.md).
+
 ## Local curvature and vibrational modes
 
 `nanodesign characterize` uses the structure and electronic method selected in the design, with the same fixed anchors. It first checks the free-coordinate force residual. If that exceeds the requested tolerance, it stops before undertaking the much more expensive Hessian calculation.

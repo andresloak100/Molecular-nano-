@@ -22,6 +22,11 @@ from ase.units import Hartree
 from .quantum import QuantumCalculationError, _PYSCF_LOCK, _package_version
 
 
+# Documented standalone HF guesses: https://pyscf.org/user/scf.html#initial-guess
+# DFT-only 'vsap' and checkpoint guesses (no checkpoint input here) are excluded.
+SCF_INITIAL_GUESSES = ("minao", "atom", "1e", "huckel")
+
+
 @dataclass(frozen=True)
 class CCSettings:
     """Explicit state and numerical controls; spin means N_alpha - N_beta.
@@ -30,6 +35,8 @@ class CCSettings:
     not a hard process limit. The basis-function cap is checked before SCF and
     before construction of the expensive CC tensors; it is not a cost estimate.
     A restricted singlet cannot describe a broken-symmetry open-shell singlet.
+    ``scf_initial_guess`` selects one explicit SCF starting guess. A converged
+    solution from any one guess does not certify the electronic ground state.
     """
 
     charge: int = 0
@@ -41,6 +48,7 @@ class CCSettings:
     threads: int = 1
     memory_mb: int = 2000
     max_basis_functions: int = 150
+    scf_initial_guess: str = "minao"
 
     def __post_init__(self) -> None:
         for name in ("charge", "spin", "max_cycle", "threads", "memory_mb", "max_basis_functions"):
@@ -60,6 +68,8 @@ class CCSettings:
             object.__setattr__(self, name, float(value))
         if not isinstance(self.basis, str) or not self.basis.strip():
             raise ValueError("basis must be a nonempty string")
+        if not isinstance(self.scf_initial_guess, str) or self.scf_initial_guess not in SCF_INITIAL_GUESSES:
+            raise ValueError(f"scf_initial_guess must be one of {SCF_INITIAL_GUESSES}; checkpoint and DFT-only guesses are unsupported")
 
 
 class CoupledClusterCalculationError(QuantumCalculationError):
@@ -116,7 +126,7 @@ def coupled_cluster_energy(atoms: Atoms, settings: CCSettings | None = None) -> 
     started = time.monotonic()
     unrestricted = settings.spin != 0
     diagnostics: dict[str, Any] = {
-        "schema_version": 1,
+        "schema_version": 2,
         "status": "running",
         "started_utc": datetime.now(timezone.utc).isoformat(),
         "settings": asdict(settings),
@@ -133,6 +143,10 @@ def coupled_cluster_energy(atoms: Atoms, settings: CCSettings | None = None) -> 
         "geometry_optimized": False,
         "forces_computed": False,
         "scf_stability_checked": False,
+        "scf_initial_guess": settings.scf_initial_guess,
+        "initial_guess_scan_performed": False,
+        "ground_state_verified": False,
+        "electronic_state_identity_verified": False,
         "cc_wavefunction_s2_evaluated": False,
         "frozen_core": False,
         "density_fitting": False,
@@ -141,6 +155,7 @@ def coupled_cluster_energy(atoms: Atoms, settings: CCSettings | None = None) -> 
         "limitations": [
             "CCSD(T) is a nonvariational single-reference approximation; convergence does not establish chemical accuracy or suitability for strong correlation.",
             "Basis convergence, multireference character, reference stability and electronic-state identity require separate checks.",
+            "One explicitly selected SCF guess is used. Convergence, and even local orbital stability, do not certify the ground state or exclude other self-consistent solutions. No automatic state selection or initial-guess scan is performed.",
             "Reported spin-square values describe the Hartree-Fock determinant, not the correlated CC wavefunction.",
             "Open-shell UHF/UCCSD(T) is different from the ROHF-based RCCSD(T) used in the published Temelso Table 5 comparator.",
             "Fixed-geometry energies omit zero-point/thermal effects and do not verify a saddle, reaction path or molecular tool.",
@@ -171,6 +186,7 @@ def coupled_cluster_energy(atoms: Atoms, settings: CCSettings | None = None) -> 
                 if nao > settings.max_basis_functions:
                     raise ValueError(f"Basis has {nao} functions, exceeding max_basis_functions={settings.max_basis_functions}; no SCF or CC calculation started")
                 mean_field = scf.UHF(molecule) if unrestricted else scf.RHF(molecule)
+                mean_field.init_guess = settings.scf_initial_guess
                 mean_field.conv_tol = settings.scf_conv_tol
                 mean_field.max_cycle = settings.max_cycle
                 mean_field.max_memory = settings.memory_mb

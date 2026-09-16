@@ -1,0 +1,113 @@
+{
+  "species": "acetylene",
+  "file": "inputs/acetylene.xyz",
+  "file_sha256": "bbfcd8823b2055c91cb87308e0f36a2aa1113350776069209b449e4c2782727f",
+  "formula": "C2H2",
+  "atoms": 4,
+  "charge": 0,
+  "spin_2s": 0,
+  "quantum_settings": {
+    "charge": 0,
+    "spin": 0,
+    "xc": "pbe0",
+    "basis": "cc-pvdz",
+    "dispersion": "d3bj",
+    "grid_level": 3,
+    "conv_tol": 1e-09,
+    "max_cycle": 150,
+    "threads": 2,
+    "memory_mb": 2000,
+    "density_fit": false
+  },
+  "event_log": "electronic/acetylene.jsonl",
+  "status": "completed",
+  "energy_ev": -2101.5382595663086,
+  "energy_hartree": -77.2301071942614,
+  "scf_converged": true,
+  "max_force_ev_per_angstrom": 1.781481468933712,
+  "forces_ev_per_angstrom": [
+    [
+      1.2001334044815542e-14,
+      2.4410687614855094e-15,
+      -0.20331138974933743
+    ],
+    [
+      -5.4411586902301696e-15,
+      -4.8448651398548325e-15,
+      -1.781481468933712
+    ],
+    [
+      -1.3225067448150472e-14,
+      -9.675821403573848e-16,
+      1.7814814689301495
+    ],
+    [
+      6.7738052469594946e-15,
+      3.3862410554964094e-15,
+      0.20331138975274002
+    ]
+  ],
+  "s2": 0.0,
+  "expected_s2": 0.0,
+  "spin_contamination": 0.0,
+  "elapsed_seconds": 0.6996704170014709,
+  "quantum_diagnostics": {
+    "call_id": "e891d142-8c4b-4c47-b372-521a094caddf",
+    "settings": {
+      "charge": 0,
+      "spin": 0,
+      "xc": "pbe0",
+      "basis": "cc-pvdz",
+      "dispersion": "d3bj",
+      "grid_level": 3,
+      "conv_tol": 1e-09,
+      "max_cycle": 150,
+      "threads": 2,
+      "memory_mb": 2000,
+      "density_fit": false
+    },
+    "scf_converged": true,
+    "gradient_completed": true,
+    "model": "nonperiodic all-electron nonrelativistic Kohn-Sham DFT",
+    "energy_scope": "Born-Oppenheimer electronic energy plus nuclear repulsion and specified D3",
+    "versions": {
+      "pyscf": "2.14.0",
+      "libxc": "7.0.0",
+      "numpy": "2.5.3",
+      "ase": "3.29.0",
+      "dftd3": "1.6.0"
+    },
+    "requested_pyscf_threads": 2,
+    "effective_pyscf_threads": 1,
+    "threads_honored": false,
+    "threading_note": "This PySCF build ran on 1 thread(s) despite threads=2; timings reflect the effective count. Builds without OpenMP cannot use additional cores within one calculation.",
+    "scf_cycles": 6,
+    "electron_count": 14,
+    "alpha_electrons": 7,
+    "beta_electrons": 7,
+    "basis_functions": 38,
+    "reference": "RKS",
+    "s2": 0.0,
+    "expected_s2": 0.0,
+    "s2_deviation": 0.0,
+    "spin_contamination": 0.0,
+    "effective_multiplicity": 1.0,
+    "stability_checked": false,
+    "grid_response": true,
+    "auxiliary_basis_response": false,
+    "dft_energy_hartree": -77.22903223351571,
+    "dispersion_energy_hartree": -0.0010749607456787937,
+    "total_energy_hartree": -77.2301071942614,
+    "dispersion_three_body": false,
+    "energy_unit": "eV",
+    "force_unit": "eV/Angstrom",
+    "hartree_eV": 27.211386024367243,
+    "bohr_angstrom": 0.52917721092,
+    "net_force_eV_A": [
+      1.0891315339439497e-16,
+      1.4862536769701708e-17,
+      -1.5995538227286943e-13
+    ],
+    "elapsed_seconds": 0.6991408329922706
+  }
+}

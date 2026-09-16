@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "archived_utc": "2026-09-16T20:48:37.128626+00:00",
+  "source_run_directory": "runs/h-abstraction-initial",
+  "copy_policy": "All four original calculation artifacts copied byte-for-byte; original result metadata, embedded design snapshot and original input hashes were preserved.",
+  "file_sha256": {
+    "result.json": "db4cf46880a3456da8ba067ba7a4286a4fa11f956cb485030e92456976059ccd",
+    "structure.extxyz": "a7be6ec117d31e6b01bcd1ac4de6b55145903e6b7678a7b6efe7e6068100bcfe",
+    "input-initial.extxyz": "0c350bab7ce1a561ac86a8a66efce6a1a2e4fa009aafd0158aa0a58c6281d85e",
+    "input-final.extxyz": "ea8d078d2c6cb9b859ef6e30b359d3ef35747247f6855cf8c1a50e6011874563"
+  },
+  "calculation_scope": "Actual direct PBE0-D3(BJ)/def2-SVP singlepoint and analytical gradient on an unrelaxed 53-atom finite diamondoid candidate in vacuum with fixed distal anchors.",
+  "geometry_relaxed": false,
+  "method_calibrated": false,
+  "tool_validated": false,
+  "barrier_computed": false,
+  "electronic_state_stability_checked": false,
+  "original_run_code_context": "This process started before SCF event logging, effective-thread reporting and mandatory length_unit validation were added. Its original saved design snapshot and hash remain in result.json. The archived original result was not produced by rerunning the current code.",
+  "event_log_status": "Unavailable: original process predates event logging; no events or thread fields were fabricated.",
+  "reproduction_input": {
+    "file": "reproduction-design.json",
+    "status": "New input for the current validated input schema; not the original input file.",
+    "changes_from_embedded_original_design": [
+      "Add explicit length_unit=angstrom",
+      "Point initial/final to the exact archived input geometry files"
+    ],
+    "verified": "Current input validation passes; atom identities and coordinates equal archived input, and all quantum settings and fixed anchors are preserved.",
+    "sha256": "869250093a7c8a3f17f58d0f750d32b612bb46f3836958433ccb4b734e349f95"
+  },
+  "density_fitting_comparison": "../h-abstraction-df-initial/comparison.json",
+  "timing_caveat": "Direct and density-fitting runs overlapped and began under different machine workloads; elapsed-time ratio is an observation, not a controlled benchmark.",
+  "data_notice": "Newly computed results and generated candidate coordinates; not the separately licensed published reference dataset."
+}
