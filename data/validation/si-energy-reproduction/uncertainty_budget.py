@@ -154,7 +154,21 @@ TUNNELLING = Term(
     "authors' reporting choice rather than from residuals, and was transcribed from an "
     "abstract; (b) is acutely sensitive to the assumed prefactor exponent and to the true "
     "barrier, and uses Wigner outside its validity range at the cold end. The two "
-    "arguments cancel rather than compose. The question is OPEN. ""depend on its precision. The term stays unmeasured until a verified saddle supplies "
+    "arguments do NOT simply cancel, because (b) turns out to be self-undermining. "
+    "The parabolic-barrier transmission diverges at u = 2 pi, and u = 2 pi is exactly "
+    "T = T_c, so divergence and crossover are the same point. Argument (b) needs "
+    "|nu| ~ 1648i, which puts T_c at 377 K and places the ENTIRE measured 154-359 K "
+    "range below crossover, in the deep-tunnelling regime where apparent activation "
+    "energy falls toward zero as T drops. That predicts a curved Arrhenius plot "
+    "flattening at low temperature, which is not the clean single exponential the "
+    "measurement reports. (b) therefore contradicts the data it was fitted to and is "
+    "withdrawn as internally inconsistent, not merely imprecise. This does NOT repair "
+    "(a), whose defect is independent and untouched. Net: weak support for the low "
+    "branch, with a conditional bound of |nu| < 673 cm^-1 if the fit really is clean "
+    "across the whole range, and a residual puzzle - the 1.70 to 0.976 gap still needs "
+    "a non-tunnelling explanation, most plausibly thermal averaging over the reactant "
+    "distribution, which generically depresses apparent Ea below a 0 K barrier for a "
+    "low-barrier reaction. Status remains OPEN pending a verified |nu|. ""depend on its precision. The term stays unmeasured until a verified saddle supplies "
     "|nu| directly; it is no longer symmetric between the two branches.")
 
 
