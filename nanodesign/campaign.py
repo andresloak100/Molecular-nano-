@@ -10,6 +10,7 @@ from collections import Counter
 from contextlib import contextmanager
 from dataclasses import asdict
 from datetime import datetime, timezone
+import hashlib
 import json
 import math
 import os
@@ -98,20 +99,21 @@ def create_campaign(designs, output, *, stage="singlepoint", state="initial",
         destination.mkdir(parents=True)
         # Copy exact source bytes and keep the original design document. The
         # runnable snapshot only normalizes coordinate paths into this folder.
+        snapshot = dict(data)
         for endpoint in ("initial", "final"):
             source = (path.parent / data[endpoint]).resolve()
-            suffix = source.suffix
+            # Match load_design's resolved-file format, including compression,
+            # and use this same name in the runnable snapshot below.
+            suffix = "".join(source.suffixes)
             target = destination / f"{endpoint}{suffix}"
             target.write_bytes(source.read_bytes())
+            snapshot[endpoint] = target.name
             if sha256(target) != source_hashes[f"{endpoint}_sha256"]:
                 raise ValueError("Source coordinates changed while creating campaign.")
         original = path.read_bytes()
         (destination / "source-design.json").write_bytes(original)
         if sha256(destination / "source-design.json") != source_hashes["design_sha256"]:
             raise ValueError("Source design changed while creating campaign.")
-        snapshot = dict(data)
-        for endpoint in ("initial", "final"):
-            snapshot[endpoint] = f"{endpoint}{Path(data[endpoint]).suffix}"
         _save(destination / "design.json", snapshot)
         _, _, _, _, hashes = load_design(destination / "design.json")
         metadata = data.get("metadata", {})
@@ -139,9 +141,10 @@ def create_pose_campaign(output, separations, offsets, *, settings=None, **contr
 
 def _load(root):
     state = json.loads((root / "campaign.json").read_text())
-    if state.get("schema_version") != 1 or state.get("plan_sha256") != sha256(root / "plan.json"):
+    plan_bytes = (root / "plan.json").read_bytes()
+    if state.get("schema_version") != 1 or state.get("plan_sha256") != hashlib.sha256(plan_bytes).hexdigest():
         raise ValueError("Campaign plan integrity check failed.")
-    plan = json.loads((root / "plan.json").read_text())
+    plan = json.loads(plan_bytes)
     if plan.get("schema_version") != 1:
         raise ValueError("Unsupported campaign schema.")
     for entry in plan["designs"]:
@@ -150,6 +153,10 @@ def _load(root):
             raise ValueError(f"Input integrity check failed for {entry['id']}.")
         if entry["id"] not in state["attempts"]:
             raise ValueError("Campaign attempt ledger is incomplete.")
+        # Every recorded attempt remains evidence after a successful retry.
+        # Validate the history too, so a later result cannot hide lost failures.
+        for attempt in state["attempts"][entry["id"]][:-1]:
+            _result(root, entry, attempt, plan["controls"])
     return plan, state
 
 
@@ -159,10 +166,11 @@ def _result(root, entry, attempt, controls):
         if attempt["status"] == "completed" or attempt.get("result_sha256"):
             raise ValueError("A recorded result is missing; completed evidence cannot be discarded.")
         return None
-    if attempt.get("result_sha256") and sha256(path) != attempt["result_sha256"]:
+    result_bytes = path.read_bytes()
+    if attempt.get("result_sha256") and hashlib.sha256(result_bytes).hexdigest() != attempt["result_sha256"]:
         raise ValueError("A completed attempt's result has changed.")
     try:
-        result = json.loads(path.read_text())
+        result = json.loads(result_bytes)
     except (json.JSONDecodeError, UnicodeDecodeError):
         if attempt["status"] in {"running", "abandoned"} and not attempt.get("result_sha256"):
             return {"status": "unreadable", "evidence_error": "Incomplete result document preserved; explicit retry creates a new attempt."}
@@ -182,7 +190,13 @@ def _result(root, entry, attempt, controls):
         raise ValueError("Result optimization controls differ from the campaign plan.")
     data, atoms, _, settings, _ = load_design(_local(root, entry["design"]))
     expected_settings = asdict(settings)
-    if result.get("quantum_settings") != expected_settings:
+    recorded_settings = result.get("quantum_settings")
+    if isinstance(recorded_settings, dict):
+        recorded_settings = dict(recorded_settings)
+        # Before this setting was exposed, the solver always used MINAO.
+        # Migrate only that known historical omission, never arbitrary fields.
+        recorded_settings.setdefault("scf_initial_guess", "minao")
+    if recorded_settings != expected_settings:
         raise ValueError("Result quantum settings differ from the campaign plan.")
     if result["status"] == "completed":
         _completed_evidence(result, controls, len(atoms), data.get("fixed_indices", []))

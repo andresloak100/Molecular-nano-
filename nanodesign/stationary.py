@@ -13,6 +13,7 @@ from numbers import Integral, Real
 
 import numpy as np
 from ase import Atoms
+from ase.calculators.calculator import compare_atoms
 from ase.constraints import FixAtoms
 from scipy.constants import atomic_mass, electron_volt, speed_of_light
 
@@ -23,12 +24,55 @@ _WAVENUMBER_FACTOR = math.sqrt(electron_volt / (1e-20 * atomic_mass)) / (
     2 * math.pi * speed_of_light * 100
 )
 _ABSENT = object()
+# A coordinate-representation guard only, not an electronic-force or chemical
+# accuracy target. The actual offset must represent the requested stencil to
+# within one part per million before dividing force differences by that step.
+_MAX_STEP_REPRESENTATION_RELATIVE_ERROR = 1e-6
 
 
 def _positive_real(name, value):
     if isinstance(value, bool) or not isinstance(value, Real) or not math.isfinite(value) or value <= 0:
         raise ValueError(f"{name} must be finite and positive")
     return float(value)
+
+
+def _displacement_plan(atoms, coordinate_indices, step):
+    """Reject unresolved stencils before touching the attached calculator."""
+    probe = atoms.copy()
+    reference = atoms.positions
+    plan = []
+    for flattened_coordinate in coordinate_indices:
+        atom_index, axis = divmod(int(flattened_coordinate), 3)
+        for sign in (1, -1):
+            requested = sign * step
+            with np.errstate(over="ignore", invalid="ignore"):
+                displaced = reference[atom_index, axis] + requested
+                actual = displaced - reference[atom_index, axis]
+                relative_error = abs(actual - requested) / step
+            if (not np.isfinite(displaced) or not np.isfinite(relative_error)
+                    or sign * actual <= 0
+                    or relative_error > _MAX_STEP_REPRESENTATION_RELATIVE_ERROR):
+                raise ValueError(
+                    "step_angstrom is not numerically resolved at "
+                    f"atom {atom_index}, axis {axis}; choose a representable step "
+                    "or recenter the geometry. This is a coordinate precision guard."
+                )
+            probe.positions[:] = reference
+            probe.positions[atom_index, axis] = displaced
+            if "positions" not in compare_atoms(atoms, probe):
+                raise ValueError(
+                    "step_angstrom is indistinguishable from the reference "
+                    "geometry under ASE's position-cache tolerance."
+                )
+            plan.append({
+                "atom_index": atom_index,
+                "axis": axis,
+                "requested_offset_angstrom": requested,
+                "actual_offset_angstrom": float(actual),
+                "displaced_coordinate_angstrom": float(displaced),
+                "relative_step_representation_error": float(relative_error),
+            })
+    return plan
 
 
 def characterize_stationary_point(
@@ -54,6 +98,11 @@ def characterize_stationary_point(
     including numerical translations/rotations in an unanchored molecule.
     The function neither removes external modes nor certifies a minimum or a
     transition state from a mode count.
+
+    Stencils indistinguishable under ASE's position cache, or distorted by
+    coordinate rounding, are rejected before force work. Successful results
+    include full baseline and displaced force arrays so that the unsymmetrized
+    Hessian and its asymmetry can be independently reconstructed.
 
     Calculations use a geometry copy with the actual attached calculator.  Its
     ASE geometry/result cache and optional ``diagnostics`` are restored in a
@@ -97,6 +146,9 @@ def characterize_stationary_point(
     if not np.all(np.isfinite(free_masses)) or np.any(free_masses <= 0):
         raise ValueError("Free-atom masses must be finite and positive")
 
+    coordinate_indices = (3 * free_indices[:, None] + np.arange(3)).ravel()
+    plan = _displacement_plan(atoms, coordinate_indices, step)
+
     calculator = atoms.calc
     # Copy mutable arrays before doing any calculator work.  Saving these ASE
     # fields avoids a displaced cache masquerading as the original geometry.
@@ -110,25 +162,41 @@ def characterize_stationary_point(
     working = atoms.copy()
     working.calc = calculator
     reference_positions = atoms.positions.copy()
-    coordinate_indices = (3 * free_indices[:, None] + np.arange(3)).ravel()
 
-    def get_free_forces():
+    def get_full_forces():
         forces = np.asarray(working.get_forces(apply_constraint=False), dtype=float)
         if forces.shape != (len(atoms), 3) or not np.all(np.isfinite(forces)):
             raise ValueError("Calculator returned an invalid or nonfinite force array")
-        return forces[free_indices].copy()
+        return forces.copy()
 
+    def calculation_call_id():
+        diagnostics = getattr(calculator, "diagnostics", None)
+        call_id = diagnostics.get("call_id") if isinstance(diagnostics, dict) else None
+        return call_id if isinstance(call_id, str) else None
+
+    displacements = []
     try:
-        baseline_forces = get_free_forces()
+        baseline_full_forces = get_full_forces()
+        baseline_call_id = calculation_call_id()
+        baseline_forces = baseline_full_forces[free_indices]
         raw_hessian = np.empty((dimension, dimension), dtype=float)
-        for column, flattened_coordinate in enumerate(coordinate_indices):
-            atom_index, axis = divmod(int(flattened_coordinate), 3)
-            working.positions[:] = reference_positions
-            working.positions[atom_index, axis] += step
-            plus = get_free_forces().ravel()
-            working.positions[:] = reference_positions
-            working.positions[atom_index, axis] -= step
-            minus = get_free_forces().ravel()
+        for column in range(dimension):
+            displaced_forces = []
+            for displacement in plan[2 * column:2 * column + 2]:
+                working.positions[:] = reference_positions
+                working.positions[displacement["atom_index"], displacement["axis"]] = displacement["displaced_coordinate_angstrom"]
+                # A custom calculator may use a coarser cache rule than ASE's
+                # standard comparison. Never accept its unchanged force cache.
+                if "forces" in calculator.results and "positions" not in calculator.check_state(working):
+                    raise ValueError("step_angstrom is unresolved by the attached calculator's position cache")
+                full_forces = get_full_forces()
+                displacements.append({
+                    **displacement,
+                    "forces_ev_per_angstrom": full_forces.tolist(),
+                    "calculation_call_id": calculation_call_id(),
+                })
+                displaced_forces.append(full_forces[free_indices].ravel())
+            plus, minus = displaced_forces
             # F_i = -dE/dx_i, so H_ij = -dF_i/dx_j.
             raw_hessian[:, column] = -(plus - minus) / (2 * step)
     finally:
@@ -174,6 +242,25 @@ def characterize_stationary_point(
             "force_tolerance_ev_per_angstrom": force_tolerance,
             "frequency_tolerance_cm1": frequency_tolerance,
             "max_free_coordinates": int(max_free_coordinates),
+        },
+        "displacement_resolution": {
+            "checked": True,
+            "cache_visibility_check": "ASE compare_atoms before force work, then attached-calculator check_state for each displacement",
+            "max_relative_step_representation_error_allowed": _MAX_STEP_REPRESENTATION_RELATIVE_ERROR,
+            "max_relative_step_representation_error_observed": max(d["relative_step_representation_error"] for d in plan),
+            "scope": "Numerical coordinate/cache resolution only; not a force-error or chemical-accuracy bound.",
+        },
+        "finite_difference_evidence": {
+            "units": {"length": "angstrom", "force": "eV/angstrom"},
+            "reference_positions_angstrom": reference_positions.tolist(),
+            "baseline_forces_ev_per_angstrom": baseline_full_forces.tolist(),
+            "baseline_calculation_call_id": baseline_call_id,
+            "calculation_call_id_scope": "Matches calculator diagnostics and electronic.jsonl where supplied; null means the calculator supplied no string call ID.",
+            "force_scope": "Unconstrained forces on all atoms, including fixed anchors",
+            "axis_convention": "0=x, 1=y, 2=z; atom_index is zero-based",
+            "displacement_order": "Plus then minus for each free Cartesian coordinate in coordinate_order",
+            "hessian_reconstruction": "Select free-atom force components; column j is -(F_plus - F_minus)/(2*settings.step_angstrom). Symmetrize only after reconstructing all columns.",
+            "displacements": displacements,
         },
         "force_requests": 1 + 2 * dimension,
         "free_atom_indices": free_indices.tolist(),

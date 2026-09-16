@@ -29,6 +29,10 @@ class QuantumCalculationError(RuntimeError):
     """The requested electronic-structure calculation did not produce a result."""
 
 
+# Standalone guesses need no checkpoint input and match the supported HF set.
+SCF_INITIAL_GUESSES = ("minao", "atom", "1e", "huckel")
+
+
 @dataclass(frozen=True)
 class QuantumSettings:
     """Explicit electronic state, approximation, and numerical controls.
@@ -37,6 +41,8 @@ class QuantumSettings:
     multiplicity. A restricted singlet cannot represent a broken-symmetry
     open-shell singlet. ``dispersion='d3bj'`` includes the pairwise D3(BJ)
     correction; the ATM three-body term is explicitly off in this version.
+    ``scf_initial_guess`` selects one explicit starting guess. Convergence from
+    that guess does not establish electronic-state identity or the ground state.
     """
 
     charge: int = 0
@@ -50,6 +56,7 @@ class QuantumSettings:
     threads: int = 2
     memory_mb: int = 2000
     density_fit: bool = False
+    scf_initial_guess: str = "minao"
 
     def __post_init__(self) -> None:
         for name in ("charge", "spin", "grid_level", "max_cycle", "threads", "memory_mb"):
@@ -80,6 +87,8 @@ class QuantumSettings:
             raise ValueError("dispersion must be null, 'd3bj', or 'd3zero'")
         if not isinstance(self.density_fit, bool):
             raise ValueError("density_fit must be a boolean")
+        if not isinstance(self.scf_initial_guess, str) or self.scf_initial_guess not in SCF_INITIAL_GUESSES:
+            raise ValueError(f"scf_initial_guess must be one of {SCF_INITIAL_GUESSES}; checkpoint guesses are unsupported")
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -148,6 +157,15 @@ class PySCFCalculator(Calculator):
             "settings": self.settings.to_dict(),
             "scf_converged": False,
             "gradient_completed": False,
+            "scf_initial_guess": self.settings.scf_initial_guess,
+            "initial_guess_scan_performed": False,
+            "ground_state_verified": False,
+            "electronic_state_identity_verified": False,
+            "initial_guess_scope": (
+                "One explicitly selected SCF starting guess; no automatic scan or "
+                "state selection. Convergence does not verify the ground state "
+                "or exclude other self-consistent solutions."
+            ),
             "model": "nonperiodic all-electron nonrelativistic Kohn-Sham DFT",
             "energy_scope": "Born-Oppenheimer electronic energy plus nuclear repulsion and specified D3",
         }
@@ -207,6 +225,7 @@ class PySCFCalculator(Calculator):
                     mean_field.grids.level = self.settings.grid_level
                     if self.settings.density_fit:
                         mean_field = mean_field.density_fit()
+                    mean_field.init_guess = self.settings.scf_initial_guess
                     if self.event_log is not None:
                         def log_scf_cycle(environment):
                             self._event(

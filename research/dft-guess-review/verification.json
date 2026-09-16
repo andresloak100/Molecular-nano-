@@ -1,0 +1,61 @@
+{
+  "review": "DFT initial-guess legacy campaign compatibility",
+  "checked_utc": "2026-09-16T21:08:06.257806+00:00",
+  "scientific_evidence": false,
+  "quantum_evaluations": 0,
+  "simulated_default_extension": false,
+  "git_head": "65f2dee781b548b50138909b53364ada50a4c002",
+  "source_sha256": {
+    "nanodesign/quantum.py": "9e70a81c5658d23e64568f30bf455e1de9875d76a174d0a687ed675ee1231b2b",
+    "nanodesign/campaign.py": "1ce1f5e016ec89af1ac05d09faceb3196d2dc0c455462645abe888161369a357",
+    "nanodesign/design.py": "d1bfc73d29d3f648bee2cd3e054b173643d45cbb45faf5b9da96e212244f7769"
+  },
+  "cases": [
+    {
+      "saved_status": "pending",
+      "readable": true,
+      "counts": {
+        "pending": 1
+      },
+      "all_fixture_files_unchanged": true
+    },
+    {
+      "saved_status": "completed",
+      "readable": true,
+      "counts": {
+        "completed": 1
+      },
+      "all_fixture_files_unchanged": true
+    },
+    {
+      "saved_status": "failed",
+      "readable": true,
+      "counts": {
+        "failed": 1
+      },
+      "all_fixture_files_unchanged": true
+    },
+    {
+      "saved_status": "not_converged",
+      "readable": true,
+      "counts": {
+        "not_converged": 1
+      },
+      "all_fixture_files_unchanged": true
+    }
+  ],
+  "all_legacy_cases_readable": true,
+  "acceptance_test_run": {
+    "checked_utc": "2026-09-16T21:08:44.029105+00:00",
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "research/dft-guess-review/test_campaign_compatibility.py",
+      "-q"
+    ],
+    "returncode": 0,
+    "output": ".........................                                                [100%]\n=============================== warnings summary ===============================\nresearch/dft-guess-review/test_campaign_compatibility.py: 50 warnings\n  /Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/lib/python3.14/site-packages/ase/atoms.py:432: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.\n  As an alternative, you can create a new view using np.reshape (with copy=False if needed).\n    a.shape = (-1,) + shape\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n25 passed, 50 warnings in 2.67s\n",
+    "test_source_sha256": "1e6368a2ca12311f6d2107561089b818877127a7262935728d03ed0d0198480c"
+  }
+}

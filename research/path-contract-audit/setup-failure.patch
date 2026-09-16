@@ -1,0 +1,20 @@
+--- a/nanodesign/workflow.py
++++ b/nanodesign/workflow.py
+@@ -118,13 +118,13 @@
+               "optimization": {"fmax_ev_per_angstrom": fmax, "max_steps_per_stage": steps, "images": images},
+               "units": {"length": "angstrom", "energy": "eV", "force": "eV/angstrom"}}
+     json_write(out / "result.json", result)
+-    write(out / "input-initial.extxyz", initial)
+-    write(out / "input-final.extxyz", final)
+     reaction = data.get("hydrogen_transfer")
+     metadata = data.get("metadata", {})
+-    for atoms in (initial, final):
+-        atoms.calc = PySCFCalculator(settings, event_log=out / "electronic.jsonl")
+     try:
++        write(out / "input-initial.extxyz", initial)
++        write(out / "input-final.extxyz", final)
++        for atoms in (initial, final):
++            atoms.calc = PySCFCalculator(settings, event_log=out / "electronic.jsonl")
+         if stage in {"singlepoint", "relax"}:
+             atoms = initial if state == "initial" else final
+             if stage == "relax":

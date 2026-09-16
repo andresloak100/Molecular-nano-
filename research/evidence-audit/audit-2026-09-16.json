@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "audited_utc": "2026-09-16T21:10:31.505488+00:00",
+  "status": "passed",
+  "scope": "Archived evidence consistency only; no quantum calculations or scientific validation",
+  "scientific_model_validated": false,
+  "checks": [
+    {
+      "check": "pbe0_svp",
+      "status": "passed",
+      "details": {
+        "species": 5,
+        "source_coordinates_and_units_checked": true,
+        "fixed_geometry_relative_energy_kcal_per_mol_archived": -3.624838887323769,
+        "fixed_geometry_relative_energy_kcal_per_mol_current_si": -3.6248398124202823,
+        "unit_conversion_difference_kcal_per_mol": -9.250965131712974e-07,
+        "unit_note": "Historical kcal/mol conversion differs by about 0.255 ppm from current exact-SI definitions; original records preserved."
+      }
+    },
+    {
+      "check": "pbe0_tzvp",
+      "status": "passed",
+      "details": {
+        "species": 5,
+        "source_coordinates_and_units_checked": true,
+        "fixed_geometry_relative_energy_kcal_per_mol_archived": -2.8905752549700345,
+        "fixed_geometry_relative_energy_kcal_per_mol_current_si": -2.8905759926748464,
+        "unit_conversion_difference_kcal_per_mol": -7.377048119039387e-07,
+        "unit_note": "Historical kcal/mol conversion differs by about 0.255 ppm from current exact-SI definitions; original records preserved."
+      }
+    },
+    {
+      "check": "h2_characterization",
+      "status": "passed",
+      "details": {
+        "stretch_change_cm1": -0.08958370070286037,
+        "max_mode_equation_residual": 2.1316282072803006e-14,
+        "unresolved_modes_per_step": [
+          5,
+          5
+        ],
+        "raw_displaced_forces_available": false,
+        "limitation": "Raw displaced force arrays and the unsymmetrized Hessian are not archived; their derivation/asymmetry cannot be re-audited from these files."
+      }
+    },
+    {
+      "check": "direct_df",
+      "status": "passed",
+      "details": {
+        "arithmetic_and_saved_hashes_verified": true,
+        "atoms": 53,
+        "energy_difference_ev": -0.00652167961,
+        "energy_difference_kcal_per_mol": -0.15039350458237785,
+        "max_force_vector_difference_ev_per_angstrom": 0.00047351258348863446,
+        "rms_force_component_difference_ev_per_angstrom": 0.00018127028868633892,
+        "scientific_model_validated": false,
+        "limitation": "Original direct-run input JSON bytes and event/thread instrumentation are not archived; no reconstruction of its design hash was attempted."
+      }
+    }
+  ],
+  "limitations": [
+    "H2 raw displaced forces are unavailable; only saved Hessian/eigenpair consistency is checked.",
+    "Portable input manifests omit source_directory; the original manifest hash is retained, not reconstructed.",
+    "Checksums detect disagreement with saved digests, not authenticity or correctness of a quantum calculation.",
+    "Paired CC archives belong to the separate Q1 audit; this report does not cover them."
+  ],
+  "audited_file_sha256": {
+    "h-abstraction-df-initial/comparison.json": "76833ee535bc53ae568e3c6cb29c8f606bef518966d59830576d295c6f7e5bc9",
+    "h-abstraction-df-initial/electronic.jsonl": "bde614b26e8ffe5782785581c483352a4cdb8976737708a971ae5bb47d8e4d9b",
+    "h-abstraction-df-initial/input-final.extxyz": "ea8d078d2c6cb9b859ef6e30b359d3ef35747247f6855cf8c1a50e6011874563",
+    "h-abstraction-df-initial/input-initial.extxyz": "0c350bab7ce1a561ac86a8a66efce6a1a2e4fa009aafd0158aa0a58c6281d85e",
+    "h-abstraction-df-initial/interpretation.json": "e15c5594cea49657c0d86b4d405054161e06c448c996d472fe8dd48358c2a52f",
+    "h-abstraction-df-initial/result.json": "d82871657de47d56f4bf5e34298d8270f9cafd3bc28bb9e301985ca5678f9022",
+    "h-abstraction-df-initial/structure.extxyz": "4c6a388d1cb790a58193251b0b1da1176ef455089f1519b639f73b0de588c354",
+    "h-abstraction-direct-initial/input-final.extxyz": "ea8d078d2c6cb9b859ef6e30b359d3ef35747247f6855cf8c1a50e6011874563",
+    "h-abstraction-direct-initial/input-initial.extxyz": "0c350bab7ce1a561ac86a8a66efce6a1a2e4fa009aafd0158aa0a58c6281d85e",
+    "h-abstraction-direct-initial/interpretation.json": "f614e3a5954aa6467c9afde7540b38b5ff9cd6b4b31089c9e6a9a197157d87df",
+    "h-abstraction-direct-initial/reproduction-design.json": "869250093a7c8a3f17f58d0f750d32b612bb46f3836958433ccb4b734e349f95",
+    "h-abstraction-direct-initial/result.json": "db4cf46880a3456da8ba067ba7a4286a4fa11f956cb485030e92456976059ccd",
+    "h-abstraction-direct-initial/structure.extxyz": "a7be6ec117d31e6b01bcd1ac4de6b55145903e6b7678a7b6efe7e6068100bcfe",
+    "h2-integration/inputs/design.json": "fd328cd9765a5d80b0610b950571c6ad4fa7f002491e9abc224356dfff39fefb",
+    "h2-integration/inputs/h2.xyz": "ca2b9e7e2dff725c1898f9129306e5de35aceb7f10827ffddf59640e29052187",
+    "h2-integration/modes-half-step/electronic.jsonl": "b0795edf0110b699c23c632bad97df4af65e02e0a77e73ebc0908269e6a6da46",
+    "h2-integration/modes-half-step/input.extxyz": "e0d18def76cae5301d045466087882dc2e2b4222ede4cc4560cba5567f5a24f6",
+    "h2-integration/modes-half-step/result.json": "eb28ef59e9a326c7c28cc17043c16788e05d32e5f03c5ab1a8e8d84ba26b393b",
+    "h2-integration/modes/electronic.jsonl": "3f9bdd14e68a7d97648ac5256bfc1259456d280864032ed5662663e21769e8b5",
+    "h2-integration/modes/input.extxyz": "e0d18def76cae5301d045466087882dc2e2b4222ede4cc4560cba5567f5a24f6",
+    "h2-integration/modes/result.json": "7e88e87df8f8fe8fd141596f79f0f6593b13f2a0d73c20c2f1116c528b6dfa0e",
+    "h2-integration/relax/result.json": "d8f85afba429484eff11a643569b3f90ce4936e14eb50f9271124015e0c87247",
+    "h2-integration/relax/structure.extxyz": "e0d18def76cae5301d045466087882dc2e2b4222ede4cc4560cba5567f5a24f6",
+    "h2-integration/step-comparison.json": "6d05888826defd853aa7f3c001f9f43694b71e2c85d3f8044abd53acd9394c04",
+    "pbe0-svp/benchmark.json": "2c754af13ace68122a8aa5eae589f0cf7e15e31c1eb40f0fbc80bf5e9b41124a",
+    "pbe0-svp/input_manifest.json": "199c385d01f4c01d761d6ce2b6ebb1b007b6a88b963daba6ad171080e30566db",
+    "pbe0-svp/inputs/README.md": "7cf6c14a9efe06aca27516016ac04ea47f74e52f65547f45ad0f8f40cf8986cd",
+    "pbe0-svp/inputs/acetylene.xyz": "bbfcd8823b2055c91cb87308e0f36a2aa1113350776069209b449e4c2782727f",
+    "pbe0-svp/inputs/ethynyl_radical.xyz": "849a25cefa5341ff37dce2f062ad747e507836494fee7f4cf9a8440b8cd0d5ce",
+    "pbe0-svp/inputs/methane.xyz": "98ef73821932c34eea275db3f49c3455309369b25fa98678574d350a37298df1",
+    "pbe0-svp/inputs/methane_ethynyl_ts.xyz": "b4411a8b74750f53c81f4847d8f84acc85099e57fee39c3f10d24387615a3fb1",
+    "pbe0-svp/inputs/methyl_radical.xyz": "8898fe48bd09156545faeeb6f600872ff7bf906f404e9fa9e9f0636ff65b1f65",
+    "pbe0-svp/inputs/provenance.json": "2aad2f4e2c5de2662ec0f48b9c2909f0b6e31cfc10a873cf59c051bf2f626126",
+    "pbe0-svp/inputs/temelso_2006_si.txt": "ab1c05fb9add21e85d5e97e25f105c2abc59ffe3106b9fe7b181f892d951ff6e",
+    "pbe0-svp/species/acetylene.json": "f50834b899d9eb71254f477779a5d9b468f85f5fdd66d82b20c09951fe03f0a0",
+    "pbe0-svp/species/ethynyl_radical.json": "874a10960875d4876ec879ac761213e908f5851a36b7d5c214c44013cab77ee7",
+    "pbe0-svp/species/methane.json": "353f59f37c9405baabb84e75f3799efa3da7f32cb6522b52f5b8358ac6d6ee17",
+    "pbe0-svp/species/methane_ethynyl_ts.json": "597ee1b7a1a5462e1517a120fbf23eaf6a750ed174dfd6f62fd350e2ac867d7b",
+    "pbe0-svp/species/methyl_radical.json": "f597f1f6327a7718a8abc67408e9b5f34c75b9056a13b9a9f916792d4e16b915",
+    "pbe0-tzvp/benchmark.json": "34f1933d6d31fe944d667644dcca85e5bb7d763faf2c50d648f0c0a3b7cbfc19",
+    "pbe0-tzvp/input_manifest.json": "199c385d01f4c01d761d6ce2b6ebb1b007b6a88b963daba6ad171080e30566db",
+    "pbe0-tzvp/inputs/README.md": "7cf6c14a9efe06aca27516016ac04ea47f74e52f65547f45ad0f8f40cf8986cd",
+    "pbe0-tzvp/inputs/acetylene.xyz": "bbfcd8823b2055c91cb87308e0f36a2aa1113350776069209b449e4c2782727f",
+    "pbe0-tzvp/inputs/ethynyl_radical.xyz": "849a25cefa5341ff37dce2f062ad747e507836494fee7f4cf9a8440b8cd0d5ce",
+    "pbe0-tzvp/inputs/methane.xyz": "98ef73821932c34eea275db3f49c3455309369b25fa98678574d350a37298df1",
+    "pbe0-tzvp/inputs/methane_ethynyl_ts.xyz": "b4411a8b74750f53c81f4847d8f84acc85099e57fee39c3f10d24387615a3fb1",
+    "pbe0-tzvp/inputs/methyl_radical.xyz": "8898fe48bd09156545faeeb6f600872ff7bf906f404e9fa9e9f0636ff65b1f65",
+    "pbe0-tzvp/inputs/provenance.json": "2aad2f4e2c5de2662ec0f48b9c2909f0b6e31cfc10a873cf59c051bf2f626126",
+    "pbe0-tzvp/inputs/temelso_2006_si.txt": "ab1c05fb9add21e85d5e97e25f105c2abc59ffe3106b9fe7b181f892d951ff6e",
+    "pbe0-tzvp/species/acetylene.json": "45fd169e6dae98aa3f818a197494d58d1dc7abcaaa151204bc1771c279204748",
+    "pbe0-tzvp/species/ethynyl_radical.json": "024cc47ca4813f2d00d43b580afcb596bd70288d00989303121e801078047357",
+    "pbe0-tzvp/species/methane.json": "6a13dafcbcdea3912ccae73fc6676d702e99a1b113114254e4f3b1b2fca9dd9b",
+    "pbe0-tzvp/species/methane_ethynyl_ts.json": "5aba89724d9444f1786b61276f1ddff429b538659092fd638aae042539cbcf83",
+    "pbe0-tzvp/species/methyl_radical.json": "b636048b7dec196ee48e06e74d4be0baeb942484c50b792fae484cf27f0e2f5e"
+  }
+}

@@ -1,0 +1,298 @@
+{
+  "audit": "independent_paired_archive_consistency",
+  "consistency_passed": true,
+  "physical_validation_established": false,
+  "scope": "Archived bytes, record linkage, nominal species accounting, and arithmetic only; not a quantum recomputation or authentication of original calculations.",
+  "limitations": [
+    "Hash agreement checks internal consistency; coordinated alteration of all records is not detectable without an external trusted digest.",
+    "Nominal charge/spin and convergence do not establish electronic-state identity, ground states, chemical accuracy, a saddle, reaction connectivity, or a molecular machine.",
+    "Source-literature correctness, source-to-XYZ conversion, and historical initial guesses are not independently established by this audit."
+  ],
+  "conversion_convention": {
+    "hartree_to_ev": 27.211386024367243,
+    "ev_per_kcal_per_mol": 0.0433641153087705,
+    "energy_absolute_tolerance": 1e-08,
+    "scope": "Pinned archived conversion convention; independent arithmetic, no production-code import."
+  },
+  "archives": [
+    {
+      "archive": "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/data/validation/paired-ccpvdz",
+      "species": {
+        "methane": {
+          "atoms": 5,
+          "composition": {
+            "H": 4,
+            "C": 1
+          },
+          "charge": 0,
+          "spin_2s": 0,
+          "electrons": 10,
+          "xyz_sha256": "98ef73821932c34eea275db3f49c3455309369b25fa98678574d350a37298df1",
+          "dft_energy_ev": -1100.9269034651152,
+          "cc_energy_ev": -1099.0765585471786,
+          "cc_initial_guess_recorded": null
+        },
+        "ethynyl_radical": {
+          "atoms": 3,
+          "composition": {
+            "C": 2,
+            "H": 1
+          },
+          "charge": 0,
+          "spin_2s": 1,
+          "electrons": 13,
+          "xyz_sha256": "849a25cefa5341ff37dce2f062ad747e507836494fee7f4cf9a8440b8cd0d5ce",
+          "dft_energy_ev": -2082.020278507091,
+          "cc_energy_ev": -2078.4402968419386,
+          "cc_initial_guess_recorded": null
+        },
+        "methane_ethynyl_ts": {
+          "atoms": 8,
+          "composition": {
+            "H": 5,
+            "C": 3
+          },
+          "charge": 0,
+          "spin_2s": 1,
+          "electrons": 23,
+          "xyz_sha256": "b4411a8b74750f53c81f4847d8f84acc85099e57fee39c3f10d24387615a3fb1",
+          "dft_energy_ev": -3183.1014449564586,
+          "cc_energy_ev": -3178.033923608955,
+          "cc_initial_guess_recorded": null
+        },
+        "acetylene": {
+          "atoms": 4,
+          "composition": {
+            "H": 2,
+            "C": 2
+          },
+          "charge": 0,
+          "spin_2s": 0,
+          "electrons": 14,
+          "xyz_sha256": "bbfcd8823b2055c91cb87308e0f36a2aa1113350776069209b449e4c2782727f",
+          "dft_energy_ev": -2101.5382595663086,
+          "cc_energy_ev": -2098.4134947576927,
+          "cc_initial_guess_recorded": null
+        },
+        "methyl_radical": {
+          "atoms": 4,
+          "composition": {
+            "C": 1,
+            "H": 3
+          },
+          "charge": 0,
+          "spin_2s": 1,
+          "electrons": 9,
+          "xyz_sha256": "8898fe48bd09156545faeeb6f600872ff7bf906f404e9fa9e9f0636ff65b1f65",
+          "dft_energy_ev": -1082.5711752690866,
+          "cc_energy_ev": -1080.7993587887945,
+          "cc_initial_guess_recorded": null
+        }
+      },
+      "recomputed": {
+        "dft": {
+          "nominal_ts_relative_energy_ev": -0.15426298425245477,
+          "nominal_ts_relative_energy_kcal_per_mol": -3.557388018965412,
+          "reaction_energy_ev": -1.1622528631892237,
+          "reaction_energy_kcal_per_mol": -26.80218090265421
+        },
+        "ccsd_t": {
+          "nominal_ts_relative_energy_ev": -0.5170682198377108,
+          "nominal_ts_relative_energy_kcal_per_mol": -11.9238733721643,
+          "reaction_energy_ev": -1.6959981573700134,
+          "reaction_energy_kcal_per_mol": -39.110636647232454
+        },
+        "dft_minus_ccsd_t": {
+          "nominal_ts_relative_energy_ev": 0.362805235585256,
+          "nominal_ts_relative_energy_kcal_per_mol": 8.366485353198888,
+          "reaction_energy_ev": 0.5337452941807896,
+          "reaction_energy_kcal_per_mol": 12.308455744578243
+        }
+      },
+      "schema_version": 1,
+      "consistency_passed": true,
+      "physical_validation_established": false,
+      "checks": 1218,
+      "failures": [],
+      "warnings": [
+        {
+          "location": "comparison.electronic_state_identity_verified",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "comparison.ground_state_verified",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "comparison.initial_guess_scan_performed",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "comparison.cc_settings.scf_initial_guess",
+          "message": "Not recorded; archive nickname/default behavior cannot establish the actual guess"
+        },
+        {
+          "location": "species.methane.cc.electronic_state_identity_verified",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "species.methane.cc.ground_state_verified",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "species.methane.cc.initial_guess_scan_performed",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "species.ethynyl_radical.cc.electronic_state_identity_verified",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "species.ethynyl_radical.cc.ground_state_verified",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "species.ethynyl_radical.cc.initial_guess_scan_performed",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "species.methane_ethynyl_ts.cc.electronic_state_identity_verified",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "species.methane_ethynyl_ts.cc.ground_state_verified",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "species.methane_ethynyl_ts.cc.initial_guess_scan_performed",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "species.acetylene.cc.electronic_state_identity_verified",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "species.acetylene.cc.ground_state_verified",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "species.acetylene.cc.initial_guess_scan_performed",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "species.methyl_radical.cc.electronic_state_identity_verified",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "species.methyl_radical.cc.ground_state_verified",
+          "message": "Not recorded in historical schema; remains unknown"
+        },
+        {
+          "location": "species.methyl_radical.cc.initial_guess_scan_performed",
+          "message": "Not recorded in historical schema; remains unknown"
+        }
+      ]
+    },
+    {
+      "archive": "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/data/validation/paired-ccpvdz-atom",
+      "species": {
+        "methane": {
+          "atoms": 5,
+          "composition": {
+            "H": 4,
+            "C": 1
+          },
+          "charge": 0,
+          "spin_2s": 0,
+          "electrons": 10,
+          "xyz_sha256": "98ef73821932c34eea275db3f49c3455309369b25fa98678574d350a37298df1",
+          "dft_energy_ev": -1100.9269034651152,
+          "cc_energy_ev": -1099.076558546927,
+          "cc_initial_guess_recorded": "atom"
+        },
+        "ethynyl_radical": {
+          "atoms": 3,
+          "composition": {
+            "C": 2,
+            "H": 1
+          },
+          "charge": 0,
+          "spin_2s": 1,
+          "electrons": 13,
+          "xyz_sha256": "849a25cefa5341ff37dce2f062ad747e507836494fee7f4cf9a8440b8cd0d5ce",
+          "dft_energy_ev": -2082.020278507091,
+          "cc_energy_ev": -2079.0613787278576,
+          "cc_initial_guess_recorded": "atom"
+        },
+        "methane_ethynyl_ts": {
+          "atoms": 8,
+          "composition": {
+            "H": 5,
+            "C": 3
+          },
+          "charge": 0,
+          "spin_2s": 1,
+          "electrons": 23,
+          "xyz_sha256": "b4411a8b74750f53c81f4847d8f84acc85099e57fee39c3f10d24387615a3fb1",
+          "dft_energy_ev": -3183.1014449564586,
+          "cc_energy_ev": -3178.033923430699,
+          "cc_initial_guess_recorded": "atom"
+        },
+        "acetylene": {
+          "atoms": 4,
+          "composition": {
+            "H": 2,
+            "C": 2
+          },
+          "charge": 0,
+          "spin_2s": 0,
+          "electrons": 14,
+          "xyz_sha256": "bbfcd8823b2055c91cb87308e0f36a2aa1113350776069209b449e4c2782727f",
+          "dft_energy_ev": -2101.5382595663086,
+          "cc_energy_ev": -2098.413494758824,
+          "cc_initial_guess_recorded": "atom"
+        },
+        "methyl_radical": {
+          "atoms": 4,
+          "composition": {
+            "C": 1,
+            "H": 3
+          },
+          "charge": 0,
+          "spin_2s": 1,
+          "electrons": 9,
+          "xyz_sha256": "8898fe48bd09156545faeeb6f600872ff7bf906f404e9fa9e9f0636ff65b1f65",
+          "dft_energy_ev": -1082.5711752690866,
+          "cc_energy_ev": -1080.7993587899402,
+          "cc_initial_guess_recorded": "atom"
+        }
+      },
+      "recomputed": {
+        "dft": {
+          "nominal_ts_relative_energy_ev": -0.15426298425245477,
+          "nominal_ts_relative_energy_kcal_per_mol": -3.557388018965412,
+          "reaction_energy_ev": -1.1622528631892237,
+          "reaction_energy_kcal_per_mol": -26.80218090265421
+        },
+        "ccsd_t": {
+          "nominal_ts_relative_energy_ev": 0.10401384408532977,
+          "nominal_ts_relative_energy_kcal_per_mol": 2.398615614424693,
+          "reaction_energy_ev": -1.0749162739803069,
+          "reaction_energy_kcal_per_mol": -24.788151823839986
+        },
+        "dft_minus_ccsd_t": {
+          "nominal_ts_relative_energy_ev": -0.25827682833778454,
+          "nominal_ts_relative_energy_kcal_per_mol": -5.956003633390105,
+          "reaction_energy_ev": -0.08733658920891685,
+          "reaction_energy_kcal_per_mol": -2.014029078814225
+        }
+      },
+      "schema_version": 2,
+      "consistency_passed": true,
+      "physical_validation_established": false,
+      "checks": 1271,
+      "failures": [],
+      "warnings": []
+    }
+  ]
+}

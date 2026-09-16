@@ -55,6 +55,75 @@ def test_snapshot_survives_source_changes_and_copies_exact_coordinates(tmp_path)
     assert campaign.campaign_report(root)["counts"] == {"pending": 2}
 
 
+def test_snapshot_preserves_format_of_symlink_reference(tmp_path):
+    path = designs(tmp_path, 1)[0]
+    source = path.parent / "initial.xyz"
+    source.rename(path.parent / "actual-initial.extxyz")
+    source.symlink_to("actual-initial.extxyz")
+    root = tmp_path / "campaign"
+    assert campaign.create_campaign([path], root)["counts"] == {"pending": 1}
+    snapshot = root / "designs/pose-0001/design.json"
+    assert load_design(snapshot)[1].get_distance(0, 1) == pytest.approx(.74)
+
+
+@pytest.mark.parametrize("operation", ["changed", "missing"])
+def test_historical_failure_integrity_survives_successful_retry(tmp_path, monkeypatch, operation):
+    root = tmp_path / "campaign"
+    campaign.create_campaign(designs(tmp_path, 1), root)
+    def failure(*args, **kwargs):
+        result = fake_run(*args, **kwargs)
+        result["status"] = "failed"
+        (args[1] / "result.json").write_text(json.dumps(result))
+        raise RuntimeError("Synthetic failure")
+    monkeypatch.setattr(campaign, "run", failure)
+    campaign.run_campaign(root)
+    historical = root / "runs/pose-0001/attempt-0001/result.json"
+    monkeypatch.setattr(campaign, "run", fake_run)
+    assert campaign.run_campaign(root, retry_incomplete=True)["counts"] == {"completed": 1}
+    if operation == "changed":
+        historical.write_text("{}")
+    else:
+        historical.unlink()
+    with pytest.raises(ValueError, match="changed|missing"):
+        campaign.campaign_report(root)
+
+
+@pytest.mark.parametrize("status", ["completed", "failed", "not_converged"])
+def test_legacy_result_guess_defaults_without_rewriting_evidence(tmp_path, monkeypatch, status):
+    root = tmp_path / "campaign"
+    campaign.create_campaign(designs(tmp_path, 1), root)
+    def legacy(*args, **kwargs):
+        result = fake_run(*args, **kwargs)
+        result["status"] = status
+        result["quantum_settings"].pop("scf_initial_guess")
+        (args[1] / "result.json").write_text(json.dumps(result))
+        return result
+    monkeypatch.setattr(campaign, "run", legacy)
+    assert campaign.run_campaign(root)["counts"] == {status: 1}
+    record = root / "runs/pose-0001/attempt-0001/result.json"
+    original = record.read_bytes()
+    assert campaign.campaign_report(root)["counts"] == {status: 1}
+    assert record.read_bytes() == original
+
+
+@pytest.mark.parametrize("key,value", [("scf_initial_guess", "atom"), ("scf_initial_guess", None), ("basis", None)])
+def test_legacy_guess_normalization_does_not_hide_settings_mismatch(tmp_path, monkeypatch, key, value):
+    root = tmp_path / "campaign"
+    campaign.create_campaign(designs(tmp_path, 1), root)
+    def incompatible(*args, **kwargs):
+        result = fake_run(*args, **kwargs)
+        result["quantum_settings"].pop("scf_initial_guess")
+        if key == "basis":
+            result["quantum_settings"].pop(key)
+        else:
+            result["quantum_settings"][key] = value
+        (args[1] / "result.json").write_text(json.dumps(result))
+        return result
+    monkeypatch.setattr(campaign, "run", incompatible)
+    with pytest.raises(ValueError, match="quantum settings"):
+        campaign.run_campaign(root)
+
+
 def test_bounded_resumption_does_not_recompute_completed(tmp_path, monkeypatch):
     root = tmp_path / "campaign"
     campaign.create_campaign(designs(tmp_path), root)

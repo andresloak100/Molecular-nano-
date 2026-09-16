@@ -1,0 +1,522 @@
+{
+  "started_utc": "2026-09-16T21:09:36.904118+00:00",
+  "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "executable": "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+  "source_sha256_before": {
+    "README.md": "2aab758bf44f151c822301e2c4a0caecdc5d2ef9eb06c9bc2ec5ef855308378a",
+    "pyproject.toml": "e8a9967b6bd8a674dda89340c6b1c4e3d9b06f205b82c1bcc1e3e5f35d3bda20",
+    "docs/CAMPAIGNS.md": "90c8fea9efb15c2e7ae9c3e75da5278c714b86359944f0d5982160950cbe790c",
+    "nanodesign/cli.py": "73d97c9ad0ff396288424d0d09e1626b154654a07e2138aac37b1f2e3117fcf3",
+    "nanodesign/candidates.py": "a3abd5bdb999c62055e75acebfddf675c4986fded0785f67b3fd1d05354596e1",
+    "nanodesign/campaign.py": "0e46ec94d2afe678450b5afba373983414b48e91d4f0553079785a8acf07dae2",
+    "nanodesign/quantum.py": "9e70a81c5658d23e64568f30bf455e1de9875d76a174d0a687ed675ee1231b2b",
+    "nanodesign/workflow.py": "3ddfcf3af683c2aa1abc08e195883676edbaa2c3be4319d76085be3ed5cad14e",
+    "examples/pose-campaign/README.md": "e3e38b094f79e11453413295441568a0481f5b213284d12446ed00b9d0f727d7"
+  },
+  "scope": "Installed environment; CLI help/create/check/audit/report only. No fresh install, solver, path, numerical-accuracy or UI verification.",
+  "packages": {
+    "molecular-nanodesign": "0.1.0",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "ase": "3.29.0",
+    "pyscf": "2.14.0",
+    "dftd3": "1.6.0"
+  },
+  "cases": [
+    {
+      "name": "top_level_help",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "--help"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "usage: nanodesign [-h]\n                  {candidate,check,calculate,audit,benchmark,compare-methods,campaign-create,campaign-run,campaign-report,characterize} ...\n\nQuantum-chemistry research for positional diamondoid assembly.\n\npositional arguments:\n  {candidate,check,calculate,audit,benchmark,compare-methods,campaign-create,campaign-run,campaign-report,characterize}\n    candidate           Generate an explicit diamondoid H-abstraction\n                        structure.\n    check               Check geometry, charge/spin and mechanical boundary\n                        input.\n    calculate           Run actual DFT; outputs never overwrite a prior run.\n    audit               Show numerical status and missing physical validation.\n    benchmark           Compare energies at published reference geometries;\n                        this is not a calibrated tool prediction.\n    compare-methods     Compare DFT and CCSD(T) at identical small reference\n                        geometries and basis.\n    campaign-create     Snapshot a finite pose grid or existing designs; no\n                        quantum jobs are launched.\n    campaign-run        Run a bounded number of jobs, preserving every\n                        attempt.\n    campaign-report     Read campaign evidence without choosing an unvalidated\n                        winner.\n    characterize        Compute free-coordinate vibrational modes at a\n                        proposed stationary structure.\n\noptions:\n  -h, --help            show this help message and exit\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "module_help_outside_checkout",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/python",
+        "-m",
+        "nanodesign",
+        "--help"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "usage: python -m nanodesign [-h]\n                            {candidate,check,calculate,audit,benchmark,compare-methods,campaign-create,campaign-run,campaign-report,characterize} ...\n\nQuantum-chemistry research for positional diamondoid assembly.\n\npositional arguments:\n  {candidate,check,calculate,audit,benchmark,compare-methods,campaign-create,campaign-run,campaign-report,characterize}\n    candidate           Generate an explicit diamondoid H-abstraction\n                        structure.\n    check               Check geometry, charge/spin and mechanical boundary\n                        input.\n    calculate           Run actual DFT; outputs never overwrite a prior run.\n    audit               Show numerical status and missing physical validation.\n    benchmark           Compare energies at published reference geometries;\n                        this is not a calibrated tool prediction.\n    compare-methods     Compare DFT and CCSD(T) at identical small reference\n                        geometries and basis.\n    campaign-create     Snapshot a finite pose grid or existing designs; no\n                        quantum jobs are launched.\n    campaign-run        Run a bounded number of jobs, preserving every\n                        attempt.\n    campaign-report     Read campaign evidence without choosing an unvalidated\n                        winner.\n    characterize        Compute free-coordinate vibrational modes at a\n                        proposed stationary structure.\n\noptions:\n  -h, --help            show this help message and exit\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "help_candidate",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "candidate",
+        "--help"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "usage: nanodesign candidate [-h] --out OUT [--separation SEPARATION]\n                            [--offset OFFSET]\n\noptions:\n  -h, --help            show this help message and exit\n  --out OUT\n  --separation SEPARATION\n                        Target carbon to tip-apex axial distance in \u00c5\n  --offset OFFSET       Lateral tool offset in \u00c5\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "help_check",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "check",
+        "--help"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "usage: nanodesign check [-h] design\n\npositional arguments:\n  design\n\noptions:\n  -h, --help  show this help message and exit\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "help_calculate",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "calculate",
+        "--help"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "usage: nanodesign calculate [-h] --out OUT [--stage {singlepoint,relax,path}]\n                            [--state {initial,final}] [--fmax FMAX]\n                            [--steps STEPS] [--images IMAGES]\n                            design\n\npositional arguments:\n  design\n\noptions:\n  -h, --help            show this help message and exit\n  --out OUT\n  --stage {singlepoint,relax,path}\n  --state {initial,final}\n  --fmax FMAX           Convergence force in eV/\u00c5\n  --steps STEPS\n  --images IMAGES       Total NEB images including endpoints\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "help_audit",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "audit",
+        "--help"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "usage: nanodesign audit [-h] result\n\npositional arguments:\n  result\n\noptions:\n  -h, --help  show this help message and exit\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "help_benchmark",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "benchmark",
+        "--help"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "usage: nanodesign benchmark [-h] --out OUT [--settings SETTINGS]\n                            [--reference-dir REFERENCE_DIR]\n\noptions:\n  -h, --help            show this help message and exit\n  --out OUT\n  --settings SETTINGS   JSON quantum settings, or a design JSON containing\n                        quantum settings\n  --reference-dir REFERENCE_DIR\n                        Directory with the attributed published geometry\n                        package\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "help_compare-methods",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "compare-methods",
+        "--help"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "usage: nanodesign compare-methods [-h] --out OUT\n                                  [--reference-dir REFERENCE_DIR]\n                                  [--basis BASIS]\n                                  [--cc-initial-guess {minao,atom,1e,huckel}]\n\noptions:\n  -h, --help            show this help message and exit\n  --out OUT\n  --reference-dir REFERENCE_DIR\n  --basis BASIS         Currently cc-pVDZ only; coupled-cluster calculations\n                        are expensive\n  --cc-initial-guess {minao,atom,1e,huckel}\n                        Explicit HF starting guess; different converged\n                        solutions can give different reference energies\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "help_campaign-create",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "campaign-create",
+        "--help"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "usage: nanodesign campaign-create [-h] --out OUT\n                                  [--separations SEPARATIONS [SEPARATIONS ...]]\n                                  [--offsets OFFSETS [OFFSETS ...]]\n                                  [--settings SETTINGS]\n                                  [--stage {singlepoint,relax,path}]\n                                  [--state {initial,final}] [--fmax FMAX]\n                                  [--steps STEPS] [--images IMAGES]\n                                  [designs ...]\n\npositional arguments:\n  designs               Existing design JSON files instead of a generated grid\n\noptions:\n  -h, --help            show this help message and exit\n  --out OUT\n  --separations SEPARATIONS [SEPARATIONS ...]\n  --offsets OFFSETS [OFFSETS ...]\n  --settings SETTINGS   Quantum settings JSON for generated poses\n  --stage {singlepoint,relax,path}\n  --state {initial,final}\n  --fmax FMAX\n  --steps STEPS\n  --images IMAGES\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "help_campaign-run",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "campaign-run",
+        "--help"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "usage: nanodesign campaign-run [-h] [--max-jobs MAX_JOBS] [--retry-incomplete]\n                               directory\n\npositional arguments:\n  directory\n\noptions:\n  -h, --help           show this help message and exit\n  --max-jobs MAX_JOBS\n  --retry-incomplete   Explicitly restart failed/interrupted attempts into new\n                       output directories\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "help_campaign-report",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "campaign-report",
+        "--help"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "usage: nanodesign campaign-report [-h] directory\n\npositional arguments:\n  directory\n\noptions:\n  -h, --help  show this help message and exit\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "help_characterize",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "characterize",
+        "--help"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "usage: nanodesign characterize [-h] --structure STRUCTURE [--image IMAGE]\n                               --out OUT [--step STEP] [--fmax FMAX]\n                               [--frequency-tolerance FREQUENCY_TOLERANCE]\n                               [--max-free-coordinates MAX_FREE_COORDINATES]\n                               design\n\npositional arguments:\n  design\n\noptions:\n  -h, --help            show this help message and exit\n  --structure STRUCTURE\n                        Optimized structure or trajectory; coordinates in \u00c5\n  --image IMAGE         Trajectory frame, default final frame\n  --out OUT\n  --step STEP           Central-difference displacement in \u00c5\n  --fmax FMAX\n  --frequency-tolerance FREQUENCY_TOLERANCE\n                        Unresolved-mode threshold in cm^-1\n  --max-free-coordinates MAX_FREE_COORDINATES\n                        Cost guard: each free coordinate requires two quantum\n                        force evaluations\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "missing_command_usage",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 2,
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "usage: nanodesign [-h]\n                  {candidate,check,calculate,audit,benchmark,compare-methods,campaign-create,campaign-run,campaign-report,characterize} ...\nnanodesign: error: the following arguments are required: command\n",
+      "passed": true
+    },
+    {
+      "name": "candidate_readme",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "candidate",
+        "--out",
+        "designs/h-abstraction",
+        "--separation",
+        "3.6",
+        "--offset",
+        "0.0"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "designs/h-abstraction/design.json\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "check_created_design",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "check",
+        "designs/h-abstraction/design.json"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "{\n  \"input_valid\": true,\n  \"atoms\": 53,\n  \"formula\": \"C22H31\",\n  \"electrons\": 163,\n  \"spin_2S\": 1,\n  \"fixed_atoms\": 6,\n  \"input_hashes\": {\n    \"design_sha256\": \"380da589725e0f0625ee1450fe1616114422aacbccb16dd28b09d1a9ee5da566\",\n    \"initial_sha256\": \"0c350bab7ce1a561ac86a8a66efce6a1a2e4fa009aafd0158aa0a58c6281d85e\",\n    \"final_sha256\": \"ea8d078d2c6cb9b859ef6e30b359d3ef35747247f6855cf8c1a50e6011874563\"\n  },\n  \"design_validated\": false\n}\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "check_supplied_example",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "check",
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/examples/h-abstraction/design.json"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "{\n  \"input_valid\": true,\n  \"atoms\": 53,\n  \"formula\": \"C22H31\",\n  \"electrons\": 163,\n  \"spin_2S\": 1,\n  \"fixed_atoms\": 6,\n  \"input_hashes\": {\n    \"design_sha256\": \"00b8e4a16cacc7e6fc7dcd07749dac2be181f015db2a0e74341279d26f1a6666\",\n    \"initial_sha256\": \"0c350bab7ce1a561ac86a8a66efce6a1a2e4fa009aafd0158aa0a58c6281d85e\",\n    \"final_sha256\": \"ea8d078d2c6cb9b859ef6e30b359d3ef35747247f6855cf8c1a50e6011874563\"\n  },\n  \"design_validated\": false\n}\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "existing_candidate_refused",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "candidate",
+        "--out",
+        "designs/h-abstraction"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 2,
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "Calculation stopped: [Errno 17] File exists: 'designs/h-abstraction'\n",
+      "passed": true
+    },
+    {
+      "name": "missing_design_clear_error",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "check",
+        "missing/design.json"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 2,
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "Calculation stopped: [Errno 2] No such file or directory: '/private/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q/missing/design.json'\n",
+      "passed": true
+    },
+    {
+      "name": "missing_audit_clear_error",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "audit",
+        "missing/result.json"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 2,
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "Calculation stopped: [Errno 2] No such file or directory: 'missing/result.json'\n",
+      "passed": true
+    },
+    {
+      "name": "audit_archived_singlepoint",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "audit",
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/data/validation/h-abstraction-df-initial/result.json"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "{\n  \"design_validated\": false,\n  \"numerical_stage_converged\": false,\n  \"accuracy_claim\": \"Uncalibrated finite-cluster quantum model; no guaranteed design accuracy.\",\n  \"missing_evidence\": [\n    \"Independent reaction-specific quantum benchmark and error estimate\",\n    \"Larger basis, integration-grid, and cluster/boundary convergence\",\n    \"Electronic-state stability and alternative spin-state investigation\",\n    \"Transition-state modes and connectivity (or a separately verified barrierless path)\",\n    \"Competing reactions, approach/retraction paths, and tip regeneration\",\n    \"Finite-temperature free energies, tunnelling, and positioning uncertainty\",\n    \"Experimental confirmation and whole-machine integration\"\n  ]\n}\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "campaign_create_readme_grid",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "campaign-create",
+        "--out",
+        "campaigns/pose-study",
+        "--separations",
+        "3.4",
+        "3.6",
+        "3.8",
+        "--offsets",
+        "-0.2",
+        "0.0",
+        "0.2",
+        "--stage",
+        "singlepoint"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"campaign\": \"/private/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q/campaigns/pose-study\",\n  \"controls\": {\n    \"stage\": \"singlepoint\",\n    \"state\": \"initial\",\n    \"fmax\": 0.03,\n    \"steps\": 200,\n    \"images\": 7\n  },\n  \"quantum_settings\": {\n    \"charge\": 0,\n    \"spin\": 1,\n    \"xc\": \"pbe0\",\n    \"basis\": \"def2-svp\",\n    \"dispersion\": \"d3bj\",\n    \"grid_level\": 3,\n    \"conv_tol\": 1e-09,\n    \"max_cycle\": 150,\n    \"threads\": 2,\n    \"memory_mb\": 2000,\n    \"density_fit\": false,\n    \"scf_initial_guess\": \"minao\"\n  },\n  \"electronic_state_identity_verified\": false,\n  \"counts\": {\n    \"pending\": 9\n  },\n  \"rows\": [\n    {\n      \"id\": \"pose-0001\",\n      \"pose\": {\n        \"separation_angstrom\": 3.4,\n        \"lateral_offset_angstrom\": -0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0002\",\n      \"pose\": {\n        \"separation_angstrom\": 3.4,\n        \"lateral_offset_angstrom\": 0.0\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0003\",\n      \"pose\": {\n        \"separation_angstrom\": 3.4,\n        \"lateral_offset_angstrom\": 0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0004\",\n      \"pose\": {\n        \"separation_angstrom\": 3.6,\n        \"lateral_offset_angstrom\": -0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0005\",\n      \"pose\": {\n        \"separation_angstrom\": 3.6,\n        \"lateral_offset_angstrom\": 0.0\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0006\",\n      \"pose\": {\n        \"separation_angstrom\": 3.6,\n        \"lateral_offset_angstrom\": 0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0007\",\n      \"pose\": {\n        \"separation_angstrom\": 3.8,\n        \"lateral_offset_angstrom\": -0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0008\",\n      \"pose\": {\n        \"separation_angstrom\": 3.8,\n        \"lateral_offset_angstrom\": 0.0\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0009\",\n      \"pose\": {\n        \"separation_angstrom\": 3.8,\n        \"lateral_offset_angstrom\": 0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    }\n  ],\n  \"design_validated\": false,\n  \"automatic_ranking\": false,\n  \"interpretation\": \"Comparable numerical evaluations at explicit poses. Absolute energies include pose-dependent deformation and interaction; no success probability or best tool is inferred.\",\n  \"resource_note\": \"max_jobs bounds attempts, not runtime or the evaluations within each relaxation/path. Execution is serial. No automatic retry or method change.\"\n}\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "campaign_report_created_grid",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "campaign-report",
+        "campaigns/pose-study"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"campaign\": \"/private/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q/campaigns/pose-study\",\n  \"controls\": {\n    \"stage\": \"singlepoint\",\n    \"state\": \"initial\",\n    \"fmax\": 0.03,\n    \"steps\": 200,\n    \"images\": 7\n  },\n  \"quantum_settings\": {\n    \"charge\": 0,\n    \"spin\": 1,\n    \"xc\": \"pbe0\",\n    \"basis\": \"def2-svp\",\n    \"dispersion\": \"d3bj\",\n    \"grid_level\": 3,\n    \"conv_tol\": 1e-09,\n    \"max_cycle\": 150,\n    \"threads\": 2,\n    \"memory_mb\": 2000,\n    \"density_fit\": false,\n    \"scf_initial_guess\": \"minao\"\n  },\n  \"electronic_state_identity_verified\": false,\n  \"counts\": {\n    \"pending\": 9\n  },\n  \"rows\": [\n    {\n      \"id\": \"pose-0001\",\n      \"pose\": {\n        \"separation_angstrom\": 3.4,\n        \"lateral_offset_angstrom\": -0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0002\",\n      \"pose\": {\n        \"separation_angstrom\": 3.4,\n        \"lateral_offset_angstrom\": 0.0\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0003\",\n      \"pose\": {\n        \"separation_angstrom\": 3.4,\n        \"lateral_offset_angstrom\": 0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0004\",\n      \"pose\": {\n        \"separation_angstrom\": 3.6,\n        \"lateral_offset_angstrom\": -0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0005\",\n      \"pose\": {\n        \"separation_angstrom\": 3.6,\n        \"lateral_offset_angstrom\": 0.0\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0006\",\n      \"pose\": {\n        \"separation_angstrom\": 3.6,\n        \"lateral_offset_angstrom\": 0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0007\",\n      \"pose\": {\n        \"separation_angstrom\": 3.8,\n        \"lateral_offset_angstrom\": -0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0008\",\n      \"pose\": {\n        \"separation_angstrom\": 3.8,\n        \"lateral_offset_angstrom\": 0.0\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0009\",\n      \"pose\": {\n        \"separation_angstrom\": 3.8,\n        \"lateral_offset_angstrom\": 0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    }\n  ],\n  \"design_validated\": false,\n  \"automatic_ranking\": false,\n  \"interpretation\": \"Comparable numerical evaluations at explicit poses. Absolute energies include pose-dependent deformation and interaction; no success probability or best tool is inferred.\",\n  \"resource_note\": \"max_jobs bounds attempts, not runtime or the evaluations within each relaxation/path. Execution is serial. No automatic retry or method change.\"\n}\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "existing_campaign_refused",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "campaign-create",
+        "--out",
+        "campaigns/pose-study",
+        "--separations",
+        "3.4",
+        "3.6",
+        "3.8",
+        "--offsets",
+        "-0.2",
+        "0.0",
+        "0.2",
+        "--stage",
+        "singlepoint"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 2,
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "Calculation stopped: [Errno 17] File exists: '/private/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q/campaigns/pose-study'\n",
+      "passed": true
+    },
+    {
+      "name": "campaign_create_existing_design",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "campaign-create",
+        "designs/h-abstraction/design.json",
+        "--out",
+        "campaigns/from-design"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"campaign\": \"/private/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q/campaigns/from-design\",\n  \"controls\": {\n    \"stage\": \"singlepoint\",\n    \"state\": \"initial\",\n    \"fmax\": 0.03,\n    \"steps\": 200,\n    \"images\": 7\n  },\n  \"quantum_settings\": {\n    \"charge\": 0,\n    \"spin\": 1,\n    \"xc\": \"pbe0\",\n    \"basis\": \"def2-svp\",\n    \"dispersion\": \"d3bj\",\n    \"grid_level\": 3,\n    \"conv_tol\": 1e-09,\n    \"max_cycle\": 150,\n    \"threads\": 2,\n    \"memory_mb\": 2000,\n    \"density_fit\": false,\n    \"scf_initial_guess\": \"minao\"\n  },\n  \"electronic_state_identity_verified\": false,\n  \"counts\": {\n    \"pending\": 1\n  },\n  \"rows\": [\n    {\n      \"id\": \"pose-0001\",\n      \"pose\": {\n        \"separation_angstrom\": 3.6,\n        \"lateral_offset_angstrom\": 0.0\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    }\n  ],\n  \"design_validated\": false,\n  \"automatic_ranking\": false,\n  \"interpretation\": \"Comparable numerical evaluations at explicit poses. Absolute energies include pose-dependent deformation and interaction; no success probability or best tool is inferred.\",\n  \"resource_note\": \"max_jobs bounds attempts, not runtime or the evaluations within each relaxation/path. Execution is serial. No automatic retry or method change.\"\n}\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "campaign_report_existing_design",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "campaign-report",
+        "campaigns/from-design"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"campaign\": \"/private/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q/campaigns/from-design\",\n  \"controls\": {\n    \"stage\": \"singlepoint\",\n    \"state\": \"initial\",\n    \"fmax\": 0.03,\n    \"steps\": 200,\n    \"images\": 7\n  },\n  \"quantum_settings\": {\n    \"charge\": 0,\n    \"spin\": 1,\n    \"xc\": \"pbe0\",\n    \"basis\": \"def2-svp\",\n    \"dispersion\": \"d3bj\",\n    \"grid_level\": 3,\n    \"conv_tol\": 1e-09,\n    \"max_cycle\": 150,\n    \"threads\": 2,\n    \"memory_mb\": 2000,\n    \"density_fit\": false,\n    \"scf_initial_guess\": \"minao\"\n  },\n  \"electronic_state_identity_verified\": false,\n  \"counts\": {\n    \"pending\": 1\n  },\n  \"rows\": [\n    {\n      \"id\": \"pose-0001\",\n      \"pose\": {\n        \"separation_angstrom\": 3.6,\n        \"lateral_offset_angstrom\": 0.0\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    }\n  ],\n  \"design_validated\": false,\n  \"automatic_ranking\": false,\n  \"interpretation\": \"Comparable numerical evaluations at explicit poses. Absolute energies include pose-dependent deformation and interaction; no success probability or best tool is inferred.\",\n  \"resource_note\": \"max_jobs bounds attempts, not runtime or the evaluations within each relaxation/path. Execution is serial. No automatic retry or method change.\"\n}\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "campaign_report_copied_example",
+      "argv": [
+        "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/nanodesign",
+        "campaign-report",
+        "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q/campaigns/copied-example"
+      ],
+      "cwd": "/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q",
+      "expected_exit": 0,
+      "exit_code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"campaign\": \"/private/var/folders/_5/rynzp98n41x8_zqylycjclv80000gn/T/nanodesign-r1-pokiw_2q/campaigns/copied-example\",\n  \"controls\": {\n    \"stage\": \"singlepoint\",\n    \"state\": \"initial\",\n    \"fmax\": 0.03,\n    \"steps\": 200,\n    \"images\": 7\n  },\n  \"quantum_settings\": {\n    \"charge\": 0,\n    \"spin\": 1,\n    \"xc\": \"pbe0\",\n    \"basis\": \"def2-svp\",\n    \"dispersion\": \"d3bj\",\n    \"grid_level\": 3,\n    \"conv_tol\": 1e-09,\n    \"max_cycle\": 150,\n    \"threads\": 2,\n    \"memory_mb\": 2000,\n    \"density_fit\": false\n  },\n  \"electronic_state_identity_verified\": false,\n  \"counts\": {\n    \"pending\": 9\n  },\n  \"rows\": [\n    {\n      \"id\": \"pose-0001\",\n      \"pose\": {\n        \"separation_angstrom\": 3.4,\n        \"lateral_offset_angstrom\": -0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0002\",\n      \"pose\": {\n        \"separation_angstrom\": 3.4,\n        \"lateral_offset_angstrom\": 0.0\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0003\",\n      \"pose\": {\n        \"separation_angstrom\": 3.4,\n        \"lateral_offset_angstrom\": 0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0004\",\n      \"pose\": {\n        \"separation_angstrom\": 3.6,\n        \"lateral_offset_angstrom\": -0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0005\",\n      \"pose\": {\n        \"separation_angstrom\": 3.6,\n        \"lateral_offset_angstrom\": 0.0\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0006\",\n      \"pose\": {\n        \"separation_angstrom\": 3.6,\n        \"lateral_offset_angstrom\": 0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0007\",\n      \"pose\": {\n        \"separation_angstrom\": 3.8,\n        \"lateral_offset_angstrom\": -0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0008\",\n      \"pose\": {\n        \"separation_angstrom\": 3.8,\n        \"lateral_offset_angstrom\": 0.0\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    },\n    {\n      \"id\": \"pose-0009\",\n      \"pose\": {\n        \"separation_angstrom\": 3.8,\n        \"lateral_offset_angstrom\": 0.2\n      },\n      \"attempts\": 0,\n      \"status\": \"pending\",\n      \"design_validated\": false,\n      \"electronic_state_identity_verified\": false\n    }\n  ],\n  \"design_validated\": false,\n  \"automatic_ranking\": false,\n  \"interpretation\": \"Comparable numerical evaluations at explicit poses. Absolute energies include pose-dependent deformation and interaction; no success probability or best tool is inferred.\",\n  \"resource_note\": \"max_jobs bounds attempts, not runtime or the evaluations within each relaxation/path. Execution is serial. No automatic retry or method change.\"\n}\n",
+      "stderr": "",
+      "passed": true
+    }
+  ],
+  "artifact_checks": [
+    {
+      "name": "candidate_files",
+      "passed": true,
+      "observed": [
+        "design.json",
+        "final.xyz",
+        "initial.xyz"
+      ]
+    },
+    {
+      "name": "candidate_check_summary",
+      "passed": true,
+      "observed": {
+        "input_valid": true,
+        "atoms": 53,
+        "formula": "C22H31",
+        "electrons": 163,
+        "spin_2S": 1,
+        "fixed_atoms": 6,
+        "input_hashes": {
+          "design_sha256": "380da589725e0f0625ee1450fe1616114422aacbccb16dd28b09d1a9ee5da566",
+          "initial_sha256": "0c350bab7ce1a561ac86a8a66efce6a1a2e4fa009aafd0158aa0a58c6281d85e",
+          "final_sha256": "ea8d078d2c6cb9b859ef6e30b359d3ef35747247f6855cf8c1a50e6011874563"
+        },
+        "design_validated": false
+      }
+    },
+    {
+      "name": "audit_does_not_validate_design",
+      "passed": true,
+      "observed": {
+        "design_validated": false,
+        "numerical_stage_converged": false,
+        "accuracy_claim": "Uncalibrated finite-cluster quantum model; no guaranteed design accuracy.",
+        "missing_evidence": [
+          "Independent reaction-specific quantum benchmark and error estimate",
+          "Larger basis, integration-grid, and cluster/boundary convergence",
+          "Electronic-state stability and alternative spin-state investigation",
+          "Transition-state modes and connectivity (or a separately verified barrierless path)",
+          "Competing reactions, approach/retraction paths, and tip regeneration",
+          "Finite-temperature free energies, tunnelling, and positioning uncertainty",
+          "Experimental confirmation and whole-machine integration"
+        ]
+      }
+    },
+    {
+      "name": "generated_grid_pending",
+      "passed": true,
+      "observed": {
+        "pending": 9
+      }
+    },
+    {
+      "name": "documented_campaign_artifacts",
+      "passed": true,
+      "observed": {
+        "plan.json": true,
+        "campaign.json": true,
+        "designs/pose-0001/design.json": true,
+        "designs/pose-0001/source-design.json": true,
+        "designs/pose-0009/design.json": true
+      }
+    },
+    {
+      "name": "existing_design_pending",
+      "passed": true,
+      "observed": {
+        "pending": 1
+      }
+    },
+    {
+      "name": "copied_example_pending",
+      "passed": true,
+      "observed": {
+        "pending": 9
+      }
+    },
+    {
+      "name": "no_quantum_output_created",
+      "passed": true,
+      "observed": []
+    }
+  ],
+  "source_sha256_after": {
+    "README.md": "2aab758bf44f151c822301e2c4a0caecdc5d2ef9eb06c9bc2ec5ef855308378a",
+    "pyproject.toml": "e8a9967b6bd8a674dda89340c6b1c4e3d9b06f205b82c1bcc1e3e5f35d3bda20",
+    "docs/CAMPAIGNS.md": "90c8fea9efb15c2e7ae9c3e75da5278c714b86359944f0d5982160950cbe790c",
+    "nanodesign/cli.py": "73d97c9ad0ff396288424d0d09e1626b154654a07e2138aac37b1f2e3117fcf3",
+    "nanodesign/candidates.py": "a3abd5bdb999c62055e75acebfddf675c4986fded0785f67b3fd1d05354596e1",
+    "nanodesign/campaign.py": "0e46ec94d2afe678450b5afba373983414b48e91d4f0553079785a8acf07dae2",
+    "nanodesign/quantum.py": "9e70a81c5658d23e64568f30bf455e1de9875d76a174d0a687ed675ee1231b2b",
+    "nanodesign/workflow.py": "3ddfcf3af683c2aa1abc08e195883676edbaa2c3be4319d76085be3ed5cad14e",
+    "examples/pose-campaign/README.md": "e3e38b094f79e11453413295441568a0481f5b213284d12446ed00b9d0f727d7"
+  },
+  "source_changed_during_audit": false,
+  "finished_utc": "2026-09-16T21:10:37.225331+00:00",
+  "summary": {
+    "passed": 34,
+    "failed": 0,
+    "command_count": 26,
+    "artifact_check_count": 8
+  }
+}
