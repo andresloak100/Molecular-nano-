@@ -1,0 +1,140 @@
+{
+  "purpose": "Lateral stiffness of a mounted ethynyl tip, measured rather than assumed",
+  "model": "propyne CH3-C#C-H with the three methyl hydrogens anchored",
+  "method": "PBE0-D3(BJ)/def2-svp",
+  "settings": {
+    "charge": 0,
+    "spin": 0,
+    "xc": "pbe0",
+    "basis": "def2-svp",
+    "dispersion": "d3bj",
+    "grid_level": 3,
+    "conv_tol": 1e-10,
+    "max_cycle": 200,
+    "threads": 1,
+    "memory_mb": 3000,
+    "density_fit": false,
+    "scf_initial_guess": "minao"
+  },
+  "indices": {
+    "methyl_carbon": 0,
+    "inner_carbon": 1,
+    "apex_carbon": 2,
+    "apex_hydrogen": 3,
+    "mount_hydrogens": [
+      4,
+      5,
+      6
+    ]
+  },
+  "relaxation": {
+    "converged": true,
+    "fmax_requested_ev_per_angstrom": 0.005,
+    "force_residual_ev_per_angstrom": 0.0007784876753183865,
+    "steps": 10
+  },
+  "relaxed_geometry_angstrom": {
+    "c_c_triple_angstrom": 1.2106833286597882,
+    "methyl_c_c_angstrom": 1.4531428082508635,
+    "apex_c_h_angstrom": 1.0739885153179143
+  },
+  "hessian": {
+    "classification": "stationary_point_with_no_resolved_negative_modes",
+    "negative_mode_count": 0,
+    "frequencies_cm1": [
+      88.33750884614788,
+      88.34393014391749,
+      400.8072057262209,
+      445.8153835476253,
+      445.819485915692,
+      695.3217786860788,
+      695.321814993142,
+      1114.4818311466613,
+      1114.4869563632044,
+      1157.1197216232022,
+      2255.1012758205584,
+      3492.327129639116
+    ],
+    "free_atom_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "frozen_atom_indices": [
+      4,
+      5,
+      6
+    ],
+    "step_angstrom": 0.005,
+    "asymmetry_max_abs": 0.002165957143976386
+  },
+  "margin_angstrom": 2.4949626493635075,
+  "tips": {
+    "apex_carbon": {
+      "principal_stiffness_n_per_m": [
+        251.0260883988466,
+        7.272526196867288,
+        7.27152494448039
+      ],
+      "softest_stiffness_n_per_m": 7.27152494448039,
+      "softest_direction": [
+        -0.9999999999280949,
+        -1.1255861563495362e-08,
+        -1.1992096896386573e-05
+      ],
+      "clamped_diagonal_block_stiffness_n_per_m": [
+        2410.824756136249,
+        79.82006313712554,
+        79.82005372759512
+      ],
+      "sigma_quantum_angstrom_300K": 0.2409226378736769,
+      "sigma_classical_angstrom_300K": 0.23866543126565432,
+      "rms_displacement_quantum_angstrom_300K": 0.34422458260118277,
+      "quantum_over_classical": 1.009457618541791,
+      "margin_in_quantum_sigma": 10.35586639505289,
+      "required_stiffness_n_per_m": 4.1962813962298595,
+      "requirement_met": true,
+      "stiffness_headroom_factor": 1.7328496966417641,
+      "softest_mode_wavenumber_cm1_if_carbon_mass": 101.36733885462624
+    },
+    "apex_hydrogen": {
+      "principal_stiffness_n_per_m": [
+        180.06162585271935,
+        2.914912669136424,
+        2.914568768159407
+      ],
+      "softest_stiffness_n_per_m": 2.914568768159407,
+      "softest_direction": [
+        -0.9999999999847786,
+        -1.6382912360825177e-08,
+        -5.517446862878791e-06
+      ],
+      "clamped_diagonal_block_stiffness_n_per_m": [
+        648.4478343326039,
+        23.145311755024917,
+        23.14529984284868
+      ],
+      "sigma_quantum_angstrom_300K": 0.39228412071107577,
+      "sigma_classical_angstrom_300K": 0.3769772268354531,
+      "rms_displacement_quantum_angstrom_300K": 0.5611027861832503,
+      "quantum_over_classical": 1.0406042932728772,
+      "margin_in_quantum_sigma": 6.360090856701008,
+      "required_stiffness_n_per_m": 4.1962813962298595,
+      "requirement_met": false,
+      "stiffness_headroom_factor": 0.6945598955251179,
+      "softest_mode_wavenumber_cm1_if_carbon_mass": 64.17597117756797
+    }
+  },
+  "limitations": [
+    "A methyl mount is far floppier than an adamantane cage, so this stiffness is a lower estimate of the real mounted tip and the headroom is understated.",
+    "Rigid anchors make the compliance an upper bound on stiffness, which pushes the opposite way; the two approximations have known signs but unbounded sizes.",
+    "Closed-shell propyne substitutes for the ethynyl radical, because PySCFCalculator exposes no initial-guess setting and propynyl has a documented 11.2 kcal/mol wrong-solution hazard at this level. The C#C framework stiffness is similar but not identical.",
+    "Harmonic only. The softest direction is a bending mode and bending is anharmonic well before a 2.5 Angstrom displacement, so the tail of the distribution is not described by this curvature.",
+    "A stiffness that clears the positional requirement says nothing about whether a barrier exists, whether competing chemistry intervenes, or whether this mount can be built.",
+    "Three anchored hydrogens is a boundary condition, not a mechanically validated mount."
+  ],
+  "wall_seconds": 682.9565227909479,
+  "threads_honored": true,
+  "basis_functions": 62
+}
