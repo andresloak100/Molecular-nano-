@@ -439,12 +439,75 @@ probability of 1e-15 requires a spread of **0.314 Å**, which is a stiffness of
 | 1e-12 | 0.355 Å | 3.29 N/m |
 | 1e-15 | 0.314 Å | 4.20 N/m |
 
-A stiff diamondoid mount is expected to supply 10–100 N/m. At 30 N/m the spread
-is 0.117 Å, the margin is **21 σ** wide, and there is roughly **sevenfold
-stiffness headroom**. So on the positional axis this design is not close to its
-limit: **positional precision is not the binding constraint here — the chemistry
-is.** That is the first time this project can say the margin is met rather than
-merely defined, and it is why the stage 1/2 energetics carry the weight.
+### The mount stiffness, measured rather than assumed — and the margin is thinner than claimed
+
+An earlier version of this report compared the requirement against a literature
+figure of 10–100 N/m for a stiff diamondoid mount and claimed sevenfold headroom.
+**That assumption was doing all the work, it was never computed for this tool, and
+when measured it came in below the assumed range.**
+
+PBE0-D3(BJ)/def2-SVP, propyne CH₃–C≡C–H relaxed to fmax 0.0008 eV/Å, three methyl
+hydrogens anchored, full 12-coordinate constrained Hessian, 62 basis functions,
+no negative modes. Evidence: `evidence/tip-stiffness-propyne/tip_stiffness.json`.
+
+| Quantity | Value |
+|---|---|
+| Apex-carbon lateral stiffness, compliance-based | **7.27 N/m** (principal 251.0 / 7.27 / 7.27) |
+| Apex-hydrogen stiffness | 2.91 N/m |
+| Softest mode | 88.3 cm⁻¹, doubly degenerate — a transverse **bend** |
+| σ at 300 K | 0.241 Å quantum, 0.239 classical |
+| Margin / σ | 10.4 |
+
+Headroom against the criterion band: **1.59× to 2.12×** (3.43 N/m → 2.12×,
+4.20 → 1.73×, 4.43 → 1.64×, 4.57 → 1.59×).
+
+So the requirement is still **met at every criterion**, but by under a factor of
+two. **The robustness argument this lane previously made is withdrawn**: "the
+verdict survives being wrong because 4.2 against 30 is not close" was true against
+an assumed 30 N/m and is false against a measured 7.3. The criterion spread that
+three lanes spent an evening reconciling moves the headroom from 2.12× to 1.59×,
+which is a third of the margin — so those choices matter after all.
+
+**Why the literature range did not transfer, which is the generalisable part.** An
+ethynyl tip is a long, thin, protruding alkyne, and its soft direction is a
+transverse bend at 88 cm⁻¹, not a bond stretch. The 10–100 N/m figure describes
+stiff diamondoid *bulk*. The geometry that makes a good abstraction tool — narrow,
+protruding, collinear enough to address one hydrogen and not its neighbours — is
+the same geometry that is laterally floppy. Those two design pressures oppose each
+other, and no model in this project had that in it. It also couples to the welding
+screen below: the tool is softest in exactly the direction that spoils the
+protective collinearity.
+
+**A methodological result worth enforcing.** Taking the clamped diagonal Hessian
+block instead of the compliance gives 79.8 N/m against 7.27 — an **eleven-fold
+overestimate**, because clamping holds the mount rigid while the tip is displaced
+instead of letting it relax. The naive route would have reported 19× headroom
+instead of 1.7×, wrong in the dangerous direction. Any stiffness in this project
+not taken from an inverted Hessian should be suspected by roughly that factor.
+
+**The two remaining approximations oppose each other**, and both are stated because
+reporting only the comfortable one is how a margin evaporates. A methyl mount is
+far floppier than an adamantane cage, so the real cage-mounted tip should be
+*stiffer* than 7.27 and this is a lower estimate. Rigid anchors make the compliance
+an *upper* bound, pushing the other way. Neither is bounded in size. **The real
+mounted-tip stiffness is now the decisive unmeasured quantity in the positional
+argument** — an hour ago it looked like something safely quotable from the
+literature. The next calculation in this area is a bigger tool model, not a better
+formula: ethynyl on adamantyl, or a ladder of mounts showing the bend stiffness
+converge toward the cage limit.
+
+Two internal checks passed: the 88.3 cm⁻¹ mode sits well below the 338 cm⁻¹
+quantum crossover and the measured quantum/classical ratio is 1.009, as the
+crossover table predicts for a soft mode; and back-solving 7.27 N/m on one carbon
+mass gives 101 cm⁻¹ against the observed 88.3, consistent with a slightly larger
+effective mass.
+
+**The standing conclusion is therefore narrower than first written:** the
+positional criterion is met on a deliberately conservative mount model with under
+a factor of two to spare, and the quantity deciding it has been measured once on a
+proxy. It remains true that the chemistry is where the larger uncertainties are,
+but "positional precision is not the binding constraint" is no longer a
+comfortable claim.
 
 The crossing probability is **not an error rate** and no field reports one. It is
 a harmonic-equilibrium one-dimensional tail evaluated eight spreads out, where a
