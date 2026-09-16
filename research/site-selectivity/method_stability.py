@@ -196,6 +196,59 @@ def main() -> None:
                 "is not a pass."
             ),
         },
+        # Which measured error bar applies to THIS lane's quantity. A peer offered
+        # 3.25 kcal/mol from a primary-to-tertiary survey; that is the wrong row
+        # twice over, and the right number is smaller.
+        "method_error_bar_selection": {
+            "chosen_kcal_per_mol": 0.928,
+            "chosen_because": (
+                "Adamantane bridgehead versus methylene is TERTIARY versus SECONDARY, which is "
+                "exactly the comparison the acyclic propane/isobutane calibration measured at this "
+                "lane's own level. It is the directly analogous quantity, not an extrapolation."
+            ),
+            "rejected_alternatives": {
+                "3.25_kcal_per_mol": (
+                    "Offered by a peer, but it is the PBE0-D3/def2-TZVP row of a "
+                    "primary-to-tertiary survey. This lane computes at def2-SVP, so that row is "
+                    "the wrong basis as well as the wrong substitution comparison."
+                ),
+                "4.13_kcal_per_mol": (
+                    "The correct basis row of the same survey, PBE0-D3/def2-SVP, but still "
+                    "primary-to-tertiary, which is a two-step substitution change against this "
+                    "lane's one-step change. Method error grows with the substitution gap: 4.13 "
+                    "for two steps against 0.928 for one, a factor of 4.5. Using it would inflate "
+                    "the error bar by about that factor."
+                ),
+            },
+            "consequence_for_resolution": (
+                "With a 0.928 error bar rather than 3.25 or 4.13, a site difference of order 2 "
+                "kcal/mol would be resolvable and one of order 1 would not. That is a materially "
+                "better position than the peer's recommendation implied, and it comes from using "
+                "the calibration they themselves produced rather than their survey's nearest row."
+            ),
+            "direction_still_unfavourable": (
+                "The sign of the error does not improve with the smaller magnitude: PBE0-D3 "
+                "OVERSTATES the site difference by 45 percent, so it flatters selectivity."
+            ),
+        },
+        "functional_choice_not_changed": {
+            "decision": "Stay at PBE0-D3(BJ)/def2-SVP; do not switch functional or redo the relaxations.",
+            "reason": (
+                "A peer survey found that for relaxed reaction energies every functional tested "
+                "OVERSHOOTS the site effect, so M06-2X's advantage collapses from a factor of about "
+                "300 on fixed-geometry barriers to about 1.8 here. Switching would reduce a "
+                "primary-to-tertiary drift from 3.25 to 1.82 and would not change the resolution "
+                "verdict, while discarding converged work."
+            ),
+            "the_blindness_result_belongs_elsewhere": (
+                "The striking half of that survey is about BARRIERS, where PBE0-D3 and B3LYP-D3 "
+                "capture only 3 and 1 percent of the primary-to-tertiary shift and in the wrong "
+                "direction while M06-2X captures essentially all of it. That matters for whoever "
+                "locates the saddles, not for this lane's reaction energies. Its own author notes "
+                "the barrier numbers are single points at a geometry stationary on no DFT surface, "
+                "so it is the less trustworthy half despite being the more striking one."
+            ),
+        },
         "correct_anchor_for_this_lane": {
             "value_kcal_per_mol": 2.083,
             "quantity": "acyclic secondary minus tertiary, bare electronic difference",
