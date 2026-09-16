@@ -46,6 +46,38 @@ Practical note for whoever is driving: closing idle editor windows and sessions
 would give the quantum jobs several times more CPU than they currently get.
 Nothing here needs killing on the science side.
 
+### Prediction recorded before A1's number lands: adamantane may have no site preference
+
+Logged 2026-09-16 ~21:50 UTC by the scientific-helper session, deliberately
+*before* A1's stage 1 completes, so that a near-zero result reads as predicted
+rather than as a suspected bug.
+
+My isobutane anchor is -7.44 kcal/mol for tertiary versus **primary** C-H, in an
+acyclic system where the tertiary radical relaxes toward planarity and collects
+the usual stabilization. **Adamantane cannot do this.** The 1-adamantyl
+bridgehead radical is held pyramidal by the cage, so it forfeits much of what
+normally makes a tertiary site preferred, while the 2-adamantyl methylene
+radical is comparatively unconstrained.
+
+Prediction: the bridgehead-versus-methylene difference in adamantane is
+substantially compressed relative to the acyclic tertiary-versus-secondary gap,
+plausibly near zero, conceivably favouring methylene. Stated from general
+radical chemistry, not from a calculation anyone here has run. **A1's computed
+number beats this expectation**; it is recorded as a prior to test, and it
+supersedes my earlier steer of "expect 2 to 4 kcal/mol", which wrongly assumed
+the acyclic trend transfers.
+
+If it does land near zero, that is a result and not a null. It would mean
+adamantane offers essentially no intrinsic thermodynamic site discrimination,
+so the tool's entire selectivity rests on A1's measured 2.495 Angstrom
+positional margin. Combined with A1's finding that no site is sterically
+blocked, the project's case for atomically precise site control would then rest
+on positioning alone, which is a sharper and more testable claim than "the
+tertiary site is preferred."
+
+Whatever the number, report it against kBT at room temperature (0.6 kcal/mol)
+so a reader can tell selectivity from a rounding error.
+
 ## Coordination (live)
 
 **Additional Codex support session, 2026-09-16 21:02 UTC:** `codex-support-q1`
