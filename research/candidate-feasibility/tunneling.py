@@ -13,14 +13,44 @@ intuition the rest of the pipeline is built on.
 
 THE NUMBER THAT MATTERS is the crossover temperature
 
-    T_c = hbar |omega*| / (2 pi k_B)
+    T_c = hbar |omega*| / (2 pi k_B) = 0.2290 * omega*[cm^-1]  kelvin
 
 Above it, tunneling is a correction to classical transition-state theory.
 Below it, tunneling is the dominant mechanism and a classical rate is
-qualitatively wrong, not merely inaccurate. For hydrogen-transfer saddles the
-imaginary frequency is typically 1000-2000i cm^-1, which puts T_c in the range
-of 230-460 K. Room temperature is not safely above that, and any cryogenic
-operating proposal is far below it.
+qualitatively wrong, not merely inaccurate.
+
+WHAT THIS REACTION'S FREQUENCY ACTUALLY IS, and a correction to an earlier
+version of this file. It previously said hydrogen-transfer saddles "typically"
+run 1000-2000i cm^-1 and concluded that room temperature sits below crossover.
+That was a generic expectation for the reaction class asserted as a measurement
+of this reaction. The measurement exists, in SOURCE_NOTES.md line 33, from the
+source paper's own Table 1: the collinear methane transition structure has
+imaginary frequencies of 259i, 50i, 50i cm^-1.
+
+    259i  ->  T_c =  59.3 K.  At 298 K, kappa = 1.068: a 7% correction.
+   1000i  ->  T_c = 229.0 K.  At 298 K, kappa = 3.63.
+   1500i  ->  T_c = 343.5 K.  At 298 K the parabolic form diverges.
+
+So on the only datum this repository has, room temperature is about five times
+ABOVE crossover and tunneling is a small correction, not the mechanism. The
+arithmetic in the earlier version was right; the input was not. Reproducing a
+calculation verifies the calculation, not the claim it rests on.
+
+BUT THE QUESTION IS GENUINELY OPEN, and this file should not be read as settling
+it in the other direction either. Two arguments from the same source point
+opposite ways. The measured 259i comes from a structure carrying THREE imaginary
+modes, which is not a verified first-order saddle, at a geometry none of this
+project's functionals owns. Against that, the forensics lane finds that
+reproducing the experimental apparent activation energy from the zero-point
+corrected barrier requires substantial tunneling, around 1648i. Neither argument
+is robust. The honest state is that nobody knows which regime this reaction is
+in, and S1's refined saddle will produce the first imaginary frequency on a
+functional's own surface.
+
+That is why this module surveys a range rather than committing to a value, and
+why the useful output is the MAP from omega* to regime rather than a single
+kappa. omega* is the number that decides the regime; report it beside any
+barrier.
 
 WHAT THIS MODULE COMPUTES, and what it deliberately refuses to.
 
@@ -79,9 +109,24 @@ BOLTZMANN_J_PER_K = 1.380649e-23
 SPEED_OF_LIGHT_CM_PER_S = 2.99792458e10
 KCAL_PER_MOL_TO_J = 4184.0 / 6.02214076e23
 
-# Typical of hydrogen-transfer saddles; the repository has no verified value of
-# its own yet, so these are scanned rather than asserted.
-SURVEY_WAVENUMBERS_CM = (500.0, 800.0, 1000.0, 1200.0, 1500.0, 1800.0, 2000.0)
+# The only imaginary frequency this repository has for this reaction, from the
+# source paper's Table 1 via SOURCE_NOTES.md line 33. The structure carries
+# three imaginary modes, so it is a transition-structure candidate rather than
+# a verified first-order saddle, and this number inherits that status.
+MEASURED_WAVENUMBER_CM = 259.0
+MEASURED_WAVENUMBER_PROVENANCE = (
+    "Temelso, Sherrill, Merkle & Freitas (2006) Table 1, collinear methane "
+    "transition structure at UCCSD(T)/cc-pVDZ; modes 259i, 50i, 50i cm^-1. "
+    "Three imaginary modes means this is not a verified first-order saddle, "
+    "and no functional in this project owns that geometry."
+)
+# A counter-argument from the forensics lane: reproducing the experimental
+# apparent activation energy from the zero-point-corrected barrier needs far
+# more tunneling than 259i supplies. Carried so the survey is not read as
+# settling the question.
+EXPERIMENT_IMPLIED_WAVENUMBER_CM = 1648.0
+
+SURVEY_WAVENUMBERS_CM = (259.0, 500.0, 800.0, 1000.0, 1200.0, 1500.0, 1648.0, 2000.0)
 SURVEY_TEMPERATURES_K = (4.0, 77.0, 195.0, 298.15, 400.0, 500.0)
 
 
@@ -109,6 +154,9 @@ def bell_kappa(wavenumber_cm: float, temperature_k: float) -> dict:
 
     kappa = (u/2)/sin(u/2) diverges at u = 2 pi. That is exactly T = T_c, so
     the formula fails precisely where tunneling stops being a correction.
+
+    This is the quantity other lanes call ``kappa_p``; same closed form, and
+    the name is kept aligned so four lanes do not quote two symbols for it.
     """
     u = _u(wavenumber_cm, temperature_k)
     half = u / 2.0
@@ -211,12 +259,37 @@ def main() -> int:
         "schema_version": 1,
         "question": "Is a classical barrier enough to get a rate for this reaction?",
         "answer_shape": (
-            "No. For a transferred hydrogen the crossover temperature sits near "
-            "room temperature, so classical transition-state theory is outside "
-            "its validity range at the conditions this project cares about."
+            "Unresolved, and the resolution is one number. On the only measured "
+            "imaginary frequency available (259i cm^-1) room temperature is five "
+            "times above crossover and tunneling is a 7% correction. On the "
+            "frequency implied by reproducing the experimental activation energy "
+            "(~1648i) it is the dominant mechanism. Neither input is trustworthy: "
+            "the first comes from a structure with three imaginary modes, the "
+            "second is inferred rather than computed."
         ),
         "computes_chemistry": False,
-        "inputs": "Imaginary frequencies are surveyed, not taken from a verified saddle; this repository has none yet.",
+        "inputs": "Imaginary frequencies are surveyed; the repository has no verified saddle of its own.",
+        "measured_anchor": {
+            "wavenumber_cm": MEASURED_WAVENUMBER_CM,
+            "crossover_temperature_k": crossover_temperature(MEASURED_WAVENUMBER_CM),
+            "kappa_at_298K": bell_kappa(MEASURED_WAVENUMBER_CM, 298.15).get("kappa"),
+            "provenance": MEASURED_WAVENUMBER_PROVENANCE,
+        },
+        "experiment_implied_anchor": {
+            "wavenumber_cm": EXPERIMENT_IMPLIED_WAVENUMBER_CM,
+            "crossover_temperature_k": crossover_temperature(EXPERIMENT_IMPLIED_WAVENUMBER_CM),
+            "basis": (
+                "Forensics lane: the tunneling needed to reproduce the measured "
+                "apparent activation energy from the zero-point-corrected "
+                "barrier. Inferred from a rate, not computed from a surface."
+            ),
+        },
+        "correction_history": (
+            "An earlier version of this module asserted 1000-2000i as typical of "
+            "the reaction class and concluded room temperature was below "
+            "crossover. The arithmetic was right and the input was not. "
+            "Corrected against SOURCE_NOTES.md line 33."
+        ),
         "implemented": ["Wigner leading-order", "Bell parabolic-barrier", "crossover temperature", "tunneling contribution to H/D KIE"],
         "deliberately_not_implemented": {
             "eckart": (

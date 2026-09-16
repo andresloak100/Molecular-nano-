@@ -1,9 +1,21 @@
 {
   "schema_version": 1,
   "question": "Is a classical barrier enough to get a rate for this reaction?",
-  "answer_shape": "No. For a transferred hydrogen the crossover temperature sits near room temperature, so classical transition-state theory is outside its validity range at the conditions this project cares about.",
+  "answer_shape": "Unresolved, and the resolution is one number. On the only measured imaginary frequency available (259i cm^-1) room temperature is five times above crossover and tunneling is a 7% correction. On the frequency implied by reproducing the experimental activation energy (~1648i) it is the dominant mechanism. Neither input is trustworthy: the first comes from a structure with three imaginary modes, the second is inferred rather than computed.",
   "computes_chemistry": false,
-  "inputs": "Imaginary frequencies are surveyed, not taken from a verified saddle; this repository has none yet.",
+  "inputs": "Imaginary frequencies are surveyed; the repository has no verified saddle of its own.",
+  "measured_anchor": {
+    "wavenumber_cm": 259.0,
+    "crossover_temperature_k": 59.30800904747886,
+    "kappa_at_298K": 1.0681814752039107,
+    "provenance": "Temelso, Sherrill, Merkle & Freitas (2006) Table 1, collinear methane transition structure at UCCSD(T)/cc-pVDZ; modes 259i, 50i, 50i cm^-1. Three imaginary modes means this is not a verified first-order saddle, and no functional in this project owns that geometry."
+  },
+  "experiment_implied_anchor": {
+    "wavenumber_cm": 1648.0,
+    "crossover_temperature_k": 377.37296876542536,
+    "basis": "Forensics lane: the tunneling needed to reproduce the measured apparent activation energy from the zero-point-corrected barrier. Inferred from a rate, not computed from a surface."
+  },
+  "correction_history": "An earlier version of this module asserted 1000-2000i as typical of the reaction class and concluded room temperature was below crossover. The arithmetic was right and the input was not. Corrected against SOURCE_NOTES.md line 33.",
   "implemented": [
     "Wigner leading-order",
     "Bell parabolic-barrier",
@@ -17,6 +29,69 @@
   },
   "survey": {
     "rows": [
+      {
+        "imaginary_wavenumber_cm": 259.0,
+        "crossover_temperature_k": 59.30800904747886,
+        "room_temperature_is_below_crossover": false,
+        "temperatures": {
+          "4K": {
+            "temperature_k": 4.0,
+            "above_crossover": false,
+            "wigner_kappa": 362.6222987970635,
+            "bell_kappa": null,
+            "bell_valid": false,
+            "note": "At or below the crossover temperature the parabolic-barrier result diverges. Tunneling is the dominant mechanism here and needs Eckart, instanton or small-curvature treatment; a classical rate is qualitatively wrong, not just inaccurate."
+          },
+          "77K": {
+            "temperature_k": 77.0,
+            "above_crossover": true,
+            "wigner_kappa": 1.9758739721290297,
+            "bell_kappa": 3.6620848279836644,
+            "bell_valid": true,
+            "equivalent_barrier_lowering_kcal_per_mol": 0.19861810670110286
+          },
+          "195K": {
+            "temperature_k": 195.0,
+            "above_crossover": true,
+            "wigner_kappa": 1.152161914023748,
+            "bell_kappa": 1.170090194314313,
+            "bell_valid": true,
+            "equivalent_barrier_lowering_kcal_per_mol": 0.06086958232969981
+          },
+          "298.15K": {
+            "temperature_k": 298.15,
+            "above_crossover": true,
+            "wigner_kappa": 1.0650886940566724,
+            "bell_kappa": 1.0681814752039107,
+            "bell_valid": true,
+            "equivalent_barrier_lowering_kcal_per_mol": 0.03907891299186945
+          },
+          "400K": {
+            "temperature_k": 400.0,
+            "above_crossover": true,
+            "wigner_kappa": 1.0361622298797064,
+            "bell_kappa": 1.0370990431057032,
+            "bell_valid": true,
+            "equivalent_barrier_lowering_kcal_per_mol": 0.028955500750436253
+          },
+          "500K": {
+            "temperature_k": 500.0,
+            "above_crossover": true,
+            "wigner_kappa": 1.023143827123012,
+            "bell_kappa": 1.0235243419937865,
+            "bell_valid": true,
+            "equivalent_barrier_lowering_kcal_per_mol": 0.023103146221166687
+          }
+        },
+        "isotope_effect_298K": {
+          "hydrogen_wavenumber_cm": 259.0,
+          "deuterium_wavenumber_cm": 183.1406563273158,
+          "hydrogen_kappa": 1.0681814752039107,
+          "deuterium_kappa": 1.033301317427237,
+          "tunneling_contribution_to_kie": 1.0337560372646384,
+          "scope": "Tunneling contribution only; zero-point differences are excluded, so this understates a measured KIE and is not one."
+        }
+      },
       {
         "imaginary_wavenumber_cm": 500.0,
         "crossover_temperature_k": 114.4942259603839,
@@ -333,14 +408,14 @@
         }
       },
       {
-        "imaginary_wavenumber_cm": 1800.0,
-        "crossover_temperature_k": 412.179213457382,
+        "imaginary_wavenumber_cm": 1648.0,
+        "crossover_temperature_k": 377.37296876542536,
         "room_temperature_is_below_crossover": true,
         "temperatures": {
           "4K": {
             "temperature_k": 4.0,
             "above_crossover": false,
-            "wigner_kappa": 17467.29072468338,
+            "wigner_kappa": 14641.978038373609,
             "bell_kappa": null,
             "bell_valid": false,
             "note": "At or below the crossover temperature the parabolic-barrier result diverges. Tunneling is the dominant mechanism here and needs Eckart, instanton or small-curvature treatment; a classical rate is qualitatively wrong, not just inaccurate."
@@ -348,7 +423,7 @@
           "77K": {
             "temperature_k": 77.0,
             "above_crossover": false,
-            "wigner_kappa": 48.13453391717559,
+            "wigner_kappa": 40.51014481598545,
             "bell_kappa": null,
             "bell_valid": false,
             "note": "At or below the crossover temperature the parabolic-barrier result diverges. Tunneling is the dominant mechanism here and needs Eckart, instanton or small-curvature treatment; a classical rate is qualitatively wrong, not just inaccurate."
@@ -356,7 +431,7 @@
           "195K": {
             "temperature_k": 195.0,
             "above_crossover": false,
-            "wigner_kappa": 8.349392546875318,
+            "wigner_kappa": 7.160569325811379,
             "bell_kappa": null,
             "bell_valid": false,
             "note": "At or below the crossover temperature the parabolic-barrier result diverges. Tunneling is the dominant mechanism here and needs Eckart, instanton or small-curvature treatment; a classical rate is qualitatively wrong, not just inaccurate."
@@ -364,33 +439,33 @@
           "298.15K": {
             "temperature_k": 298.15,
             "above_crossover": false,
-            "wigner_kappa": 4.14377198824732,
+            "wigner_kappa": 3.63524164134841,
             "bell_kappa": null,
             "bell_valid": false,
             "note": "At or below the crossover temperature the parabolic-barrier result diverges. Tunneling is the dominant mechanism here and needs Eckart, instanton or small-curvature treatment; a classical rate is qualitatively wrong, not just inaccurate."
           },
           "400K": {
             "temperature_k": 400.0,
-            "above_crossover": false,
-            "wigner_kappa": 2.7466290724683375,
-            "bell_kappa": null,
-            "bell_valid": false,
-            "note": "At or below the crossover temperature the parabolic-barrier result diverges. Tunneling is the dominant mechanism here and needs Eckart, instanton or small-curvature treatment; a classical rate is qualitatively wrong, not just inaccurate."
+            "above_crossover": true,
+            "wigner_kappa": 2.46409780383736,
+            "bell_kappa": 16.766081770853745,
+            "bell_valid": true,
+            "equivalent_barrier_lowering_kcal_per_mol": 2.2410560128973214
           },
           "500K": {
             "temperature_k": 500.0,
             "above_crossover": true,
-            "wigner_kappa": 2.117842606379736,
-            "bell_kappa": 4.940326367834331,
+            "wigner_kappa": 1.937022594455911,
+            "bell_kappa": 3.4043830405252504,
             "bell_valid": true,
-            "equivalent_barrier_lowering_kcal_per_mol": 1.5872112358936163
+            "equivalent_barrier_lowering_kcal_per_mol": 1.21722593164925
           }
         },
         "isotope_effect_298K": {
-          "hydrogen_wavenumber_cm": 1800.0,
-          "deuterium_wavenumber_cm": 1272.7922061357854,
+          "hydrogen_wavenumber_cm": 1648.0,
+          "deuterium_wavenumber_cm": 1165.3119753954302,
           "hydrogen_kappa": null,
-          "deuterium_kappa": 43.56748099847682,
+          "deuterium_kappa": 8.679998364700976,
           "tunneling_contribution_to_kie": null,
           "scope": "Tunneling contribution only; zero-point differences are excluded, so this understates a measured KIE and is not one."
         }

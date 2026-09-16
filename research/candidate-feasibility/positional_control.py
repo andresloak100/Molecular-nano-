@@ -14,20 +14,37 @@ operation small enough that a large product is still perfect - conventionally
 quoted around 1e-15. That is a statement about a probability distribution of
 tip positions, not about a barrier. This module computes it.
 
-THE GEOMETRY. At the nominal 3.6 A pose, the target bridgehead hydrogen sits on
-the tool axis, and the twelve nearest competing hydrogens sit 2.158 A away from
-that axis, laterally. So the tip has a target radius of roughly half that
-before a competing site is closer than the intended one.
+THE GEOMETRY. At the nominal 3.6 A pose the target bridgehead hydrogen sits on
+the tool axis. The margin is the smallest displacement of the apex, IN ANY
+DIRECTION, that puts a different hydrogen nearer than the target: geometrically,
+the distance to the closest perpendicular-bisector plane between the target and
+a competitor. That is 2.495 A, and the easiest escape is not lateral but tilted
+about 120 degrees from the tool axis, down toward the equatorial methylenes.
 
-THE PHYSICS. For an isotropic two-dimensional Gaussian of lateral wander with
-standard deviation sigma per axis, the probability of straying beyond radius R
-is exp(-R^2 / (2 sigma^2)). Setting that below 1e-15 requires
+Taking the purely lateral value instead gives 2.878 A. Both are correct
+measures of different things, and only the minimum is safe for a tolerance,
+since thermal displacement is three-dimensional and finds the easiest direction.
+The lateral figure would overstate the allowance by about 15%.
 
-    sigma < R / sqrt(2 ln(1e15)) = R / 8.31
+THE PHYSICS. Displacement is three-dimensional, so the escape region is a
+sphere. For an isotropic Gaussian with per-axis sigma,
 
-With R = 1.079 A that is sigma < 0.130 A, which converts through classical
-equipartition, sigma^2 = kT/k, into a *required lateral stiffness*. That number
-is the design specification this project has never written down.
+    P(r > R) = erfc(x) + (2x / sqrt(pi)) exp(-x^2),   x = R / (sigma sqrt 2)
+
+The sphere sits inside the target's Voronoi cell, so leaving the cell requires
+at least leaving the sphere: this overestimates the error, which is the
+direction an error budget should lean. Setting it below 1e-15 at R = 2.495 A
+needs sigma < 0.292 A, which converts through classical equipartition,
+sigma^2 = kT/k, into a *required stiffness* of 0.30 eV/A^2 (4.8 N/m) at 298 K.
+That number is the design specification this project has never written down.
+
+A CONDITION THAT CARRIES THE WHOLE RESULT, and is not decorative. This is a
+criterion about which hydrogen is NEAREST, not which one REACTS. The two
+coincide only if the competing barriers are comparable, which is A1's open
+question. Below the tunneling crossover temperature they decouple further,
+because a more distant site with a narrower barrier can win on width alone. So
+the finding is "thermal wander is not the binding risk, GIVEN that nearest
+implies reacting" - never "positional control is solved."
 
 TWO CONTRIBUTIONS TO THE STIFFNESS, and only one is measured here.
 
@@ -139,73 +156,122 @@ def competing_site_geometry(separation: float = 3.6) -> dict:
             "z_angstrom": float(position[2]),
             "distance_to_apex_angstrom": float(np.linalg.norm(position - apex)),
         }
-        if lateral_distance < 1e-9:
-            # Directly under the apex: moving laterally never favours it.
-            entry["crossover_offset_angstrom"] = None
-            entry["reachable_by_lateral_motion"] = False
-            competitors.append(entry)
-            continue
-
-        # Worst case: the apex slides straight at this competitor.
-        # With apex(x) = apex + x*d and d a unit lateral vector, the x^2 terms
-        # cancel between the two squared distances, leaving
-        #     x = (|apex-C|^2 - |apex-T|^2) / (2 d . (C - T))
-        direction = np.array([lateral_vector[0], lateral_vector[1], 0.0]) / lateral_distance
+        # Crossover along an arbitrary unit direction d: with apex(s) = apex + s*d
+        # the s^2 terms cancel between the two squared distances, leaving
+        #     s = (|apex-C|^2 - |apex-T|^2) / (2 d . (C - T))
         numerator = float(
             np.dot(apex - position, apex - position)
             - np.dot(apex - target_position, apex - target_position)
         )
-        denominator = 2.0 * float(np.dot(direction, position - target_position))
-        crossover = numerator / denominator if abs(denominator) > 1e-12 else None
-        entry["crossover_offset_angstrom"] = crossover if (crossover is not None and crossover > 0) else None
-        entry["reachable_by_lateral_motion"] = entry["crossover_offset_angstrom"] is not None
+        separation_vector = position - target_position
+
+        # Lateral-only, kept for comparison with the earlier reading.
+        if lateral_distance >= 1e-9:
+            lateral_direction = np.array([lateral_vector[0], lateral_vector[1], 0.0]) / lateral_distance
+            denominator = 2.0 * float(np.dot(lateral_direction, separation_vector))
+            lateral_crossover = numerator / denominator if abs(denominator) > 1e-12 else None
+            if lateral_crossover is not None and lateral_crossover <= 0:
+                lateral_crossover = None
+        else:
+            lateral_crossover = None
+        entry["lateral_crossover_angstrom"] = lateral_crossover
+
+        # Minimum over ALL displacement directions. s(d) is minimised by aligning
+        # d with (C - T) when the numerator is positive, giving
+        #     s_min = |apex-C|^2 - |apex-T|^2) / (2 |C - T|)
+        # which is the distance from the apex to the perpendicular bisector plane
+        # between target and competitor. The apex must cross that plane for the
+        # competitor to become nearest, in any direction whatsoever.
+        separation_norm = float(np.linalg.norm(separation_vector))
+        entry["any_direction_crossover_angstrom"] = (
+            numerator / (2.0 * separation_norm) if separation_norm > 1e-12 and numerator > 0 else None
+        )
         competitors.append(entry)
 
-    reachable = [c for c in competitors if c["crossover_offset_angstrom"] is not None]
-    reachable.sort(key=lambda entry: entry["crossover_offset_angstrom"])
-    if not reachable:
-        raise RuntimeError("No competing hydrogen becomes nearest at any lateral offset.")
-    margin = reachable[0]["crossover_offset_angstrom"]
+    any_direction = [c for c in competitors if c["any_direction_crossover_angstrom"] is not None]
+    lateral_only = [c for c in competitors if c["lateral_crossover_angstrom"] is not None]
+    if not any_direction:
+        raise RuntimeError("No competing hydrogen becomes nearest under any displacement.")
+    any_direction.sort(key=lambda entry: entry["any_direction_crossover_angstrom"])
+    margin = any_direction[0]["any_direction_crossover_angstrom"]
+    lateral_margin = (
+        min(c["lateral_crossover_angstrom"] for c in lateral_only) if lateral_only else None
+    )
 
     naive = min(c["lateral_from_tool_axis_angstrom"] for c in competitors) / 2.0
     return {
         "target_hydrogen_index": target,
         "target_is_on_tool_axis": bool(np.linalg.norm(target_position[:2]) < 1e-9),
         "n_competing_substrate_hydrogens": len(competitors),
-        "criterion": "Voronoi from the apex: lateral offset at which a competitor becomes equidistant with the target",
+        "criterion": (
+            "Distance from the apex to the nearest perpendicular-bisector plane "
+            "between the target hydrogen and any competitor: the smallest "
+            "displacement IN ANY DIRECTION that makes a wrong hydrogen nearest."
+        ),
         "target_radius_angstrom": margin,
-        "nearest_rival_index": reachable[0]["index"],
-        "nearest_rival_z_angstrom": reachable[0]["z_angstrom"],
+        "nearest_rival_index": any_direction[0]["index"],
+        "nearest_rival_z_angstrom": any_direction[0]["z_angstrom"],
         "n_rivals_at_that_offset": sum(
-            1 for c in reachable if abs(c["crossover_offset_angstrom"] - margin) < 1e-6
+            1 for c in any_direction if abs(c["any_direction_crossover_angstrom"] - margin) < 1e-6
+        ),
+        "lateral_only_margin_angstrom": lateral_margin,
+        "why_the_minimum_and_not_the_lateral_value": (
+            "Thermal displacement is three-dimensional, so the tolerance is set "
+            "by the easiest escape direction, not by the lateral one. The "
+            "lateral figure is larger and would overstate the allowance by "
+            "roughly 15% here; the minimum is the conservative quantity and is "
+            "what the specification uses."
         ),
         "rejected_naive_radius_angstrom": naive,
         "why_naive_is_wrong": (
             "Half the smallest lateral offset of any competitor. Picks hydrogens "
-            "on the far side of the cage that the tip cannot reach at any offset, "
-            "and understates the margin roughly fourfold."
+            "on the far side of the cage that the tip cannot reach at all, and "
+            "understates the margin roughly fourfold."
         ),
         "limits": (
             "Nearest-hydrogen is not the same as the hydrogen that reacts. "
             "Abstraction also wants a near-collinear approach, so this bounds "
             "mis-targeting rather than predicting a product."
         ),
-        "reachable_rivals": reachable[:6],
+        "reachable_rivals": any_direction[:6],
     }
 
 
-def required_sigma(target_radius: float, error_target: float = DREXLER_ERROR_TARGET) -> float:
-    """Lateral sigma per axis that keeps the 2-D miss probability under the target.
-
-    For an isotropic 2-D Gaussian, P(r > R) = exp(-R^2 / (2 sigma^2)) exactly.
-    """
-    return target_radius / math.sqrt(2.0 * math.log(1.0 / error_target))
-
-
 def error_probability(target_radius: float, sigma: float) -> float:
+    """Probability that a 3-D isotropic Gaussian displacement leaves the sphere.
+
+    Thermal displacement of the tip is three-dimensional, so the escape region
+    is a sphere of radius ``target_radius``, not a disc. For per-axis sigma,
+
+        P(r > R) = erfc(x) + (2x / sqrt(pi)) exp(-x^2),   x = R / (sigma sqrt 2)
+
+    The sphere fits inside the target's Voronoi cell, so leaving the cell
+    requires at least leaving the sphere: this is an upper bound on the true
+    mis-targeting probability, which is the direction an error budget wants.
+    """
     if sigma <= 0:
         return 0.0
-    return math.exp(-(target_radius ** 2) / (2.0 * sigma ** 2))
+    x = target_radius / (sigma * math.sqrt(2.0))
+    if x > 30:  # exp(-900) underflows; the probability is zero to any precision
+        return 0.0
+    return math.erfc(x) + (2.0 * x / math.sqrt(math.pi)) * math.exp(-x * x)
+
+
+def required_sigma(target_radius: float, error_target: float = DREXLER_ERROR_TARGET) -> float:
+    """Largest sigma meeting the error target. Inverted numerically by bisection.
+
+    The 3-D tail has no elementary inverse, so this brackets and bisects rather
+    than using a closed form that would only be right in 2-D.
+    """
+    low, high = 1e-6, target_radius
+    # error_probability increases with sigma, so bracket then halve.
+    for _ in range(200):
+        middle = 0.5 * (low + high)
+        if error_probability(target_radius, middle) > error_target:
+            high = middle
+        else:
+            low = middle
+    return 0.5 * (low + high)
 
 
 def classical_sigma(stiffness_ev_per_a2: float, temperature_k: float) -> float:

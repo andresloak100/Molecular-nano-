@@ -41,13 +41,22 @@ def test_required_sigma_round_trips_through_the_error_probability():
         assert error_probability(radius, sigma) == pytest.approx(DREXLER_ERROR_TARGET, rel=1e-9)
 
 
-def test_error_probability_matches_the_two_dimensional_gaussian_integral():
-    """exp(-R^2/2s^2) must equal the numerically integrated 2-D tail."""
+def test_error_probability_matches_the_three_dimensional_gaussian_integral():
+    """The closed form must equal the numerically integrated 3-D radial tail."""
     sigma, radius = 0.3, 0.75
-    # P(r > R) for an isotropic 2-D Gaussian, by direct radial integration.
+    # Maxwell-Boltzmann style radial density for an isotropic 3-D Gaussian.
     r = np.linspace(radius, radius + 40 * sigma, 400_000)
-    density = (r / sigma ** 2) * np.exp(-(r ** 2) / (2 * sigma ** 2))
+    density = (
+        math.sqrt(2.0 / math.pi) * (r ** 2 / sigma ** 3) * np.exp(-(r ** 2) / (2 * sigma ** 2))
+    )
     assert np.trapezoid(density, r) == pytest.approx(error_probability(radius, sigma), rel=1e-6)
+
+
+def test_error_probability_exceeds_the_two_dimensional_form_it_replaced():
+    """3-D has more room to escape, so it must be the more conservative number."""
+    sigma, radius = 0.3, 1.2
+    two_dimensional = math.exp(-(radius ** 2) / (2 * sigma ** 2))
+    assert error_probability(radius, sigma) > two_dimensional
 
 
 def test_classical_sigma_is_equipartition():
@@ -97,8 +106,13 @@ def test_cold_stiff_case_does_not_overflow():
     assert result["quantum_regime"] is True
 
 
-def test_geometry_margin_matches_a_brute_force_azimuthal_search():
-    """The analytic crossover must agree with sliding the apex numerically."""
+def test_geometry_margin_matches_a_brute_force_search_over_all_directions():
+    """The analytic margin must agree with sweeping the apex in full 3-D.
+
+    The margin is a minimum over directions, so a brute-force search that only
+    swept lateral directions would confirm the wrong quantity. This sweeps the
+    sphere.
+    """
     geometry = competing_site_geometry()
     reactant, _, metadata = make_h_abstraction(3.6, 0.0)
     positions = reactant.positions
@@ -110,15 +124,36 @@ def test_geometry_margin_matches_a_brute_force_azimuthal_search():
         if symbols[i] == "H" and i != metadata["transferred_hydrogen"]
     ])
 
-    azimuths = np.linspace(0.0, 2 * np.pi, 181)
-    offsets = np.arange(0.0, 6.0, 0.005)
-    directions = np.stack([np.cos(azimuths), np.sin(azimuths), np.zeros_like(azimuths)], axis=1)
-    swept = apex[None, None, :] + offsets[None, :, None] * directions[:, None, :]
-    to_target = np.linalg.norm(swept - target, axis=2)
-    to_rivals = np.linalg.norm(swept[:, :, None, :] - rivals[None, None, :, :], axis=3).min(axis=2)
-    crossed = to_rivals <= to_target
-    first = np.where(crossed.any(axis=1), np.argmax(crossed, axis=1), len(offsets) - 1)
-    assert offsets[first].min() == pytest.approx(geometry["target_radius_angstrom"], abs=0.01)
+    margin = geometry["target_radius_angstrom"]
+    # A Fibonacci sphere samples directions evenly without a dense grid, so the
+    # check stays cheap enough to run in the suite.
+    count = 20_000
+    index = np.arange(count) + 0.5
+    z = 1.0 - 2.0 * index / count
+    radius_xy = np.sqrt(np.clip(1.0 - z * z, 0.0, None))
+    golden = np.pi * (1.0 + 5.0 ** 0.5)
+    directions = np.stack(
+        [radius_xy * np.cos(golden * index), radius_xy * np.sin(golden * index), z], axis=1
+    )
+
+    def rival_is_nearer_anywhere(distance: float) -> bool:
+        moved = apex[None, :] + distance * directions
+        to_target = np.linalg.norm(moved - target, axis=1)
+        to_rivals = np.linalg.norm(moved[:, None, :] - rivals[None, :, :], axis=2).min(axis=1)
+        return bool((to_rivals <= to_target).any())
+
+    # Just inside the margin the target must still win in every direction; just
+    # outside, some direction must lose. That brackets the margin from both sides.
+    assert not rival_is_nearer_anywhere(margin * 0.97)
+    assert rival_is_nearer_anywhere(margin * 1.05)
+
+
+def test_the_minimum_margin_is_smaller_than_the_lateral_one():
+    """Using the lateral value as a tolerance would overstate the allowance."""
+    geometry = competing_site_geometry()
+    assert geometry["target_radius_angstrom"] < geometry["lateral_only_margin_angstrom"]
+    assert geometry["target_radius_angstrom"] == pytest.approx(2.495, abs=0.01)
+    assert geometry["lateral_only_margin_angstrom"] == pytest.approx(2.878, abs=0.01)
 
 
 def test_the_naive_lateral_criterion_is_recorded_and_rejected():
