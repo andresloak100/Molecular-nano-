@@ -1,0 +1,25 @@
+{
+  "purpose": "Frequency-based corroboration of the compliance stiffness, computed from the committed run without modifying it",
+  "source_evidence": "research/site-selectivity/evidence/tip-stiffness-propyne/tip_stiffness.json",
+  "softest_wavenumber_cm1": 88.33750884614788,
+  "molecular_mass_amu": 40.064,
+  "compliance": {
+    "stiffness_n_per_m": 7.27152494448039,
+    "wavenumber_cm1": 88.33750884614788,
+    "implied_reduced_mass_amu": 15.815574126416704,
+    "molecular_mass_amu": 40.064,
+    "reduced_mass_over_molecular_mass": 0.39475774077517733,
+    "physically_possible": true,
+    "criterion": "A real vibrational mode has reduced mass below the total molecular mass, and a transverse bend of a linear fragment should land near a third to a half of it. A stiffness implying more than the molecular mass is falsified by the frequency."
+  },
+  "clamped": {
+    "stiffness_n_per_m": 79.82005372759512,
+    "wavenumber_cm1": 88.33750884614788,
+    "implied_reduced_mass_amu": 173.6086977823815,
+    "molecular_mass_amu": 40.064,
+    "reduced_mass_over_molecular_mass": 4.333284189855768,
+    "physically_possible": false,
+    "criterion": "A real vibrational mode has reduced mass below the total molecular mass, and a transverse bend of a linear fragment should land near a third to a half of it. A stiffness implying more than the molecular mass is falsified by the frequency."
+  },
+  "conclusion": "The observed 88.3 cm^-1 soft mode implies a reduced mass of 15.8 amu for the compliance-based 7.27 N/m, which is 0.39 of the molecular mass and exactly what a transverse bend of a linear fragment should look like. The clamped diagonal block, 79.8 N/m, would require 173.6 amu, 4.3 times the entire molecule, which is impossible. The frequency does not merely favour the compliance route, it falsifies the clamped one."
+}

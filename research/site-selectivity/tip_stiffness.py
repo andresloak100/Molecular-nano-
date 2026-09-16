@@ -10,9 +10,18 @@ N/m the conclusion would invert.  This script computes it.
 candidate is out of reach here, so the mount is reduced to a methyl group:
 CH3-C(triple)C-H, propyne, with the methyl hydrogens anchored.  A methyl group is
 *far floppier* than an adamantane cage, so the stiffness this returns is a
-**lower estimate** of what the real mounted tip provides.  That is the useful
-direction: if even a methyl-mounted ethynyl clears the requirement, a
-cage-mounted one clears it comfortably.
+**lower estimate** of what the real mounted tip provides.
+
+**Result, and it revised this lane's headroom claim downward.**  The measured
+apex-carbon lateral stiffness is 7.27 N/m, *below* the 10 to 100 N/m that was
+being assumed, giving 1.6 to 2.1x headroom rather than the sevenfold previously
+claimed.  The requirement is still met at every criterion, but not comfortably,
+so the earlier "if even a methyl mount clears it, a cage clears it comfortably"
+reasoning does not hold and has been removed.  The reason the literature range
+did not transfer is geometric: an ethynyl tip is a long thin protruding alkyne
+whose soft direction is a transverse *bend* at 88 cm^-1, not a stretch, while the
+10-100 N/m figure describes stiff diamondoid bulk.  Narrow and protruding is what
+makes a good abstraction tool and is also what makes it laterally floppy.
 
 **Why propyne rather than the propynyl radical.**  The quantity wanted is a
 framework mechanical property -- how stiffly the mount resists lateral
@@ -41,6 +50,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from pathlib import Path
 import time
 
@@ -94,6 +104,36 @@ def build_propyne() -> tuple[Atoms, dict]:
     if atoms.get_chemical_formula() != "C3H4":
         raise ValueError(f"Expected propyne C3H4, built {atoms.get_chemical_formula()}")
     return atoms, indices
+
+
+def reduced_mass_check(stiffness_n_per_m: float, wavenumber_cm1: float,
+                       molecular_mass_amu: float) -> dict:
+    """Does the observed soft-mode frequency corroborate this stiffness?
+
+    A harmonic mode satisfies mu = k / omega**2, so a stiffness and a measured
+    frequency together imply a reduced mass.  That is a strong check because the
+    reduced mass of a real vibration cannot exceed the molecule's total mass: a
+    stiffness inconsistent with the frequency is not merely less appropriate, it
+    is impossible.  The check needs one line and no recomputation, so a reader can
+    redo it from the stored numbers without rerunning the Hessian.
+    """
+    from scipy.constants import atomic_mass as _amu, speed_of_light as _c
+
+    omega = wavenumber_cm1 * 2.0 * math.pi * _c * 100.0
+    reduced = stiffness_n_per_m / omega**2 / _amu
+    return {
+        "stiffness_n_per_m": stiffness_n_per_m,
+        "wavenumber_cm1": wavenumber_cm1,
+        "implied_reduced_mass_amu": reduced,
+        "molecular_mass_amu": molecular_mass_amu,
+        "reduced_mass_over_molecular_mass": reduced / molecular_mass_amu,
+        "physically_possible": bool(reduced < molecular_mass_amu),
+        "criterion": (
+            "A real vibrational mode has reduced mass below the total molecular mass, and a "
+            "transverse bend of a linear fragment should land near a third to a half of it. "
+            "A stiffness implying more than the molecular mass is falsified by the frequency."
+        ),
+    }
 
 
 def main() -> None:
@@ -208,6 +248,17 @@ def main() -> None:
             "stiffness_headroom_factor": verdict["stiffness_headroom_factor"],
             "softest_mode_wavenumber_cm1_if_carbon_mass": mode_wavenumber(softest, 12.011),
         }
+        # Corroborate the stiffness against the observed soft-mode frequency, and
+        # show what the clamped alternative would have to imply.
+        softest_wavenumber = min(f for f in characterization["frequencies_cm1"] if f > 1.0)
+        molecular_mass = float(sum(anchored.get_masses()))
+        entry["reduced_mass_check_compliance"] = reduced_mass_check(
+            softest, softest_wavenumber, molecular_mass
+        )
+        entry["reduced_mass_check_clamped"] = reduced_mass_check(
+            min(stiffness["clamped_diagonal_block_stiffness_n_per_m"]),
+            softest_wavenumber, molecular_mass,
+        )
         report["tips"][label] = entry
         print(f"\n{label}:", flush=True)
         print(f"  stiffness, compliance-based   {softest:8.2f} N/m  (softest of "

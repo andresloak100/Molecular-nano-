@@ -67,3 +67,5 @@
 {"timestamp":"2026-09-16T22:22:53.775460+00:00","call_id":"7beabaa0-7b97-4ae0-b3a6-8469ae0b8217","event":"scf_cycle","elapsed_seconds":151.39318379200995,"cycle":11,"e_tot":-389.32864453157754,"energy_unit":"Hartree"}
 {"timestamp":"2026-09-16T22:23:04.735093+00:00","call_id":"7beabaa0-7b97-4ae0-b3a6-8469ae0b8217","event":"scf_completed","elapsed_seconds":162.35337820788845,"converged":true,"cycles":11,"e_tot":-389.32864453160255,"energy_unit":"Hartree"}
 {"timestamp":"2026-09-16T22:23:04.739025+00:00","call_id":"7beabaa0-7b97-4ae0-b3a6-8469ae0b8217","event":"gradient_started","elapsed_seconds":162.35647795791738}
+{"timestamp":"2026-09-16T22:25:35.603496+00:00","call_id":"7beabaa0-7b97-4ae0-b3a6-8469ae0b8217","event":"calculation_completed","elapsed_seconds":313.21790166711435,"energy_eV":-10594.898090296134,"scf_converged":true,"gradient_completed":true}
+{"timestamp":"2026-09-16T22:26:21.349687+00:00","call_id":"8c35822b-6e10-44ce-b146-0154d55034a7","event":"scf_cycle","elapsed_seconds":45.68746483302675,"cycle":1,"e_tot":-389.2733048102515,"energy_unit":"Hartree"}
