@@ -1,0 +1,5 @@
+=== 1thread-df start 2026-09-16T21:48:22Z loadavg: 0.57 2.23 2.36 2/107 3215
+./run_1thread_cputime.sh: 7: /usr/bin/time: not found
+=== 1thread-df end   2026-09-16T21:48:22Z loadavg: 0.57 2.23 2.36 2/107 3218
+CPUTIME DONE
+=== 1thread-df start 2026-09-16T21:49:25Z loadavg: 0.19 1.79 2.20 2/107 3241

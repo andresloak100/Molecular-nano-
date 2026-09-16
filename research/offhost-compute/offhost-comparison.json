@@ -1,0 +1,75 @@
+{
+ "generated_by": "research/offhost-compute/analyze_offhost.py",
+ "offhost_platform": {
+  "os": "Linux",
+  "machine": "x86_64",
+  "logical_cpus": 4,
+  "loadavg_at_analysis": [
+   0.71142578125,
+   2.36767578125,
+   2.41064453125
+  ]
+ },
+ "interpretation_limits": [
+  "Different hardware, OS, arch and BLAS: timing ratios mix machine and contention effects and are not a controlled benchmark of either machine.",
+  "The archived Mac runs executed under measured heavy contention (see CLAUDE.md); the off-host runs executed serially on an otherwise idle container, load averages logged in timing-log.txt.",
+  "Energy/force agreement at one unrelaxed geometry does not bound errors along a reaction path or validate the electronic method.",
+  "Projection scenarios reuse the compute-planning evaluation count (2,407) and inherit all of its stated assumptions; they are conditional arithmetic, not schedules."
+ ],
+ "runs": {
+  "density_fitting": {
+   "archived_mac": {
+    "path": "data/validation/h-abstraction-df-initial/result.json",
+    "energy_ev": -23274.37858291648,
+    "free_force_max_ev_per_angstrom": 0.958058153544016,
+    "elapsed_seconds": 701.5310956249014,
+    "requested_threads": 2,
+    "diagnostics": {}
+   },
+   "offhost_container": {
+    "path": "research/offhost-compute/runs/53atom-df-4t/result.json",
+    "energy_ev": -23274.378582916383,
+    "free_force_max_ev_per_angstrom": 0.9580581535630753,
+    "elapsed_seconds": 568.0469859340001,
+    "requested_threads": 4,
+    "diagnostics": {}
+   }
+  },
+  "direct": {
+   "archived_mac": {
+    "path": "data/validation/h-abstraction-direct-initial/result.json",
+    "energy_ev": -23274.37206123687,
+    "free_force_max_ev_per_angstrom": 0.9582438248481605,
+    "elapsed_seconds": 2044.8429140418302,
+    "requested_threads": 2,
+    "diagnostics": {}
+   },
+   "offhost_container": {
+    "path": "research/offhost-compute/runs/53atom-direct-4t/result.json",
+    "energy_ev": -23274.372061236958,
+    "free_force_max_ev_per_angstrom": 0.9582438248483564,
+    "elapsed_seconds": 789.2164806100002,
+    "requested_threads": 4,
+    "diagnostics": {}
+   }
+  }
+ },
+ "cross_platform_deltas": {
+  "density_fitting": {
+   "energy_delta_ev_offhost_minus_mac": 9.822542779147625e-11,
+   "free_force_max_delta_ev_per_angstrom": 1.9059309686042525e-11,
+   "elapsed_ratio_mac_over_offhost": 1.2349877967778011
+  },
+  "direct": {
+   "energy_delta_ev_offhost_minus_mac": -8.731149137020111e-11,
+   "free_force_max_delta_ev_per_angstrom": 1.9584334154387761e-13,
+   "elapsed_ratio_mac_over_offhost": 2.590978475843957
+  }
+ },
+ "projection_scenarios_days": {
+  "density_fitting_mac_archived": 19.54,
+  "density_fitting_offhost_container": 15.83,
+  "direct_mac_archived": 56.97,
+  "direct_offhost_container": 21.99
+ }
+}

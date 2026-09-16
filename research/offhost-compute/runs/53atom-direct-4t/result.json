@@ -2,7 +2,7 @@
   "schema_version": 1,
   "stage": "singlepoint",
   "state": "initial",
-  "status": "running",
+  "status": "completed",
   "started_utc": "2026-09-16T21:33:04.479749+00:00",
   "software_version": "0.1.0",
   "python_version": "3.11.15",
@@ -749,5 +749,409 @@
     "length": "angstrom",
     "energy": "eV",
     "force": "eV/angstrom"
+  },
+  "structure": {
+    "energy_ev": -23274.372061236958,
+    "free_force_max_ev_per_angstrom": 0.9582438248483564,
+    "forces_ev_per_angstrom": [
+      [
+        -3.4260385878606127e-13,
+        0.00027023906251144494,
+        -0.885349534425407
+      ],
+      [
+        -0.5321054601199102,
+        -0.30083407270548573,
+        0.19736808018773613
+      ],
+      [
+        0.5321054601065739,
+        -0.30083407270881984,
+        0.19736808019358215
+      ],
+      [
+        7.110196579424562e-13,
+        0.6070829113610067,
+        0.18537004116977623
+      ],
+      [
+        -0.6774449618891538,
+        -0.3901496141137837,
+        -0.5000201098829647
+      ],
+      [
+        0.6774449618775532,
+        -0.3901496141149712,
+        -0.5000201098782606
+      ],
+      [
+        2.70711052792967e-12,
+        0.785513570919302,
+        -0.5118383093721736
+      ],
+      [
+        0.6901809328129545,
+        0.3952757710349073,
+        0.5619257095034375
+      ],
+      [
+        -0.6901809328239158,
+        0.3952757710364144,
+        0.5619257095190572
+      ],
+      [
+        4.138692659650005e-13,
+        -0.7947300904408895,
+        0.5693840232548517
+      ],
+      [
+        1.9970139719977825e-13,
+        -5.683871066698349e-05,
+        0.6489444095987673
+      ],
+      [
+        0.3629516016742021,
+        0.20888773726365228,
+        -0.14027554633760164
+      ],
+      [
+        -0.3629516016670544,
+        0.20888773726563903,
+        -0.1402755463366654
+      ],
+      [
+        -9.700205104939567e-14,
+        -0.4183220260010185,
+        -0.13842335174003179
+      ],
+      [
+        0.39404438605337144,
+        -0.06359657245870143,
+        0.22228911788062627
+      ],
+      [
+        0.14535600307615104,
+        0.3726822989661573,
+        0.2250646188357292
+      ],
+      [
+        -0.39404438605019726,
+        -0.06359657245920096,
+        0.22228911787870803
+      ],
+      [
+        -0.14535600307572855,
+        0.37268229896405636,
+        0.2250646188351412
+      ],
+      [
+        -0.25072122352876564,
+        -0.31277083189136706,
+        0.22607052059671673
+      ],
+      [
+        0.2507212235250205,
+        -0.3127708318915269,
+        0.22607052059807548
+      ],
+      [
+        -0.14596763555569467,
+        -0.08550428071765769,
+        -0.43377156431481456
+      ],
+      [
+        -0.39978611428840627,
+        -0.229077738739843,
+        -0.012092554419876687
+      ],
+      [
+        0.14596763555640258,
+        -0.08550428071769192,
+        -0.4337715643139696
+      ],
+      [
+        0.3997861142865109,
+        -0.22907773873903234,
+        -0.012092554419334335
+      ],
+      [
+        1.0701474191400715e-13,
+        0.16792096761036576,
+        -0.43337497082675935
+      ],
+      [
+        -8.843730654666764e-14,
+        0.4625264876729187,
+        -0.013361450830373045
+      ],
+      [
+        3.070278827050377e-14,
+        -3.503879975359182e-05,
+        -0.7553834325655858
+      ],
+      [
+        4.3199717119037563e-13,
+        -0.0004709381438183979,
+        0.35757900897254785
+      ],
+      [
+        -1.4646524694000705e-12,
+        0.0003672821988582996,
+        -0.18470413645485853
+      ],
+      [
+        0.6022141084983751,
+        0.3412355349851762,
+        -0.17506723421264972
+      ],
+      [
+        -0.6022141085026682,
+        0.34123553499015447,
+        -0.1750672342073061
+      ],
+      [
+        3.5048625169666523e-13,
+        -0.6880324724261656,
+        -0.1627799957753929
+      ],
+      [
+        0.3614084297880651,
+        0.20760613087963603,
+        0.8483736355479109
+      ],
+      [
+        -0.3614084297861468,
+        0.20760613087621063,
+        0.8483736355526835
+      ],
+      [
+        1.8678971630284235e-12,
+        -0.4192090524506231,
+        0.8616814946390913
+      ],
+      [
+        -0.6718546354685531,
+        -0.3846738512177471,
+        -0.5493098236176868
+      ],
+      [
+        0.6718546354703799,
+        -0.3846738512135909,
+        -0.5493098236203358
+      ],
+      [
+        -2.0891478799738314e-13,
+        0.7737782271879463,
+        -0.5570423777336698
+      ],
+      [
+        -0.3576980930032503,
+        -0.20586714551067645,
+        0.10072647813396901
+      ],
+      [
+        0.35769809300258804,
+        -0.20586714551016264,
+        0.10072647813179958
+      ],
+      [
+        -1.9837442484655575e-13,
+        0.4122431927199387,
+        0.09880874510658717
+      ],
+      [
+        -0.3240698145101736,
+        0.07698328904803659,
+        -0.2524161336598074
+      ],
+      [
+        -0.09846753067875925,
+        -0.31868316498548305,
+        -0.25528652627837506
+      ],
+      [
+        0.3240698145096712,
+        0.07698328904726016,
+        -0.2524161336606181
+      ],
+      [
+        0.09846753067810843,
+        -0.31868316498575705,
+        -0.25528652627786697
+      ],
+      [
+        0.22680515642050883,
+        0.2448139968458006,
+        -0.2570532883735506
+      ],
+      [
+        -0.22680515642182192,
+        0.24481399684854088,
+        -0.25705328837367625
+      ],
+      [
+        0.14455987058479938,
+        0.08468807584503231,
+        0.420732451803744
+      ],
+      [
+        0.3959393865047669,
+        0.2268257949695532,
+        0.014715823606448276
+      ],
+      [
+        -0.1445598705850677,
+        0.08468807584495239,
+        0.42073245180171165
+      ],
+      [
+        -0.39593938650424165,
+        0.22682579496942765,
+        0.014715823606856469
+      ],
+      [
+        1.0913256837643716e-13,
+        -0.16627604910325314,
+        0.4203370111572467
+      ],
+      [
+        1.3830142171745328e-13,
+        -0.45825308765212386,
+        0.01620551582756592
+      ]
+    ],
+    "anchor_force_sum_ev_per_angstrom": [
+      -8.929494601823063e-12,
+      0.00025197638704055336,
+      0.037573417305654
+    ],
+    "anchor_force_groups": {
+      "substrate": {
+        "anchor_indices": [
+          7,
+          8,
+          9
+        ],
+        "internal_force_sum_ev_per_angstrom": [
+          -1.0547473678461633e-11,
+          -0.004178548369567769,
+          1.6932354422773463
+        ],
+        "external_holding_force_ev_per_angstrom": [
+          1.0547473678461633e-11,
+          0.004178548369567769,
+          -1.6932354422773463
+        ]
+      },
+      "tool": {
+        "anchor_indices": [
+          35,
+          36,
+          37
+        ],
+        "internal_force_sum_ev_per_angstrom": [
+          1.6179571990233118e-12,
+          0.004430524756608323,
+          -1.6556620249716922
+        ],
+        "external_holding_force_ev_per_angstrom": [
+          -1.6179571990233118e-12,
+          -0.004430524756608323,
+          1.6556620249716922
+        ]
+      }
+    },
+    "anchor_force_interpretation": "Internal force; global sum can cancel opposing loads. Separate group holding forces are negatives of group internal forces.",
+    "hydrogen_transfer": {
+      "donor_h_angstrom": 1.09,
+      "acceptor_h_angstrom": 2.51
+    },
+    "endpoint_identity_ok": true,
+    "topology_screen": {
+      "assessed": true,
+      "preserved": true,
+      "stretched_expected_bonds": [],
+      "unexpected_close_contacts": [],
+      "criterion": "Heuristic only: expected bonds <=1.35*(covalent radii sum), other contacts >=1.15*sum; no bond-order or spin-density inference."
+    },
+    "quantum_diagnostics": {
+      "call_id": "b8590474-dbdb-448f-bce1-3d598bbc8990",
+      "settings": {
+        "charge": 0,
+        "spin": 1,
+        "xc": "pbe0",
+        "basis": "def2-svp",
+        "dispersion": "d3bj",
+        "grid_level": 3,
+        "conv_tol": 1e-09,
+        "max_cycle": 150,
+        "threads": 4,
+        "memory_mb": 2000,
+        "density_fit": false,
+        "scf_initial_guess": "minao"
+      },
+      "scf_converged": true,
+      "gradient_completed": true,
+      "scf_initial_guess": "minao",
+      "initial_guess_scan_performed": false,
+      "ground_state_verified": false,
+      "electronic_state_identity_verified": false,
+      "initial_guess_scope": "One explicitly selected SCF starting guess; no automatic scan or state selection. Convergence does not verify the ground state or exclude other self-consistent solutions.",
+      "model": "nonperiodic all-electron nonrelativistic Kohn-Sham DFT",
+      "energy_scope": "Born-Oppenheimer electronic energy plus nuclear repulsion and specified D3",
+      "versions": {
+        "pyscf": "2.14.0",
+        "libxc": "7.0.0",
+        "numpy": "2.4.6",
+        "ase": "3.29.0",
+        "dftd3": "1.6.0"
+      },
+      "requested_pyscf_threads": 4,
+      "effective_pyscf_threads": 4,
+      "threads_honored": true,
+      "scf_cycles": 14,
+      "electron_count": 163,
+      "alpha_electrons": 82,
+      "beta_electrons": 81,
+      "basis_functions": 463,
+      "reference": "UKS",
+      "s2": 0.7846238160901038,
+      "expected_s2": 0.75,
+      "s2_deviation": 0.03462381609010379,
+      "spin_contamination": 0.03462381609010379,
+      "effective_multiplicity": 2.03432919272187,
+      "stability_checked": false,
+      "grid_response": true,
+      "auxiliary_basis_response": false,
+      "dft_energy_hartree": -855.2569823483707,
+      "dispersion_energy_hartree": -0.060421932147386864,
+      "total_energy_hartree": -855.3174042805181,
+      "dispersion_three_body": false,
+      "energy_unit": "eV",
+      "force_unit": "eV/Angstrom",
+      "hartree_eV": 27.211386024367243,
+      "bohr_angstrom": 0.52917721092,
+      "net_force_eV_A": [
+        -2.8838743920548274e-11,
+        3.644362589483308e-12,
+        3.075535312535571e-11
+      ],
+      "elapsed_seconds": 789.2093652699998
+    }
+  },
+  "elapsed_seconds": 789.2164806100002,
+  "validation": {
+    "design_validated": false,
+    "numerical_stage_converged": false,
+    "accuracy_claim": "Uncalibrated finite-cluster quantum model; no guaranteed design accuracy.",
+    "missing_evidence": [
+      "Independent reaction-specific quantum benchmark and error estimate",
+      "Larger basis, integration-grid, and cluster/boundary convergence",
+      "Electronic-state stability and alternative spin-state investigation",
+      "Transition-state modes and connectivity (or a separately verified barrierless path)",
+      "Competing reactions, approach/retraction paths, and tip regeneration",
+      "Finite-temperature free energies, tunnelling, and positioning uncertainty",
+      "Experimental confirmation and whole-machine integration"
+    ]
   }
 }
