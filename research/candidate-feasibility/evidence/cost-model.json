@@ -193,6 +193,31 @@
       }
     }
   },
+  "contention_bounds": {
+    "why": "The archived timings are wall clock under unrecorded contention, so they are upper bounds of unknown tightness.",
+    "peer_measured_contention_factor": {
+      "value": 10.39344262295082,
+      "basis": "identical five-species benchmark, 6.1 s on a quiet host versus 63.4 s at load 201",
+      "applies_to": "this host at load 201, not to the archived runs"
+    },
+    "central_scenario_evaluations": 1060,
+    "bounds": {
+      "as_archived_factor_1": {
+        "assumed_contention_factor": 1.0,
+        "implied_seconds_per_evaluation": 701.4406276668888,
+        "central_scenario_days": 8.605637330172478,
+        "central_scenario_hours": 206.53529592413946
+      },
+      "peer_measured_factor": {
+        "assumed_contention_factor": 10.39344262295082,
+        "implied_seconds_per_evaluation": 67.48876701526848,
+        "central_scenario_days": 0.827987187918803,
+        "central_scenario_hours": 19.871692510051272
+      }
+    },
+    "verdict_sensitivity": "The two ends of this range give different answers to 'can somebody run this next week'. The range is not resolvable from archived data because the load during those runs was not recorded. A CPU-time measurement of one 53-atom energy+gradient would replace it with a number, and is the highest-value outstanding item in this lane.",
+    "not_a_measurement": true
+  },
   "process_parallelism": {
     "mechanism": "ASE's NEB evaluates images serially in one process; a parallel band needs separate OS processes and is not implemented here.",
     "interior_images": 5,

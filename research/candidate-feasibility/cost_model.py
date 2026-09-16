@@ -238,6 +238,67 @@ def process_parallel_note(counts: dict, costs: dict) -> dict:
     }
 
 
+def contention_bounds(costs: dict, counts: dict) -> dict:
+    """How much of the archived cost might be contention rather than chemistry.
+
+    This matters more than it looks. The archived figures are wall clock taken
+    under contention whose magnitude nobody recorded. A peer lane measured this
+    host's contention factor directly - an identical benchmark took 6.1 s quiet
+    and 63.4 s at load 201, a factor of 10.4 - which establishes that the factor
+    on this machine can be large.
+
+    The archived runs were not at load 201; they predate the worst of it. So the
+    true factor for them lies somewhere in [1, 10.4], and without the load at
+    the time it cannot be pinned down. Bounding it both ways is honest and
+    decision-relevant, because the two ends give different verdicts:
+
+        factor 1     the archived number IS the cost, path is infeasible
+        factor 10.4  the real cost is ~67 s/evaluation, one pose fits in a day
+
+    This is a bound, not a measurement, and it is the reason a CPU-time
+    measurement of the 53-atom evaluation is the highest-value outstanding
+    item in this lane. It would collapse this range to a number.
+    """
+    measured_factor = 63.4 / 6.1  # peer lane, controlled, same call quiet vs load 201
+    per_evaluation = costs["density_fitting"]["seconds_per_energy_and_gradient"]
+    central = counts["scenarios"]["central"]
+    interior = counts["interior_images_evaluated_per_neb_step"]
+    evaluations = (
+        2 * central["endpoint_steps"]
+        + (central["pre_neb_steps"] + central["ci_neb_steps"]) * interior
+    )
+    rows = {}
+    for name, factor in (("as_archived_factor_1", 1.0), ("peer_measured_factor", measured_factor)):
+        cost = per_evaluation / factor
+        rows[name] = {
+            "assumed_contention_factor": factor,
+            "implied_seconds_per_evaluation": cost,
+            "central_scenario_days": evaluations * cost / DAYS,
+            "central_scenario_hours": evaluations * cost / HOURS,
+        }
+    return {
+        "why": (
+            "The archived timings are wall clock under unrecorded contention, "
+            "so they are upper bounds of unknown tightness."
+        ),
+        "peer_measured_contention_factor": {
+            "value": measured_factor,
+            "basis": "identical five-species benchmark, 6.1 s on a quiet host versus 63.4 s at load 201",
+            "applies_to": "this host at load 201, not to the archived runs",
+        },
+        "central_scenario_evaluations": evaluations,
+        "bounds": rows,
+        "verdict_sensitivity": (
+            "The two ends of this range give different answers to 'can somebody "
+            "run this next week'. The range is not resolvable from archived data "
+            "because the load during those runs was not recorded. A CPU-time "
+            "measurement of one 53-atom energy+gradient would replace it with a "
+            "number, and is the highest-value outstanding item in this lane."
+        ),
+        "not_a_measurement": True,
+    }
+
+
 def main() -> int:
     costs = measured_evaluation_costs()
     counts = path_evaluation_counts()
@@ -256,6 +317,7 @@ def main() -> int:
         "measured_evaluation_costs": costs,
         "path_evaluation_counts": counts,
         "projection": projection,
+        "contention_bounds": contention_bounds(costs, counts),
         "process_parallelism": process_parallel_note(counts, costs),
         "interpretation": (
             "A cost projection says nothing about whether the reaction works. "
@@ -272,6 +334,14 @@ def main() -> int:
         print(f"{method}: {per:.1f} s per energy+gradient (as archived, contended)")
         for name, row in projection[method]["scenarios"].items():
             print(f"    {name:10s} {row['evaluations']:5d} evaluations  {row['hours']:8.1f} h  {row['days']:6.1f} d")
+    bounds = report["contention_bounds"]
+    print("\ncontention bounds on the central scenario "
+          f"({bounds['central_scenario_evaluations']} evaluations, density-fitted):")
+    for name, row in bounds["bounds"].items():
+        print(f"    {name:24s} {row['implied_seconds_per_evaluation']:7.1f} s/eval "
+              f"-> {row['central_scenario_days']:6.2f} d ({row['central_scenario_hours']:6.1f} h)")
+    print("    (a bound, not a measurement; the archived load was never recorded)")
+
     print(f"\nwrote {out.relative_to(ROOT)}")
     return 0
 
