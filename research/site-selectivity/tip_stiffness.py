@@ -259,6 +259,14 @@ def main() -> None:
             min(stiffness["clamped_diagonal_block_stiffness_n_per_m"]),
             softest_wavenumber, molecular_mass,
         )
+        # Lever arm from the anchor plane, recorded as evidence rather than left
+        # in prose: the cantilever scaling and every length budget derived from it
+        # bind to this number, so it must be auditable from the file.
+        anchor_z = float(np.asarray(anchored.positions)[indices["mount_hydrogens"]][:, 2].mean())
+        entry["lever_arm_from_anchor_plane_angstrom"] = float(
+            np.asarray(anchored.positions)[index][2] - anchor_z
+        )
+        entry["anchor_plane_z_angstrom"] = anchor_z
         report["tips"][label] = entry
         print(f"\n{label}:", flush=True)
         print(f"  stiffness, compliance-based   {softest:8.2f} N/m  (softest of "
