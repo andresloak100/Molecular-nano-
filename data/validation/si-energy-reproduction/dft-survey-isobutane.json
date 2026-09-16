@@ -346,7 +346,126 @@
         }
       ],
       "status": "completed"
+    },
+    {
+      "method": "m06-2x/def2-tzvp",
+      "xc": "m06-2x",
+      "basis": "def2-tzvp",
+      "dispersion": null,
+      "reference_geometry_energy_kcal_per_mol": -11.265361023657297,
+      "reaction_energy_kcal_per_mol": -44.660686198733686,
+      "species": [
+        {
+          "species": "ethynyl_radical",
+          "energy_ev": -2084.1184120528296,
+          "basis_functions": 68,
+          "s2": 0.7525790598408317,
+          "expected_s2": 0.75,
+          "elapsed_seconds": 10.064687374979258,
+          "effective_threads": 1,
+          "threads_honored": true,
+          "loadavg_before": [
+            24.45947265625,
+            24.2578125,
+            28.125
+          ],
+          "loadavg_after": [
+            24.814453125,
+            24.3330078125,
+            28.10595703125
+          ]
+        },
+        {
+          "species": "acetylene",
+          "energy_ev": -2104.0551760459894,
+          "basis_functions": 74,
+          "s2": 0.0,
+          "expected_s2": 0.0,
+          "elapsed_seconds": 9.7854571249336,
+          "effective_threads": 1,
+          "threads_honored": true,
+          "loadavg_before": [
+            24.814453125,
+            24.3330078125,
+            28.10595703125
+          ],
+          "loadavg_after": [
+            25.8740234375,
+            24.556640625,
+            28.1396484375
+          ]
+        },
+        {
+          "species": "isobutane",
+          "energy_ev": -4310.806009064895,
+          "basis_functions": 184,
+          "s2": 0.0,
+          "expected_s2": 0.0,
+          "elapsed_seconds": 141.980364209041,
+          "effective_threads": 1,
+          "threads_honored": true,
+          "loadavg_before": [
+            25.8740234375,
+            24.556640625,
+            28.1396484375
+          ],
+          "loadavg_after": [
+            18.40771484375,
+            22.29833984375,
+            26.7216796875
+          ]
+        },
+        {
+          "species": "tert_butyl_radical",
+          "energy_ev": -4292.805916217826,
+          "basis_functions": 178,
+          "s2": 0.7552352707843895,
+          "expected_s2": 0.75,
+          "elapsed_seconds": 220.12073095911182,
+          "effective_threads": 1,
+          "threads_honored": true,
+          "loadavg_before": [
+            18.40771484375,
+            22.29833984375,
+            26.7216796875
+          ],
+          "loadavg_after": [
+            22.7587890625,
+            21.19775390625,
+            25.1123046875
+          ]
+        },
+        {
+          "species": "isobutane_ethynyl_ts",
+          "energy_ev": -6395.4129335321495,
+          "basis_functions": 252,
+          "s2": 0.7808214002750624,
+          "expected_s2": 0.75,
+          "elapsed_seconds": 646.7921449581627,
+          "effective_threads": 1,
+          "threads_honored": true,
+          "loadavg_before": [
+            22.7587890625,
+            21.19775390625,
+            25.1123046875
+          ],
+          "loadavg_after": [
+            23.59375,
+            19.064453125,
+            21.2294921875
+          ]
+        }
+      ],
+      "status": "completed"
     }
   ],
-  "status": "running"
+  "status": "completed",
+  "summary": {
+    "all_below_reactants": true,
+    "range_kcal_per_mol": [
+      -11.265361023657297,
+      -2.7967794511296313
+    ],
+    "interpretation": "If these sit below the reactants as they do for methane, the behaviour is not specific to methane's primary C-H and carries to the tertiary site the candidate targets. That still reflects evaluating DFT at a coupled-cluster geometry rather than a demonstrated functional failure; locating DFT saddles is what would settle it."
+  }
 }

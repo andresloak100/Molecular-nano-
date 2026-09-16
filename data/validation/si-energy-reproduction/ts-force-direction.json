@@ -1,0 +1,32 @@
+{
+  "question": "Do PBE0-D3 forces at the published TS geometries point toward reaction or toward dissociation?",
+  "why": "S1 found PBE0-D3 and B3LYP-D3 dissociate from the methane seed rather than finding a saddle, and proposed that those surfaces have no barrier for substitution to act on. This tests the same thing on the ISOBUTANE reaction, which S1 cannot do because only the methane seed was searched.",
+  "systems": [
+    {
+      "system": "methane_ts",
+      "max_force_ev_per_angstrom": 2.3832906121604935,
+      "force_on_transferring_H_ev_per_angstrom": [
+        0.3497625997134973,
+        9.242266418994204e-06,
+        -2.164378682926596e-14
+      ],
+      "projection_onto_donor_to_acceptor_axis": 0.3497625997134973,
+      "direction": "TOWARD ACCEPTOR (reaction proceeds)",
+      "donor_H_angstrom": 1.1492203500949998,
+      "acceptor_H_angstrom": 1.672375518691
+    },
+    {
+      "system": "isobutane_ts",
+      "max_force_ev_per_angstrom": 2.6205429677650303,
+      "force_on_transferring_H_ev_per_angstrom": [
+        0.047712179936500794,
+        4.163244602061432e-05,
+        2.8800718420219154e-13
+      ],
+      "projection_onto_donor_to_acceptor_axis": 0.047712179936500794,
+      "direction": "TOWARD ACCEPTOR (reaction proceeds)",
+      "donor_H_angstrom": 1.1161819700120001,
+      "acceptor_H_angstrom": 2.213363038515
+    }
+  ]
+}

@@ -301,9 +301,49 @@ functional becoming better behaved.
 
 **Caveat carried from §7:** none of these are DFT barriers. They are single
 points at a coupled-cluster stationary point that is not stationary on any DFT
-surface — S1 measured a 2.38 eV/Å residual there. The comparison is valid as a
-method comparison at fixed geometry and says nothing about what a relaxed DFT
-saddle would give.
+surface. The comparison is valid as a method comparison at fixed geometry and
+says nothing about what a relaxed DFT saddle would give.
+
+### CORRECTION: the 2.38 eV/Å residual is mostly an internal bond mismatch
+
+S1 and I have both cited that residual as showing the published geometry is far
+from a DFT stationary point, and I used it to call the DFT barriers "single
+points on a hillside". Decomposing it at PBE0-D3/def2-SVP:
+
+| Quantity | eV/Å | share of total force norm |
+|---|---|---|
+| total force norm | 2.299 | — |
+| projection on the C≡C stretch | −2.156 | **94%** |
+| largest single atomic force (ethynyl inner C) | 1.657 | — |
+
+**The residual is dominated by the ethynyl C≡C bond length**, which PBE0 wants
+shorter than UCCSD(T)/cc-pVDZ made it. It is an internal-coordinate mismatch
+between two methods' equilibrium bond lengths, not displacement along the
+reaction coordinate. So the residual is **weaker evidence about
+reaction-coordinate position than either of us implied**.
+
+It does not rescue the DFT barriers. Relaxing an internal mismatch lowers the
+energy at that structure, which makes the barrier *more* submerged, not less.
+But the reason has to be stated correctly.
+
+**What is convention-free**, and therefore what should be quoted: the force on
+the transferring hydrogen itself, projected on the donor→acceptor axis, at
+PBE0-D3/def2-TZVP:
+
+    methane TS     fmax 2.383 eV/A    force on H  +0.350   toward acceptor
+    isobutane TS   fmax 2.621 eV/A    force on H  +0.048   toward acceptor
+
+Both point **toward the product**, so at the seed geometry PBE0 is not pushing
+the hydrogen back. That complicates the reading that these surfaces simply run
+downhill to reactants: S1's observed dissociation is not seeded by the initial
+force on the transferring atom and must emerge later in the optimisation.
+
+**A projection onto a hand-built reaction-coordinate mode should not be quoted
+from this work.** I tried one, with the hydrogen moving forward and the heavy
+atoms recoiling, and it returned −0.333 — the opposite sign to the hydrogen's
+own force. The heavy atoms carry the large C≡C force, so any mode that includes
+them is contaminated by it, and the weights I chose were arbitrary rather than
+mass-weighted. The single-atom projection above is the defensible statement.
 
 ### CORRECTION: M06-2X did complete, and it overturns the obvious reading
 
