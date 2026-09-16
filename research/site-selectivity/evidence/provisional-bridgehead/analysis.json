@@ -1,0 +1,32 @@
+{
+  "status": "PROVISIONAL - bridgehead site only; methylene radical still relaxing; four-guess SCF scan NOT yet run",
+  "gate": "The bridgehead radical energy is unverified against alternative SCF solutions. Five of five systems examined in this project showed multiple solutions. No number here is final.",
+  "level": "PBE0-D3(BJ)/def2-SVP, density fitting, all species relaxed to fmax 0.03 eV/A",
+  "energies_ev": {
+    "hydrogen_atom": -13.61501660704176,
+    "ethynyl": -2080.3443496471286,
+    "acetylene": -2099.8916246802764,
+    "adamantane": -10612.983600531199,
+    "adamantyl_bridgehead": -10594.90098564326
+  },
+  "bridgehead_adiabatic_electronic_dissociation_kcal_per_mol": 103.02526384460991,
+  "bridgehead_ethynyl_abstraction_kcal_per_mol": -33.77586533420656,
+  "exothermicity_ladder_same_dft_level": {
+    "methane_primary": -26.8,
+    "adamantane_bridgehead_tertiary": -33.77586533420656,
+    "isobutane_acyclic_tertiary": -38.38,
+    "ccsd_t_barrier_methane": 2.399,
+    "ccsd_t_barrier_isobutane": -0.627,
+    "bridgehead_less_exothermic_than_acyclic_tertiary_by": 4.604134665793445,
+    "fractional_position_primary_to_acyclic_tertiary": 0.6024063328330359,
+    "finding": "The cage costs 4.60 kcal/mol of abstraction exothermicity relative to the acyclic tertiary site at the SAME level of theory. That is direct quantitative evidence for the pyramidalization prediction: the bridgehead is tertiary by substitution but only 60 percent of the way from primary to acyclic-tertiary in exothermicity. It also reduces the expectation of a submerged barrier here, since submergence at isobutane occurs at -38.38 and this site is 4.60 less exothermic.",
+    "do_not_extrapolate": "A Bell-Evans-Polanyi line through two points tests nothing, and the cage geometry is precisely what such an extrapolation would assume away. No barrier is predicted here."
+  },
+  "spurious_agreement_warning": {
+    "electronic_D_kcal_per_mol": 103.02526384460991,
+    "experimental_bdE_298K_kcal_per_mol": 102.4,
+    "experimental_uncertainty": 1.9,
+    "apparent_difference": 0.6252638446099041,
+    "why_this_is_not_agreement": "These are DIFFERENT QUANTITIES and the closeness is a coincidence of the category error this lane identified earlier. A 298 K bond dissociation enthalpy is lower than the bare electronic D by the zero-point reduction, roughly 4 kcal/mol for a C-H homolysis, partly offset by about 1 kcal/mol of thermal terms. Applying that correction moves this result to roughly 100 kcal/mol, i.e. BELOW the experimental value rather than on top of it. So the raw comparison flatters the calculation and the corrected one does not. This is a concrete instance of why the electronic-versus-enthalpy mismatch matters: uncorrected, it manufactured an apparent bullseye."
+  }
+}
