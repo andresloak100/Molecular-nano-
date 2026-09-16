@@ -135,15 +135,60 @@ discrimination.**
 
 | | Value | |
 |---|---|---|
-| Pre-registered prediction (Fattahi & Kass enthalpies) | −2.1 | **opposite sign** |
+| Literature expectation (Fattahi & Kass enthalpies) | −2.1 | **opposite sign** |
 | Acyclic anchor, same level, CCSD(T)/cc-pVDZ | +2.083 | same sign |
 | **Measured adamantane** | **+0.804** | |
 
-The pre-registration got the **mechanism** right and the **sign** wrong. The cage
-does compress the tertiary preference — 2.083 → 0.804, a **61% reduction** — which
-is the pyramidalization effect appearing quantitatively against a same-level
-benchmark. It does not overshoot into inversion as the experimental-enthalpy
-comparison implied.
+The cage **does** compress the tertiary preference — 2.083 → 0.804, a **61%
+reduction** — which is the pyramidalization effect appearing quantitatively against
+a same-level benchmark. It does not invert, as the experimental-enthalpy comparison
+implied it would. That comparison misled for a specific reason: it required a 298 K
+enthalpy to be directly comparable to a bare electronic difference, which is the
+category error identified above, and the predicted inversion was an artifact of it.
+
+### Scoring the two predictions honestly, because they were not equally good
+
+Attribution correction, made at the originating author's insistence rather than
+mine: the **−2.1 is the literature expectation**, not a peer's prediction. What the
+peer actually registered was *"substantially compressed relative to the acyclic
+gap, plausibly near zero, conceivably favouring methylene"* — no number.
+
+And that prediction should be scored as **loose**. It would have been satisfied by
+30% compression, by 90%, or by a small inversion; it covers nearly the whole
+plausible range. The **mechanism** was right and is the useful part, but the
+prediction discriminated weakly, and calling it a hit with a bad sign credits it
+with a sharpness it did not have.
+
+Contrast the other prediction registered the same evening: *saturated carbon
+radicals are the clean class, so the four-guess scan returns null.* That was
+specific, falsifiable by a single number, and confirmed sharply at spreads of
+1.1e-07 with S² identical to four decimals.
+
+**That one was a test. The pyramidalization one was a direction of travel dressed
+as a prediction.** Telling the two apart matters more than either result: a
+prediction that cannot fail cannot confirm. Recorded here because this lane's own
+pre-registration discipline is only worth anything if the predictions it registers
+are falsifiable.
+
+### Method stability: clean, and it does not rescue the result
+
+| Level | Site difference |
+|---|---|
+| PBE0-D3(BJ)/def2-SVP | +0.804 kcal/mol |
+| B3LYP-D3(BJ)/def2-SVP | +0.857 |
+| **Spread** | **0.053** |
+
+The difference is **method-stable** across these two hybrids — it moves by 6.6% of
+its own value, far inside the error bar. That removes functional sensitivity as an
+explanation.
+
+**It does not make the result resolvable, and it would be a mistake to read it that
+way.** Stability and accuracy are different properties. The 0.928 error bar is the
+offset of hybrid DFT *as a class* against coupled cluster on this kind of
+difference, and the calibration says PBE0-D3 overstates by 45%. Two functionals of
+the same family agreeing closely is exactly what a systematic error looks like from
+the inside. So the check eliminates one candidate explanation and leaves the
+dominant one untouched.
 
 ### The number is below its own error bar, so the sign is not claimable
 

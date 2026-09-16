@@ -1,0 +1,8 @@
+[run ] b3lyp-d3bj-svp / adamantyl_bridgehead
+/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/lib/python3.14/site-packages/pyscf/lib/misc.py:203: UserWarning: OpenMP is not available. Setting omp_threads to 1 has no effects.
+  warnings.warn('OpenMP is not available. '
+[done] b3lyp-d3bj-svp / adamantyl_bridgehead: -10607.870783 eV, nbf 215, S2 0.7533549806895223, 59 s
+[run ] b3lyp-d3bj-svp / adamantyl_methylene
+[done] b3lyp-d3bj-svp / adamantyl_methylene: -10607.833625 eV, nbf 215, S2 0.7537447679686977, 55 s
+b3lyp-d3bj-svp         +0.857 kcal/mol
+wrote /Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/research/site-selectivity/evidence/method-stability-b3lyp/method_stability.json
