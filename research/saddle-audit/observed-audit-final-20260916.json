@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "audited_utc": "2026-09-16T21:11:01.164726+00:00",
+  "quantum_jobs_started": 0,
+  "source_files_modified": false,
+  "audit_implementation_sha256": "04fe1058ade3dbd3564ca43f595c60e03ae3f7f519460fa3ca69dbec75ba200a",
+  "records": [
+    {
+      "source": {
+        "path": "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/research/reference-saddle/runs/b3lyp-d3bj-tzvp/saddle_study.json",
+        "sha256": "fd4d006fb653da83026a5691e5ec35927a7c4a9842b46afe5cea76953bb467c8"
+      },
+      "component_status": {
+        "methane": "converged",
+        "ethynyl": "converged",
+        "transition_state": "not_recorded"
+      },
+      "geometric_first_order_saddle_candidate": false,
+      "curvature": {
+        "status": "not_recorded"
+      },
+      "electronic_guess_evidence": {
+        "ethynyl": {
+          "attempted": [
+            "minao",
+            "atom",
+            "1e",
+            "huckel"
+          ],
+          "converged": [
+            "minao",
+            "atom",
+            "1e",
+            "huckel"
+          ],
+          "missing_or_failed": [],
+          "spread_kcal_per_mol": 1.0593925724085966e-08,
+          "agreement_over_converged_subset": true,
+          "complete_recorded_scan": true,
+          "status": "recorded_guesses_agree"
+        },
+        "transition_state": {
+          "status": "not_recorded"
+        }
+      },
+      "recomputed_electronic_energy_difference_kcal_per_mol": null,
+      "transition_state_verified": false,
+      "findings": [],
+      "missing_evidence_or_limits": [
+        "transition_state: not_recorded",
+        "transition_state: initial-guess scan not recorded",
+        "transition geometry: completed Hessian characterization not recorded",
+        "IRC or equivalent endpoint connectivity not established by this audit",
+        "electronic-state identity not established by agreement among guesses",
+        "zero-point, thermal and tunnelling corrections are outside this audit"
+      ],
+      "audit_interpretation": "Read-only record consistency and evidence review; no chemistry was computed or certified."
+    },
+    {
+      "source": {
+        "path": "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/research/reference-saddle/runs/m06-2x-d3zero-tzvp/saddle_study.json",
+        "sha256": "9b81ac6b0ce24ea66452c62715c192bffbabf06b7e984335f01fed9389a002ff"
+      },
+      "component_status": {
+        "methane": "converged",
+        "ethynyl": "converged",
+        "transition_state": "not_recorded"
+      },
+      "geometric_first_order_saddle_candidate": false,
+      "curvature": {
+        "status": "not_recorded"
+      },
+      "electronic_guess_evidence": {
+        "ethynyl": {
+          "attempted": [
+            "minao",
+            "atom",
+            "1e",
+            "huckel"
+          ],
+          "converged": [
+            "minao",
+            "atom",
+            "1e",
+            "huckel"
+          ],
+          "missing_or_failed": [],
+          "spread_kcal_per_mol": 2.2087849773744663,
+          "agreement_over_converged_subset": false,
+          "complete_recorded_scan": true,
+          "status": "different_solutions"
+        },
+        "transition_state": {
+          "status": "not_recorded"
+        }
+      },
+      "recomputed_electronic_energy_difference_kcal_per_mol": null,
+      "transition_state_verified": false,
+      "findings": [
+        {
+          "code": "ethynyl_electronic_solution_ambiguity",
+          "message": "Converged guesses differ by 2.20878498 kcal/mol at this geometry."
+        }
+      ],
+      "missing_evidence_or_limits": [
+        "transition_state: not_recorded",
+        "transition_state: initial-guess scan not recorded",
+        "transition geometry: completed Hessian characterization not recorded",
+        "IRC or equivalent endpoint connectivity not established by this audit",
+        "electronic-state identity not established by agreement among guesses",
+        "zero-point, thermal and tunnelling corrections are outside this audit"
+      ],
+      "audit_interpretation": "Read-only record consistency and evidence review; no chemistry was computed or certified."
+    },
+    {
+      "source": {
+        "path": "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/research/reference-saddle/runs/pbe0-d3bj-tzvp/saddle_study.json",
+        "sha256": "a0a864b01d5e406d521123f717e84a0aa33d0f7ac0910e3a8cf96e6bdbd76900"
+      },
+      "component_status": {
+        "methane": "converged",
+        "ethynyl": "converged",
+        "transition_state": "not_recorded"
+      },
+      "geometric_first_order_saddle_candidate": false,
+      "curvature": {
+        "status": "not_recorded"
+      },
+      "electronic_guess_evidence": {
+        "ethynyl": {
+          "attempted": [
+            "minao",
+            "atom",
+            "1e",
+            "huckel"
+          ],
+          "converged": [
+            "minao",
+            "atom",
+            "1e",
+            "huckel"
+          ],
+          "missing_or_failed": [],
+          "spread_kcal_per_mol": 2.3925507338150376e-08,
+          "agreement_over_converged_subset": true,
+          "complete_recorded_scan": true,
+          "status": "recorded_guesses_agree"
+        },
+        "transition_state": {
+          "status": "not_recorded"
+        }
+      },
+      "recomputed_electronic_energy_difference_kcal_per_mol": null,
+      "transition_state_verified": false,
+      "findings": [],
+      "missing_evidence_or_limits": [
+        "transition_state: not_recorded",
+        "transition_state: initial-guess scan not recorded",
+        "transition geometry: completed Hessian characterization not recorded",
+        "IRC or equivalent endpoint connectivity not established by this audit",
+        "electronic-state identity not established by agreement among guesses",
+        "zero-point, thermal and tunnelling corrections are outside this audit"
+      ],
+      "audit_interpretation": "Read-only record consistency and evidence review; no chemistry was computed or certified."
+    }
+  ]
+}

@@ -1,0 +1,538 @@
+{
+  "quantum_jobs_started": 0,
+  "reviewed_source": {
+    "path": "research/reference-saddle/saddle_search.py",
+    "sha256": "9b6804b259b28f908d321c30f548b47064f078deec935124dcee07daa7ef9a65"
+  },
+  "independent_projection_source": {
+    "path": "research/saddle-audit/mode_evidence.py",
+    "sha256": "921a21a252b3ee8bcf507c93140a8decab4b68717b877a55569ced4b659e0892"
+  },
+  "mode_heuristic_probe": {
+    "warning": "Synthetic direction probes at real seed coordinates. Frequencies and displacements here are test inputs, never quantum results.",
+    "geometry_source": {
+      "path": "data/reference/methane_ethynyl_ts.xyz",
+      "sha256": "b4411a8b74750f53c81f4847d8f84acc85099e57fee39c3f10d24387615a3fb1"
+    },
+    "cases": [
+      {
+        "synthetic_direction": "transverse",
+        "transform": "original",
+        "reported_transfer_like": false,
+        "reported_mode_details": [
+          {
+            "mode_index": 0,
+            "frequency_cm1": -100.0,
+            "d_h_acceptor_per_unit_mode": 0.0,
+            "d_h_donor_per_unit_mode": 0.0,
+            "opposite_sign": false,
+            "antisymmetric_component": 0.0,
+            "symmetric_component": 0.0,
+            "antisymmetric_dominates": false,
+            "transferring_hydrogen_mass_weighted_share": 1.0,
+            "transferring_hydrogen_cartesian_displacement_share": 1.0,
+            "mass_weighted_norm_check": 1.0000000000000002,
+            "transfer_like": false
+          }
+        ],
+        "independent_projection": {
+          "assessed": true,
+          "coordinate": "q = distance(H,acceptor)-distance(H,donor)",
+          "metric": "squared normalized overlap using recorded free-atom masses",
+          "minimum_overlap": 0.25,
+          "threshold_is_declared_heuristic": true,
+          "negative_modes": [
+            {
+              "mode_index": 0,
+              "frequency_cm1": -100.0,
+              "squared_mass_metric_overlap": 0.0,
+              "hydrogen_mass_weighted_displacement_share": 1.0,
+              "h_acceptor_distance_derivative": 0.0,
+              "h_donor_distance_derivative": 0.0,
+              "exceeds_declared_overlap_threshold": false,
+              "dq_per_unit_mode": 0.0
+            }
+          ],
+          "single_negative_mode_passes_overlap_heuristic": false,
+          "establishes_connectivity": false,
+          "establishes_electronic_state": false,
+          "limitations": [
+            "A chosen local reaction coordinate does not establish reactant/product connectivity.",
+            "Coordinate overlap can reflect carbon motion; hydrogen participation and bond-distance derivatives are separate diagnostics.",
+            "The threshold is a screening choice, not calibrated chemical accuracy or a transfer probability."
+          ]
+        }
+      },
+      {
+        "synthetic_direction": "transverse",
+        "transform": "sign_reversed",
+        "reported_transfer_like": false,
+        "reported_mode_details": [
+          {
+            "mode_index": 0,
+            "frequency_cm1": -100.0,
+            "d_h_acceptor_per_unit_mode": 0.0,
+            "d_h_donor_per_unit_mode": 0.0,
+            "opposite_sign": false,
+            "antisymmetric_component": 0.0,
+            "symmetric_component": 0.0,
+            "antisymmetric_dominates": false,
+            "transferring_hydrogen_mass_weighted_share": 1.0,
+            "transferring_hydrogen_cartesian_displacement_share": 1.0,
+            "mass_weighted_norm_check": 1.0000000000000002,
+            "transfer_like": false
+          }
+        ],
+        "independent_projection": {
+          "assessed": true,
+          "coordinate": "q = distance(H,acceptor)-distance(H,donor)",
+          "metric": "squared normalized overlap using recorded free-atom masses",
+          "minimum_overlap": 0.25,
+          "threshold_is_declared_heuristic": true,
+          "negative_modes": [
+            {
+              "mode_index": 0,
+              "frequency_cm1": -100.0,
+              "squared_mass_metric_overlap": 0.0,
+              "hydrogen_mass_weighted_displacement_share": 1.0,
+              "h_acceptor_distance_derivative": 0.0,
+              "h_donor_distance_derivative": 0.0,
+              "exceeds_declared_overlap_threshold": false,
+              "dq_per_unit_mode": 0.0
+            }
+          ],
+          "single_negative_mode_passes_overlap_heuristic": false,
+          "establishes_connectivity": false,
+          "establishes_electronic_state": false,
+          "limitations": [
+            "A chosen local reaction coordinate does not establish reactant/product connectivity.",
+            "Coordinate overlap can reflect carbon motion; hydrogen participation and bond-distance derivatives are separate diagnostics.",
+            "The threshold is a screening choice, not calibrated chemical accuracy or a transfer probability."
+          ]
+        }
+      },
+      {
+        "synthetic_direction": "transverse",
+        "transform": "rotated",
+        "reported_transfer_like": false,
+        "reported_mode_details": [
+          {
+            "mode_index": 0,
+            "frequency_cm1": -100.0,
+            "d_h_acceptor_per_unit_mode": 0.0,
+            "d_h_donor_per_unit_mode": 0.0,
+            "opposite_sign": false,
+            "antisymmetric_component": 0.0,
+            "symmetric_component": 0.0,
+            "antisymmetric_dominates": false,
+            "transferring_hydrogen_mass_weighted_share": 1.0,
+            "transferring_hydrogen_cartesian_displacement_share": 1.0,
+            "mass_weighted_norm_check": 1.0000000000000004,
+            "transfer_like": false
+          }
+        ],
+        "independent_projection": {
+          "assessed": true,
+          "coordinate": "q = distance(H,acceptor)-distance(H,donor)",
+          "metric": "squared normalized overlap using recorded free-atom masses",
+          "minimum_overlap": 0.25,
+          "threshold_is_declared_heuristic": true,
+          "negative_modes": [
+            {
+              "mode_index": 0,
+              "frequency_cm1": -100.0,
+              "squared_mass_metric_overlap": 0.0,
+              "hydrogen_mass_weighted_displacement_share": 1.0,
+              "h_acceptor_distance_derivative": 0.0,
+              "h_donor_distance_derivative": 0.0,
+              "exceeds_declared_overlap_threshold": false,
+              "dq_per_unit_mode": 0.0
+            }
+          ],
+          "single_negative_mode_passes_overlap_heuristic": false,
+          "establishes_connectivity": false,
+          "establishes_electronic_state": false,
+          "limitations": [
+            "A chosen local reaction coordinate does not establish reactant/product connectivity.",
+            "Coordinate overlap can reflect carbon motion; hydrogen participation and bond-distance derivatives are separate diagnostics.",
+            "The threshold is a screening choice, not calibrated chemical accuracy or a transfer probability."
+          ]
+        }
+      },
+      {
+        "synthetic_direction": "transverse_with_axial_noise",
+        "transform": "original",
+        "reported_transfer_like": true,
+        "reported_mode_details": [
+          {
+            "mode_index": 0,
+            "frequency_cm1": -100.0,
+            "d_h_acceptor_per_unit_mode": -9.960238411119948e-15,
+            "d_h_donor_per_unit_mode": 9.960238411119948e-15,
+            "opposite_sign": true,
+            "antisymmetric_component": 9.960238411119948e-15,
+            "symmetric_component": 0.0,
+            "antisymmetric_dominates": true,
+            "transferring_hydrogen_mass_weighted_share": 1.0,
+            "transferring_hydrogen_cartesian_displacement_share": 1.0,
+            "mass_weighted_norm_check": 1.0000000000000002,
+            "transfer_like": true
+          }
+        ],
+        "independent_projection": {
+          "assessed": true,
+          "coordinate": "q = distance(H,acceptor)-distance(H,donor)",
+          "metric": "squared normalized overlap using recorded free-atom masses",
+          "minimum_overlap": 0.25,
+          "threshold_is_declared_heuristic": true,
+          "negative_modes": [
+            {
+              "mode_index": 0,
+              "frequency_cm1": -100.0,
+              "squared_mass_metric_overlap": 9.597283260087894e-29,
+              "hydrogen_mass_weighted_displacement_share": 1.0,
+              "h_acceptor_distance_derivative": -9.960238411119948e-15,
+              "h_donor_distance_derivative": 9.960238411119948e-15,
+              "exceeds_declared_overlap_threshold": false,
+              "dq_per_unit_mode": -1.9920476822239896e-14
+            }
+          ],
+          "single_negative_mode_passes_overlap_heuristic": false,
+          "establishes_connectivity": false,
+          "establishes_electronic_state": false,
+          "limitations": [
+            "A chosen local reaction coordinate does not establish reactant/product connectivity.",
+            "Coordinate overlap can reflect carbon motion; hydrogen participation and bond-distance derivatives are separate diagnostics.",
+            "The threshold is a screening choice, not calibrated chemical accuracy or a transfer probability."
+          ]
+        }
+      },
+      {
+        "synthetic_direction": "transverse_with_axial_noise",
+        "transform": "sign_reversed",
+        "reported_transfer_like": true,
+        "reported_mode_details": [
+          {
+            "mode_index": 0,
+            "frequency_cm1": -100.0,
+            "d_h_acceptor_per_unit_mode": 9.960238411119948e-15,
+            "d_h_donor_per_unit_mode": -9.960238411119948e-15,
+            "opposite_sign": true,
+            "antisymmetric_component": 9.960238411119948e-15,
+            "symmetric_component": 0.0,
+            "antisymmetric_dominates": true,
+            "transferring_hydrogen_mass_weighted_share": 1.0,
+            "transferring_hydrogen_cartesian_displacement_share": 1.0,
+            "mass_weighted_norm_check": 1.0000000000000002,
+            "transfer_like": true
+          }
+        ],
+        "independent_projection": {
+          "assessed": true,
+          "coordinate": "q = distance(H,acceptor)-distance(H,donor)",
+          "metric": "squared normalized overlap using recorded free-atom masses",
+          "minimum_overlap": 0.25,
+          "threshold_is_declared_heuristic": true,
+          "negative_modes": [
+            {
+              "mode_index": 0,
+              "frequency_cm1": -100.0,
+              "squared_mass_metric_overlap": 9.597283260087894e-29,
+              "hydrogen_mass_weighted_displacement_share": 1.0,
+              "h_acceptor_distance_derivative": 9.960238411119948e-15,
+              "h_donor_distance_derivative": -9.960238411119948e-15,
+              "exceeds_declared_overlap_threshold": false,
+              "dq_per_unit_mode": 1.9920476822239896e-14
+            }
+          ],
+          "single_negative_mode_passes_overlap_heuristic": false,
+          "establishes_connectivity": false,
+          "establishes_electronic_state": false,
+          "limitations": [
+            "A chosen local reaction coordinate does not establish reactant/product connectivity.",
+            "Coordinate overlap can reflect carbon motion; hydrogen participation and bond-distance derivatives are separate diagnostics.",
+            "The threshold is a screening choice, not calibrated chemical accuracy or a transfer probability."
+          ]
+        }
+      },
+      {
+        "synthetic_direction": "transverse_with_axial_noise",
+        "transform": "rotated",
+        "reported_transfer_like": true,
+        "reported_mode_details": [
+          {
+            "mode_index": 0,
+            "frequency_cm1": -100.0,
+            "d_h_acceptor_per_unit_mode": -9.936496070395151e-15,
+            "d_h_donor_per_unit_mode": 9.936496070395151e-15,
+            "opposite_sign": true,
+            "antisymmetric_component": 9.936496070395151e-15,
+            "symmetric_component": 0.0,
+            "antisymmetric_dominates": true,
+            "transferring_hydrogen_mass_weighted_share": 1.0,
+            "transferring_hydrogen_cartesian_displacement_share": 1.0,
+            "mass_weighted_norm_check": 1.0000000000000002,
+            "transfer_like": true
+          }
+        ],
+        "independent_projection": {
+          "assessed": true,
+          "coordinate": "q = distance(H,acceptor)-distance(H,donor)",
+          "metric": "squared normalized overlap using recorded free-atom masses",
+          "minimum_overlap": 0.25,
+          "threshold_is_declared_heuristic": true,
+          "negative_modes": [
+            {
+              "mode_index": 0,
+              "frequency_cm1": -100.0,
+              "squared_mass_metric_overlap": 9.551583472365175e-29,
+              "hydrogen_mass_weighted_displacement_share": 1.0,
+              "h_acceptor_distance_derivative": -9.936496070395151e-15,
+              "h_donor_distance_derivative": 9.936496070395151e-15,
+              "exceeds_declared_overlap_threshold": false,
+              "dq_per_unit_mode": -1.9872992140790302e-14
+            }
+          ],
+          "single_negative_mode_passes_overlap_heuristic": false,
+          "establishes_connectivity": false,
+          "establishes_electronic_state": false,
+          "limitations": [
+            "A chosen local reaction coordinate does not establish reactant/product connectivity.",
+            "Coordinate overlap can reflect carbon motion; hydrogen participation and bond-distance derivatives are separate diagnostics.",
+            "The threshold is a screening choice, not calibrated chemical accuracy or a transfer probability."
+          ]
+        }
+      },
+      {
+        "synthetic_direction": "axial",
+        "transform": "original",
+        "reported_transfer_like": true,
+        "reported_mode_details": [
+          {
+            "mode_index": 0,
+            "frequency_cm1": -100.0,
+            "d_h_acceptor_per_unit_mode": -0.9960238411119948,
+            "d_h_donor_per_unit_mode": 0.9960238411119948,
+            "opposite_sign": true,
+            "antisymmetric_component": 0.9960238411119948,
+            "symmetric_component": 0.0,
+            "antisymmetric_dominates": true,
+            "transferring_hydrogen_mass_weighted_share": 1.0,
+            "transferring_hydrogen_cartesian_displacement_share": 1.0,
+            "mass_weighted_norm_check": 1.0000000000000002,
+            "transfer_like": true
+          }
+        ],
+        "independent_projection": {
+          "assessed": true,
+          "coordinate": "q = distance(H,acceptor)-distance(H,donor)",
+          "metric": "squared normalized overlap using recorded free-atom masses",
+          "minimum_overlap": 0.25,
+          "threshold_is_declared_heuristic": true,
+          "negative_modes": [
+            {
+              "mode_index": 0,
+              "frequency_cm1": -100.0,
+              "squared_mass_metric_overlap": 0.9597283260087894,
+              "hydrogen_mass_weighted_displacement_share": 1.0,
+              "h_acceptor_distance_derivative": -0.9960238411119948,
+              "h_donor_distance_derivative": 0.9960238411119948,
+              "exceeds_declared_overlap_threshold": true,
+              "dq_per_unit_mode": -1.9920476822239896
+            }
+          ],
+          "single_negative_mode_passes_overlap_heuristic": true,
+          "establishes_connectivity": false,
+          "establishes_electronic_state": false,
+          "limitations": [
+            "A chosen local reaction coordinate does not establish reactant/product connectivity.",
+            "Coordinate overlap can reflect carbon motion; hydrogen participation and bond-distance derivatives are separate diagnostics.",
+            "The threshold is a screening choice, not calibrated chemical accuracy or a transfer probability."
+          ]
+        }
+      },
+      {
+        "synthetic_direction": "axial",
+        "transform": "sign_reversed",
+        "reported_transfer_like": true,
+        "reported_mode_details": [
+          {
+            "mode_index": 0,
+            "frequency_cm1": -100.0,
+            "d_h_acceptor_per_unit_mode": 0.9960238411119948,
+            "d_h_donor_per_unit_mode": -0.9960238411119948,
+            "opposite_sign": true,
+            "antisymmetric_component": 0.9960238411119948,
+            "symmetric_component": 0.0,
+            "antisymmetric_dominates": true,
+            "transferring_hydrogen_mass_weighted_share": 1.0,
+            "transferring_hydrogen_cartesian_displacement_share": 1.0,
+            "mass_weighted_norm_check": 1.0000000000000002,
+            "transfer_like": true
+          }
+        ],
+        "independent_projection": {
+          "assessed": true,
+          "coordinate": "q = distance(H,acceptor)-distance(H,donor)",
+          "metric": "squared normalized overlap using recorded free-atom masses",
+          "minimum_overlap": 0.25,
+          "threshold_is_declared_heuristic": true,
+          "negative_modes": [
+            {
+              "mode_index": 0,
+              "frequency_cm1": -100.0,
+              "squared_mass_metric_overlap": 0.9597283260087894,
+              "hydrogen_mass_weighted_displacement_share": 1.0,
+              "h_acceptor_distance_derivative": 0.9960238411119948,
+              "h_donor_distance_derivative": -0.9960238411119948,
+              "exceeds_declared_overlap_threshold": true,
+              "dq_per_unit_mode": 1.9920476822239896
+            }
+          ],
+          "single_negative_mode_passes_overlap_heuristic": true,
+          "establishes_connectivity": false,
+          "establishes_electronic_state": false,
+          "limitations": [
+            "A chosen local reaction coordinate does not establish reactant/product connectivity.",
+            "Coordinate overlap can reflect carbon motion; hydrogen participation and bond-distance derivatives are separate diagnostics.",
+            "The threshold is a screening choice, not calibrated chemical accuracy or a transfer probability."
+          ]
+        }
+      },
+      {
+        "synthetic_direction": "axial",
+        "transform": "rotated",
+        "reported_transfer_like": true,
+        "reported_mode_details": [
+          {
+            "mode_index": 0,
+            "frequency_cm1": -100.0,
+            "d_h_acceptor_per_unit_mode": -0.9960238411119949,
+            "d_h_donor_per_unit_mode": 0.9960238411119949,
+            "opposite_sign": true,
+            "antisymmetric_component": 0.9960238411119949,
+            "symmetric_component": 0.0,
+            "antisymmetric_dominates": true,
+            "transferring_hydrogen_mass_weighted_share": 1.0,
+            "transferring_hydrogen_cartesian_displacement_share": 1.0,
+            "mass_weighted_norm_check": 1.0000000000000004,
+            "transfer_like": true
+          }
+        ],
+        "independent_projection": {
+          "assessed": true,
+          "coordinate": "q = distance(H,acceptor)-distance(H,donor)",
+          "metric": "squared normalized overlap using recorded free-atom masses",
+          "minimum_overlap": 0.25,
+          "threshold_is_declared_heuristic": true,
+          "negative_modes": [
+            {
+              "mode_index": 0,
+              "frequency_cm1": -100.0,
+              "squared_mass_metric_overlap": 0.9597283260087895,
+              "hydrogen_mass_weighted_displacement_share": 1.0,
+              "h_acceptor_distance_derivative": -0.9960238411119949,
+              "h_donor_distance_derivative": 0.9960238411119949,
+              "exceeds_declared_overlap_threshold": true,
+              "dq_per_unit_mode": -1.9920476822239899
+            }
+          ],
+          "single_negative_mode_passes_overlap_heuristic": true,
+          "establishes_connectivity": false,
+          "establishes_electronic_state": false,
+          "limitations": [
+            "A chosen local reaction coordinate does not establish reactant/product connectivity.",
+            "Coordinate overlap can reflect carbon motion; hydrogen participation and bond-distance derivatives are separate diagnostics.",
+            "The threshold is a screening choice, not calibrated chemical accuracy or a transfer probability."
+          ]
+        }
+      }
+    ]
+  },
+  "saved_evaluation_counts": [
+    {
+      "optimization_source": {
+        "path": "research/reference-saddle/runs/b3lyp-d3bj-tzvp/ethynyl/optimization.json",
+        "sha256": "c5fb18a1478b470bd2cf43261b759449f85d6359df227a26916628be50a0836a"
+      },
+      "events_source": {
+        "path": "research/reference-saddle/runs/b3lyp-d3bj-tzvp/ethynyl/electronic.jsonl",
+        "sha256": "faab274e3daea7a53db135db646acba90e204e16ad3a9c8257596320354f782b"
+      },
+      "optimization_status": "converged",
+      "reported_electronic_evaluations": 4,
+      "unique_completed_calculator_calls": 5,
+      "unreadable_event_lines": 0
+    },
+    {
+      "optimization_source": {
+        "path": "research/reference-saddle/runs/b3lyp-d3bj-tzvp/methane/optimization.json",
+        "sha256": "1cf5e480f103678ea2ed40d41d8276075afb8782a5e0f6292e73c570614b981b"
+      },
+      "events_source": {
+        "path": "research/reference-saddle/runs/b3lyp-d3bj-tzvp/methane/electronic.jsonl",
+        "sha256": "1017fa9bf25a8432c77add8ba9733fd0d79f7d6992d349f860eb69d1a5d2a106"
+      },
+      "optimization_status": "converged",
+      "reported_electronic_evaluations": 5,
+      "unique_completed_calculator_calls": 6,
+      "unreadable_event_lines": 0
+    },
+    {
+      "optimization_source": {
+        "path": "research/reference-saddle/runs/m06-2x-d3zero-tzvp/ethynyl/optimization.json",
+        "sha256": "45c821081bb53e42c7015fa455d71ae75f739c6416dd9cde08e91f2be150098f"
+      },
+      "events_source": {
+        "path": "research/reference-saddle/runs/m06-2x-d3zero-tzvp/ethynyl/electronic.jsonl",
+        "sha256": "4b526ad9d0171d249524c58d8953bc408e8834d88558f772af074fd7020d0725"
+      },
+      "optimization_status": "converged",
+      "reported_electronic_evaluations": 4,
+      "unique_completed_calculator_calls": 5,
+      "unreadable_event_lines": 0
+    },
+    {
+      "optimization_source": {
+        "path": "research/reference-saddle/runs/m06-2x-d3zero-tzvp/methane/optimization.json",
+        "sha256": "623ba60c06f1349aaa265baf4840d408c495bddec72232b5be30343d36bfbd46"
+      },
+      "events_source": {
+        "path": "research/reference-saddle/runs/m06-2x-d3zero-tzvp/methane/electronic.jsonl",
+        "sha256": "f642e390e1f131542e718b7d4a53f6239bf27c793b826c80657e2cf5c015c599"
+      },
+      "optimization_status": "converged",
+      "reported_electronic_evaluations": 5,
+      "unique_completed_calculator_calls": 6,
+      "unreadable_event_lines": 0
+    },
+    {
+      "optimization_source": {
+        "path": "research/reference-saddle/runs/pbe0-d3bj-tzvp/ethynyl/optimization.json",
+        "sha256": "bbc416b77b879ea4cdc656921135a5c0feb8580d0acc2bd059cf31257410d346"
+      },
+      "events_source": {
+        "path": "research/reference-saddle/runs/pbe0-d3bj-tzvp/ethynyl/electronic.jsonl",
+        "sha256": "0683b3e5636fd02e396c887301a2874d4860dd2ce8bec2266a8a93a65387f0c8"
+      },
+      "optimization_status": "converged",
+      "reported_electronic_evaluations": 4,
+      "unique_completed_calculator_calls": 5,
+      "unreadable_event_lines": 0
+    },
+    {
+      "optimization_source": {
+        "path": "research/reference-saddle/runs/pbe0-d3bj-tzvp/methane/optimization.json",
+        "sha256": "a66308c35790ef62b4037921a572237a43350160347dc944fe433501d993f3d2"
+      },
+      "events_source": {
+        "path": "research/reference-saddle/runs/pbe0-d3bj-tzvp/methane/electronic.jsonl",
+        "sha256": "084f1e3cea1384edb1999b5060a38116a7baf77356bbbf5e030b53bbfaad8c6a"
+      },
+      "optimization_status": "converged",
+      "reported_electronic_evaluations": 5,
+      "unique_completed_calculator_calls": 6,
+      "unreadable_event_lines": 0
+    }
+  ]
+}
