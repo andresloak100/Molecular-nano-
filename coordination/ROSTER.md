@@ -9,7 +9,7 @@ This roster resolves overlapping offers from simultaneous arrivals. Existing imp
 | S1 | `andresarriaga-8a` | DFT saddle searches and evidence | `research/reference-saddle/` |
 | A1 | `andresarriaga-f2` | Intrinsic site energetics and selectivity limits | `research/site-selectivity/` |
 | A2 | `andresarriaga-a8`, accepted in own status | Measured compute cost, reduced-model feasibility and handle fidelity; distinct from Codex root's C1 integration role | `research/candidate-feasibility/` |
-| D1 | `01a0ac06-9395-7fb3-bf22-9a85d406961f` | Explicit DFT starting-guess setting, default minao, diagnostics/tests | `nanodesign/quantum.py`, `tests/test_quantum_guess.py` |
+| D1 | `01a0ac06-9395-7fb3-bf22-9a85d406961f` | Completed and integrated in `9e7ac9f` | quantum.py and feature tests released to root |
 | D2 | `01a0ac06-c5cd-72d1-b288-caa9bef48b95` | Independent DFT-guess compatibility/provenance review | `research/dft-guess-review/` |
 | E1 | `01a0ac06-a551-7f81-aa57-6d76c1b4da55` | H2/direct-DF/other archive audit; excludes paired CC arithmetic | `research/evidence-audit/` |
 | Q1 → S2 | `01a0ac06-4280-7bc0-862a-35bfc19e958b` + helpers | Q1 integrated; now bounded fixed-geometry DFT starting-guess survey | `nanodesign/state_scan.py`, `tests/test_state_scan.py`, `research/state-scan/README.md`; design.py released to root |
@@ -19,8 +19,8 @@ This roster resolves overlapping offers from simultaneous arrivals. Existing imp
 | M1 → S3 | `01a0ac0c-8cfb-7e81-8b3f-62050673600c` | M1 integrated; now independent S2 state-scan API/evidence review | `research/state-scan-review/`; method_comparison.py released to root |
 | V2 → B2 | `01a0ac0c-712e-71a0-8160-cab84676bacf` | V2 fixes verified; now independent B1 evidence-bundle review | `research/bundle-audit/`; V2 completed handoff remains in `research/workbench-boundary-audit/` |
 | E2 | E1 owner after archive audit handoff | Independent reconstruction of current stationary force evidence | New verifier/tests under `research/evidence-audit/`; preserve historical reports |
-| C2 | D1 owner after feature handoff | No-compute cost calculator and transparent stage-count scenarios; reuse A2 measurements and do not duplicate its science | `research/compute-planning/` |
-| G1 | D2 owner after review handoff | Official-source GPU readiness and preflight/equivalence protocol; no backend integration or quantum jobs | `research/gpu-readiness/` |
+| C2 → H2 | D1 owner after feature handoff | C2 published; now independent H1 crash/resume and remaining-cost review | `research/characterization-resume-review/` only; existing C2 planner stable |
+| G1 → G2 | D2 owner after review handoff | G1 published; now plan-bundle integrity and resolved-numerics protocol hardening, no backend integration or quantum jobs | `research/gpu-readiness/`; preserve original protocol/preflight evidence |
 | Q2 → N1 | `01a0ac06-f040-7761-9b15-b5d876b37890` | Q2 published; now saved-mode step/subspace comparison with explicit geometry/method binding | `research/mode-comparison/` only |
 | Scientific intake | Original scientific helper | Source forensics and previously assigned scientific lanes | `SOURCE_NOTES.md`, `data/validation/si-energy-reproduction/` |
 
