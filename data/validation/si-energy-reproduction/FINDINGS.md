@@ -224,6 +224,54 @@ this hot, then positional control is not one selectivity mechanism among several
 — it is close to the only one available, which is precisely what A1's steric
 census independently found.
 
+## 10. The tool may weld itself to the workpiece — and the geometry may prevent it
+
+Failure mode raised by A1; protective hypothesis **tested here against the
+candidate's own product coordinates**, which A1 had not used.
+
+Follow the operation to its end. After transfer, the tool is a closed-shell
+terminal alkyne, adamantyl–C≡C–H, and the workpiece is a 1-adamantyl radical,
+sitting 3.6 Å apart. A carbon radical beside an alkyne is not a stable
+arrangement: addition across the C≡C forms a C–C σ bond worth roughly 85
+kcal/mol at the cost of demoting C≡C to C=C, roughly 54, so the addition is
+around 30 kcal/mol exothermic on bond additivity. **The intended product is
+metastable and the deep well is "tool covalently bonded to workpiece".**
+
+This failure mode is worse than mis-targeting and has had none of the
+attention. Mis-targeting places one atom badly; welding destroys the tool and
+the workpiece together and produces no further products at all.
+
+### Two protections, both free, both angular
+
+Measured on the product geometry from `candidates.py`:
+
+| Quantity | Value |
+|---|---|
+| angle: C≡C axis vs apex→radical | **0.0°** |
+| radical to apex carbon | 3.600 Å |
+| radical to transferred H | **2.540 Å** |
+
+**First**, the radical sits exactly end-on along the C≡C axis. Radical addition
+needs a perpendicular approach into a π lobe; 0° is the worst possible vector
+for it. A1 predicted this and the coordinates confirm it exactly.
+
+**Second, not previously noted:** the transferred hydrogen lands on the apex
+carbon, directly between the radical and the alkyne, closer to the radical
+(2.540 Å) than the apex carbon itself is (3.600 Å). The newly formed C–H
+physically occupies the approach vector. This is structural rather than
+incidental — the H necessarily lands on the atom the radical was pointing at,
+so **the abstraction event installs a steric block against the addition that
+would otherwise follow it.**
+
+Both protections derive from the same collinearity and degrade under the same
+angular wander, so one angular tolerance covers both. **No angular tolerance has
+been computed**; every positional analysis so far has been a lateral distance.
+
+Neither protection is established as sufficient. Thermodynamics says the well is
+deep; geometry says the approach is bad. Which wins is a *barrier* question, and
+barriers are blocked on the same missing machinery as everything else kinetic —
+now the third independent line arriving at that gap.
+
 ## 7. What is NOT established
 
 - **No DFT barrier exists for either reaction**, because no DFT saddle has been
