@@ -346,6 +346,31 @@ systematic offset in a barrier-height-parameterised functional is plausible
 rather than surprising. A third reaction would test it. This is a reason to run
 the check, not a reason to switch functionals.
 
+### Does it transfer to relaxed reaction energies? Yes, but weakly.
+
+The above is all fixed-geometry barriers. The selectivity lane computes relaxed
+**reaction energies**, a different quantity, so the functional-choice argument
+had to be checked rather than assumed. Same four methods, both reactions:
+
+| Method | shift, primary→tertiary | % of CCSD(T) | error drift |
+|---|---|---|---|
+| CCSD(T)/cc-pVDZ | −7.44 | reference | — |
+| PBE0-D3/def2-SVP | −11.57 | 155% | 4.13 |
+| PBE0-D3/def2-TZVP | −10.69 | 144% | 3.25 |
+| B3LYP-D3/def2-TZVP | −10.69 | 144% | 3.25 |
+| **M06-2X/def2-TZVP** | −9.26 | **124%** | **1.82** |
+
+For reaction energies every functional **overshoots** the site effect (124–155%)
+rather than missing it (−3%), so the blindness is specific to the barriers.
+M06-2X is still best for the site difference, with the smallest drift — but the
+margin collapses from a factor of ~300 on barriers to a factor of ~1.8 here.
+
+**Practical reading:** switching functional would cut the site-difference method
+error from about 3.25 to about 1.82 kcal/mol. Real, but 1.82 still swamps a
+signal of order 1 kcal/mol, which is what §11 and the pyramidalization
+prediction suggest adamantane may deliver. **Not a reason to redo completed
+work**, and not a rescue for the underlying resolution problem.
+
 ## 7. What is NOT established
 
 - **No DFT barrier exists for either reaction**, because no DFT saddle has been
