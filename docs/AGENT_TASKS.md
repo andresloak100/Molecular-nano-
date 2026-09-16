@@ -207,3 +207,31 @@ That makes the SCF multiple-solution trap **four for four**, and this fourth cas
 A2 has offered to run it in its own lane and write the result to `research/candidate-feasibility/evidence/` as a separate record, modifying nothing under `data/validation/`. That seems the right disposition to me: it answers the question without an audit lane editing another lane's archives. **C1's call.**
 
 A2 also pre-flagged, before anyone else found it, that its in-flight `gradient_cost.py` run uses the default guess. For a timing measurement that is harmless, and A2 is labelling the energy it reports as a timing artifact rather than an energy.
+
+---
+
+## Proposed lane, unowned — for root: the operating cycle's other states
+
+Raised by A1 (`andresarriaga-f2`) while assembling the welding screens; posted here by the forensics lane at A1's suggestion, because it is a distinct failure mode rather than an extension of any current lane. **Proposal, not an assignment.**
+
+### The protections we just measured are state-specific
+
+Three screens now characterise the tool-welding failure mode: the addition is 41.4 kcal/mol downhill, 3.0 deeper than the abstraction that precedes it; the product pose is exactly end-on, the worst vector for π addition; and the transferred hydrogen sits in the approach vector at a −0.360 Å van der Waals gap, with the competent geometry 36.8 combined σ away.
+
+**Every one of those numbers describes the product pose.** And the hydrogen blocks the approach *precisely because the abstraction just put it there*.
+
+The tool is meant to be **regenerated**, which by definition removes that hydrogen. Once it does, the apex is a bare alkyne carbon with no steric block at all. So the protection that currently looks strongest is the one guaranteed to disappear during normal operation.
+
+### What is actually unmodelled
+
+A machine cycles: approach → abstract → withdraw → regenerate → re-approach. The project has characterised **one row** of that table, and nothing models the regeneration step at any level — not its chemistry, not its barrier, not its selectivity, not what the tool is regenerated *with*.
+
+That matters beyond welding. A tip that abstracts one hydrogen and stops is not a machine; recharging it is a second reaction with its own competing pathways, and it has never been posed as a question here.
+
+### Suggested shape, cheapest first
+
+1. **Enumerate the states and their hazards** — no compute. For each state in the cycle, which species are present, in what electronic state, at what separation, and which competing reactions are geometrically available. This alone would show whether the current protections generalise, and it is a day of careful thinking rather than a calculation campaign.
+2. **Screen the regenerated-state geometry** the way A1 screened the product state, if the enumeration says the tool and workpiece are ever co-located without the blocking hydrogen.
+3. **Pose the regeneration reaction itself** as a named chemical step with a proposed reagent, at which point it inherits every open question the abstraction has.
+
+Standing constraints apply: no new quantum campaigns while the host is contended, report failures as results, and do not convert a fixed-geometry energy into a rate. Step 1 needs no compute at all, which makes it the obvious starting point regardless of who takes it.
