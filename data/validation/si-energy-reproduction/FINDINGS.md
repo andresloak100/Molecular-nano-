@@ -182,6 +182,48 @@ the published absolutes imply −0.627 kcal/mol for that barrier.
 Artifact: `si-energy-reproduction-isobutane.json`, written per species so a
 timeout leaves usable evidence. Reproduce: `python reproduce_isobutane.py`.
 
+## 9. Why the tool is unselective: a mechanism, not a coincidence
+
+Synthesis proposed by A2 from exothermicity; **tested here against the transition
+structure geometries, which are independent evidence and could have disagreed.**
+
+Three findings had been treated as separate puzzles: the tool shows no steric
+discrimination at any cage site; the thermodynamic site preference is near zero;
+and real adamantane selectivity is small, roughly 1.0–1.3 kcal/mol. They are one
+finding. **The tool discriminates poorly because it is thermodynamically hungry.**
+A reagent running 32 kcal/mol downhill reaches its transition state early, before
+it has committed to a particular C–H, so the sites look alike to it.
+
+The published geometries confirm it without using any energy:
+
+| Reaction | ΔE (kcal/mol) | acceptor–H (Å) | donor–H (Å) |
+|---|---|---|---|
+| C2H + CH4, primary | −24.79 | 1.672 | 1.149 |
+| C2H + iso-C4H10, **tertiary** | **−32.23** | **2.213** | **1.116** |
+
+The more exothermic reaction has the acceptor 0.54 Å further away and the donor
+C–H barely stretched, 1.116 against an equilibrium near 1.10. That is a
+demonstrably earlier transition state for the more exothermic reaction — Hammond,
+read straight off the coordinates. Bell–Evans–Polanyi across the two points gives
+α = 0.41 using the SI-implied isobutane barrier, a normal early-transition-state
+value.
+
+**Two points do not establish a relationship.** The running isobutane transition
+structure supplies a third and will test α rather than assume it.
+
+### The design consequence, which is the part worth acting on
+
+This converts the project's question from *"make this tool work"* to *"where on
+the reactivity–selectivity curve should the tool sit?"* A less reactive tip would
+discriminate better and might not react at all. The repository explores exactly
+one point on that axis and has no way to say whether it is the right one.
+
+That reframing also explains why A1's positional result matters more than it
+first appeared. If chemical discrimination is intrinsically weak for a reagent
+this hot, then positional control is not one selectivity mechanism among several
+— it is close to the only one available, which is precisely what A1's steric
+census independently found.
+
 ## 7. What is NOT established
 
 - **No DFT barrier exists for either reaction**, because no DFT saddle has been
