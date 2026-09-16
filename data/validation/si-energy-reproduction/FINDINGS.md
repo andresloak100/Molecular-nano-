@@ -460,6 +460,56 @@ With 3.25 or 4.13, nothing that lane could measure would survive. The direction
 is unchanged — PBE0-D3 still overstates the difference by 45% and still flatters
 selectivity.
 
+## 13. Outcome: adamantane has essentially no intrinsic site discrimination
+
+A1's stage 1 landed. Recorded here because this lane supplied the anchor, the
+error bar and the registered prediction, and because the prediction needs
+scoring honestly rather than generously.
+
+    D(bridgehead)                       103.025 kcal/mol
+    D(methylene)                        103.830
+    site difference, methylene - bridge   +0.804
+    cancellation identity residual         5.4e-15
+
+Positive means the **bridgehead is the weaker bond**, so the tool targets the
+thermodynamically favoured site. The cancellation identity — that the difference
+reduces to the two radical energies and the abstractor drops out — holds to
+machine precision across both cycles.
+
+**The number is below its own error bar.** Against the §11 calibration:
+0.804 / 0.928 = **0.87**, not resolvable. Corrected for the 45% overstatement,
+the best estimate is ≈0.55 kcal/mol, which is **0.9 kT at room temperature**.
+
+**Headline: adamantane offers essentially no intrinsic thermodynamic site
+discrimination.** A finding, not a null. Combined with A1's steric census
+(no site blocked) and §9 (a thermodynamically hungry reagent discriminates
+poorly), the design's selectivity rests entirely on the positional margin —
+which is measured, and met.
+
+### Scoring the pyramidalization prediction honestly
+
+The cage compresses the tertiary preference from the acyclic **2.083** to
+**0.804**, a 61% reduction. That is the predicted mechanism appearing
+quantitatively, against a same-level benchmark rather than against literature at
+a different level.
+
+But the prediction should not be scored as a clean hit, and it was **not** the
+−2.1 figure it has been attributed. What was registered was "substantially
+compressed … plausibly near zero, conceivably favouring methylene." The first
+two clauses are confirmed. The third was a hedge and did not happen. **That
+prediction is wide**: 30% compression, 90% compression, or a small inversion
+would all have satisfied it. The mechanism was right; the prediction
+discriminated weakly.
+
+Contrast the guess-scan prediction registered at the same time, which was
+specific and falsifiable — *saturated carbon radicals are the clean class, so
+this scan should return null*. It returned spreads of 1.1e-07 and 9.3e-08 with
+S² identical to four decimals across all four guesses. That one was a real test.
+
+The −2.1 expectation came from a literature enthalpy comparison, and its
+apparent inversion was an artifact of comparing a 298 K enthalpy with a bare
+electronic difference — the category error A1 identified independently.
+
 ## 7. What is NOT established
 
 - **No DFT barrier exists for either reaction**, because no DFT saddle has been
