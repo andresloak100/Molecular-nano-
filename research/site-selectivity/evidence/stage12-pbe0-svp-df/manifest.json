@@ -1,0 +1,19 @@
+{
+  "stage": "1_and_2_site_energetics",
+  "method": "PBE0-D3(BJ)/def2-svp",
+  "density_fit": true,
+  "fmax_ev_per_angstrom": 0.03,
+  "species_planned": [
+    "hydrogen_atom",
+    "ethynyl",
+    "acetylene",
+    "adamantane",
+    "adamantyl_bridgehead",
+    "adamantyl_methylene"
+  ],
+  "host": {
+    "platform": "macOS-26.5.1-arm64-arm-64bit-Mach-O",
+    "machine": "arm64"
+  },
+  "concurrency_caveat": "Other sessions were computing on this eight-core host during these runs, and this PySCF build exposes one thread, so wall times are not a controlled speed benchmark."
+}

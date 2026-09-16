@@ -1,0 +1,10 @@
+{"timestamp":"2026-09-16T21:09:33.723575+00:00","call_id":"77da7996-5062-4521-bf8a-ced318a18d61","event":"scf_cycle","elapsed_seconds":64.88453499996103,"cycle":1,"e_tot":-389.932577854652,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T21:09:55.884009+00:00","call_id":"77da7996-5062-4521-bf8a-ced318a18d61","event":"scf_cycle","elapsed_seconds":87.04552095802501,"cycle":2,"e_tot":-389.90646728598074,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T21:10:22.870455+00:00","call_id":"77da7996-5062-4521-bf8a-ced318a18d61","event":"scf_cycle","elapsed_seconds":114.03265279182233,"cycle":3,"e_tot":-389.9886645756453,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T21:10:36.497548+00:00","call_id":"77da7996-5062-4521-bf8a-ced318a18d61","event":"scf_cycle","elapsed_seconds":127.66017058282159,"cycle":4,"e_tot":-389.98945383515616,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T21:10:54.677856+00:00","call_id":"77da7996-5062-4521-bf8a-ced318a18d61","event":"scf_cycle","elapsed_seconds":145.84094108291902,"cycle":5,"e_tot":-389.98953060937697,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T21:11:04.874102+00:00","call_id":"77da7996-5062-4521-bf8a-ced318a18d61","event":"scf_cycle","elapsed_seconds":156.0373964998871,"cycle":6,"e_tot":-389.9895413099042,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T21:11:15.227924+00:00","call_id":"77da7996-5062-4521-bf8a-ced318a18d61","event":"scf_cycle","elapsed_seconds":166.39148033293895,"cycle":7,"e_tot":-389.98954131844073,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T21:11:23.053033+00:00","call_id":"77da7996-5062-4521-bf8a-ced318a18d61","event":"scf_cycle","elapsed_seconds":174.21678762487136,"cycle":8,"e_tot":-389.9895413184513,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T21:11:30.501091+00:00","call_id":"77da7996-5062-4521-bf8a-ced318a18d61","event":"scf_completed","elapsed_seconds":181.6650819168426,"converged":true,"cycles":8,"e_tot":-389.9895413184536,"energy_unit":"Hartree"}
+{"timestamp":"2026-09-16T21:11:30.506716+00:00","call_id":"77da7996-5062-4521-bf8a-ced318a18d61","event":"gradient_started","elapsed_seconds":181.67064299993217}

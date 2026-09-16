@@ -1,0 +1,9 @@
+[run ] hydrogen_atom (H, spin=1)
+/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/lib/python3.14/site-packages/pyscf/lib/misc.py:203: UserWarning: OpenMP is not available. Setting omp_threads to 1 has no effects.
+  warnings.warn('OpenMP is not available. '
+[done] hydrogen_atom: E = -13.613606 eV, 0 steps, |F|max = 0.0000, 1 s, nbf = 5, S2 = 0.75
+[run ] ethynyl (C2H, spin=1)
+[done] ethynyl: E = -2080.344175 eV, 4 steps, |F|max = 0.0002, 12 s, nbf = 33, S2 = 0.7918347953297538
+[run ] acetylene (C2H2, spin=0)
+[done] acetylene: E = -2099.891357 eV, 4 steps, |F|max = 0.0007, 11 s, nbf = 38, S2 = 0.0
+[run ] adamantane (C10H16, spin=0)
