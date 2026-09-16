@@ -80,7 +80,7 @@ def test_load_design_rejects_or_preserves_consistency_during_source_edit(tmp_pat
     original_design_hash = design.sha256(path)
     initial_path = path.parent / "initial.xyz"
     original_coordinate_hash = design.sha256(initial_path)
-    actual_read = design.read
+    actual_read = design.read_coordinate_snapshot
     changed = False
 
     def read_and_edit(source, *args, **kwargs):
@@ -98,7 +98,7 @@ def test_load_design_rejects_or_preserves_consistency_during_source_edit(tmp_pat
                 path.write_text(json.dumps(document))
         return atoms
 
-    monkeypatch.setattr(design, "read", read_and_edit)
+    monkeypatch.setattr(design, "read_coordinate_snapshot", read_and_edit)
     try:
         _, loaded, _, settings, hashes = design.load_design(path)
     except ValueError:

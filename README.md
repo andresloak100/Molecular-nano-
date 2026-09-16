@@ -19,6 +19,8 @@ This repository starts with one elementary operation: a supported ethynyl radica
 - Central-difference vibrational characterization of the free coordinates, reporting negative-curvature and unresolved soft modes, numerical Hessian asymmetry and the remaining transition-state checks.
 - Bounded, resumable campaigns over explicit tool poses, with preserved input snapshots, attempt history, worker locking and evidence reports. They do not infer a scientifically validated best tool.
 - A local 3D workbench for inspecting actual atomic coordinates, measuring distances, switching poses, and reading calculation evidence and its limitations.
+- Fixed-geometry DFT starting-guess surveys with explicit electronic settings, bounded serial execution, preserved failures and complete-versus-subset reporting.
+- Portable evidence bundles that preserve original bytes and verify their inventory and checksums independently of the source directory.
 
 The first structure is a **finite diamondoid cluster**, not a converged diamond surface. The initial coordinates are constructed geometry, not optimized coordinates. A reaction path describes hydrogen transfer at one fixed tool pose; approach, withdrawal, regeneration and entire assembly sequences require additional calculations.
 
@@ -84,11 +86,50 @@ Use the supplied `examples/h-abstraction/design.json` directly to inspect the de
 
 Set `quantum.scf_initial_guess` to `minao` (the default), `atom`, `1e`, or `huckel` to select one DFT starting guess explicitly. The choice is recorded with every new calculation. It does not scan alternatives or verify an electronic ground state. The paired comparison's `--cc-initial-guess` controls its separate HF/CC reference only.
 
+To investigate starting-guess dependence explicitly, prepare a survey with frozen
+coordinates and settings, then run one requested guess at a time:
+
+```bash
+nanodesign state-scan-create examples/h-abstraction/initial.xyz \
+  --settings examples/h-abstraction/design.json --out runs/tip-state-survey
+nanodesign state-scan-report runs/tip-state-survey
+# This starts one real calculation; prepare/report do not.
+nanodesign state-scan-run runs/tip-state-survey --max-jobs 1
+```
+
+The settings file must declare charge and spin. The survey reports each attempt
+and the energy spread of its converged subset; it never identifies a ground state
+from the lowest energy or equal energies alone. Failed guesses remain recorded
+and are not retried automatically. See [survey interfaces](research/state-scan/README.md).
+
+To preserve records for another researcher or computer without repeating work:
+
+```bash
+nanodesign bundle-create data/validation/paired-ccpvdz-atom --out reference-bundle
+nanodesign bundle-verify reference-bundle
+```
+
+The destination must be new, with an existing parent. Matching checksums establish
+file integrity, not scientific validity or completeness of external references.
+See [evidence bundles](docs/EVIDENCE_BUNDLES.md).
+
 ## What would make this accurate enough to design a tool?
 
 Accuracy needs a target: material and surface, elementary reaction, environment, operating temperature, placement tolerance, competing reactions and acceptable failure probability. A perfect-design guarantee is not scientifically available.
 
 Before accepting a design, establish reaction-specific quantum benchmarks; converge the basis, grid, cluster size and mechanical boundaries; verify electronic states; confirm transition states and connectivity; quantify competing pathways and finite-temperature effects; then validate predicted behavior experimentally. Those are outstanding research tasks, not boxes that this implementation silently checks off.
+
+The [validation protocol](docs/VALIDATION_PROTOCOL.md) defines the evidence and
+decision gates for the first H-abstraction operation. The active scientific lanes
+and exact ownership are recorded in [the team roster](coordination/ROSTER.md).
+
+Independent tools can [reconstruct saved force-difference Hessians](research/evidence-audit/README.md)
+and [compare vibrational modes across displacement steps](research/mode-comparison/README.md).
+These check numerical consistency; they do not establish electronic state or
+reaction connectivity. [Resumable force acquisition](research/characterization-resume/README.md)
+is currently a tested research prototype, separate from the production CLI.
+Saddle-search research uses the optional `pip install -e '.[research]'` dependency;
+the core workflow does not require it.
 
 The program does **not** currently predict assembly error rates, synthesis accessibility, arbitrary mechanosynthesis reactions, tool lifetime or a whole nanofactory. It does not replace electronic structure with a Lennard-Jones animation or use a nonreactive force field to infer bond-making chemistry.
 

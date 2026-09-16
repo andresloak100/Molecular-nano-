@@ -43,6 +43,8 @@ The solver provides energies and forces. The optimizer uses those quantities to 
 | Calculation interface | `nanodesign/cli.py`, `nanodesign/__main__.py` | Candidate creation, checks, calculation, reference comparison, characterization and campaign commands; explicit output destinations and failure/interruption exit status. | Local command-line execution; no remote scheduler or hardware controller. |
 | Visual workbench | `workbench/server.py`, `workbench/static/` | Local 3D coordinate inspection, measurements, pose selection and saved calculation/reference evidence; explicit import boundaries and source links. | Read-only; no graphical coordinate editor, solver execution or design validation. |
 | Campaign orchestration | `nanodesign/campaign.py` | Enumerate explicit poses, snapshot comparable inputs, execute a bounded number of serial jobs, preserve retries, lock concurrent workers, and report numerical/scientific evidence. | No learned objective, autonomous topology search, calibrated ranking, runtime budget or distributed scheduling. |
+| Electronic starting-guess surveys | `nanodesign/state_scan.py` | Freeze coordinates and explicit settings, evaluate requested guesses serially with fresh calculators, preserve failures, report converged-subset energy spread and completeness. | No orbital-stability analysis, state tracking, energy-based winner selection or ground-state certificate. |
+| Evidence transport | `nanodesign/bundle.py` | Copy an explicitly selected directory without changing bytes; bound inventory/size, preserve failures, verify checksums and paths after relocation. | File integrity only; no authenticity, external-reference closure or scientific validation. |
 
 ### Structure and solver contract
 

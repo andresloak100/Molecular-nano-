@@ -1,0 +1,9 @@
+....................................                                     [100%]
+=============================== warnings summary ===============================
+research/characterization-resume-review/test_resume_contract.py: 1823 warnings
+  /Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/lib/python3.14/site-packages/ase/atoms.py:432: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    a.shape = (-1,) + shape
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+36 passed, 1823 warnings in 7.69s

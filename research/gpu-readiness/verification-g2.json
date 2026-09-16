@@ -1,0 +1,47 @@
+{
+  "checked_utc": "2026-09-16T21:37:27.885100+00:00",
+  "command": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "research/gpu-readiness",
+    "-q"
+  ],
+  "returncode": 0,
+  "output": "........................................................................ [ 31%]\n........................................................................ [ 62%]\n........................................................................ [ 94%]\n.............                                                            [100%]\n229 passed in 2.96s\n",
+  "elapsed_seconds_including_protocol_verification": 4.352,
+  "quantum_evaluations": 0,
+  "gpu_execution_tested": false,
+  "protocol_verification": {
+    "command": [
+      ".venv/bin/python",
+      "research/gpu-readiness/gpu_readiness.py",
+      "verify",
+      "--plan",
+      "research/gpu-readiness/protocol-v2/plan.json"
+    ],
+    "returncode": 0,
+    "result": {
+      "input_files_verified": true,
+      "plan_sha256": "bf4fa5f904ace2b0cea1cebaee3872dacdeb0d9384605c6e0676acf4d4b72a10",
+      "verified_files": 12,
+      "verified_bytes": 31760,
+      "resolved_numerics_available": false,
+      "numerical_parity_passed": false
+    }
+  },
+  "original_g1_artifacts_unchanged_from_b2657c9": true,
+  "diff_check_returncode": 0,
+  "diff_check_output": "",
+  "source_sha256": {
+    "equivalence.py": "b51027ee7f804e80cddae9b02c65cb9d3a53be1c5c4d33de942ddd74bc8af8db",
+    "gpu_readiness.py": "556656d61723b2484d21cde535c4234d5ea37b5f15e753c406ffe65bed38c888",
+    "protocol.py": "7b0b2df2debd66f017def6a80838577bfcf9a421f70b555c881ba86bfe264fef",
+    "resolved_numerics.py": "0516754a5443b0b33b49148d3da7934acafdfc735eab54d61d44b8915f7d3875",
+    "test_equivalence.py": "07b12892931e27280b4defbc256a50baf2d8e56b35c8fc41de9ca22dfbbb60c4",
+    "test_protocol.py": "270b90fa6043f2e8db7a620f6190c20862239fcd8d2c9baeccb9190de438fd64",
+    "test_readiness.py": "d3c08508d4a9d7795b1d8cb2d1ce184ec61736e03543e832a62f64cc75f00751",
+    "test_resolved_numerics.py": "256515c52ca7f4eabec0cb678e0ae9773d1a520fa66407e8903e7ccfc5b74810"
+  },
+  "scope": "Offline synthetic and archived-input software checks only; no calculation or scientific-validation claim."
+}

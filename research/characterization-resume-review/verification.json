@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "scope": "Independent H2 software-fixture tests; no quantum calculations or chemistry validation",
+  "started_utc": "2026-09-16T21:33:54.757546+00:00",
+  "command": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "research/characterization-resume-review/test_resume_contract.py"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 10.090808500070125,
+  "source_files_unchanged_during_run": true,
+  "sha256_before": {
+    "research/characterization-resume/prototype.py": "84e2154c066c69277ff09d2287e7d7e7226bf8efb7191ccec2942fcad7144326",
+    "nanodesign/stationary.py": "efa54d1ceb79f7ca2c6e166f89047e002ec8d1bb7904c0e400883a19a5d85a82",
+    "nanodesign/quantum.py": "9e70a81c5658d23e64568f30bf455e1de9875d76a174d0a687ed675ee1231b2b",
+    "research/characterization-resume-review/fixtures.py": "0db7a0fe6e13e67baad8f29df3920205692bc3061f682f81f7cd44882493a79c",
+    "research/characterization-resume-review/test_resume_contract.py": "5d33d0727af8aaeea02768ef855fefbcc53f32d162df1ffbc26aa22f8b09c729"
+  },
+  "sha256_after": {
+    "research/characterization-resume/prototype.py": "84e2154c066c69277ff09d2287e7d7e7226bf8efb7191ccec2942fcad7144326",
+    "nanodesign/stationary.py": "efa54d1ceb79f7ca2c6e166f89047e002ec8d1bb7904c0e400883a19a5d85a82",
+    "nanodesign/quantum.py": "9e70a81c5658d23e64568f30bf455e1de9875d76a174d0a687ed675ee1231b2b",
+    "research/characterization-resume-review/fixtures.py": "0db7a0fe6e13e67baad8f29df3920205692bc3061f682f81f7cd44882493a79c",
+    "research/characterization-resume-review/test_resume_contract.py": "5d33d0727af8aaeea02768ef855fefbcc53f32d162df1ffbc26aa22f8b09c729"
+  },
+  "python_version": "3.14.7",
+  "test_output": "test-output.txt"
+}

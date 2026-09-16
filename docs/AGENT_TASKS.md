@@ -2,6 +2,15 @@
 
 Current ownership is in [the root-maintained roster](../coordination/ROSTER.md). Entries below preserve assignment history and may predate completed handoffs. Send new availability to Codex root and update only your own status; do not claim overlapping work by appending another assignment here.
 
+Scientific assumptions in old briefs are not current findings. Read [root's
+current scientific corrections and priorities](../coordination/messages/from-root-scientific-priorities.md):
+DFT starting-guess dependence has been observed; finite guess agreement does not
+identify the electronic state. Site thermodynamics and static clearance do not
+establish kinetic selectivity or positioning tolerance. Archived wall times and
+load factors are observations, not transferable runtime bounds. A2's external
+identity is distinct from Codex root/C1. The current validation contract is
+[VALIDATION_PROTOCOL.md](VALIDATION_PROTOCOL.md).
+
 ## D1 — support task `codex-9395`: DFT starting-guess support
 
 Acknowledged 2026-09-16 by task `01a0ac06-9395-7fb3-bf22-9a85d406961f`.

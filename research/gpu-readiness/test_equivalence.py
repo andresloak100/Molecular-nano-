@@ -225,10 +225,11 @@ def test_cli_reads_explicit_files_and_reports_failures(evidence, tmp_path):
     for path, payload in zip(paths, evidence):
         path.write_text(json.dumps(payload))
     command = [sys.executable, str(MODULE_PATH), "compare", "--plan", str(paths[0]),
-               "--cpu", str(paths[1]), "--gpu", str(paths[2])]
+               "--cpu", str(paths[1]), "--gpu", str(paths[2]), "--records-only"]
     completed = subprocess.run(command, text=True, capture_output=True, check=False)
     assert completed.returncode == 0
     assert json.loads(completed.stdout)["numerical_parity_passed"] is True
+    assert json.loads(completed.stdout)["parity_evidence_accepted"] is False
     paths[2].write_text('{"energy_hartree": NaN}')
     failed = subprocess.run(command, text=True, capture_output=True, check=False)
     assert failed.returncode == 1

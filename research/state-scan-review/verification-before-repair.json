@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "checked_utc": "2026-09-16T21:28:31.603452+00:00",
+  "scope": "S3 independent mock software-contract checks; no chemical validation",
+  "quantum_jobs_started": 0,
+  "command": [
+    "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/python",
+    "-m",
+    "pytest",
+    "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/research/state-scan-review/test_execution_contract.py",
+    "-q",
+    "--tb=short",
+    "--disable-warnings"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 7.027616082923487,
+  "stdout": "..................FFFFFF                                                 [100%]\n=================================== FAILURES ===================================\n___________ test_completed_attempt_requires_recorded_digest[absent] ____________\nresearch/state-scan-review/test_execution_contract.py:232: in test_completed_attempt_requires_recorded_digest\n    with pytest.raises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n____________ test_completed_attempt_requires_recorded_digest[None] _____________\nresearch/state-scan-review/test_execution_contract.py:232: in test_completed_attempt_requires_recorded_digest\n    with pytest.raises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n______________ test_completed_attempt_requires_recorded_digest[] _______________\nresearch/state-scan-review/test_execution_contract.py:232: in test_completed_attempt_requires_recorded_digest\n    with pytest.raises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n_____________ test_binding_types_cannot_alias_frozen_values[image] _____________\nresearch/state-scan-review/test_execution_contract.py:258: in test_binding_types_cannot_alias_frozen_values\n    with pytest.raises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n_______ test_binding_types_cannot_alias_frozen_values[quantum_settings] ________\nresearch/state-scan-review/test_execution_contract.py:258: in test_binding_types_cannot_alias_frozen_values\n    with pytest.raises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n___________ test_binding_types_cannot_alias_frozen_values[geometry] ____________\nresearch/state-scan-review/test_execution_contract.py:258: in test_binding_types_cannot_alias_frozen_values\n    with pytest.raises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n=========================== short test summary info ============================\nFAILED research/state-scan-review/test_execution_contract.py::test_completed_attempt_requires_recorded_digest[absent]\nFAILED research/state-scan-review/test_execution_contract.py::test_completed_attempt_requires_recorded_digest[None]\nFAILED research/state-scan-review/test_execution_contract.py::test_completed_attempt_requires_recorded_digest[]\nFAILED research/state-scan-review/test_execution_contract.py::test_binding_types_cannot_alias_frozen_values[image]\nFAILED research/state-scan-review/test_execution_contract.py::test_binding_types_cannot_alias_frozen_values[quantum_settings]\nFAILED research/state-scan-review/test_execution_contract.py::test_binding_types_cannot_alias_frozen_values[geometry]\n6 failed, 18 passed, 459 warnings in 5.99s\n",
+  "stderr": "",
+  "source_sha256_before": {
+    "nanodesign/state_scan.py": "46b165af34fccede3e2fde8a6518cc58b0fd70ac3c06276d54ab1354f2e13e2f",
+    "research/state-scan-review/mock_backend.py": "d364b21d12739ac1a198d97237dd4ec4932dc41b1d511442050a50560a5dd593",
+    "research/state-scan-review/test_execution_contract.py": "4c2a040316c61fff3fb66acb06edd7a511ba9f0de918d4ef5942698b2a31efd4",
+    "research/state-scan-review/verify.py": "6f0991abb2c204f3914f6ee79858a59c0152aeb69b3d9e1469b1c718f7678f9b"
+  },
+  "source_sha256_after": {
+    "nanodesign/state_scan.py": "46b165af34fccede3e2fde8a6518cc58b0fd70ac3c06276d54ab1354f2e13e2f",
+    "research/state-scan-review/mock_backend.py": "d364b21d12739ac1a198d97237dd4ec4932dc41b1d511442050a50560a5dd593",
+    "research/state-scan-review/test_execution_contract.py": "4c2a040316c61fff3fb66acb06edd7a511ba9f0de918d4ef5942698b2a31efd4",
+    "research/state-scan-review/verify.py": "6f0991abb2c204f3914f6ee79858a59c0152aeb69b3d9e1469b1c718f7678f9b"
+  },
+  "sources_changed_during_check": false
+}

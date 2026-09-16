@@ -2,18 +2,22 @@
 from __future__ import annotations
 
 import bz2
+from collections import deque
+from contextlib import closing
 import gzip
 import hashlib
 from io import BytesIO, TextIOWrapper
 import json
 import lzma
+from numbers import Integral
 from pathlib import Path
+import sys
 from tempfile import TemporaryDirectory
 
 import numpy as np
 from ase.constraints import FixAtoms
 from ase.data import covalent_radii
-from ase.io import read
+from ase.io import iread
 from ase.io.formats import filetype, get_compression, get_ioformat
 
 from .quantum import QuantumSettings
@@ -30,6 +34,10 @@ def read_coordinate_snapshot(path, raw, *, index=-1):
     ordinary text/binary readers see only this snapshot, not the live source.
     Filename-only readers (such as ASE's database reader) get a temporary copy.
     """
+    if isinstance(index, bool) or not isinstance(index, Integral):
+        raise ValueError("A single integer structure frame index is required.")
+    index = int(index)
+    path = Path(path)
     _, compression = get_compression(str(path))
     decompress = {"gz": gzip.decompress, "bz2": bz2.decompress, "xz": lzma.decompress}
     contents = decompress[compression](raw) if compression else raw
@@ -37,16 +45,33 @@ def read_coordinate_snapshot(path, raw, *, index=-1):
         probe.name = str(path)
         format_name = filetype(probe)
     io_format = get_ioformat(format_name)
+
+    def select_frame(source):
+        # Some ASE readers clamp excessively negative indices or leak
+        # StopIteration for a missing positive index. Select explicitly from
+        # the captured frame sequence so the recorded index cannot name a
+        # different frame. The usual final-frame request retains one frame.
+        with closing(iread(source, format=format_name, index=":")) as frames:
+            if index >= 0:
+                for number, frame in enumerate(frames):
+                    if number == index:
+                        return frame
+            else:
+                tail = deque(frames, maxlen=min(-index, sys.maxsize))
+                if len(tail) == -index:
+                    return tail[0]
+        raise ValueError(f"Structure frame {index} is unavailable in the captured input.")
+
     if not io_format.acceptsfd:
         with TemporaryDirectory(prefix="nanodesign-input-") as temporary:
             snapshot = Path(temporary) / path.name
             snapshot.write_bytes(raw)
-            return read(snapshot, format=format_name, index=index)
+            return select_frame(snapshot)
     source = BytesIO(contents)
     source.name = str(path)
     stream = source if io_format.isbinary else TextIOWrapper(source, encoding=io_format.encoding)
     with stream:
-        return read(stream, format=format_name, index=index)
+        return select_frame(stream)
 
 
 def validate_pair(initial, final, fixed_indices):

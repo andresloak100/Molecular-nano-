@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "reviewed_utc": "2026-09-16T21:45:24.843160+00:00",
+  "reviewer": "codex-712e / P3",
+  "protocol_author": "codex-f522 / P2",
+  "review_type": "bounded_read_only_scientific_protocol_review",
+  "disposition": "no_unresolved_material_findings_in_reviewed_protocol",
+  "chemical_validation_established": false,
+  "operating_reliability_established": false,
+  "protocol": {
+    "path": "docs/VALIDATION_PROTOCOL.md",
+    "sha256": "1078f5dd6936899623086a4b5fad8cd1d1602f26ef832c74c8f53bfb383fd5e1",
+    "line_count": 405
+  },
+  "initial_draft_sha256": "c6f28355544852495eebb05101b81ba811d0d84feab34194f705898d2a6aef62",
+  "resolved_review_contributions": [
+    {
+      "id": "P3-1",
+      "scope": "G1",
+      "resolution": "Electronic branch continuity required for every positive/negative Hessian force displacement, as well as path/connectivity images; missing wavefunction/density evidence explicitly identified."
+    },
+    {
+      "id": "P3-2",
+      "scope": "section 3 and G5",
+      "resolution": "2.494963 angstrom census value defined as minimum apex displacement to the nearest-site bisector boundary with target positions fixed, not a distance difference or operating tolerance."
+    }
+  ],
+  "root_publication_changes_rechecked": [
+    "283 Hessian-routine requests versus 284 workflow requests, with baseline reuse yielding 283 new quantum evaluations on a complete first attempt",
+    "Mutable unreleased S1 run links and observations removed; owner-released snapshot required"
+  ],
+  "reviewed_capability_gaps": [
+    "continuous electronic state and reference characterization",
+    "converged reaction saddle and both endpoint connections",
+    "chemical calibration and transfer to the supported candidate",
+    "finite support response and suitable environment/thermal model",
+    "competing-channel rates, approach/withdrawal and regeneration",
+    "experimental outcomes and use-specific accuracy/reliability targets"
+  ],
+  "verification_performed": [
+    "manual semantic review",
+    "read-only implementation and evidence inspection",
+    "independent existing helper review",
+    "primary-source spot checks",
+    "author revision inspection"
+  ],
+  "executed_protocol_commands": [],
+  "new_quantum_calculations": 0,
+  "tests_run": [],
+  "production_files_edited_by_reviewer": [],
+  "notes": "P2 checked local links and archived numerical values separately. Hashes identify inspected current source bytes, not proof of physical authenticity or completion of scientific gates. No changes beyond the recorded document are covered.",
+  "inspected_source_sha256": {
+    "docs/VALIDATION_PROTOCOL.md": "1078f5dd6936899623086a4b5fad8cd1d1602f26ef832c74c8f53bfb383fd5e1",
+    "nanodesign/quantum.py": "9e70a81c5658d23e64568f30bf455e1de9875d76a174d0a687ed675ee1231b2b",
+    "nanodesign/state_scan.py": "fea9e2fbf09a12180638b75d07f824e5bd783f3f5bffd6126758523034567c24",
+    "nanodesign/stationary.py": "efa54d1ceb79f7ca2c6e166f89047e002ec8d1bb7904c0e400883a19a5d85a82",
+    "nanodesign/workflow.py": "fc194529f1adff797e6a4048f5aa77d788f4e3531a91e215284d73b43c3f9238",
+    "nanodesign/design.py": "d2f82047695573ab7be16cf26e3eb034c7cb37a32f6e3460ebf68fac9e8cc495",
+    "nanodesign/cli.py": "d84849c93f75dcda747671d8c3916ff681d40e4209f6b213adf81df7b4b8b11c",
+    "docs/ACCURACY.md": "0433cacedb7136db70469c5069f132ec1cb8554fe50e27fa6aa830c86db9b451",
+    "docs/MODEL.md": "9f7a130b9a7d42ecc8e2e7d3c2b5e68223aae6a5d9781117ad057b5645585036",
+    "research/evidence-audit/README.md": "b665588dbe399f7b8f632412596a9eb211ae78402f179be24d983daf71b057a7",
+    "research/mode-comparison/README.md": "4e1c4a17b8fd73a5a4af38f60cd1d15d04e3fd4802c72955a39fc01e3f916460",
+    "research/site-selectivity/evidence/stage0-site-census-r3/census.json": "133c61abfd4d181e592bd85e026c297fecf11ddb3e8b8d19ad712bfa53b2deec"
+  }
+}

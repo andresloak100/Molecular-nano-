@@ -1,13 +1,42 @@
 # Codex integration status
 
-Updated: 2026-09-16 21:22 UTC.
+Updated: 2026-09-16 21:47 UTC.
 
-- C1 owner: core package/CLI, integration docs, reviewed validation data and tests.
-- Core checkpoint `9e7ac9f` pushed; GitHub CI passed 358 core tests. Includes explicit DFT guesses, paired provenance checks, exact-byte geometry loading, campaign history integrity, setup failure recording and reconstructible Hessian force evidence.
-- Both 53-atom direct and density-fitting jobs are complete and archived. No Codex-owned quantum jobs are currently running.
-- V1 is complete and handed off by `stationary_check`/`viewer_ui`: 25 backend tests, 6 independent import-boundary regressions and JS syntax pass. Root browser review confirmed exact structure measurements, endpoint changes, nine pending poses, actual calculation values, historical annotations and uncomputed path labeling; no browser errors. Server: http://127.0.0.1:8765, session 45775.
-- Combined published research audits pass 113 tests plus 10 subtests; Q2 saddle audit is independently published. Core/archived evidence remains scientifically unvalidated.
-- S1/A1/A2 scientific work is separate and live. A2's accepted status resolves the identity confusion: `andresarriaga-a8` owns candidate feasibility, not C1 integration. Original scientific helper retains the isobutane run and forensics paths.
-- Next-milestone assignments have been sent and accepted: S2 fixed-geometry guess surveys, S3 independent review, H1 resumable characterization prototype, E2 stationary evidence verifier, B1 portable evidence bundles and B2 independent review. Exact paths are in the roster. No new quantum jobs were authorized for these software tasks.
-- Workbench/C2/docs checkpoint `b550e54` is pushed and GitHub CI passed, including all 358 core tests, 25 workbench tests, 113 research-audit tests plus 10 subtests, 6 independent workbench regressions and 11 cost-planner tests. Preview is queued in this task's browser panel.
-- G1 GPU readiness is a separate in-progress handoff. N1 saved-mode comparison has also been assigned. New source files from next-milestone agents are not part of the finished checkpoint until reviewed and tested.
+C1/root task: `01a0abd2-e250-7a62-a6d6-91f406c345fd`.
+
+Current user priority is scientific accuracy for the supported H-abstraction
+operation. See `coordination/ROSTER.md` and the root scientific-priorities note.
+S1/A1/A2/source-forensics retain existing chemical calculations; root has launched
+no new quantum jobs. None of the code/test handoffs validates a molecular tool.
+
+Reviewed integration ready for publication:
+
+- S2 starting-guess survey and B1 evidence transport are in the CLI. Explicit
+  charge/spin and preserved subset/failure reporting prevent implicit state
+  assumptions. Bundle integrity is separate from scientific validity.
+- S3/S4 CLI integration found ASE can clamp invalid negative frame indices and
+  leak an exception for missing positive frames. Root fixed explicit frame
+  selection from captured bytes; tests now cover binary/text/compressed/database
+  frames. 24 survey CLI checks pass after repair; 19 bundle CLI checks pass.
+- Focused production integration initially passed 204 tests. After frame and
+  snapshot changes, 127 reader/characterization/survey/campaign/audit checks pass.
+  These are software checks with synthetic force models, not chemical evidence.
+- Root added a separate exact input_snapshot_sha256 for the rendered
+  characterization frame, preserving the original source structure_sha256.
+  N1 and H1 now pass actual mocked producer/consumer integration; N1 has 54
+  checks, H1 has 23 total cases and H2 retained its historical 36-check receipt
+  plus a fresh two-case metadata/reuse receipt. Prototype remains outside the CLI.
+- E2 force/Hessian reconstruction and G2 strict offline GPU protocol are frozen
+  handoffs. No GPU adapter, actual GPU equivalence or acceleration is established.
+- P2 completed the operation-specific validation protocol, with P3 independent
+  source/code review and a hash-bound receipt. Scientific gates remain open.
+- Final new-command integration: 186 tests passed, including survey/bundle APIs,
+  both new command families and the older paired-comparison CLI. No quantum jobs.
+- Prior published foundation: 358 core tests and remote CI passed at 9e7ac9f;
+  workbench/planner b550e54 and offline GPU-readiness b2657c9 passed remote CI.
+  Workbench remains available at http://127.0.0.1:8765 (server session 45775).
+
+Root will publish only explicit reviewed paths using an isolated Git index and
+compare-and-swap commit update. Other agents' live evidence, staging and source
+notes remain theirs. Completed supporting lanes should freeze until a concrete
+next scientific need is assigned; do not add broad audits or duplicate jobs.

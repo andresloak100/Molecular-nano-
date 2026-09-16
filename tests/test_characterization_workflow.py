@@ -204,6 +204,8 @@ def test_selected_trajectory_frame_is_both_used_and_identified(setup, tmp_path):
     result = workflow.run_characterization(design, source, out, image=1)
     assert result["structure_image"] == 1
     assert result["input_hashes"]["structure_sha256"] == sha256(source)
+    assert result["input_hashes"]["input_snapshot_sha256"] == sha256(out / "input.extxyz")
+    assert result["input_hashes"]["input_snapshot_sha256"] != result["input_hashes"]["structure_sha256"]
     np.testing.assert_array_equal(TrackedHarmonic.instances[0].positions_evaluated[0], atoms.positions)
 
 

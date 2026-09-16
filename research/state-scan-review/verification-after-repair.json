@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "checked_utc": "2026-09-16T21:29:25.026312+00:00",
+  "scope": "S3 independent mock software-contract checks; no chemical validation",
+  "quantum_jobs_started": 0,
+  "command": [
+    "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/python",
+    "-m",
+    "pytest",
+    "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/research/state-scan-review/test_execution_contract.py",
+    "-q",
+    "--tb=short",
+    "--disable-warnings"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 2.5798899170476943,
+  "stdout": "........................                                                 [100%]\n24 passed, 459 warnings in 1.82s\n",
+  "stderr": "",
+  "source_sha256_before": {
+    "nanodesign/state_scan.py": "fea9e2fbf09a12180638b75d07f824e5bd783f3f5bffd6126758523034567c24",
+    "research/state-scan-review/mock_backend.py": "d364b21d12739ac1a198d97237dd4ec4932dc41b1d511442050a50560a5dd593",
+    "research/state-scan-review/test_execution_contract.py": "4c2a040316c61fff3fb66acb06edd7a511ba9f0de918d4ef5942698b2a31efd4",
+    "research/state-scan-review/verify.py": "6f0991abb2c204f3914f6ee79858a59c0152aeb69b3d9e1469b1c718f7678f9b"
+  },
+  "source_sha256_after": {
+    "nanodesign/state_scan.py": "fea9e2fbf09a12180638b75d07f824e5bd783f3f5bffd6126758523034567c24",
+    "research/state-scan-review/mock_backend.py": "d364b21d12739ac1a198d97237dd4ec4932dc41b1d511442050a50560a5dd593",
+    "research/state-scan-review/test_execution_contract.py": "4c2a040316c61fff3fb66acb06edd7a511ba9f0de918d4ef5942698b2a31efd4",
+    "research/state-scan-review/verify.py": "6f0991abb2c204f3914f6ee79858a59c0152aeb69b3d9e1469b1c718f7678f9b"
+  },
+  "sources_changed_during_check": false
+}

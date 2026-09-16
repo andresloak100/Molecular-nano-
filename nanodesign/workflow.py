@@ -243,6 +243,8 @@ def run_characterization(design_path, structure_path, output, *, image=-1, step=
     json_write(out / "result.json", result)
     try:
         write(out / "input.extxyz", atoms)
+        result["input_hashes"]["input_snapshot_sha256"] = hashlib.sha256((out / "input.extxyz").read_bytes()).hexdigest()
+        result["input_snapshot_scope"] = "Rendered selected frame with design constraints; original source bytes remain identified separately by input_hashes.structure_sha256."
         atoms.calc = PySCFCalculator(settings, event_log=out / "electronic.jsonl")
         forces = np.asarray(atoms.get_forces(), dtype=float)
         result["quantum_diagnostics"] = deepcopy(atoms.calc.diagnostics)
