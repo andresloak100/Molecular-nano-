@@ -5,19 +5,23 @@ not yet measured and are named rather than estimated.
 
 **Verdict: not at default settings on this host as it stands — but the margin
 is contention, not chemistry, and that changes what to do about it.** Using the
-archived timings at face value, one pose costs between 4.3 and 19.5 days of
-uninterrupted single-core compute, and the campaign has nine poses. However,
-those timings are wall clock taken under unrecorded contention, and this host's
-measured contention factor reaches 10.4x. If the archived runs carried anything
-like that factor, the same central scenario is **20 hours, not 8.6 days**. The
-verdict genuinely hangs on a number nobody has measured yet.
+archived timings at face value, a path on *one* pose costs between 4.3 and 19.5
+days of uninterrupted single-core compute. However, those timings are wall clock
+taken under unrecorded contention, and this host's measured contention factor
+reaches 10.4x. If the archived runs carried anything like that factor, the same
+central scenario is **20 hours, not 8.6 days**. The verdict genuinely hangs on a
+number nobody has measured yet.
+
+Note what is *not* blocked: the nine-pose campaign in `examples/pose-campaign`
+is configured for `stage: "singlepoint"`, one evaluation per pose, roughly
+1.8 hours in total. It is affordable today. The cliff is the path stage, which
+costs 530-2400 evaluations where the campaign costs one.
 
 So the deliverable splits in two. The evaluation *count* is solid and is the
-real structural problem: 530 to 2400 serial evaluations for one pose, times
-nine poses. The per-evaluation *cost* is not yet established to better than an
-order of magnitude, and establishing it is cheap. A reduced model brings one
-pose into range under either reading; the reduction is defensible on
-electronics and undemonstrated on mechanics.
+real structural problem. The per-evaluation *cost* is not yet established to
+better than an order of magnitude, and establishing it is cheap. A reduced
+model brings one pose into range under either reading; the reduction is
+defensible on electronics and undemonstrated on mechanics.
 
 **What this verdict is not.** It says nothing about whether the reaction works.
 An affordable path would not be evidence that the tool abstracts the right
@@ -150,6 +154,18 @@ pose, four-guess SCF scan on every open-shell species:
 | Hydrogen | HC≡C· | -136.72 |
 | Methyl | CH₃-C≡C· | -136.52 |
 | Adamantyl | pending | pending |
+
+**Sanity check against known chemistry.** The hydrogen-handle case is just
+acetylene: `A(H) = -136.72 kcal/mol` is the negative of the acetylene C-H bond
+dissociation energy, so this calculation puts that bond at 136.7 kcal/mol.
+Acetylene's C-H bond is experimentally about 133 kcal/mol as an enthalpy at
+298 K. These numbers are bare electronic energies with no zero-point or
+thermal correction, and zero-point energy lowers a C-H dissociation energy by
+roughly 4-5 kcal/mol, so an electronic value a few kcal/mol above the
+experimental enthalpy is what agreement looks like here. It is a coarse check
+— rigid unrelaxed geometries, a small basis, no ZPE computed — but it is the
+first number in this lane anchored to something outside the repository, and it
+lands where it should rather than somewhere absurd.
 
 Hydrogen versus methyl differ by **0.19 kcal/mol**. For scale, this project's
 own CCSD(T) calibration puts tertiary abstraction 7.4 kcal/mol more exothermic
