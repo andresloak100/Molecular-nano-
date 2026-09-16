@@ -255,6 +255,16 @@ Measured on the product geometry from `candidates.py`:
 needs a perpendicular approach into a π lobe; 0° is the worst possible vector
 for it. A1 predicted this and the coordinates confirm it exactly.
 
+> **Convention warning, so nobody reads a disagreement into two files.** A1's
+> independent screen reports **180°** for this same geometry
+> (`research/site-selectivity/evidence/product-state-welding-screen/screen.json`).
+> The two are identical: I measure from the distal→apex axis direction, A1
+> measures from apex→distal, so the values are reciprocal. Perpendicular offset
+> is 0.000 Å either way. Flagged explicitly because this project has already
+> lost time to two correct numbers for different quantities, and 0 versus 180
+> in two files invites exactly that.
+
+
 **Second, not previously noted:** the transferred hydrogen lands on the apex
 carbon, directly between the radical and the alkyne, closer to the radical
 (2.540 Å) than the apex carbon itself is (3.600 Å). The newly formed C–H
@@ -262,6 +272,14 @@ physically occupies the approach vector. This is structural rather than
 incidental — the H necessarily lands on the atom the radical was pointing at,
 so **the abstraction event installs a steric block against the addition that
 would otherwise follow it.**
+
+A1 quantified this further and it is stronger than "in the way": against ASE's
+van der Waals radii (C 1.700, H 1.200, sum 2.900 Å) the 2.540 Å separation is a
+gap of **−0.360 Å**. Reproduced here exactly. The radical and the hydrogen it
+just surrendered are already inside each other's van der Waals envelopes, so
+the block is in hard contact along the approach vector rather than merely on
+it. Reaching an addition-competent geometry would require 4.219 Å of apex
+travel (A1's screen).
 
 Both protections derive from the same collinearity and degrade under the same
 angular wander, so one angular tolerance covers both. **No angular tolerance has
