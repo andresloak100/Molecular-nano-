@@ -1,7 +1,9 @@
 # Active ownership roster — maintained by Codex root
 
-Updated 2026-09-16 21:47 UTC. Root task: `01a0abd2-e250-7a62-a6d6-91f406c345fd`.
+Updated 2026-09-16. Root task: `01a0abd2-e250-7a62-a6d6-91f406c345fd`.
 Read [the current scientific priorities](messages/from-root-scientific-priorities.md).
+Secondary scientific summaries also need the concrete
+[A1/A2/digest corrections](messages/from-root-to-science-summary-owners.md).
 The user prioritizes accurate predictions for one supported-tip H-abstraction
 operation. Software verification, chemical calibration and physical operation
 remain separate claims. No lane has validated a molecular assembler.
@@ -24,6 +26,36 @@ boards. Do not duplicate quantum jobs or stop another owner's processes.
 | P3 | `01a0ac0c-712e-71a0-8160-cab84676bacf` | Completed and released: independent P2 scientific-contract review; `research/validation-protocol-review/` |
 | S3 CLI | `01a0ac0c-8cfb-7e81-8b3f-62050673600c` | Completed and released: 24 integration tests for root's three survey commands; `tests/test_cli_state_scan.py` |
 
+## Electronic and derivative evidence milestone — root integration
+
+These assignments supersede renewed availability offers. No duplicate lanes.
+Root owns optional backend capture wiring in `nanodesign/quantum.py` and CLI/API
+integration. Existing S1/A1/A2 calculations continue; no new SCF/gradient
+campaigns or additional agent sessions are authorized for these software lanes.
+E3/E4/X1/F1/F2/L1/L2/G3 and capture-lifecycle handoffs are complete, frozen and
+released to root. S5 survey integration review is also complete: 21 cases pass after the
+failed-gradient SCF-context binding repair; its test file is released to root.
+Completed owners should wait for a concrete finding, not open another lane.
+
+| Lane | Owner / task | Exact write scope |
+|---|---|---|
+| E3 electronic snapshots/comparison | f522 | `nanodesign/electronic_state.py`, `tests/test_electronic_state.py`, `docs/ELECTRONIC_EVIDENCE.md` |
+| E4 independent snapshot/math review | 712e | `research/electronic-state-review/` |
+| X1 explicit cross-AO-overlap bridge | f040 | `research/ao-overlap-bridge/`; tiny <=4 atom/<=10 AO integral-only verification allowed, no SCF/gradient jobs |
+| Capture lifecycle review | 8cfb | `research/electronic-capture-integration-review/`; read-only recommendations then synthetic hook tests |
+| F1 saved energy/force consistency | 4280 | `research/force-energy-consistency/`; prefer actual H1 checkpoint adapter |
+| F2 independent derivative review | 9395 | `research/force-energy-review/` |
+| L1 local harmonic residual correction | b717 | `research/local-relaxation-diagnostic/`; no nonlinear energy-error bound or actual optimization |
+| L2 independent residual/curvature review | a551 | `research/local-relaxation-review/` |
+| G3 actual CPU numerical-field mapping | c5cd | `research/gpu-readiness/CAPTURE_FIELDS.md` only; no GPU adapter |
+
+All snapshots and comparisons expose missing state/branch evidence and retain
+scientific validation as unestablished. No automatic lowest-energy state choice,
+perfect-model claim, numerical sensitivity-as-error-bound, or operating-rate
+inference is permitted. Use exact source bindings and real mocked-producer
+integration checks. Coordinate pair contracts directly, then send root a bounded
+handoff. Read-only reviews do not grant permission to edit producer modules.
+
 ## Completed handoffs under root integration
 
 These sources are frozen. Owners remain available for concrete findings; new
@@ -44,6 +76,11 @@ sessions or speculative calculation campaigns are needed.
 | G2 / `01a0ac06-c5cd-72d1-b288-caa9bef48b95` | `research/gpu-readiness/`; 229 checks including strict v2 protocol | Released to root; no GPU adapter, execution or measured parity |
 
 ## Published foundation
+
+`3eff5d5` published state surveys, portable evidence bundles, force/Hessian
+reconstruction, mode comparison and the validation protocol. Remote CI
+`35154502109` passed, including 547 core tests. These are software checks and
+do not certify a molecule, reaction or assembled machine.
 
 `9e7ac9f` passed 358 core tests and remote CI. `b550e54` published the local
 workbench, computation planner and existing audits, also with passing CI.

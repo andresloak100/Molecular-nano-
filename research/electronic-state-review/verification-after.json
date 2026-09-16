@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "reviewed_utc": "2026-09-16T22:06:45.486709+00:00",
+  "reviewer": "codex-712e / E4",
+  "scope": "synthetic electronic-state math, capture conventions and evidence contracts",
+  "command": [
+    "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "research/electronic-state-review"
+  ],
+  "returncode": 0,
+  "stdout": "...................................                                      [100%]\n35 passed in 1.56s\n",
+  "stderr": "",
+  "source_sha256_before": {
+    "nanodesign/electronic_state.py": "e67b2a072ab415422dd4907ebf8198e70ef82313d96e2e52f9525772ba3bbaf6",
+    "nanodesign/quantum.py": "ae92c852ac9989542b3c0cdbe2861a4d2ffe18ef426f1aa1b3d9869ab2489ee4"
+  },
+  "source_sha256_after": {
+    "nanodesign/electronic_state.py": "e67b2a072ab415422dd4907ebf8198e70ef82313d96e2e52f9525772ba3bbaf6",
+    "nanodesign/quantum.py": "ae92c852ac9989542b3c0cdbe2861a4d2ffe18ef426f1aa1b3d9869ab2489ee4"
+  },
+  "source_unchanged": true,
+  "test_sha256": {
+    "research/electronic-state-review/e4_fixtures.py": "6431c576e7e0ecffaa154167d90ef066ad7e82c7320681c46de8463d3cdaf775",
+    "research/electronic-state-review/e4_reference_cases.py": "f80c738fa31a0210f827d53cdd90759f84923f46a8e26477918d19780a27856f",
+    "research/electronic-state-review/run_review.py": "848ea83d595b1dac860a50d80ff151f7590e2037e5542edaeb7cccb9f6925e9a",
+    "research/electronic-state-review/test_capture_conventions.py": "52ceabcafe903a55d4821525323900099d4a512e8ea22eb370d881ba259ec4e9",
+    "research/electronic-state-review/test_contracts.py": "cab4251672ebb2f88fb06f8e3a9dfd50b00f8d11c8a04de605dfd91619a1a781",
+    "research/electronic-state-review/test_math_invariants.py": "c9817a8086b8875c6440b3f9c9748daae26811ce1f571c7abb539380acb32475"
+  },
+  "new_scf_calls": 0,
+  "new_gradient_calls": 0,
+  "new_ao_integral_calls": 0,
+  "solver_objects": "synthetic fake mean fields; capture kernel is forbidden by fixture",
+  "electronic_state_identity_verified": false,
+  "ground_state_verified": false,
+  "chemical_accuracy_validated": false,
+  "limitation": "Snapshot arithmetic/context and synthetic producer behavior only; actual solver lifecycle and cross-geometry integral reconstruction are separately assigned reviews."
+}

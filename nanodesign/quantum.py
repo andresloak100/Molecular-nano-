@@ -13,6 +13,7 @@ from datetime import datetime, timezone
 from importlib.metadata import PackageNotFoundError, version
 import json
 import math
+import sys
 from numbers import Integral, Real
 from pathlib import Path
 import threading
@@ -119,6 +120,13 @@ class PySCFCalculator(Calculator):
     SCF cycle numbers are one-based; ``e_tot`` in those records is in Hartree
     before adding dispersion. A new call UUID distinguishes successive ASE
     geometries; reads served from ASE's cache do not create additional events.
+
+    ``electronic_state_directory`` optionally stores one immutable converged-SCF
+    orbital snapshot per actual evaluation, before gradients. A snapshot may
+    survive a later force or output failure; it never certifies that the whole
+    evaluation succeeded or that the electronic state is physically correct.
+    Explicitly requested capture failures stop the evaluation. Capture is off
+    by default and is an output choice, not an electronic-method setting.
     """
 
     implemented_properties = ["energy", "forces"]
@@ -128,6 +136,7 @@ class PySCFCalculator(Calculator):
         settings: QuantumSettings | None = None,
         *,
         event_log: str | Path | None = None,
+        electronic_state_directory: str | Path | None = None,
         **kwargs: Any,
     ) -> None:
         super().__init__(**kwargs)
@@ -136,6 +145,12 @@ class PySCFCalculator(Calculator):
             raise TypeError("settings must be a QuantumSettings instance")
         self.diagnostics: dict[str, Any] = {}
         self.event_log = Path(event_log) if event_log is not None else None
+        self._electronic_state_directory = (Path(electronic_state_directory)
+            if electronic_state_directory is not None else None)
+
+    @property
+    def electronic_state_directory(self) -> Path | None:
+        return self._electronic_state_directory
 
     @property
     def settings(self) -> QuantumSettings:
@@ -148,12 +163,12 @@ class PySCFCalculator(Calculator):
         return {}
 
     def calculate(self, atoms=None, properties=("energy", "forces"), system_changes=all_changes):
-        super().calculate(atoms, properties, system_changes)
         self.results = {}
         started = time.monotonic()
         call_id = str(uuid4())
         self.diagnostics = {
             "call_id": call_id,
+            "calculation_status": "running",
             "settings": self.settings.to_dict(),
             "scf_converged": False,
             "gradient_completed": False,
@@ -170,6 +185,9 @@ class PySCFCalculator(Calculator):
             "energy_scope": "Born-Oppenheimer electronic energy plus nuclear repulsion and specified D3",
         }
         try:
+            # Reset evidence before ASE setup: even a failed copy/setup must
+            # not leave a previous geometry's orbital snapshot beside this call.
+            super().calculate(atoms, properties, system_changes)
             self._validate_atoms()
             # Keep import failures explicit, including missing compiled libraries.
             import pyscf
@@ -257,6 +275,8 @@ class PySCFCalculator(Calculator):
                         raise QuantumCalculationError(
                             f"SCF did not converge within {self.settings.max_cycle} cycles; no energy or forces accepted"
                         )
+                    if not math.isfinite(dft_energy):
+                        raise QuantumCalculationError("Electronic calculation returned a nonfinite SCF energy")
                     actual_s2, multiplicity = mean_field.spin_square()
                     if not math.isfinite(actual_s2) or not math.isfinite(multiplicity):
                         raise QuantumCalculationError("Electronic calculation returned nonfinite spin diagnostics")
@@ -270,6 +290,19 @@ class PySCFCalculator(Calculator):
                         effective_multiplicity=float(multiplicity),
                         stability_checked=False,
                     )
+                    if self.electronic_state_directory is not None:
+                        from .electronic_state import capture_snapshot, save_snapshot
+                        try:
+                            snapshot = capture_snapshot(mean_field, settings=self.settings.to_dict(), call_id=call_id)
+                            self.electronic_state_directory.mkdir(parents=True, exist_ok=True)
+                            saved = save_snapshot(self.electronic_state_directory / f"{call_id}.json", snapshot)
+                            self.diagnostics["electronic_state_snapshot"] = {
+                                **saved, "call_id": call_id, "phase": "converged_scf_only",
+                                "whole_evaluation_accepted": False,
+                            }
+                        except Exception as capture_error:
+                            self.diagnostics["capture_error"] = str(capture_error)
+                            raise
                     gradients = mean_field.nuc_grad_method()
                     gradients.grid_response = True
                     if self.settings.density_fit:
@@ -302,26 +335,45 @@ class PySCFCalculator(Calculator):
                         net_force_eV_A=np.sum(forces, axis=0).tolist(),
                     )
                     self.results = {"energy": total_energy * Hartree, "forces": forces}
-                    self._event(
-                        "calculation_completed", call_id, started,
-                        energy_eV=float(self.results["energy"]),
-                        scf_converged=True,
-                        gradient_completed=True,
-                    )
                 finally:
-                    lib.num_threads(previous_threads)
-        except Exception as error:
+                    primary_error = sys.exc_info()[1]
+                    try:
+                        lib.num_threads(previous_threads)
+                    except BaseException as restore_error:
+                        self.diagnostics["thread_restoration_error"] = {
+                            "type": type(restore_error).__name__, "message": str(restore_error),
+                        }
+                        if primary_error is None:
+                            raise
+            # Completion includes restoring process-wide settings and writing
+            # the completion event, not just the last finite force evaluation.
+            self._event(
+                "calculation_completed", call_id, started,
+                energy_eV=float(self.results["energy"]),
+                scf_converged=True,
+                gradient_completed=True,
+            )
+            self.diagnostics["calculation_status"] = "completed"
+            if "electronic_state_snapshot" in self.diagnostics:
+                self.diagnostics["electronic_state_snapshot"]["whole_evaluation_accepted"] = True
+        except BaseException as error:
             self.results = {}
+            interrupted = not isinstance(error, Exception)
+            self.diagnostics["calculation_status"] = "interrupted" if interrupted else "failed"
+            if "electronic_state_snapshot" in self.diagnostics:
+                self.diagnostics["electronic_state_snapshot"]["whole_evaluation_accepted"] = False
             self.diagnostics["error"] = str(error)
             try:
                 self._event(
-                    "calculation_failed", call_id, started,
+                    "calculation_interrupted" if interrupted else "calculation_failed", call_id, started,
                     error_type=type(error).__name__, error=str(error),
                 )
-            except OSError as log_error:
+            except Exception as log_error:
                 # Preserve the original scientific or I/O failure if the log
                 # destination itself cannot be written.
                 self.diagnostics["event_log_error"] = str(log_error)
+            if interrupted:
+                raise
             if isinstance(error, (QuantumCalculationError, ValueError)):
                 raise
             raise QuantumCalculationError(f"Requested quantum calculation failed: {error}") from error

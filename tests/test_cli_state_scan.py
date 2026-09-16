@@ -106,6 +106,19 @@ def assert_uncertified(report):
         assert report[key] is False
 
 
+@pytest.mark.parametrize("capture", [False, True])
+def test_create_freezes_optional_electronic_capture_without_running_solver(tmp_path, inputs, capsys, capture):
+    source, settings_path, _ = inputs
+    output = tmp_path / "capture choice"
+    arguments = ["--capture-electronic-state"] if capture else []
+    code, report = cli_json(capsys, "state-scan-create", source, "--settings", settings_path,
+                            "--out", output, *arguments)
+    assert code == 0 and report["capture_electronic_state"] is capture
+    assert json.loads((output / "plan.json").read_text())["capture_electronic_state"] is capture
+    assert not (output / "attempts").exists()
+    assert SyntheticCalculator.instances == []
+
+
 @pytest.mark.parametrize("wrapped", [False, True], ids=["raw-settings", "design-quantum"])
 def test_create_freezes_explicit_state_selected_frame_and_guess_order_without_work(
         tmp_path, inputs, capsys, wrapped):

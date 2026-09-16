@@ -34,6 +34,29 @@ explicit. The read-only report command returns 0 for internally consistent
 evidence even when that evidence describes failed attempts. Interruptions return
 130. Missing or contradictory evidence returns 2; nothing is repaired on report.
 
+Optional `--capture-electronic-state` (API: `capture_electronic_state=True`)
+freezes orbital capture into the plan. Each fresh solver stores a bounded snapshot
+under `attempts/<guess>/electronic-states/<call-id>.json`. Reporting reads those
+local bytes, verifies their recorded size/hash, full per-guess settings, solver
+call and coordinates, and exposes a portable relative path. The old absolute
+writer path is never followed after moving a survey directory. Older plans
+without the option remain readable and do not imply captured evidence.
+
+A snapshot is a converged-SCF artifact, saved before the gradient. Its presence
+does not imply a successful force evaluation. `whole_evaluation_accepted` refers
+to the backend call; a later survey validation failure can coexist with a
+completed backend call and still leaves the survey attempt failed. Failed
+gradients retain their SCF artifact with backend acceptance false. Requested
+capture failures fail that attempt rather than silently dropping evidence.
+
+Use `nanodesign state-compare LEFT.json RIGHT.json` for read-only comparisons at
+identical geometry. Exit 0 means comparable evidence produced metrics; exit 2
+means unavailable/incompatible/malformed input. No physical similarity threshold
+or automatic state assignment is applied. See
+[electronic evidence](../../docs/ELECTRONIC_EVIDENCE.md) for supported references,
+byte/AO bounds, arithmetic guards and scientific limits. Storage and validation
+cost scale with the AO matrix size; capture is off by default.
+
 ```python
 from nanodesign.quantum import QuantumSettings
 from nanodesign.state_scan import (

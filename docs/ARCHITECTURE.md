@@ -44,6 +44,7 @@ The solver provides energies and forces. The optimizer uses those quantities to 
 | Visual workbench | `workbench/server.py`, `workbench/static/` | Local 3D coordinate inspection, measurements, pose selection and saved calculation/reference evidence; explicit import boundaries and source links. | Read-only; no graphical coordinate editor, solver execution or design validation. |
 | Campaign orchestration | `nanodesign/campaign.py` | Enumerate explicit poses, snapshot comparable inputs, execute a bounded number of serial jobs, preserve retries, lock concurrent workers, and report numerical/scientific evidence. | No learned objective, autonomous topology search, calibrated ranking, runtime budget or distributed scheduling. |
 | Electronic starting-guess surveys | `nanodesign/state_scan.py` | Freeze coordinates and explicit settings, evaluate requested guesses serially with fresh calculators, preserve failures, report converged-subset energy spread and completeness. | No orbital-stability analysis, state tracking, energy-based winner selection or ground-state certificate. |
+| Electronic solution evidence | `nanodesign/electronic_state.py`, optional `quantum.py` capture | Save occupied spin orbitals, expanded AO basis and metric after SCF; compare same-geometry subspaces and densities; bind snapshots to survey calls/settings/coordinates. | SCF phase only; no orbital stability, physical-state threshold or cross-geometry branch tracker. |
 | Evidence transport | `nanodesign/bundle.py` | Copy an explicitly selected directory without changing bytes; bound inventory/size, preserve failures, verify checksums and paths after relocation. | File integrity only; no authenticity, external-reference closure or scientific validation. |
 
 ### Structure and solver contract
@@ -55,6 +56,23 @@ The solver receives atomic numbers and coordinates plus charge, spin, functional
 `scf_initial_guess` explicitly chooses one of `minao`, `atom`, `1e`, or `huckel` for DFT, with `minao` preserving historical behavior. New records serialize the effective choice and mark electronic-state identity and the ground state as unverified. A separate setting controls HF starting guesses in the coupled-cluster reference. Neither setting automatically scans or selects among solutions.
 
 The default PBE0/def2-SVP calculation with D3(BJ) is an explicit approximation awaiting reaction-specific calibration. The geometry workflow uses the ASE calculator interface; this is the intended boundary for adding another solver. The current workflow still instantiates `PySCFCalculator` directly, so an interchangeable backend selector has not been implemented.
+
+`electronic_state_directory` is an optional calculator output destination,
+separate from physical `QuantumSettings`. Capture is off by default and is
+exposed through `state-scan-create --capture-electronic-state`. Each snapshot is
+saved before force evaluation and retains `converged_scf_only` phase. The backend
+accepts the whole energy/force evaluation only after gradient checks and thread
+restoration; failures clear calculator results and preserve any captured SCF
+evidence with its own call ID. Snapshots cannot silently inherit acceptance from
+an earlier geometry. See [the evidence contract](ELECTRONIC_EVIDENCE.md).
+
+Three independently reviewed research tools add numerical checks without new
+SCF calculations: [total-energy/force consistency](../research/force-energy-consistency/README.md),
+[local quadratic residual corrections](../research/local-relaxation-diagnostic/README.md),
+and [cross-geometry AO reconstruction](../research/ao-overlap-bridge/README.md).
+The last performs one-electron overlap integrals from explicit basis data; it
+does not follow an electronic branch. They remain separate research commands,
+with explicit missing-evidence outcomes and no automatic scientific approval.
 
 ### Optimization and evidence contract
 

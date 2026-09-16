@@ -102,6 +102,21 @@ and the energy spread of its converged subset; it never identifies a ground stat
 from the lowest energy or equal energies alone. Failed guesses remain recorded
 and are not retried automatically. See [survey interfaces](research/state-scan/README.md).
 
+Add `--capture-electronic-state` when creating a survey to save occupied orbitals,
+the atomic-orbital overlap metric and the actual expanded basis for each
+converged electronic solution. Then compare two saved snapshots without running
+another calculation:
+
+```bash
+nanodesign state-compare path/to/first-snapshot.json path/to/second-snapshot.json
+```
+
+The comparison reports separate alpha/beta occupied-subspace angles and density
+differences at identical geometry. It preserves the calculation IDs and exact
+file hashes. Similarity does not establish the physical ground state. Snapshots
+describe the converged SCF phase; a subsequent gradient failure remains visible
+in the survey. See [electronic evidence](docs/ELECTRONIC_EVIDENCE.md).
+
 To preserve records for another researcher or computer without repeating work:
 
 ```bash
@@ -126,7 +141,13 @@ and exact ownership are recorded in [the team roster](coordination/ROSTER.md).
 Independent tools can [reconstruct saved force-difference Hessians](research/evidence-audit/README.md)
 and [compare vibrational modes across displacement steps](research/mode-comparison/README.md).
 These check numerical consistency; they do not establish electronic state or
-reaction connectivity. [Resumable force acquisition](research/characterization-resume/README.md)
+reaction connectivity. Additional research tools compare [saved total-energy
+changes with raw forces](research/force-energy-consistency/README.md), estimate
+[local quadratic stationarity corrections](research/local-relaxation-diagnostic/README.md),
+and reconstruct [cross-geometry atomic-orbital overlaps](research/ao-overlap-bridge/README.md).
+The correction is a conditional local model, not an energy-error bound; the
+cross-geometry bridge is not yet connected to automatic branch tracking.
+[Resumable force acquisition](research/characterization-resume/README.md)
 is currently a tested research prototype, separate from the production CLI.
 Saddle-search research uses the optional `pip install -e '.[research]'` dependency;
 the core workflow does not require it.

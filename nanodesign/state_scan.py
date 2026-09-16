@@ -15,7 +15,9 @@ import math
 from numbers import Real
 import os
 from pathlib import Path
+import stat
 import time
+from uuid import UUID
 
 import numpy as np
 from ase.units import Hartree
@@ -115,7 +117,7 @@ def _lock(root):
 
 
 def create_state_scan(structure_path, output, settings: QuantumSettings, *,
-                      image=-1, guesses=SCF_INITIAL_GUESSES):
+                      image=-1, guesses=SCF_INITIAL_GUESSES, capture_electronic_state=False):
     """Freeze exact source bytes, selected frame and settings without calculating.
 
     ``settings`` explicitly supplies the charge and alpha-minus-beta electron
@@ -126,6 +128,8 @@ def create_state_scan(structure_path, output, settings: QuantumSettings, *,
         raise TypeError("settings must be an explicit QuantumSettings instance.")
     if type(image) is not int:
         raise ValueError("image must be an integer ASE frame index.")
+    if type(capture_electronic_state) is not bool:
+        raise ValueError("capture_electronic_state must be a boolean.")
     guesses = _guesses(guesses)
     source = Path(structure_path).resolve()
     raw = source.read_bytes()
@@ -141,6 +145,7 @@ def create_state_scan(structure_path, output, settings: QuantumSettings, *,
         "frame_sha256": _object_digest({"image": image, "geometry": geometry}),
         "quantum_settings": asdict(settings), "settings_sha256": _object_digest(asdict(settings)),
         "guesses": guesses, "units": {"length": "angstrom", "energy": "eV", "force": "eV/angstrom"},
+        "capture_electronic_state": capture_electronic_state,
         "geometry_optimized": False, "ground_state_verified": False,
         "electronic_state_identity_verified": False,
         "constraint_policy": "All coordinates frozen; source constraints do not mask reported forces.",
@@ -166,7 +171,71 @@ def _binding(plan, guess):
     return {"guess": guess, "input_sha256": plan["input"]["sha256"],
             "image": plan["input"]["image"], "frame_sha256": plan["frame_sha256"],
             "geometry_sha256": plan["geometry_sha256"], "geometry": plan["geometry"],
-            "quantum_settings": settings, "settings_sha256": _object_digest(settings)}
+            "quantum_settings": settings, "settings_sha256": _object_digest(settings),
+            **({"capture_electronic_state": plan["capture_electronic_state"]}
+               if "capture_electronic_state" in plan else {})}
+
+
+def _capture_reference(root, record, plan, guess):
+    """Verify an optional artifact at its fixed local path, never a saved absolute path."""
+    diagnostics = record.get("quantum_diagnostics", {})
+    reference = diagnostics.get("electronic_state_snapshot") if isinstance(diagnostics, dict) else None
+    requested = plan.get("capture_electronic_state", False)
+    if reference is None:
+        if requested and record.get("status") == "completed":
+            raise ValueError("Requested electronic snapshot is missing from a completed evaluation.")
+        return None
+    if not requested or not isinstance(reference, dict):
+        raise ValueError("Unexpected or malformed electronic snapshot reference.")
+    call_id = reference.get("call_id")
+    backend_status = diagnostics.get("calculation_status")
+    backend_accepted = backend_status == "completed"
+    if (not isinstance(call_id, str) or str(UUID(call_id)) != call_id
+            or call_id != diagnostics.get("call_id")
+            or reference.get("phase") != "converged_scf_only"
+            or backend_status not in {"completed", "failed", "interrupted"}
+            or reference.get("whole_evaluation_accepted") is not backend_accepted
+            or (record.get("status") == "completed" and not backend_accepted)):
+        raise ValueError("Electronic snapshot call/phase/completion binding is inconsistent.")
+    relative = f"attempts/{guess}/electronic-states/{call_id}.json"
+    path = _local(root, relative)
+    descriptor = os.open(path, os.O_RDONLY | os.O_NONBLOCK | os.O_NOFOLLOW)
+    with os.fdopen(descriptor, "rb") as stream:
+        if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+            raise ValueError("Electronic snapshot evidence must be a regular file.")
+        raw = stream.read(16 * 1024**2 + 1)
+    if (len(raw) > 16 * 1024**2 or type(reference.get("size_bytes")) is not int
+            or reference["size_bytes"] != len(raw) or reference.get("sha256") != _digest(raw)):
+        raise ValueError("Electronic snapshot bytes differ from their recorded digest/size or exceed the read bound.")
+    # State descriptor validation is distinct from the solver's force acceptance.
+    from .electronic_state import read_snapshot_bytes
+    snapshot = read_snapshot_bytes(raw)
+    geometry = snapshot["geometry"]
+    expected_positions = np.asarray(plan["geometry"]["positions_angstrom"], dtype=float)
+    positions = np.asarray(geometry["positions_bohr"], dtype=float)
+    # The producer divides Angstrom input by its recorded Bohr conversion.
+    # Permit only floating-point conversion roundoff, never a physical tolerance.
+    expected_bohr = expected_positions / geometry["bohr_angstrom"]
+    coordinate_roundoff = 8 * np.finfo(float).eps * np.maximum(1.0, np.abs(expected_bohr))
+    if (snapshot["call_id"] != call_id
+            or _object_digest(snapshot["settings"]) != _object_digest(_expected(plan, guess))
+            or geometry["symbols"] != plan["geometry"]["symbols"]
+            or geometry["pbc"] != plan["geometry"]["pbc"]
+            or positions.shape != expected_bohr.shape
+            or not np.all(np.abs(positions - expected_bohr) <= coordinate_roundoff)):
+        raise ValueError("Electronic snapshot settings/call/geometry differ from the frozen evaluation.")
+    # These facts exist as soon as SCF finishes, including when gradients fail.
+    if (snapshot["reference"] != diagnostics.get("reference")
+            or _object_digest(snapshot["basis"]["n_ao"]) != _object_digest(diagnostics.get("basis_functions"))):
+        raise ValueError("Electronic snapshot differs from available SCF diagnostics.")
+    for key, value in (("bohr_angstrom", geometry["bohr_angstrom"]),
+                       ("dft_energy_hartree", snapshot["scf_energy_hartree"])):
+        if backend_accepted or key in diagnostics:
+            if not _finite(diagnostics.get(key)) or value != diagnostics[key]:
+                raise ValueError("Electronic snapshot differs from available solver energy/unit diagnostics.")
+    return {"path": relative, "sha256": reference["sha256"], "size_bytes": len(raw),
+            "call_id": call_id, "phase": "converged_scf_only",
+            "whole_evaluation_accepted": reference["whole_evaluation_accepted"]}
 
 
 def _finite(value):
@@ -245,6 +314,7 @@ def _read_attempt(root, plan, guess, attempt):
         raise ValueError("A starting-guess survey cannot certify state identity or the ground state.")
     if record["status"] == "completed":
         _validate_completed(record, plan, guess)
+    _capture_reference(root, record, plan, guess)
     return record
 
 
@@ -256,6 +326,8 @@ def _load(root):
     plan = _json(raw_plan)
     if plan.get("schema_version") != 1:
         raise ValueError("Unsupported survey schema.")
+    if type(plan.get("capture_electronic_state", False)) is not bool:
+        raise ValueError("Invalid frozen electronic-capture option.")
     guesses = _guesses(plan["guesses"])
     if not isinstance(ledger.get("attempts"), dict) or set(ledger["attempts"]) != set(guesses):
         raise ValueError("Attempt ledger does not match requested guesses.")
@@ -311,7 +383,9 @@ def _evaluate(root, plan, guess, atoms, attempt):
         work = atoms.copy()
         work.calc = None
         work.set_constraint()
-        calculator = PySCFCalculator(QuantumSettings(**result["quantum_settings"]), event_log=output / "electronic.jsonl")
+        capture = {"electronic_state_directory": output / "electronic-states"} if plan.get("capture_electronic_state", False) else {}
+        calculator = PySCFCalculator(QuantumSettings(**result["quantum_settings"]),
+                                     event_log=output / "electronic.jsonl", **capture)
         work.calc = calculator
         energy = work.get_potential_energy()
         forces = np.asarray(work.get_forces(apply_constraint=False))
@@ -326,6 +400,7 @@ def _evaluate(root, plan, guess, atoms, attempt):
                      "forces_ev_per_angstrom": forces.tolist(),
                      "quantum_diagnostics": calculator.diagnostics}
         _validate_completed(candidate, plan, guess)
+        _capture_reference(root, candidate, plan, guess)
         json.dumps(candidate, allow_nan=False)
         result = candidate
         attempt["status"] = "completed"
@@ -413,6 +488,15 @@ def state_scan_report(directory):
                            s2=record["quantum_diagnostics"]["s2"],
                            expected_s2=record["quantum_diagnostics"]["expected_s2"],
                            s2_deviation=record["quantum_diagnostics"]["s2_deviation"])
+            if record.get("quantum_diagnostics", {}).get("electronic_state_snapshot"):
+                # Already verified by _load; expose the relocatable local path.
+                reference = record["quantum_diagnostics"]["electronic_state_snapshot"]
+                row["electronic_state_snapshot"] = {
+                    "path": f"attempts/{guess}/electronic-states/{reference['call_id']}.json",
+                    "sha256": reference["sha256"], "size_bytes": reference["size_bytes"],
+                    "phase": "converged_scf_only",
+                    "whole_evaluation_accepted": reference["whole_evaluation_accepted"],
+                }
         rows.append(row)
     completed = [row for row in rows if row["status"] == "completed"]
     span = max(row["energy_ev"] for row in completed) - min(row["energy_ev"] for row in completed) if len(completed) >= 2 else None
@@ -427,6 +511,7 @@ def state_scan_report(directory):
     converged = len(completed) == len(rows)
     return {"schema_version": 1, "scan": str(root), "status": "finished" if finished else "partial" if any(ledger["attempts"].values()) else "pending",
             "requested_guesses": plan["guesses"],
+            "capture_electronic_state": plan.get("capture_electronic_state", False),
             "attempted_guesses": [row["guess"] for row in rows if row["status"] != "pending"],
             "converged_guesses": [row["guess"] for row in completed],
             **{status + "_guesses": [row["guess"] for row in rows if row["status"] == status]

@@ -1,0 +1,20 @@
+F2 development reproduction, before the F1 repair.
+This is an extreme-range synthetic input case, not molecular evidence.
+
+Command:
+.venv/bin/python -m pytest -q research/force-energy-review/test_independent_consistency.py::test_finite_extreme_offset_sum_cannot_silently_collapse_derivative_weights
+
+Observed pytest result: 1 failed in 0.26s; exit code 1.
+Assertion:
+  report['comparisons'][0]['finite_difference_force_ev_per_angstrom'] == approx(-1)
+Observed value: -0.0
+Expected exact linear force: -1
+
+Reproduction:
+Reference x=0, E=0; minus x=-1e308, E=-1e308; plus x=1e308, E=1e308.
+All values are finite. Analytic force is -1. The unguarded a+b sum overflows
+to infinity, making both normalized derivative weights zero. The current
+test allows either an explicit invalid report or a correct scaled estimate.
+
+This file preserves the original failed observation. The final verification
+receipt, when available, identifies the later reviewed implementation hash.

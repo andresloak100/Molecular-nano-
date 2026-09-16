@@ -1,0 +1,9 @@
+.......................................                                  [100%]
+=============================== warnings summary ===============================
+research/force-energy-review/test_checkpoint_bridge.py: 188 warnings
+  /Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/lib/python3.14/site-packages/ase/atoms.py:432: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    a.shape = (-1,) + shape
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+39 passed, 188 warnings in 2.33s

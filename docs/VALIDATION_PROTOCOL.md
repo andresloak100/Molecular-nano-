@@ -154,10 +154,15 @@ single-reference treatment is questionable, a specialist must define and converg
 an appropriate correlated/active-space comparison; an arbitrary diagnostic cutoff
 or active space does not close this gate. [PySCF multiconfigurational methods](https://pyscf.org/user/mcscf.html)
 
-**Current gap:** production diagnostics explicitly report stability unchecked and
-do not save orbital/density-overlap evidence. S2 supplies fixed-geometry guess
-surveys, not state verification. Reconstructible forces and stable numerical modes
-therefore do not by themselves establish a single electronic surface.
+**Current gap:** production diagnostics explicitly report stability unchecked.
+Optional [electronic snapshots](ELECTRONIC_EVIDENCE.md) now preserve occupied
+orbitals, the AO metric and expanded basis, with same-geometry subspace/density
+comparisons. S2 can capture this evidence for each fixed-geometry guess. Continuous
+branch assessment across paths and Hessian displacements remains open; the
+separate cross-geometry AO bridge is research tooling. Reconstructible forces,
+stable numerical modes and orbital similarity do not by themselves establish a
+single physical electronic surface. The earlier P3 review receipt covers its
+recorded pre-capture document hash, not these subsequent implementation updates.
 
 ### G2 — Numerical convergence of the decision observables
 
