@@ -1,0 +1,30 @@
+{
+  "purpose": "Which provisional numbers in this lane are exposed to the alkynyl SCF hazard, and which are structurally immune.",
+  "registered_prediction_from_peer": {
+    "hypothesis": "All five multiple-SCF-solution failures in this project are alkynyl radicals R-C#C., from the sigma/pi near-degeneracy of C2H-type doublets, which is why it reproduces across HF and DFT and across basis sets. Saturated carbon radicals are clean in every case checked.",
+    "prediction": "The four-guess scan on adamantyl_bridgehead and adamantyl_methylene, both SATURATED carbon radicals, returns null.",
+    "registered_before_the_scan": true,
+    "if_null": "A confirmed prediction, not a wasted scan.",
+    "if_not_null": "The hypothesis is broken, which is more informative still."
+  },
+  "naming_trap_verified_here": {
+    "claim": "research/candidate-feasibility/evidence/handle-fidelity-adamantyl.json keys a species as adamantyl_radical with a 10.42 kcal/mol spread, which would appear to falsify the prediction above.",
+    "verified_formula": "C12H15",
+    "a_bare_adamantyl_radical_is": "C10H15",
+    "conclusion": "C12H15 is adamantyl plus C2, i.e. adamantyl-C#C., the mounted tool tip and an ALKYNYL radical. The key names the handle under test rather than the molecule. So that datum SUPPORTS the alkynyl pattern rather than contradicting it. Checked the formula field directly rather than taking the relay on trust."
+  },
+  "exposure_of_this_lanes_numbers": {
+    "site_difference_IMMUNE": {
+      "quantity": "D(methylene) - D(bridgehead) = E(adamantyl_methylene) - E(adamantyl_bridgehead)",
+      "why_immune": "The cancellation identity removes ethynyl, acetylene, adamantane and the hydrogen atom exactly. The headline number depends only on two SATURATED radicals, which is the clean class. The alkynyl hazard cannot reach it."
+    },
+    "absolute_abstraction_energies_EXPOSED": {
+      "quantity": "dE = E(C2H2) + E(radical) - E(C2H) - E(adamantane), including the provisional -33.78 kcal/mol bridgehead value",
+      "why_exposed": "These retain the ethynyl radical, which IS an alkynyl radical and therefore in the affected class. The relaxed ethynyl geometry used here is new, and the earlier guess-independence finding for DFT was established at different geometries and has since been retracted as over-scoped.",
+      "consequence": "The exothermicity ladder placing the bridgehead at -33.78 between methane at -26.80 and isobutane at -38.38, and therefore the argument that submergence is less likely at the bridgehead, depend on the ethynyl energy being the lowest solution. That argument is PROVISIONAL on the ethynyl scan, not only on the adamantyl scans.",
+      "ethynyl_s2_observed": 0.791860854217493
+    },
+    "lesson": "The cancellation identity that made stage 2 redundant for site preference also makes the headline immune to the project s dominant SCF hazard. The numbers it does not protect are the absolute ones, which is where this lane s newest argument sits."
+  },
+  "standing_action": "Scan the tool species every time, even after the adamantyl radicals come back clean, because the tool tip is an alkynyl radical by construction and every barrier this project computes has the unreacted tool on its reactant side."
+}
