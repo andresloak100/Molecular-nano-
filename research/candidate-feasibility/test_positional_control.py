@@ -199,3 +199,40 @@ def test_curvature_fit_survives_failed_scan_points():
     fit = fit_curvature(points)
     assert fit["fitted"] is True
     assert fit["points_used"] == 3
+
+
+def test_soft_bending_mount_fails_at_room_temperature_and_passes_cold():
+    """The correction that matters: positional control is not automatic."""
+    from positional_control import mount_feasibility
+
+    geometry = competing_site_geometry()
+    result = mount_feasibility(geometry["target_radius_angstrom"])
+    soft = result["mounts"]["bending cantilever, soft end"]
+    assert soft["temperatures"]["298.15K"]["meets_target"] is False
+    assert soft["temperatures"]["298.15K"]["error_probability"] > 1e-9
+    assert soft["temperatures"]["77K"]["meets_target"] is True
+    assert "bending cantilever, soft end" in result["fails_at_298K"]
+
+
+def test_stiff_axial_mounts_clear_the_requirement_at_both_temperatures():
+    from positional_control import mount_feasibility
+
+    geometry = competing_site_geometry()
+    result = mount_feasibility(geometry["target_radius_angstrom"])
+    for name in ("nm-scale axial strut, low", "single C-C bond, axial (hard cap)"):
+        for temperature in ("77K", "298.15K"):
+            assert result["mounts"][name]["temperatures"][temperature]["meets_target"] is True
+
+
+def test_requirement_is_reported_in_newtons_per_metre_consistently():
+    from positional_control import NEWTON_PER_METRE_PER_EV_PER_A2, mount_feasibility
+
+    geometry = competing_site_geometry()
+    radius = geometry["target_radius_angstrom"]
+    result = mount_feasibility(radius)
+    expected = (
+        BOLTZMANN_EV_PER_K * 298.15 / required_sigma(radius) ** 2
+        * NEWTON_PER_METRE_PER_EV_PER_A2
+    )
+    assert result["requirements"]["298.15K"]["required_stiffness_n_per_m"] == pytest.approx(expected)
+    assert result["requirements"]["298.15K"]["required_stiffness_n_per_m"] == pytest.approx(4.8, abs=0.1)

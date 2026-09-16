@@ -310,6 +310,86 @@ def quantum_sigma(stiffness_ev_per_a2: float, reduced_mass_amu: float, temperatu
     }
 
 
+# Buildable mount stiffnesses, from the rung-5 lane's bracket. Load geometry,
+# not material, spans the range: a strut loaded along its axis is two orders of
+# magnitude stiffer than the same material worked in bending, because a
+# cantilever softens as the cube of its length.
+MOUNT_BRACKET_N_PER_M = (
+    ("bending cantilever, soft end", 2.0),
+    ("bending cantilever, stiff end", 20.0),
+    ("nm-scale axial strut, low", 130.0),
+    ("nm-scale axial strut, high", 400.0),
+    ("single C-C bond, axial (hard cap)", 450.0),
+)
+NEWTON_PER_METRE_PER_EV_PER_A2 = 16.02176634
+
+
+def mount_feasibility(target_radius: float, temperatures=(77.0, 298.15)) -> dict:
+    """Does a *buildable* mount meet the positional requirement? Not automatic.
+
+    An earlier version of this lane reported that the positional requirement,
+    4.8 N/m at 298 K, is so soft that any mount clears it. That was checked
+    against nothing: it compared the requirement to an imagined stiffness. The
+    rung-5 lane's bracket of what is actually buildable starts at about 2 N/m
+    for a long handle worked in bending, which is BELOW the requirement.
+
+    At 2 N/m and 298 K the mis-targeting rate is about 1e-6 - nine orders of
+    magnitude short of the 1e-15 target. The same mount at 77 K gives 3e-25 and
+    passes comfortably. So the design constraint is real and has a shape:
+
+        mount stiffly (axial, short) OR operate cold.
+
+    A long cantilever handle at room temperature does not satisfy positional
+    control, and nothing else in this repository would have caught that,
+    because the requirement and the buildable range were never compared.
+    """
+    rows = {}
+    for name, newtons in MOUNT_BRACKET_N_PER_M:
+        stiffness = newtons / NEWTON_PER_METRE_PER_EV_PER_A2
+        per_temperature = {}
+        for temperature in temperatures:
+            sigma = classical_sigma(stiffness, temperature)
+            probability = error_probability(target_radius, sigma)
+            per_temperature[f"{temperature:g}K"] = {
+                "sigma_angstrom": sigma,
+                "error_probability": probability,
+                "meets_target": probability < DREXLER_ERROR_TARGET,
+            }
+        rows[name] = {
+            "stiffness_n_per_m": newtons,
+            "stiffness_ev_per_angstrom_squared": stiffness,
+            "temperatures": per_temperature,
+        }
+    requirements = {
+        f"{temperature:g}K": {
+            "required_stiffness_n_per_m": (
+                BOLTZMANN_EV_PER_K * temperature / required_sigma(target_radius) ** 2
+                * NEWTON_PER_METRE_PER_EV_PER_A2
+            ),
+        }
+        for temperature in temperatures
+    }
+    failures = [
+        name for name, row in rows.items()
+        if not row["temperatures"]["298.15K"]["meets_target"]
+    ]
+    return {
+        "bracket_source": "rung-5 mechanical-coupling lane; load geometry spans the range, not material",
+        "requirements": requirements,
+        "mounts": rows,
+        "fails_at_298K": failures,
+        "verdict": (
+            "Positional control is NOT automatically satisfied. Mounts at the "
+            "soft end of the buildable range fail at room temperature and pass "
+            "cold, so the constraint is: mount stiffly, or operate cold."
+        ),
+        "condition": (
+            "Still conditional on nearest-hydrogen implying reacting-hydrogen, "
+            "which is unestablished."
+        ),
+    }
+
+
 def lateral_scan(handle: str, offsets, settings: QuantumSettings) -> list[dict]:
     """Energy against lateral tool offset, rigid: no relaxation at any offset."""
     points = []
