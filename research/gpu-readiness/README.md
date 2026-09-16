@@ -6,6 +6,11 @@ an offline CPU/GPU record checker. It contains **no GPU solver adapter**. None o
 the preparation or local checks executes quantum chemistry, installs software,
 starts cloud machines, or spends money.
 
+**G2 update:** the default plan/compare commands now use version 2. They verify
+the actual snapshot files and require resolved basis, grid, pruning and float64
+metadata before accepting a recorded comparison. See [the v2 contract](PROTOCOL_V2.md).
+The original v1 plan, preflight and verification records are preserved unchanged.
+
 ## Do we need a GPU?
 
 We can continue calibration and small-system development on the existing CPU.
@@ -68,7 +73,7 @@ Add `--output NEW_FILE.json` to preserve a report; existing files are rejected.
 .venv/bin/python research/gpu-readiness/gpu_readiness.py plan --output /tmp/new-gpu-protocol
 ```
 
-The shipped [protocol](protocol/plan.json) contains five cases using the exact
+The shipped [v2 protocol](protocol-v2/plan.json) contains five cases using the exact
 bytes of existing geometries, with per-file hashes, original settings records,
 recorded changes and reference attribution. It is **planned, not executed**:
 
@@ -101,7 +106,7 @@ not change that. Required record fields are:
 
 | Field | Contract |
 |---|---|
-| `schema_version`, `case_id`, `geometry_sha256` | Version 1 and exact planned case/coordinate identity |
+| `schema_version`, `case_id`, `geometry_sha256`, `plan_sha256` | Version 2, exact planned case/coordinate identity, and digest of the complete plan bytes |
 | `settings` | Complete exact case settings, including charge, spin, basis, XC, dispersion, grid, tolerances, DF and guess |
 | `backend`, `execution_device` | `pyscf_cpu` / `cpu` or `gpu4pyscf` / `nvidia_cuda`; CPU fallback is not a GPU result |
 | `scf_initial_guess` | Matches planned settings; no implicit fallback |
@@ -111,6 +116,7 @@ not change that. Required record fields are:
 | `dispersion_evaluations` | Exactly one if D3 is requested, otherwise zero |
 | `versions` | Nonempty installed-version strings; GPU also identifies GPU4PySCF and CuPy |
 | `gpu_synchronized` | Explicitly true for GPU; required operations completed before timing/output |
+| `resolved_numerics` | Actual precision, expanded orbital/auxiliary basis identities and canonical paired-grid identity; see [v2 schema](PROTOCOL_V2.md) |
 
 The CPU implementation explicitly disables native dispersion and adds
 simple-dftd3 once. Its gradient includes grid response and, for DF, auxiliary
@@ -130,7 +136,7 @@ not infer a speedup or extrapolate memory from atom count.
 
 ```sh
 .venv/bin/python research/gpu-readiness/equivalence.py compare \
-  --plan research/gpu-readiness/protocol/plan.json \
+  --plan research/gpu-readiness/protocol-v2/plan.json \
   --cpu /path/to/cpu-case.json --gpu /path/to/gpu-case.json
 ```
 
@@ -146,6 +152,13 @@ independently attest that their claimed hardware was used; the future runner
 must capture that provenance. Missing data never becomes a passing score.
 `numerical_parity_passed` applies only to that supplied pair; scientific
 validation remains false.
+
+The default CLI additionally reads and verifies every declared coordinate,
+source-record and attribution file, checks geometry/order and requested-setting
+changes, and binds each execution record to the complete plan hash. Historical
+v1 records can be inspected explicitly with `--records-only`; that mode always
+leaves `input_files_verified`, `resolved_numerics_verified` and
+`parity_evidence_accepted` false, even if their supplied numbers agree.
 
 ## What is still needed to make the design model useful?
 
@@ -174,12 +187,16 @@ it does not supply the missing physical validation.
 ## Verification
 
 ```sh
-.venv/bin/python -m pytest research/gpu-readiness/test_readiness.py research/gpu-readiness/test_equivalence.py -q
+.venv/bin/python -m pytest research/gpu-readiness -q
 ```
 
-All **98 offline tests passed** locally in 3.82 seconds. Tests use real archived
+The G1 checkpoint passed **98 offline tests** locally in 3.82 seconds. Tests use real archived
 inputs for snapshot checks and explicitly synthetic records for comparison/error
 cases. They run no quantum calculations. Original archives and other agents'
 source files remain unchanged. `verification.json` records the command, output
 and source hashes. Actual GPU execution, numerical parity and acceleration remain
 untested because this host lacks the required CUDA environment.
+G2 passed **229 offline tests** in 2.96 seconds, including snapshot, integration
+and resolved-numerics checks. Its command, output, source hashes and verification
+of 12 bundled files are recorded separately in `verification-g2.json`; the
+original verification record stays intact.

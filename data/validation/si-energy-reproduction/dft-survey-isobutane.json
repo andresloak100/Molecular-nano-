@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "reaction": "C2H + iso-C4H10 -> C2H2 + t-C4H9",
+  "site": "tertiary C-H, the closest small-molecule proxy for the adamantane bridgehead",
+  "geometry_source": "published UCCSD(T)/cc-pVDZ structures, unmodified",
+  "is_a_dft_barrier": false,
+  "why_not": "The supplied structure is a coupled-cluster stationary point and is not stationary on any DFT surface; under PBE0 the analogous methane structure shows a 2.38 eV/A residual force. These are single points at a fixed geometry, not barriers.",
+  "coupled_cluster_reference": {
+    "methane_barrier_kcal_per_mol": 2.3986,
+    "methane_reaction_kcal_per_mol": -24.788,
+    "isobutane_reaction_kcal_per_mol": -32.232,
+    "isobutane_barrier_kcal_per_mol": null,
+    "note": "Isobutane barrier pending its 139-basis-function transition structure. The published SI absolute energies imply -0.627 kcal/mol for it, and all four non-transition isobutane species reproduce those energies to under 1e-7 Hartree."
+  },
+  "timing_caveat": "Host carried 200+ load average during these runs; every elapsed time describes a job receiving a fraction of one core, not the cost of the calculation.",
+  "methods": [
+    {
+      "method": "pbe0/def2-svp+d3bj",
+      "xc": "pbe0",
+      "basis": "def2-svp",
+      "dispersion": "d3bj",
+      "reference_geometry_energy_kcal_per_mol": -3.1100283763152703,
+      "reaction_energy_kcal_per_mol": -38.37518040387038,
+      "species": [
+        {
+          "species": "ethynyl_radical",
+          "energy_ev": -2080.326087737178,
+          "basis_functions": 33,
+          "s2": 0.7976115948888491,
+          "expected_s2": 0.75,
+          "elapsed_seconds": 13.402114500058815,
+          "effective_threads": 1,
+          "threads_honored": true,
+          "loadavg_before": [
+            196.95703125,
+            181.26708984375,
+            107.37744140625
+          ],
+          "loadavg_after": [
+            195.75244140625,
+            181.8134765625,
+            108.86572265625
+          ]
+        },
+        {
+          "species": "acetylene",
+          "energy_ev": -2099.8709542520787,
+          "basis_functions": 38,
+          "s2": 0.0,
+          "expected_s2": 0.0,
+          "elapsed_seconds": 6.636300917016342,
+          "effective_threads": 1,
+          "threads_honored": true,
+          "loadavg_before": [
+            195.75244140625,
+            181.8134765625,
+            108.86572265625
+          ],
+          "loadavg_after": [
+            196.65283203125,
+            182.2314453125,
+            109.4404296875
+          ]
+        },
+        {
+          "species": "isobutane",
+          "energy_ev": -4303.419777596475,
+          "basis_functions": 106,
+          "s2": 0.0,
+          "expected_s2": 0.0,
+          "elapsed_seconds": 143.63740216591395,
+          "effective_threads": 1,
+          "threads_honored": true,
+          "loadavg_before": [
+            196.65283203125,
+            182.2314453125,
+            109.4404296875
+          ],
+          "loadavg_after": [
+            197.82763671875,
+            187.07275390625,
+            122.6640625
+          ]
+        },
+        {
+          "species": "tert_butyl_radical",
+          "energy_ev": -4285.539016829602,
+          "basis_functions": 101,
+          "s2": 0.7548370410076046,
+          "expected_s2": 0.75,
+          "elapsed_seconds": 180.35438920906745,
+          "effective_threads": 1,
+          "threads_honored": true,
+          "loadavg_before": [
+            197.82763671875,
+            187.07275390625,
+            122.6640625
+          ],
+          "loadavg_after": [
+            252.138671875,
+            206.39599609375,
+            142.28759765625
+          ]
+        },
+        {
+          "species": "isobutane_ethynyl_ts",
+          "energy_ev": -6383.880728962777,
+          "basis_functions": 139,
+          "s2": 0.7924071837069562,
+          "expected_s2": 0.75,
+          "elapsed_seconds": 478.2888372079469,
+          "effective_threads": 1,
+          "threads_honored": true,
+          "loadavg_before": [
+            252.138671875,
+            206.39599609375,
+            142.28759765625
+          ],
+          "loadavg_after": [
+            294.39404296875,
+            268.80517578125,
+            204.10693359375
+          ]
+        }
+      ],
+      "status": "completed"
+    }
+  ],
+  "status": "running"
+}

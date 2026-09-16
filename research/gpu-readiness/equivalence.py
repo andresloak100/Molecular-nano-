@@ -170,6 +170,9 @@ def compare_records(plan, cpu, gpu):
         "case_id": None,
         "record_validation_passed": False,
         "numerical_parity_passed": False,
+        "input_files_verified": False,
+        "resolved_numerics_verified": False,
+        "parity_evidence_accepted": False,
         "scientific_validated": False,
         "electronic_state_identity_verified": False,
         "ground_state_verified": False,
@@ -241,9 +244,15 @@ def main(argv=None):
     compare.add_argument("--plan", required=True)
     compare.add_argument("--cpu", required=True)
     compare.add_argument("--gpu", required=True)
+    compare.add_argument("--records-only", action="store_true",
+                         help="Historical v1 numerical comparison only; cannot accept parity evidence without actual files/resolved numerics")
     args = parser.parse_args(argv)
     try:
-        result = compare_records(read_json(args.plan), read_json(args.cpu), read_json(args.gpu))
+        if args.records_only:
+            result = compare_records(read_json(args.plan), read_json(args.cpu), read_json(args.gpu))
+        else:
+            from protocol import compare_protocol_files
+            result = compare_protocol_files(args.plan, args.cpu, args.gpu)
     except (OSError, UnicodeError, ValueError) as error:
         result = {"schema_version": 1, "kind": "cpu_gpu_equivalence_result",
                   "numerical_parity_passed": False, "scientific_validated": False,

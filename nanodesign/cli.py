@@ -2,14 +2,31 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 from pathlib import Path
+import stat
 import sys
 
 from .candidates import create_design
 from .design import load_design
 from .quantum import QuantumSettings
 from .workflow import run, audit_result, run_characterization
+
+
+def _snapshot_file(path):
+    """Bound and parse the same regular-file bytes that the report identifies."""
+    from .electronic_state import DEFAULT_MAX_BYTES, read_snapshot_bytes
+    path = Path(path).resolve(strict=True)
+    descriptor = os.open(path, os.O_RDONLY | os.O_NONBLOCK | os.O_NOFOLLOW)
+    with os.fdopen(descriptor, "rb") as stream:
+        if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+            raise ValueError("Electronic snapshots must be regular files.")
+        raw = stream.read(DEFAULT_MAX_BYTES + 1)
+    snapshot = read_snapshot_bytes(raw)
+    return snapshot, {"path": str(path), "sha256": hashlib.sha256(raw).hexdigest(),
+                      "size_bytes": len(raw)}
 
 
 def main(argv=None):
@@ -58,6 +75,32 @@ def main(argv=None):
     campaign_run.add_argument("--retry-incomplete", action="store_true", help="Explicitly restart failed/interrupted attempts into new output directories")
     campaign_report = sub.add_parser("campaign-report", help="Read campaign evidence without choosing an unvalidated winner.")
     campaign_report.add_argument("directory")
+    scan_create = sub.add_parser("state-scan-create", help="Freeze a structure and explicit settings for a DFT starting-guess survey; no calculation.")
+    scan_create.add_argument("structure")
+    scan_create.add_argument("--out", required=True)
+    scan_create.add_argument("--settings", required=True, help="Quantum settings JSON or design JSON; charge and spin come from these settings")
+    scan_create.add_argument("--image", type=int, default=-1)
+    scan_create.add_argument("--capture-electronic-state", action="store_true",
+                             help="Save bounded converged-SCF orbital snapshots for each attempt; may require substantial disk space")
+    scan_create.add_argument("--guesses", nargs="+", choices=["minao", "atom", "1e", "huckel"],
+                             default=["minao", "atom", "1e", "huckel"])
+    scan_run = sub.add_parser("state-scan-run", help="Evaluate a bounded number of pending DFT guesses, preserving every attempt.")
+    scan_run.add_argument("directory")
+    scan_run.add_argument("--max-jobs", type=int, default=1)
+    scan_report = sub.add_parser("state-scan-report", help="Inspect saved guess dependence without selecting an electronic ground state.")
+    scan_report.add_argument("directory")
+    state_compare = sub.add_parser("state-compare", help="Compare saved occupied-orbital evidence at identical geometry; no state certification or calculations.")
+    state_compare.add_argument("left")
+    state_compare.add_argument("right")
+    bundle_create = sub.add_parser("bundle-create", help="Copy evidence bytes to a new portable bundle; does not assess scientific validity.")
+    bundle_create.add_argument("source")
+    bundle_create.add_argument("--out", required=True)
+    bundle_verify = sub.add_parser("bundle-verify", help="Check bundle contents and checksums without modifying evidence.")
+    bundle_verify.add_argument("directory")
+    for bundle_parser in (bundle_create, bundle_verify):
+        for name in ("max_files", "max_file_bytes", "max_total_bytes", "max_entries", "max_depth"):
+            bundle_parser.add_argument("--" + name.replace("_", "-"), type=int,
+                                       help="Positive integer bound; uses the documented bundle default when omitted")
     characterize = sub.add_parser("characterize", help="Compute free-coordinate vibrational modes at a proposed stationary structure.")
     characterize.add_argument("design")
     characterize.add_argument("--structure", required=True, help="Optimized structure or trajectory; coordinates in Å")
@@ -136,8 +179,55 @@ def main(argv=None):
         elif args.command == "campaign-report":
             from .campaign import campaign_report
             print(json.dumps(campaign_report(args.directory), indent=2))
+        elif args.command == "state-scan-create":
+            from .state_scan import create_state_scan, state_scan_report
+            settings_data = json.loads(Path(args.settings).read_text())
+            if not isinstance(settings_data, dict):
+                raise ValueError("Settings must be a JSON object.")
+            settings_data = settings_data.get("quantum", settings_data)
+            if not isinstance(settings_data, dict) or not {"charge", "spin"}.issubset(settings_data):
+                raise ValueError("State-scan settings must explicitly declare charge and spin.")
+            settings = QuantumSettings(**settings_data)
+            create_state_scan(args.structure, args.out, settings, image=args.image, guesses=args.guesses,
+                              capture_electronic_state=args.capture_electronic_state)
+            print(json.dumps(state_scan_report(args.out), indent=2))
+        elif args.command == "state-scan-run":
+            from .state_scan import run_state_scan
+            result = run_state_scan(args.directory, max_jobs=args.max_jobs)
+            print(json.dumps(result, indent=2))
+            if any(result.get(name) for name in ("failed_guesses", "interrupted_guesses", "abandoned_guesses")):
+                return 2
+        elif args.command == "state-scan-report":
+            from .state_scan import state_scan_report
+            print(json.dumps(state_scan_report(args.directory), indent=2))
+        elif args.command == "state-compare":
+            from .electronic_state import compare_snapshots
+            left, left_source = _snapshot_file(args.left)
+            right, right_source = _snapshot_file(args.right)
+            result = compare_snapshots(left, right)
+            result["source_files"] = {"left": left_source, "right": right_source}
+            print(json.dumps(result, indent=2, allow_nan=False))
+            if result["comparison_status"] != "compared":
+                return 2
+        elif args.command in ("bundle-create", "bundle-verify"):
+            from .bundle import BundleLimits, export_bundle, verify_bundle
+            destination = args.out if args.command == "bundle-create" else args.directory
+            try:
+                limits = BundleLimits(**{name: getattr(args, name) for name in
+                    ("max_files", "max_file_bytes", "max_total_bytes", "max_entries", "max_depth")
+                    if getattr(args, name) is not None})
+                if args.command == "bundle-create":
+                    export_bundle(args.source, destination, limits=limits)
+                result = verify_bundle(destination, limits=limits)
+            except (ValueError, OSError, RuntimeError) as exc:
+                result = {"integrity_verified": False, "scientific_validation": "not_assessed",
+                          "reference_closure_verified": False, "file_count": 0, "total_bytes": 0,
+                          "issues": [{"code": "command_failed", "path": str(destination), "message": str(exc)}]}
+            print(json.dumps({"bundle": str(Path(destination).resolve()), "manifest_sha256": None, **result}, indent=2))
+            if not result["integrity_verified"]:
+                return 2
     except KeyboardInterrupt:
-        print("Calculation interrupted; inspect its result.json and saved trajectories.", file=sys.stderr)
+        print("Command interrupted; inspect saved evidence and incomplete output before continuing.", file=sys.stderr)
         return 130
     except (ValueError, OSError, RuntimeError, KeyError, TypeError) as exc:
         print(f"Calculation stopped: {exc}", file=sys.stderr)

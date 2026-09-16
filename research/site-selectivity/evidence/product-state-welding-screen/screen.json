@@ -1,0 +1,63 @@
+{
+  "screen": "post_abstraction_tool_welding_geometry",
+  "computation": "rigid-geometry measurement of the product endpoint; no electronic structure",
+  "state": "product endpoint from nanodesign.candidates.make_h_abstraction",
+  "pose": {
+    "separation_angstrom": 3.6,
+    "lateral_offset_angstrom": 0.0
+  },
+  "species_after_transfer": {
+    "workpiece": "1-adamantyl radical, unpaired electron on cage carbon 0",
+    "tool": "closed-shell alkyne, H on carbon 26, C#C between 26 and 27"
+  },
+  "alkyne_carbons": {
+    "apex_carbon": {
+      "radical_to_carbon_angstrom": 3.6,
+      "attack_angle_degrees": 180.0,
+      "degrees_from_addition_competent": 90.0,
+      "perpendicular_offset_from_axis_angstrom": 0.0,
+      "displacement_along_axis_angstrom": -3.6,
+      "addition_competent_target_position": [
+        2.2,
+        0.0,
+        3.6
+      ],
+      "travel_to_addition_geometry_angstrom": 4.219004621945797
+    },
+    "distal_carbon": {
+      "radical_to_carbon_angstrom": 4.8100000000000005,
+      "attack_angle_degrees": 180.0,
+      "degrees_from_addition_competent": 90.0,
+      "perpendicular_offset_from_axis_angstrom": 0.0,
+      "displacement_along_axis_angstrom": -4.8100000000000005,
+      "addition_competent_target_position": [
+        2.2,
+        0.0,
+        4.8100000000000005
+      ],
+      "travel_to_addition_geometry_angstrom": 5.2892438022840285
+    }
+  },
+  "transferred_hydrogen_obstructs": true,
+  "radical_to_transferred_hydrogen_angstrom": 2.54,
+  "radical_to_transferred_hydrogen_vdw_gap_angstrom": -0.3599999999999999,
+  "closest_addition_target": "apex_carbon",
+  "minimum_travel_to_addition_geometry_angstrom": 4.219004621945797,
+  "geometric_verdict": "obstructed: the radical sits end-on to the C#C axis, which is the wrong approach for pi addition, and must travel a substantial distance to reach an addition-competent geometry",
+  "method_notes": {
+    "addition_approach_angstrom": 2.2,
+    "addition_approach_source": "Typical C...C separation at an alkyl-radical-plus-alkyne addition transition state, about 2.2 Angstrom. Order-of-magnitude scale only.",
+    "attack_angle_definition": "Angle between the C#C axis, directed from the named carbon toward the other alkyne carbon, and the vector from that carbon to the radical centre. 90 degrees is addition-competent; 0 or 180 is end-on.",
+    "vdw_radii": {
+      "C": 1.7,
+      "H": 1.2
+    }
+  },
+  "limitations": [
+    "Geometric only. No addition energy, no barrier and no rate is computed, so this cannot establish that welding does or does not occur; it establishes only whether the geometry obstructs it.",
+    "The 20 to 25 kcal/mol exothermicity motivating this screen is bond-enthalpy reasoning, not a calculation from this repository. A small-model check is the cheap next step.",
+    "Rigid unrelaxed product endpoint. Relaxation of the product, and the real mount's freedom, could change the approach geometry substantially.",
+    "The obstruction found here depends on the approach staying collinear, which is exactly what thermal angular wander degrades. The relevant tolerance is angular and has not been computed anywhere in this project.",
+    "Only two addition sites are considered, the two alkyne carbons. Addition elsewhere on the tool, and intramolecular chemistry after tool regeneration, are not screened."
+  ]
+}

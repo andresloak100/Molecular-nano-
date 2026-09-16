@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "reviewed_utc": "2026-09-16T22:03:47.827230+00:00",
+  "reviewer": "codex-712e / E4",
+  "scope": "synthetic electronic-state math, capture conventions and evidence contracts",
+  "command": [
+    "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "research/electronic-state-review"
+  ],
+  "returncode": 1,
+  "stdout": "...........................FF......                                      [100%]\n=================================== FAILURES ===================================\n_ test_absolute_overlap_tolerance_cannot_hide_large_metric_relative_change[False] _\n\nreverse = False\n\n    @pytest.mark.parametrize(\"reverse\", [False, True])\n    def test_absolute_overlap_tolerance_cannot_hide_large_metric_relative_change(reverse):\n        # Both metrics meet the declared conditioning guard. Their entries differ\n        # by only 1e-9, yet that doubles the metric of one occupied direction.\n        left, right = build_snapshot(), build_snapshot(call_id=\"e4-metric-change\")\n        for snapshot, small_eigenvalue in ((left, 1e-9), (right, 2e-9)):\n            snapshot[\"ao_overlap\"] = np.diag([1.0, small_eigenvalue, 1.0]).tolist()\n            snapshot[\"channels\"][\"alpha\"][\"occupied_coefficients\"] = [\n                [1.0, 0.0], [0.0, float(1.0 / np.sqrt(small_eigenvalue))], [0.0, 0.0]\n            ]\n            snapshot[\"channels\"][\"beta\"][\"occupied_coefficients\"] = [[0.0], [0.0], [1.0]]\n            state.validate_snapshot(snapshot)\n        if reverse:\n            left, right = right, left\n>       assert_no_metrics(state.compare_snapshots(left, right))\n\nresearch/electronic-state-review/test_contracts.py:118: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nreport = {'comparison_status': 'compared', 'reasons': [], 'metrics': {'alpha': {'n_occupied': 2, 'singular_values': [1.0, 0.707...ngles_radians': [0.0], 'singular_value_clipping_max_abs': 0.0, ...}}, 'electronic_state_identity_verified': False, ...}\n\n    def assert_no_metrics(report):\n>       assert report[\"comparison_status\"] != \"compared\"\nE       AssertionError: assert 'compared' != 'compared'\n\nresearch/electronic-state-review/test_contracts.py:19: AssertionError\n_ test_absolute_overlap_tolerance_cannot_hide_large_metric_relative_change[True] _\n\nreverse = True\n\n    @pytest.mark.parametrize(\"reverse\", [False, True])\n    def test_absolute_overlap_tolerance_cannot_hide_large_metric_relative_change(reverse):\n        # Both metrics meet the declared conditioning guard. Their entries differ\n        # by only 1e-9, yet that doubles the metric of one occupied direction.\n        left, right = build_snapshot(), build_snapshot(call_id=\"e4-metric-change\")\n        for snapshot, small_eigenvalue in ((left, 1e-9), (right, 2e-9)):\n            snapshot[\"ao_overlap\"] = np.diag([1.0, small_eigenvalue, 1.0]).tolist()\n            snapshot[\"channels\"][\"alpha\"][\"occupied_coefficients\"] = [\n                [1.0, 0.0], [0.0, float(1.0 / np.sqrt(small_eigenvalue))], [0.0, 0.0]\n            ]\n            snapshot[\"channels\"][\"beta\"][\"occupied_coefficients\"] = [[0.0], [0.0], [1.0]]\n            state.validate_snapshot(snapshot)\n        if reverse:\n            left, right = right, left\n>       assert_no_metrics(state.compare_snapshots(left, right))\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nresearch/electronic-state-review/test_contracts.py:118: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nnanodesign/electronic_state.py:410: in compare_snapshots\n    _require(np.all(singular <= 1 + 4 * NUMERICAL_TOLERANCE), \"Subspace overlap exceeds numerical allowance\")\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ncondition = np.False_, message = 'Subspace overlap exceeds numerical allowance'\n\n    def _require(condition, message):\n        if not condition:\n>           raise ElectronicStateError(message)\nE           nanodesign.electronic_state.ElectronicStateError: Subspace overlap exceeds numerical allowance\n\nnanodesign/electronic_state.py:34: ElectronicStateError\n=========================== short test summary info ============================\nFAILED research/electronic-state-review/test_contracts.py::test_absolute_overlap_tolerance_cannot_hide_large_metric_relative_change[False]\nFAILED research/electronic-state-review/test_contracts.py::test_absolute_overlap_tolerance_cannot_hide_large_metric_relative_change[True]\n2 failed, 33 passed in 4.17s\n",
+  "stderr": "",
+  "source_sha256_before": {
+    "nanodesign/electronic_state.py": "7ba2de99179d3998a162803421e75f75cf13f6d1665c0005ba9bab52b943cdff",
+    "nanodesign/quantum.py": "ae92c852ac9989542b3c0cdbe2861a4d2ffe18ef426f1aa1b3d9869ab2489ee4"
+  },
+  "source_sha256_after": {
+    "nanodesign/electronic_state.py": "7ba2de99179d3998a162803421e75f75cf13f6d1665c0005ba9bab52b943cdff",
+    "nanodesign/quantum.py": "ae92c852ac9989542b3c0cdbe2861a4d2ffe18ef426f1aa1b3d9869ab2489ee4"
+  },
+  "source_unchanged": true,
+  "test_sha256": {
+    "research/electronic-state-review/fixtures.py": "54197cb456f62dbb63b5a2c51e68e2e80f70dde3c2ff84d947efc58ac3607f11",
+    "research/electronic-state-review/reference_cases.py": "d57125c25c3cf3bcfba717b5482b8e1bd380598e64799c8e3e36404f7d2c6f00",
+    "research/electronic-state-review/run_review.py": "848ea83d595b1dac860a50d80ff151f7590e2037e5542edaeb7cccb9f6925e9a",
+    "research/electronic-state-review/test_capture_conventions.py": "fd57604eb2dd4190977d44bef0c43eb5b464a86243e00ee7c23c6c123a72a80b",
+    "research/electronic-state-review/test_contracts.py": "555ef470f5976fa55f98c97a167e5555071ecf5cd88e27a4290a89b05dcc6dd5",
+    "research/electronic-state-review/test_math_invariants.py": "15f1799c3d79387d1a08390348d5621ce69d386b5a3aa72b962cbb0099f72c89"
+  },
+  "new_scf_calls": 0,
+  "new_gradient_calls": 0,
+  "new_ao_integral_calls": 0,
+  "solver_objects": "synthetic fake mean fields; capture kernel is forbidden by fixture",
+  "electronic_state_identity_verified": false,
+  "ground_state_verified": false,
+  "chemical_accuracy_validated": false,
+  "limitation": "Snapshot arithmetic/context and synthetic producer behavior only; actual solver lifecycle and cross-geometry integral reconstruction are separately assigned reviews."
+}

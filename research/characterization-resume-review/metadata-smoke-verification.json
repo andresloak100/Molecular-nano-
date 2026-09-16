@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "scope": "Requested focused H2 partial/complete resume regression smoke after H1 snapshot metadata change; no quantum calculations; historical full-suite receipt preserved",
+  "started_utc": "2026-09-16T21:44:19.988417+00:00",
+  "command": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "research/characterization-resume-review/test_resume_contract.py::test_completed_checkpoint_replays_with_zero_new_solver_calls",
+    "research/characterization-resume-review/test_resume_contract.py::test_successive_failed_attempts_preserve_lineage_and_finish_without_repeating_saved_calls"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 2.072292000055313,
+  "source_files_unchanged_during_run": true,
+  "sha256_before": {
+    "research/characterization-resume/prototype.py": "7429161b9be1bfd2c512a1e2580de1bb126cfe199f5bb405935e61dd61c32187",
+    "nanodesign/stationary.py": "efa54d1ceb79f7ca2c6e166f89047e002ec8d1bb7904c0e400883a19a5d85a82",
+    "nanodesign/quantum.py": "9e70a81c5658d23e64568f30bf455e1de9875d76a174d0a687ed675ee1231b2b",
+    "research/characterization-resume-review/fixtures.py": "0db7a0fe6e13e67baad8f29df3920205692bc3061f682f81f7cd44882493a79c",
+    "research/characterization-resume-review/test_resume_contract.py": "5d33d0727af8aaeea02768ef855fefbcc53f32d162df1ffbc26aa22f8b09c729"
+  },
+  "sha256_after": {
+    "research/characterization-resume/prototype.py": "7429161b9be1bfd2c512a1e2580de1bb126cfe199f5bb405935e61dd61c32187",
+    "nanodesign/stationary.py": "efa54d1ceb79f7ca2c6e166f89047e002ec8d1bb7904c0e400883a19a5d85a82",
+    "nanodesign/quantum.py": "9e70a81c5658d23e64568f30bf455e1de9875d76a174d0a687ed675ee1231b2b",
+    "research/characterization-resume-review/fixtures.py": "0db7a0fe6e13e67baad8f29df3920205692bc3061f682f81f7cd44882493a79c",
+    "research/characterization-resume-review/test_resume_contract.py": "5d33d0727af8aaeea02768ef855fefbcc53f32d162df1ffbc26aa22f8b09c729"
+  },
+  "python_version": "3.14.7",
+  "test_output": "metadata-smoke-output.txt",
+  "historical_full_suite_receipt": "verification.json"
+}

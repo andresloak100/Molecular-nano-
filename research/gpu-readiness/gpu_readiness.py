@@ -153,13 +153,15 @@ def read_inside(root, relative):
     return path.read_bytes()
 
 
-def build_plan(repo=ROOT, *, include_candidate=False):
+def build_plan(repo=ROOT, *, include_candidate=False, protocol_version=1):
     """Read exact recorded coordinates and state explicitly every planned change."""
     from io import StringIO
     from ase.io import read
     sys.path.insert(0, str(ROOT))
     from nanodesign.quantum import QuantumSettings
 
+    if type(protocol_version) is not int or protocol_version not in (1, 2):
+        raise ValueError("Protocol version must be integer 1 or 2")
     root = Path(repo).resolve()
     cases = [
         ("h2-rks-direct", "data/validation/h2-integration/inputs/h2.xyz", "data/validation/h2-integration/inputs/design.json", "quantum", {"density_fit": False, "dispersion": None}),
@@ -221,6 +223,15 @@ def build_plan(repo=ROOT, *, include_candidate=False):
         target = "source-notes/reference-" + filename
         payloads[target] = read_inside(root, source)
     result["bundled_files_sha256"] = {name: digest(raw) for name, raw in payloads.items()}
+    if protocol_version == 2:
+        result["schema_version"] = 2
+        result["numerical_metadata_policy"] = "resolved-grid-basis-float64-v1"
+        result["execution_record_schema_version"] = 2
+        result["required_record_binding"] = "plan_sha256 must hash the exact plan bytes used for execution"
+        result["resolved_metadata_scope"] = "Requested settings are known; actual expanded bases, quadrature/pruning and precision remain unavailable until captured by the future runner. Never infer them from defaults."
+        for case in result["cases"]:
+            case["resolved_numerics_status"] = "unavailable_before_execution"
+            case["resolved_numerics"] = None
     return result, payloads
 
 
@@ -246,6 +257,10 @@ def main():
     plan.add_argument("--repo", type=Path, default=ROOT)
     plan.add_argument("--output", type=Path, required=True)
     plan.add_argument("--include-candidate", action="store_true", help="Add the expensive 53-atom case; default only plans 2–8 atom checks")
+    plan.add_argument("--protocol-version", type=int, choices=(1, 2), default=2,
+                      help="Default 2 requires actual snapshot verification and resolved numerics; 1 is historical planning only")
+    verify = commands.add_parser("verify", help="Read/hash a version 2 protocol and its inputs; no numerical acceptance")
+    verify.add_argument("--plan", type=Path, required=True)
     args = parser.parse_args()
     if args.command == "inspect":
         result = environment_report(probe_runtime=args.probe_runtime)
@@ -253,11 +268,22 @@ def main():
             write_new_json(args.output, result)
         else:
             print(json_text(result), end="")
+    elif args.command == "verify":
+        from protocol import read_verified_protocol
+        try:
+            _, plan_hash, inventory = read_verified_protocol(args.plan)
+            result = {"input_files_verified": True, "plan_sha256": plan_hash, **inventory,
+                      "resolved_numerics_available": False, "numerical_parity_passed": False}
+        except (OSError, ValueError, UnicodeError, TypeError) as error:
+            result = {"input_files_verified": False, "numerical_parity_passed": False,
+                      "error": f"{type(error).__name__}: {error}"}
+        print(json_text(result), end="")
+        return 0 if result["input_files_verified"] else 1
     else:
-        result, payloads = build_plan(args.repo, include_candidate=args.include_candidate)
+        result, payloads = build_plan(args.repo, include_candidate=args.include_candidate, protocol_version=args.protocol_version)
         path = save_plan(args.output, result, payloads)
         print(json_text({"plan": str(path), "status": result["status"], "planned_energy_force_evaluations": result["planned_energy_force_evaluations"]}), end="")
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

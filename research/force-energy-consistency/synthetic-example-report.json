@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "status": "comparison_produced",
+  "comparisons": [
+    {
+      "stencil_index": 0,
+      "atom_index": 0,
+      "axis": 0,
+      "requested_minus_offset_angstrom": -0.25,
+      "requested_plus_offset_angstrom": 0.25,
+      "actual_minus_distance_angstrom": 0.25,
+      "actual_plus_distance_angstrom": 0.25,
+      "represented_asymmetry_angstrom": 0.0,
+      "estimator": "three_point_nonuniform_at_reference",
+      "derivative_energy_weights_per_angstrom": {
+        "minus": -2.0,
+        "reference": -0.0,
+        "plus": 2.0
+      },
+      "analytic_force_ev_per_angstrom": -0.75,
+      "finite_difference_force_ev_per_angstrom": -0.8125,
+      "residual_ev_per_angstrom": -0.0625,
+      "absolute_residual_ev_per_angstrom": 0.0625,
+      "within_declared_tolerance": null,
+      "binary64_input_rounding_sensitivity_ev_per_angstrom": 5.898059818321144e-17,
+      "input_rounding_exceeds_declared_tolerance": null,
+      "numerical_resolution_findings": [],
+      "energies_ev": {
+        "reference": 0.125,
+        "minus": 0.015625,
+        "plus": 0.421875
+      },
+      "evidence": {
+        "reference": {
+          "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+          "source_record_id": "reference",
+          "calculation_call_id": "call-reference",
+          "state_evidence_id": null
+        },
+        "minus": {
+          "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+          "source_record_id": "minus-0.25",
+          "calculation_call_id": "call-minus-0.25",
+          "state_evidence_id": null
+        },
+        "plus": {
+          "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+          "source_record_id": "plus-0.25",
+          "calculation_call_id": "call-plus-0.25",
+          "state_evidence_id": null
+        }
+      },
+      "branch_findings": [
+        "No electronic branch continuity was verified.",
+        "One or more per-geometry electronic-state evidence IDs are absent."
+      ]
+    },
+    {
+      "stencil_index": 1,
+      "atom_index": 0,
+      "axis": 0,
+      "requested_minus_offset_angstrom": -0.125,
+      "requested_plus_offset_angstrom": 0.125,
+      "actual_minus_distance_angstrom": 0.125,
+      "actual_plus_distance_angstrom": 0.125,
+      "represented_asymmetry_angstrom": 0.0,
+      "estimator": "three_point_nonuniform_at_reference",
+      "derivative_energy_weights_per_angstrom": {
+        "minus": -4.0,
+        "reference": -0.0,
+        "plus": 4.0
+      },
+      "analytic_force_ev_per_angstrom": -0.75,
+      "finite_difference_force_ev_per_angstrom": -0.765625,
+      "residual_ev_per_angstrom": -0.015625,
+      "absolute_residual_ev_per_angstrom": 0.015625,
+      "within_declared_tolerance": null,
+      "binary64_input_rounding_sensitivity_ev_per_angstrom": 6.938893903907228e-17,
+      "input_rounding_exceeds_declared_tolerance": null,
+      "numerical_resolution_findings": [],
+      "energies_ev": {
+        "reference": 0.125,
+        "minus": 0.052734375,
+        "plus": 0.244140625
+      },
+      "evidence": {
+        "reference": {
+          "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+          "source_record_id": "reference",
+          "calculation_call_id": "call-reference",
+          "state_evidence_id": null
+        },
+        "minus": {
+          "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+          "source_record_id": "minus-0.125",
+          "calculation_call_id": "call-minus-0.125",
+          "state_evidence_id": null
+        },
+        "plus": {
+          "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+          "source_record_id": "plus-0.125",
+          "calculation_call_id": "call-plus-0.125",
+          "state_evidence_id": null
+        }
+      },
+      "branch_findings": [
+        "No electronic branch continuity was verified.",
+        "One or more per-geometry electronic-state evidence IDs are absent."
+      ]
+    },
+    {
+      "stencil_index": 2,
+      "atom_index": 0,
+      "axis": 0,
+      "requested_minus_offset_angstrom": -0.0625,
+      "requested_plus_offset_angstrom": 0.0625,
+      "actual_minus_distance_angstrom": 0.0625,
+      "actual_plus_distance_angstrom": 0.0625,
+      "represented_asymmetry_angstrom": 0.0,
+      "estimator": "three_point_nonuniform_at_reference",
+      "derivative_energy_weights_per_angstrom": {
+        "minus": -8.0,
+        "reference": -0.0,
+        "plus": 8.0
+      },
+      "analytic_force_ev_per_angstrom": -0.75,
+      "finite_difference_force_ev_per_angstrom": -0.75390625,
+      "residual_ev_per_angstrom": -0.00390625,
+      "absolute_residual_ev_per_angstrom": 0.00390625,
+      "within_declared_tolerance": null,
+      "binary64_input_rounding_sensitivity_ev_per_angstrom": 1.6653345369377348e-16,
+      "input_rounding_exceeds_declared_tolerance": null,
+      "numerical_resolution_findings": [],
+      "energies_ev": {
+        "reference": 0.125,
+        "minus": 0.083740234375,
+        "plus": 0.177978515625
+      },
+      "evidence": {
+        "reference": {
+          "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+          "source_record_id": "reference",
+          "calculation_call_id": "call-reference",
+          "state_evidence_id": null
+        },
+        "minus": {
+          "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+          "source_record_id": "minus-0.0625",
+          "calculation_call_id": "call-minus-0.0625",
+          "state_evidence_id": null
+        },
+        "plus": {
+          "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+          "source_record_id": "plus-0.0625",
+          "calculation_call_id": "call-plus-0.0625",
+          "state_evidence_id": null
+        }
+      },
+      "branch_findings": [
+        "No electronic branch continuity was verified.",
+        "One or more per-geometry electronic-state evidence IDs are absent."
+      ]
+    }
+  ],
+  "unavailable_stencils": [],
+  "step_sensitivity": [
+    {
+      "atom_index": 0,
+      "axis": 0,
+      "distinct_stencils": 3,
+      "stencil_indices": [
+        0,
+        1,
+        2
+      ],
+      "finite_difference_force_spread_ev_per_angstrom": 0.05859375,
+      "analytic_force_spread_ev_per_angstrom": 0.0,
+      "scope": "Observed sensitivity among available stencils; no convergence or error bound."
+    }
+  ],
+  "findings": [
+    "Resolved quadrature/auxiliary-basis policy was not recorded."
+  ],
+  "electronic_state_identity_verified": false,
+  "electronic_branch_continuity_verified": false,
+  "scientific_model_validated": false,
+  "numerical_convergence_certified": false,
+  "all_comparisons_within_declared_tolerance": null,
+  "limitations": [
+    "Saved source digests and call IDs are bindings, not physical authentication.",
+    "Matching starting guesses, spin diagnostics or opaque state IDs do not prove branch continuity.",
+    "Finite-step residuals and observed step sensitivity are not error bounds or chemical validation.",
+    "Binary64 input-rounding sensitivity excludes solver noise, SCF error and truncation error.",
+    "SCF conv_tol is not an energy-error bound; no tolerance is inferred from it."
+  ],
+  "force_tolerance_ev_per_angstrom": null,
+  "input_document_sha256": "f7db1592b89689ce3bf5d6702688cb24f9b1ab59a276a662a9d0052eaf8b3438",
+  "fixture_scope": "SYNTHETIC polynomial only; no molecular evidence"
+}

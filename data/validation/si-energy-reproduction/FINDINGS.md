@@ -182,6 +182,114 @@ the published absolutes imply −0.627 kcal/mol for that barrier.
 Artifact: `si-energy-reproduction-isobutane.json`, written per species so a
 timeout leaves usable evidence. Reproduce: `python reproduce_isobutane.py`.
 
+## 9. Why the tool is unselective: a mechanism, not a coincidence
+
+Synthesis proposed by A2 from exothermicity; **tested here against the transition
+structure geometries, which are independent evidence and could have disagreed.**
+
+Three findings had been treated as separate puzzles: the tool shows no steric
+discrimination at any cage site; the thermodynamic site preference is near zero;
+and real adamantane selectivity is small, roughly 1.0–1.3 kcal/mol. They are one
+finding. **The tool discriminates poorly because it is thermodynamically hungry.**
+A reagent running 32 kcal/mol downhill reaches its transition state early, before
+it has committed to a particular C–H, so the sites look alike to it.
+
+The published geometries confirm it without using any energy:
+
+| Reaction | ΔE (kcal/mol) | acceptor–H (Å) | donor–H (Å) |
+|---|---|---|---|
+| C2H + CH4, primary | −24.79 | 1.672 | 1.149 |
+| C2H + iso-C4H10, **tertiary** | **−32.23** | **2.213** | **1.116** |
+
+The more exothermic reaction has the acceptor 0.54 Å further away and the donor
+C–H barely stretched, 1.116 against an equilibrium near 1.10. That is a
+demonstrably earlier transition state for the more exothermic reaction — Hammond,
+read straight off the coordinates. Bell–Evans–Polanyi across the two points gives
+α = 0.41 using the SI-implied isobutane barrier, a normal early-transition-state
+value.
+
+**Two points do not establish a relationship.** The running isobutane transition
+structure supplies a third and will test α rather than assume it.
+
+### The design consequence, which is the part worth acting on
+
+This converts the project's question from *"make this tool work"* to *"where on
+the reactivity–selectivity curve should the tool sit?"* A less reactive tip would
+discriminate better and might not react at all. The repository explores exactly
+one point on that axis and has no way to say whether it is the right one.
+
+That reframing also explains why A1's positional result matters more than it
+first appeared. If chemical discrimination is intrinsically weak for a reagent
+this hot, then positional control is not one selectivity mechanism among several
+— it is close to the only one available, which is precisely what A1's steric
+census independently found.
+
+## 10. The tool may weld itself to the workpiece — and the geometry may prevent it
+
+Failure mode raised by A1; protective hypothesis **tested here against the
+candidate's own product coordinates**, which A1 had not used.
+
+Follow the operation to its end. After transfer, the tool is a closed-shell
+terminal alkyne, adamantyl–C≡C–H, and the workpiece is a 1-adamantyl radical,
+sitting 3.6 Å apart. A carbon radical beside an alkyne is not a stable
+arrangement: addition across the C≡C forms a C–C σ bond worth roughly 85
+kcal/mol at the cost of demoting C≡C to C=C, roughly 54, so the addition is
+around 30 kcal/mol exothermic on bond additivity. **The intended product is
+metastable and the deep well is "tool covalently bonded to workpiece".**
+
+This failure mode is worse than mis-targeting and has had none of the
+attention. Mis-targeting places one atom badly; welding destroys the tool and
+the workpiece together and produces no further products at all.
+
+### Two protections, both free, both angular
+
+Measured on the product geometry from `candidates.py`:
+
+| Quantity | Value |
+|---|---|
+| angle: C≡C axis vs apex→radical | **0.0°** |
+| radical to apex carbon | 3.600 Å |
+| radical to transferred H | **2.540 Å** |
+
+**First**, the radical sits exactly end-on along the C≡C axis. Radical addition
+needs a perpendicular approach into a π lobe; 0° is the worst possible vector
+for it. A1 predicted this and the coordinates confirm it exactly.
+
+> **Convention warning, so nobody reads a disagreement into two files.** A1's
+> independent screen reports **180°** for this same geometry
+> (`research/site-selectivity/evidence/product-state-welding-screen/screen.json`).
+> The two are identical: I measure from the distal→apex axis direction, A1
+> measures from apex→distal, so the values are reciprocal. Perpendicular offset
+> is 0.000 Å either way. Flagged explicitly because this project has already
+> lost time to two correct numbers for different quantities, and 0 versus 180
+> in two files invites exactly that.
+
+
+**Second, not previously noted:** the transferred hydrogen lands on the apex
+carbon, directly between the radical and the alkyne, closer to the radical
+(2.540 Å) than the apex carbon itself is (3.600 Å). The newly formed C–H
+physically occupies the approach vector. This is structural rather than
+incidental — the H necessarily lands on the atom the radical was pointing at,
+so **the abstraction event installs a steric block against the addition that
+would otherwise follow it.**
+
+A1 quantified this further and it is stronger than "in the way": against ASE's
+van der Waals radii (C 1.700, H 1.200, sum 2.900 Å) the 2.540 Å separation is a
+gap of **−0.360 Å**. Reproduced here exactly. The radical and the hydrogen it
+just surrendered are already inside each other's van der Waals envelopes, so
+the block is in hard contact along the approach vector rather than merely on
+it. Reaching an addition-competent geometry would require 4.219 Å of apex
+travel (A1's screen).
+
+Both protections derive from the same collinearity and degrade under the same
+angular wander, so one angular tolerance covers both. **No angular tolerance has
+been computed**; every positional analysis so far has been a lateral distance.
+
+Neither protection is established as sufficient. Thermodynamics says the well is
+deep; geometry says the approach is bad. Which wins is a *barrier* question, and
+barriers are blocked on the same missing machinery as everything else kinetic —
+now the third independent line arriving at that gap.
+
 ## 7. What is NOT established
 
 - **No DFT barrier exists for either reaction**, because no DFT saddle has been

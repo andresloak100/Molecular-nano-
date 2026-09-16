@@ -38,7 +38,7 @@ def input_hashes(path):
 def test_source_edit_after_first_parse_cannot_change_returned_provenance(tmp_path, monkeypatch, changed_source):
     path = make_inputs(tmp_path / "input")
     expected_hashes = input_hashes(path)
-    actual_read = design.read
+    actual_read = design.read_coordinate_snapshot
     changed = False
 
     def read_then_edit(*args, **kwargs):
@@ -55,7 +55,7 @@ def test_source_edit_after_first_parse_cannot_change_returned_provenance(tmp_pat
                       Atoms("H2", positions=[[0, 0, 0], [0, 0, 0.9]]))
         return atoms
 
-    monkeypatch.setattr(design, "read", read_then_edit)
+    monkeypatch.setattr(design, "read_coordinate_snapshot", read_then_edit)
     data, initial, final, settings, hashes = design.load_design(path)
     assert changed
     assert hashes == expected_hashes
@@ -68,7 +68,7 @@ def test_source_edit_after_first_parse_cannot_change_returned_provenance(tmp_pat
 def test_captured_inputs_survive_source_removal_during_parse(tmp_path, monkeypatch):
     path = make_inputs(tmp_path / "input")
     expected_hashes = input_hashes(path)
-    actual_read = design.read
+    actual_read = design.read_coordinate_snapshot
     removed = False
 
     def read_then_remove(*args, **kwargs):
@@ -80,7 +80,7 @@ def test_captured_inputs_survive_source_removal_during_parse(tmp_path, monkeypat
                 source.unlink()
         return atoms
 
-    monkeypatch.setattr(design, "read", read_then_remove)
+    monkeypatch.setattr(design, "read_coordinate_snapshot", read_then_remove)
     _, initial, final, _, hashes = design.load_design(path)
     assert removed
     assert hashes == expected_hashes
@@ -113,3 +113,17 @@ def test_relative_symlink_uses_resolved_format_and_original_compressed_bytes(tmp
     _, initial, _, _, hashes = design.load_design(path)
     assert initial.get_distance(0, 1) == pytest.approx(0.74)
     assert hashes["initial_sha256"] == expected
+
+
+@pytest.mark.parametrize("suffix", [".extxyz", ".extxyz.gz", ".traj", ".db"])
+def test_exact_frame_selection_rejects_out_of_range_indices(tmp_path, suffix):
+    source = tmp_path / ("frames" + suffix)
+    frames = [Atoms("H2", positions=[[0, 0, 0], [0, 0, distance]]) for distance in (0.74, 1.2)]
+    write(source, frames)
+    raw = source.read_bytes()
+    for index, distance in ((0, 0.74), (1, 1.2), (-1, 1.2), (-2, 0.74)):
+        atoms = design.read_coordinate_snapshot(source, raw, index=index)
+        assert atoms.get_distance(0, 1) == pytest.approx(distance)
+    for index in (2, 99, -3, -99):
+        with pytest.raises(ValueError, match="frame .*unavailable"):
+            design.read_coordinate_snapshot(source, raw, index=index)

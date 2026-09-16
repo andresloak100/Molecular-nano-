@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "scope": "Independent F2 offline energy/force software tests and actual H1 format via explicitly substituted analytic calculator; no quantum calculations or chemical validation",
+  "started_utc": "2026-09-16T22:04:32.960603+00:00",
+  "command": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "research/force-energy-review"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 3.1310675418935716,
+  "source_files_unchanged_during_run": true,
+  "sha256_before": {
+    "research/force-energy-consistency/consistency.py": "7c8962708b83ce3c0a97e27d9805c31cd926915db5312e2e108a87e25de56b77",
+    "research/characterization-resume/prototype.py": "7429161b9be1bfd2c512a1e2580de1bb126cfe199f5bb405935e61dd61c32187",
+    "nanodesign/quantum.py": "ae92c852ac9989542b3c0cdbe2861a4d2ffe18ef426f1aa1b3d9869ab2489ee4",
+    "nanodesign/stationary.py": "efa54d1ceb79f7ca2c6e166f89047e002ec8d1bb7904c0e400883a19a5d85a82",
+    "research/force-energy-review/analytic_fixtures.py": "50108a286b289ee877396eaba9bfa648bd125e5ceafe9dda6aee54ca0b8cd525",
+    "research/force-energy-review/test_independent_consistency.py": "d166d3ea97d5ad57c62b4575b20de952d1b9a50cd3ab197666bc7050f2addebb",
+    "research/force-energy-review/test_checkpoint_bridge.py": "262874563430cbe373918975ae5273216a3c01cf801b3fff52a7717488824beb"
+  },
+  "sha256_after": {
+    "research/force-energy-consistency/consistency.py": "7c8962708b83ce3c0a97e27d9805c31cd926915db5312e2e108a87e25de56b77",
+    "research/characterization-resume/prototype.py": "7429161b9be1bfd2c512a1e2580de1bb126cfe199f5bb405935e61dd61c32187",
+    "nanodesign/quantum.py": "ae92c852ac9989542b3c0cdbe2861a4d2ffe18ef426f1aa1b3d9869ab2489ee4",
+    "nanodesign/stationary.py": "efa54d1ceb79f7ca2c6e166f89047e002ec8d1bb7904c0e400883a19a5d85a82",
+    "research/force-energy-review/analytic_fixtures.py": "50108a286b289ee877396eaba9bfa648bd125e5ceafe9dda6aee54ca0b8cd525",
+    "research/force-energy-review/test_independent_consistency.py": "d166d3ea97d5ad57c62b4575b20de952d1b9a50cd3ab197666bc7050f2addebb",
+    "research/force-energy-review/test_checkpoint_bridge.py": "262874563430cbe373918975ae5273216a3c01cf801b3fff52a7717488824beb"
+  },
+  "python_version": "3.14.7",
+  "test_output": "test-output.txt",
+  "preserved_development_failure": "development-overflow-failure.txt"
+}

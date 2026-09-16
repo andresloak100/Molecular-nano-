@@ -1,0 +1,30 @@
+--- a/nanodesign/workflow.py
++++ b/nanodesign/workflow.py
+@@ -198,5 +198,6 @@
+ def run_characterization(design_path, structure_path, output, *, image=-1, step=0.005,
+-                         fmax=0.03, frequency_tolerance=20.0, max_free_coordinates=120):
++                         fmax=0.03, frequency_tolerance=20.0, max_free_coordinates=120,
++                         checkpoint_forces=False, resume_from=None):
+     """Constrained curvature check; no transition-state connectivity claim."""
+     from copy import deepcopy
+     from numbers import Integral, Real
+@@ -225,6 +226,19 @@
+     if free_coordinates > max_free_coordinates:
+         raise ValueError(f"This structure has {free_coordinates} free coordinates and needs {2*free_coordinates+1} quantum evaluations for a complete Hessian. Increase --max-free-coordinates explicitly if intended.")
+     hashes["structure_sha256"] = hashlib.sha256(structure_bytes).hexdigest()
++    if not isinstance(checkpoint_forces, bool):
++        raise ValueError("checkpoint_forces must be a boolean")
++    if checkpoint_forces or resume_from is not None:
++        # Requires promoting the reviewed H1 module first; this proposal does
++        # not add CLI flags or change the existing default execution path.
++        from .characterization_checkpoint import run_characterization_checkpoint
++        atoms.calc = PySCFCalculator(settings, event_log=Path(output).resolve() / "electronic.jsonl")
++        return run_characterization_checkpoint(
++            atoms, output, settings=settings,
++            input_context={"design": data, "input_hashes": hashes,
++                           "structure_source": str(structure_path), "structure_image": image},
++            resume_from=resume_from, step=step, fmax=fmax,
++            frequency_tolerance=frequency_tolerance, max_free_coordinates=max_free_coordinates)
+     out = Path(output).resolve()
+     out.mkdir(parents=True, exist_ok=False)
+     started = time.monotonic()

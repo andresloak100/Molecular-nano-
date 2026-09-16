@@ -111,8 +111,10 @@ XPASS as intended. Their markers were removed; the final suite passes all seven
 checks. The tests are kept outside the production suite until owner review.
 No commit was made by this helper.
 
-The race probe intercepts `design.read` and edits the original source immediately
-after its first return. The repaired reader passes an in-memory stream to that
-same entry point; the source mutation still occurs and the returned hashes now
-identify the original bytes actually parsed. Both the coordinate and settings
-race variants pass without weakening their expected provenance assertions.
+The original race probe intercepted `design.read`. During later frame-selection
+integration, the production reader changed to a frame iterator to reject ASE's
+out-of-range negative-index clamping. The maintained test now intercepts
+`design.read_coordinate_snapshot` and edits the original source after its first
+return. Source mutation still occurs after parsing, and returned hashes identify
+the captured bytes actually used. Both coordinate and settings race variants
+retain their provenance assertions. Historical review receipts are unchanged.

@@ -1,0 +1,664 @@
+{
+  "schema_version": 1,
+  "stencils": [
+    {
+      "atom_index": 0,
+      "axis": 0,
+      "requested_minus_offset_angstrom": -0.25,
+      "requested_plus_offset_angstrom": 0.25,
+      "reference": {
+        "context": {
+          "atomic_numbers": [
+            1,
+            6
+          ],
+          "fixed_indices": [],
+          "pbc": [
+            false,
+            false,
+            false
+          ],
+          "quantum_settings": {
+            "charge": 0,
+            "spin": 1,
+            "xc": "pbe0",
+            "basis": "def2-svp",
+            "dispersion": "d3bj",
+            "grid_level": 3,
+            "conv_tol": 1e-09,
+            "max_cycle": 150,
+            "threads": 1,
+            "memory_mb": 2000,
+            "density_fit": false,
+            "scf_initial_guess": "minao"
+          },
+          "software_versions": {
+            "synthetic": "1"
+          },
+          "resolved_numerics": null,
+          "energy_scope": "total_potential_energy",
+          "units": {
+            "length": "angstrom",
+            "energy": "eV",
+            "force": "eV/angstrom"
+          },
+          "force_scope": "raw_unconstrained"
+        },
+        "positions_angstrom": [
+          [
+            0.5,
+            0.0,
+            0.0
+          ],
+          [
+            2.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+        "source_record_id": "reference",
+        "calculation_call_id": "call-reference",
+        "status": "completed",
+        "scf_converged": true,
+        "gradient_completed": true,
+        "energy_ev": 0.125,
+        "forces_ev_per_angstrom": [
+          [
+            -0.75,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "state_evidence_id": null
+      },
+      "minus": {
+        "context": {
+          "atomic_numbers": [
+            1,
+            6
+          ],
+          "fixed_indices": [],
+          "pbc": [
+            false,
+            false,
+            false
+          ],
+          "quantum_settings": {
+            "charge": 0,
+            "spin": 1,
+            "xc": "pbe0",
+            "basis": "def2-svp",
+            "dispersion": "d3bj",
+            "grid_level": 3,
+            "conv_tol": 1e-09,
+            "max_cycle": 150,
+            "threads": 1,
+            "memory_mb": 2000,
+            "density_fit": false,
+            "scf_initial_guess": "minao"
+          },
+          "software_versions": {
+            "synthetic": "1"
+          },
+          "resolved_numerics": null,
+          "energy_scope": "total_potential_energy",
+          "units": {
+            "length": "angstrom",
+            "energy": "eV",
+            "force": "eV/angstrom"
+          },
+          "force_scope": "raw_unconstrained"
+        },
+        "positions_angstrom": [
+          [
+            0.25,
+            0.0,
+            0.0
+          ],
+          [
+            2.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+        "source_record_id": "minus-0.25",
+        "calculation_call_id": "call-minus-0.25",
+        "status": "completed",
+        "scf_converged": true,
+        "gradient_completed": true,
+        "energy_ev": 0.015625,
+        "forces_ev_per_angstrom": [
+          [
+            -0.1875,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "state_evidence_id": null
+      },
+      "plus": {
+        "context": {
+          "atomic_numbers": [
+            1,
+            6
+          ],
+          "fixed_indices": [],
+          "pbc": [
+            false,
+            false,
+            false
+          ],
+          "quantum_settings": {
+            "charge": 0,
+            "spin": 1,
+            "xc": "pbe0",
+            "basis": "def2-svp",
+            "dispersion": "d3bj",
+            "grid_level": 3,
+            "conv_tol": 1e-09,
+            "max_cycle": 150,
+            "threads": 1,
+            "memory_mb": 2000,
+            "density_fit": false,
+            "scf_initial_guess": "minao"
+          },
+          "software_versions": {
+            "synthetic": "1"
+          },
+          "resolved_numerics": null,
+          "energy_scope": "total_potential_energy",
+          "units": {
+            "length": "angstrom",
+            "energy": "eV",
+            "force": "eV/angstrom"
+          },
+          "force_scope": "raw_unconstrained"
+        },
+        "positions_angstrom": [
+          [
+            0.75,
+            0.0,
+            0.0
+          ],
+          [
+            2.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+        "source_record_id": "plus-0.25",
+        "calculation_call_id": "call-plus-0.25",
+        "status": "completed",
+        "scf_converged": true,
+        "gradient_completed": true,
+        "energy_ev": 0.421875,
+        "forces_ev_per_angstrom": [
+          [
+            -1.6875,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "state_evidence_id": null
+      }
+    },
+    {
+      "atom_index": 0,
+      "axis": 0,
+      "requested_minus_offset_angstrom": -0.125,
+      "requested_plus_offset_angstrom": 0.125,
+      "reference": {
+        "context": {
+          "atomic_numbers": [
+            1,
+            6
+          ],
+          "fixed_indices": [],
+          "pbc": [
+            false,
+            false,
+            false
+          ],
+          "quantum_settings": {
+            "charge": 0,
+            "spin": 1,
+            "xc": "pbe0",
+            "basis": "def2-svp",
+            "dispersion": "d3bj",
+            "grid_level": 3,
+            "conv_tol": 1e-09,
+            "max_cycle": 150,
+            "threads": 1,
+            "memory_mb": 2000,
+            "density_fit": false,
+            "scf_initial_guess": "minao"
+          },
+          "software_versions": {
+            "synthetic": "1"
+          },
+          "resolved_numerics": null,
+          "energy_scope": "total_potential_energy",
+          "units": {
+            "length": "angstrom",
+            "energy": "eV",
+            "force": "eV/angstrom"
+          },
+          "force_scope": "raw_unconstrained"
+        },
+        "positions_angstrom": [
+          [
+            0.5,
+            0.0,
+            0.0
+          ],
+          [
+            2.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+        "source_record_id": "reference",
+        "calculation_call_id": "call-reference",
+        "status": "completed",
+        "scf_converged": true,
+        "gradient_completed": true,
+        "energy_ev": 0.125,
+        "forces_ev_per_angstrom": [
+          [
+            -0.75,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "state_evidence_id": null
+      },
+      "minus": {
+        "context": {
+          "atomic_numbers": [
+            1,
+            6
+          ],
+          "fixed_indices": [],
+          "pbc": [
+            false,
+            false,
+            false
+          ],
+          "quantum_settings": {
+            "charge": 0,
+            "spin": 1,
+            "xc": "pbe0",
+            "basis": "def2-svp",
+            "dispersion": "d3bj",
+            "grid_level": 3,
+            "conv_tol": 1e-09,
+            "max_cycle": 150,
+            "threads": 1,
+            "memory_mb": 2000,
+            "density_fit": false,
+            "scf_initial_guess": "minao"
+          },
+          "software_versions": {
+            "synthetic": "1"
+          },
+          "resolved_numerics": null,
+          "energy_scope": "total_potential_energy",
+          "units": {
+            "length": "angstrom",
+            "energy": "eV",
+            "force": "eV/angstrom"
+          },
+          "force_scope": "raw_unconstrained"
+        },
+        "positions_angstrom": [
+          [
+            0.375,
+            0.0,
+            0.0
+          ],
+          [
+            2.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+        "source_record_id": "minus-0.125",
+        "calculation_call_id": "call-minus-0.125",
+        "status": "completed",
+        "scf_converged": true,
+        "gradient_completed": true,
+        "energy_ev": 0.052734375,
+        "forces_ev_per_angstrom": [
+          [
+            -0.421875,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "state_evidence_id": null
+      },
+      "plus": {
+        "context": {
+          "atomic_numbers": [
+            1,
+            6
+          ],
+          "fixed_indices": [],
+          "pbc": [
+            false,
+            false,
+            false
+          ],
+          "quantum_settings": {
+            "charge": 0,
+            "spin": 1,
+            "xc": "pbe0",
+            "basis": "def2-svp",
+            "dispersion": "d3bj",
+            "grid_level": 3,
+            "conv_tol": 1e-09,
+            "max_cycle": 150,
+            "threads": 1,
+            "memory_mb": 2000,
+            "density_fit": false,
+            "scf_initial_guess": "minao"
+          },
+          "software_versions": {
+            "synthetic": "1"
+          },
+          "resolved_numerics": null,
+          "energy_scope": "total_potential_energy",
+          "units": {
+            "length": "angstrom",
+            "energy": "eV",
+            "force": "eV/angstrom"
+          },
+          "force_scope": "raw_unconstrained"
+        },
+        "positions_angstrom": [
+          [
+            0.625,
+            0.0,
+            0.0
+          ],
+          [
+            2.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+        "source_record_id": "plus-0.125",
+        "calculation_call_id": "call-plus-0.125",
+        "status": "completed",
+        "scf_converged": true,
+        "gradient_completed": true,
+        "energy_ev": 0.244140625,
+        "forces_ev_per_angstrom": [
+          [
+            -1.171875,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "state_evidence_id": null
+      }
+    },
+    {
+      "atom_index": 0,
+      "axis": 0,
+      "requested_minus_offset_angstrom": -0.0625,
+      "requested_plus_offset_angstrom": 0.0625,
+      "reference": {
+        "context": {
+          "atomic_numbers": [
+            1,
+            6
+          ],
+          "fixed_indices": [],
+          "pbc": [
+            false,
+            false,
+            false
+          ],
+          "quantum_settings": {
+            "charge": 0,
+            "spin": 1,
+            "xc": "pbe0",
+            "basis": "def2-svp",
+            "dispersion": "d3bj",
+            "grid_level": 3,
+            "conv_tol": 1e-09,
+            "max_cycle": 150,
+            "threads": 1,
+            "memory_mb": 2000,
+            "density_fit": false,
+            "scf_initial_guess": "minao"
+          },
+          "software_versions": {
+            "synthetic": "1"
+          },
+          "resolved_numerics": null,
+          "energy_scope": "total_potential_energy",
+          "units": {
+            "length": "angstrom",
+            "energy": "eV",
+            "force": "eV/angstrom"
+          },
+          "force_scope": "raw_unconstrained"
+        },
+        "positions_angstrom": [
+          [
+            0.5,
+            0.0,
+            0.0
+          ],
+          [
+            2.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+        "source_record_id": "reference",
+        "calculation_call_id": "call-reference",
+        "status": "completed",
+        "scf_converged": true,
+        "gradient_completed": true,
+        "energy_ev": 0.125,
+        "forces_ev_per_angstrom": [
+          [
+            -0.75,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "state_evidence_id": null
+      },
+      "minus": {
+        "context": {
+          "atomic_numbers": [
+            1,
+            6
+          ],
+          "fixed_indices": [],
+          "pbc": [
+            false,
+            false,
+            false
+          ],
+          "quantum_settings": {
+            "charge": 0,
+            "spin": 1,
+            "xc": "pbe0",
+            "basis": "def2-svp",
+            "dispersion": "d3bj",
+            "grid_level": 3,
+            "conv_tol": 1e-09,
+            "max_cycle": 150,
+            "threads": 1,
+            "memory_mb": 2000,
+            "density_fit": false,
+            "scf_initial_guess": "minao"
+          },
+          "software_versions": {
+            "synthetic": "1"
+          },
+          "resolved_numerics": null,
+          "energy_scope": "total_potential_energy",
+          "units": {
+            "length": "angstrom",
+            "energy": "eV",
+            "force": "eV/angstrom"
+          },
+          "force_scope": "raw_unconstrained"
+        },
+        "positions_angstrom": [
+          [
+            0.4375,
+            0.0,
+            0.0
+          ],
+          [
+            2.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+        "source_record_id": "minus-0.0625",
+        "calculation_call_id": "call-minus-0.0625",
+        "status": "completed",
+        "scf_converged": true,
+        "gradient_completed": true,
+        "energy_ev": 0.083740234375,
+        "forces_ev_per_angstrom": [
+          [
+            -0.57421875,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "state_evidence_id": null
+      },
+      "plus": {
+        "context": {
+          "atomic_numbers": [
+            1,
+            6
+          ],
+          "fixed_indices": [],
+          "pbc": [
+            false,
+            false,
+            false
+          ],
+          "quantum_settings": {
+            "charge": 0,
+            "spin": 1,
+            "xc": "pbe0",
+            "basis": "def2-svp",
+            "dispersion": "d3bj",
+            "grid_level": 3,
+            "conv_tol": 1e-09,
+            "max_cycle": 150,
+            "threads": 1,
+            "memory_mb": 2000,
+            "density_fit": false,
+            "scf_initial_guess": "minao"
+          },
+          "software_versions": {
+            "synthetic": "1"
+          },
+          "resolved_numerics": null,
+          "energy_scope": "total_potential_energy",
+          "units": {
+            "length": "angstrom",
+            "energy": "eV",
+            "force": "eV/angstrom"
+          },
+          "force_scope": "raw_unconstrained"
+        },
+        "positions_angstrom": [
+          [
+            0.5625,
+            0.0,
+            0.0
+          ],
+          [
+            2.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "source_sha256": "5f7fc6ba19943e61ea66334c3146b8f3c01fb589735ffedbcd02ce7d166923f4",
+        "source_record_id": "plus-0.0625",
+        "calculation_call_id": "call-plus-0.0625",
+        "status": "completed",
+        "scf_converged": true,
+        "gradient_completed": true,
+        "energy_ev": 0.177978515625,
+        "forces_ev_per_angstrom": [
+          [
+            -0.94921875,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "state_evidence_id": null
+      }
+    }
+  ],
+  "fixture_scope": "SYNTHETIC polynomial only; no molecular evidence",
+  "source_artifact": "synthetic-source.json"
+}

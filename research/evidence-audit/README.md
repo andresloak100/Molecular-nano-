@@ -98,3 +98,81 @@ reported a passing JSON-roundtrip reconstruction test covering both the raw
 asymmetry and symmetric Hessian, with 52 combined tests passing; its files are
 stable awaiting C1 integration. E1 did not independently rerun that separate
 suite. Those changes are owned and validated in their respective lanes.
+
+## Portable stationary-force verifier (E2)
+
+`verify_stationary.py` independently checks a **new saved characterization**
+that contains `finite_difference_evidence`. It reconstructs the raw force-
+difference Hessian, its asymmetry, the symmetric Hessian, mass-weighted
+eigenvalues and mode equations, signed frequencies, and baseline force/mode
+classification. It also checks full force dimensions, free/frozen atom
+partitioning, displacement order, actual coordinate changes, and step rounding.
+It neither imports the production package nor launches a quantum calculation.
+
+```sh
+.venv/bin/python research/evidence-audit/verify_stationary.py PATH/TO/result.json
+.venv/bin/python research/evidence-audit/verify_stationary.py PATH/TO/result.json --output NEW_REPORT.json
+.venv/bin/python -m pytest -q research/evidence-audit/test_verify_stationary.py
+```
+
+Accepted JSON shapes are a standalone stationary record, a workflow result
+with a `stationary` block, or an S1 study with a
+`transition_state_characterization` block. Ambiguous multiple blocks are
+rejected. Input is read-only, and reports include the source-byte and verifier
+hashes. Output files are created exclusively: existing files are not replaced.
+The read limit is 64 MiB, with at most 600 free coordinates for matrix analysis.
+
+| Status / exit code | Meaning |
+|---|---|
+| `passed` / 0 | Saved forces reconstruct the reported numerical characterization within the checker's declared tolerances |
+| `failed` / 1 | Malformed or contradictory evidence, unreadable input, or an exceeded audit bound |
+| `unavailable` / 2 | Characterization is absent/null, or historical records omit the displaced-force arrays; no full reconstruction was performed |
+
+For example, the old `data/validation/h2-integration/modes/result.json` returns
+`unavailable`, because it predates force-evidence recording. E1's earlier
+Hessian-algebra audit still applies to that archive. E2 never fills the missing
+arrays or rewrites an older report.
+
+The public `verify_stationary(record)` function accepts a **standalone**
+stationary dictionary and leaves it unchanged. It returns `status`,
+`numerical_reconstruction_verified`, `findings` and, on success, `details`.
+`inspect_file(path)` additionally selects a known wrapper and records source
+hashes. N1's mode-comparison work can use the function while retaining its own
+geometry/atom-order/method binding. H1's resume prototype produces the same
+successful stationary schema; checkpoint lineage remains H1's responsibility.
+
+The denominator is the **requested** `2 * step_angstrom`, matching the saved
+estimator. Actual positive/negative offsets are checked separately against
+binary64 coordinate arithmetic and the producer's one-part-per-million
+representation guard; E2 does not silently change the derivative estimator.
+Matrix/scalar comparisons ordinarily use absolute and relative tolerances of
+`1e-9`; orthonormality uses absolute `1e-8`, the eigenvector equation uses
+`1e-8 * max(1, max(abs(weighted_hessian)))`, and signed-frequency arithmetic
+uses `1e-6 cm^-1` plus relative `1e-8`. These are consistency tolerances, not
+chemical error estimates. Near-zero eigenvalue signs may depend on numerical
+roundoff, so frequencies are checked against saved eigenvalues after independent
+spectrum and mode-equation checks.
+
+A numerical pass can include a **nonstationary** geometry: consult the returned
+force classification. It also does not verify isotope assignment, electronic
+state, force accuracy, reaction connectivity, step convergence, or a working
+tool. Every report keeps scientific validation flags false. Workflow completion
+is not certified; the wrapper's status is retained separately. Optional
+`geometry_angstrom` is compared with the recorded reference coordinates;
+external geometry identity and quantum-method binding require separate checks.
+
+Null/missing calculation IDs do not invalidate reconstructible arithmetic.
+Their count and any duplicate IDs are reported, with external event linkage
+explicitly `not_checked`. Force requests are not treated as fresh calculation
+counts: the baseline may have been cached. No log or calculation is invented
+to close those provenance gaps.
+
+E2 verification: **59 focused saved-record/CLI tests pass**, and **81 pass**
+when combined with E1's existing archive-audit tests. Independent synthetic
+fixtures cover anchored unequal masses, nonconservative force asymmetry,
+accepted coordinate rounding, a deliberately wrong derivative denominator,
+mode-sign changes and degenerate-subspace rotations, missing/null IDs and
+input immutability. Separate checks round-tripped the current producer's
+declared synthetic force fixtures through E2; no quantum computation or new
+chemical validation was performed. Original E1 report files and their auditor
+hashes remain unchanged.

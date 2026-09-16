@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-09-16T22:05:23.841573+00:00",
+  "scope": "F1 synthetic software-contract verification, not chemical validation",
+  "quantum_jobs_started": 0,
+  "command": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "research/force-energy-consistency",
+    "--disable-warnings",
+    "--tb=short"
+  ],
+  "exit_code": 0,
+  "pytest_summary": "42 passed, 495 warnings in 3.71s",
+  "test_backend": "explicitly synthetic polynomial energies/forces; actual native H1 producer API exercised with substituted synthetic calculator",
+  "source_sha256": {
+    "consistency.py": "7c8962708b83ce3c0a97e27d9805c31cd926915db5312e2e108a87e25de56b77",
+    "test_consistency.py": "50fdc8afbb9890ff49cee3222659a49651c73c57428e9e7eab53c21c1f43a0b8",
+    "test_h1_adapter.py": "7e110a0e07b012ccd3d306fc585181b29e804fa517159ff8bb5793a8f810bc43"
+  },
+  "independent_review": {
+    "receipt": "research/force-energy-review/verification.json",
+    "pytest_summary": "39 passed, 188 warnings in 2.33s",
+    "source_files_unchanged_during_run": true,
+    "unresolved_findings": 0,
+    "scope": "separate bounded synthetic verification run"
+  }
+}

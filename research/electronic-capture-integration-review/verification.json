@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "checked_utc": "2026-09-16T22:01:32Z",
+  "status": "passed",
+  "command": ".venv/bin/python -m pytest -q --tb=short research/electronic-capture-integration-review/test_capture_lifecycle.py",
+  "tests_passed": 10,
+  "elapsed_seconds": 1.20,
+  "warnings": "24 upstream ASE/NumPy deprecation warnings",
+  "test_scope": {
+    "synthetic_lifecycle_cases": 8,
+    "actual_e3_serializer_with_synthetic_solver_cases": 2,
+    "real_scf_runs": 0,
+    "real_quantum_gradient_runs": 0,
+    "ao_integral_evaluations": 0,
+    "cases": [
+      "Actual Hessian workflow restores matching baseline cache and capture on success",
+      "Actual Hessian workflow restores matching baseline cache after displaced-gradient failure",
+      "RuntimeError, KeyboardInterrupt and SystemExit survive secondary thread cleanup failure",
+      "Those same primary failures survive combined thread cleanup and failure-log errors",
+      "Real E3 capture/save/read roundtrip through production hook for completed synthetic RKS",
+      "Real E3 capture/save/read roundtrip through production hook for synthetic UKS with failed gradient"
+    ]
+  },
+  "hash_observation": "SHA256 values read after the focused verification; hashes establish byte identity, not scientific validity",
+  "sha256": {
+    "nanodesign/quantum.py": "ae92c852ac9989542b3c0cdbe2861a4d2ffe18ef426f1aa1b3d9869ab2489ee4",
+    "nanodesign/electronic_state.py": "f7e277e66b334807a6ba5641559271afbeeac5e4c21c436c80e3c59dc6dbcb3d",
+    "nanodesign/stationary.py": "efa54d1ceb79f7ca2c6e166f89047e002ec8d1bb7904c0e400883a19a5d85a82",
+    "research/electronic-capture-integration-review/test_capture_lifecycle.py": "0b65a219ccc6278c07b1e7e9046bd86610f54062633b181d4da08d89afc84510"
+  },
+  "electronic_state_identity_verified": false,
+  "chemical_accuracy_validated": false,
+  "molecular_machine_validated": false,
+  "open_findings_in_bounded_scope": [],
+  "production_files_edited_by_reviewer": []
+}

@@ -1,0 +1,283 @@
+{
+  "schema_version": 1,
+  "status": "compared",
+  "findings": [],
+  "sources": [
+    {
+      "result_path": "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/data/validation/h2-integration/modes/result.json",
+      "result_sha256": "7e88e87df8f8fe8fd141596f79f0f6593b13f2a0d73c20c2f1116c528b6dfa0e",
+      "structure_path": "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/data/validation/h2-integration/modes/input.extxyz",
+      "structure_sha256": "e0d18def76cae5301d045466087882dc2e2b4222ede4cc4560cba5567f5a24f6"
+    },
+    {
+      "result_path": "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/data/validation/h2-integration/modes-half-step/result.json",
+      "result_sha256": "eb28ef59e9a326c7c28cc17043c16788e05d32e5f03c5ab1a8e8d84ba26b393b",
+      "structure_path": "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/data/validation/h2-integration/modes-half-step/input.extxyz",
+      "structure_sha256": "e0d18def76cae5301d045466087882dc2e2b4222ede4cc4560cba5567f5a24f6"
+    }
+  ],
+  "legacy_or_missing_metadata": [
+    "result: legacy absent scf_initial_guess interpreted as documented minao default; original bytes unchanged",
+    "design: legacy absent scf_initial_guess interpreted as documented minao default; original bytes unchanged",
+    "diagnostics: legacy absent scf_initial_guess interpreted as documented minao default; original bytes unchanged",
+    "Historical displaced-force evidence absent; raw Hessian reconstruction unavailable in this comparison",
+    "result: legacy absent scf_initial_guess interpreted as documented minao default; original bytes unchanged",
+    "design: legacy absent scf_initial_guess interpreted as documented minao default; original bytes unchanged",
+    "diagnostics: legacy absent scf_initial_guess interpreted as documented minao default; original bytes unchanged",
+    "Historical displaced-force evidence absent; raw Hessian reconstruction unavailable in this comparison"
+  ],
+  "metadata_notes_by_source": {
+    "left": [
+      "result: legacy absent scf_initial_guess interpreted as documented minao default; original bytes unchanged",
+      "design: legacy absent scf_initial_guess interpreted as documented minao default; original bytes unchanged",
+      "diagnostics: legacy absent scf_initial_guess interpreted as documented minao default; original bytes unchanged",
+      "Historical displaced-force evidence absent; raw Hessian reconstruction unavailable in this comparison"
+    ],
+    "right": [
+      "result: legacy absent scf_initial_guess interpreted as documented minao default; original bytes unchanged",
+      "design: legacy absent scf_initial_guess interpreted as documented minao default; original bytes unchanged",
+      "diagnostics: legacy absent scf_initial_guess interpreted as documented minao default; original bytes unchanged",
+      "Historical displaced-force evidence absent; raw Hessian reconstruction unavailable in this comparison"
+    ]
+  },
+  "step_convergence_certified": false,
+  "electronic_state_verified": false,
+  "transition_state_verified": false,
+  "connectivity_verified": false,
+  "limitations": [
+    "Two saved steps measure observed sensitivity, not an asymptotic convergence or chemical-accuracy bound.",
+    "Matching calculation inputs does not prove equal electronic solutions at displaced geometries.",
+    "Mode overlap and spectral rank do not establish physical reaction identity or endpoint connectivity.",
+    "This comparator does not reconstruct forces/Hessians; independent E2 verification is separate."
+  ],
+  "software_versions": [
+    {
+      "pyscf": "2.14.0",
+      "libxc": "7.0.0",
+      "numpy": "2.5.3",
+      "ase": "3.29.0",
+      "dftd3": "1.6.0"
+    },
+    {
+      "pyscf": "2.14.0",
+      "libxc": "7.0.0",
+      "numpy": "2.5.3",
+      "ase": "3.29.0",
+      "dftd3": "1.6.0"
+    }
+  ],
+  "recorded_software_versions_match": true,
+  "binding": {
+    "geometry_and_atom_order": "identical",
+    "masses_and_free_space": "identical",
+    "quantum_method_and_state_inputs": "identical_normalized_settings_with_any_legacy_defaults_reported",
+    "only_characterization_control_change": "step_angstrom"
+  },
+  "steps_angstrom": [
+    0.003,
+    0.0015
+  ],
+  "distinct_steps": true,
+  "degeneracy_grouping": {
+    "gap_cm1": 10.0,
+    "rule": "connected adjacent spectral ranks; merge if the gap in either spectrum is <= declared threshold; transitive groups may span more than threshold"
+  },
+  "sorted_mode_indices": [
+    [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  ],
+  "sorted_frequencies_cm1": [
+    [
+      -6.4911690366768795,
+      -6.491169014417052,
+      -0.0005299825872500073,
+      3.1665473673080274e-05,
+      0.0007289700614331196,
+      4383.896609344862
+    ],
+    [
+      -12.416165755941645,
+      -12.416165715656266,
+      -0.0005079692533956728,
+      -1.583200045868163e-05,
+      0.0008810501297649488,
+      4383.807025644159
+    ]
+  ],
+  "spectral_rank_frequency_changes_cm1": [
+    -5.924996719264765,
+    -5.924996701239214,
+    2.2013333854334566e-05,
+    -4.7497474131761904e-05,
+    0.0001520800683318292,
+    -0.08958370070286037
+  ],
+  "frequency_changes_are_identity_assignments": false,
+  "resolved_sign_labels": [
+    [
+      "unresolved",
+      "unresolved",
+      "unresolved",
+      "unresolved",
+      "unresolved",
+      "positive"
+    ],
+    [
+      "unresolved",
+      "unresolved",
+      "unresolved",
+      "unresolved",
+      "unresolved",
+      "positive"
+    ]
+  ],
+  "raw_negative_frequency_counts": [
+    3,
+    4
+  ],
+  "resolved_negative_mode_counts": [
+    0,
+    0
+  ],
+  "changed_sign_spectral_ranks": [],
+  "squared_mass_metric_overlap_matrix": [
+    [
+      0.0013652312205675139,
+      0.9986347687794329,
+      2.177740180720304e-17,
+      5.084300587994381e-18,
+      3.705098514977107e-17,
+      3.458238119780078e-27
+    ],
+    [
+      0.9986347687794325,
+      0.0013652312205674963,
+      4.3566911426552013e-17,
+      4.1823900434268395e-18,
+      9.30133353365451e-17,
+      1.7986918516970352e-26
+    ],
+    [
+      5.339911238464538e-17,
+      3.0355070976498284e-17,
+      0.9905662030681391,
+      2.1085248667875768e-12,
+      0.009433796929752223,
+      5.383545429406238e-27
+    ],
+    [
+      3.8430772732959915e-18,
+      5.423599729769142e-18,
+      2.3863164557062528e-12,
+      0.999999999996841,
+      7.729225557025767e-13,
+      1.1154890309773123e-29
+    ],
+    [
+      7.646512712994784e-17,
+      3.518934279360688e-17,
+      0.009433796929474452,
+      1.0507141441616708e-12,
+      0.9905662030694746,
+      1.5013858201730136e-28
+    ],
+    [
+      1.8549540125781363e-26,
+      2.8956417612127346e-27,
+      5.549648794181462e-27,
+      1.115414861619854e-29,
+      2.1544126748690023e-29,
+      1.0
+    ]
+  ],
+  "groups": [
+    {
+      "spectral_ranks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "left_mode_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "right_mode_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dimension": 5,
+      "comparison_kind": "subspace_only",
+      "individual_identity_assigned": false,
+      "full_coordinate_space_group": false,
+      "directional_overlap_informative": true,
+      "left_frequency_range_cm1": [
+        -6.4911690366768795,
+        0.0007289700614331196
+      ],
+      "right_frequency_range_cm1": [
+        -12.416165755941645,
+        0.0008810501297649488
+      ],
+      "principal_cosines_squared": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.9999999999999996
+      ],
+      "maximum_principal_angle_degrees": 1.2074182697257333e-06
+    },
+    {
+      "spectral_ranks": [
+        5
+      ],
+      "left_mode_indices": [
+        5
+      ],
+      "right_mode_indices": [
+        5
+      ],
+      "dimension": 1,
+      "comparison_kind": "individual_direction",
+      "individual_identity_assigned": false,
+      "full_coordinate_space_group": false,
+      "directional_overlap_informative": true,
+      "left_frequency_range_cm1": [
+        4383.896609344862,
+        4383.896609344862
+      ],
+      "right_frequency_range_cm1": [
+        4383.807025644159,
+        4383.807025644159
+      ],
+      "principal_cosines_squared": [
+        1.0
+      ],
+      "maximum_principal_angle_degrees": 0.0
+    }
+  ],
+  "comparison_implementation_sha256": "7ca7402d5f2976999e556be7a08d921f721847c84a6eb28d2d25fed84fd494fb",
+  "quantum_jobs_started": 0
+}
