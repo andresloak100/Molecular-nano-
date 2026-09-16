@@ -333,6 +333,113 @@ MOUNT_BRACKET_N_PER_M = (
 NEWTON_PER_METRE_PER_EV_PER_A2 = 16.02176634
 
 
+def escape_directions(separation: float = 3.6) -> dict:
+    """The directions the tip must NOT move, as unit vectors, for tensor work.
+
+    A scalar stiffness is a screening approximation: a real mount is a
+    stiffness tensor, and what resists mis-targeting is its component along the
+    escape direction. This supplies those directions so the rung-5 lane can
+    project properly instead of comparing scalars.
+
+    Two facts fall out of the geometry, and both matter.
+
+    **There are six of them, symmetry-equivalent, evenly spaced in azimuth at
+    the same polar angle.** So a mount cannot be made safe by being stiff in one
+    chosen direction: escape is available at every azimuth, and the softest
+    azimuth is the one that governs. Their transverse components cancel in the
+    mean, so any "average escape direction" is purely axial and meaningless.
+
+    **Each escape direction is tilted about 120 degrees from the tool axis, not
+    90.** Its projection onto that axis is cos(119.88 deg) = -0.498, so escape
+    is roughly half a downward slide toward the substrate and half a sideways
+    one. That has a consequence I got wrong when I first told the rung-5 lane
+    the two analyses use different coordinates: they are not orthogonal, they
+    share a component. For a mount with axial stiffness k_ax and isotropic
+    transverse stiffness k_tr, the stiffness resisting escape is
+
+        k_eff = k_ax cos^2(theta) + k_tr sin^2(theta)
+              = 0.248 k_ax + 0.752 k_tr
+
+    Bending dominates three to one, which is the unfavourable direction since
+    bending is the soft mode. But the axial term is not negligible, and axial
+    stiffness is one to two orders of magnitude larger, so using the measured
+    transverse stiffness alone UNDERSTATES the resistance. The temperature
+    ceiling computed from k_tr alone is therefore a lower bound, not an
+    estimate.
+    """
+    reactant, _, metadata = make_h_abstraction(separation, 0.0)
+    positions = reactant.positions
+    symbols = reactant.get_chemical_symbols()
+    apex = positions[metadata["tip_apex"]]
+    target = positions[metadata["transferred_hydrogen"]]
+    axis = apex - positions[metadata["target_carbon"]]
+    axis = axis / np.linalg.norm(axis)
+
+    candidates = []
+    for index in metadata["substrate_indices"]:
+        if symbols[index] != "H" or index == metadata["transferred_hydrogen"]:
+            continue
+        separation_vector = positions[index] - target
+        norm = float(np.linalg.norm(separation_vector))
+        numerator = float(
+            np.dot(apex - positions[index], apex - positions[index])
+            - np.dot(apex - target, apex - target)
+        )
+        if norm < 1e-12 or numerator <= 0:
+            continue
+        candidates.append((numerator / (2.0 * norm), index, separation_vector / norm))
+
+    if not candidates:
+        raise RuntimeError("No escape direction found.")
+    candidates.sort(key=lambda row: row[0])
+    margin = candidates[0][0]
+    binding = [row for row in candidates if abs(row[0] - margin) < 1e-6]
+
+    directions = []
+    for distance, index, unit in binding:
+        cos_theta = float(np.dot(unit, axis))
+        directions.append({
+            "rival_index": index,
+            "unit_vector": unit.tolist(),
+            "crossover_distance_angstrom": distance,
+            "angle_to_tool_axis_degrees": math.degrees(math.acos(max(-1.0, min(1.0, cos_theta)))),
+            "axial_component": cos_theta,
+            "axial_weight_cos2": cos_theta ** 2,
+            "transverse_weight_sin2": 1.0 - cos_theta ** 2,
+        })
+
+    reference = directions[0]
+    return {
+        "tool_axis_unit_vector": axis.tolist(),
+        "margin_angstrom": margin,
+        "n_symmetry_equivalent_directions": len(directions),
+        "all_at_same_polar_angle": bool(
+            max(d["angle_to_tool_axis_degrees"] for d in directions)
+            - min(d["angle_to_tool_axis_degrees"] for d in directions) < 1e-6
+        ),
+        "polar_angle_degrees": reference["angle_to_tool_axis_degrees"],
+        "projection_rule": (
+            "k_eff = k_axial * cos^2(theta) + k_transverse * sin^2(theta) for an "
+            "axially symmetric mount; use the full tensor contraction u.K.u "
+            "otherwise, and take the SOFTEST of the six directions, not the mean."
+        ),
+        "axial_weight_cos2": reference["axial_weight_cos2"],
+        "transverse_weight_sin2": reference["transverse_weight_sin2"],
+        "why_the_mean_is_meaningless": (
+            "The six directions are evenly spaced in azimuth, so their "
+            "transverse components sum to zero and the mean points along the "
+            "tool axis, which is not an escape direction at all."
+        ),
+        "consequence": (
+            "Escape is not orthogonal to the pull axis; it shares a 0.498 "
+            "projection with it. Using the measured transverse stiffness alone "
+            "understates the resistance, so a ceiling computed from it is a "
+            "lower bound."
+        ),
+        "directions": directions,
+    }
+
+
 def max_operating_temperature(target_radius: float, stiffness_ev_per_a2: float) -> float:
     """Highest temperature at which a given stiffness still meets the error target.
 

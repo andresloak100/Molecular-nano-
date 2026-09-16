@@ -271,3 +271,51 @@ def test_a_soft_bending_mount_loses_precision_below_room_temperature():
     )
     assert ceiling < 298.15
     assert ceiling == pytest.approx(124.0, abs=5.0)
+
+
+def test_escape_directions_are_six_and_symmetry_equivalent():
+    """A mount cannot be made safe by stiffening one chosen azimuth."""
+    from positional_control import escape_directions
+
+    result = escape_directions()
+    assert result["n_symmetry_equivalent_directions"] == 6
+    assert result["all_at_same_polar_angle"] is True
+    assert result["polar_angle_degrees"] == pytest.approx(119.88, abs=0.1)
+    for direction in result["directions"]:
+        assert np.linalg.norm(direction["unit_vector"]) == pytest.approx(1.0)
+
+
+def test_escape_direction_transverse_components_cancel_in_the_mean():
+    """Which is why the mean escape direction is meaningless."""
+    from positional_control import escape_directions
+
+    result = escape_directions()
+    vectors = np.array([d["unit_vector"] for d in result["directions"]])
+    assert np.abs(vectors[:, :2].sum(axis=0)).max() < 1e-6
+    assert abs(vectors[:, 2].sum()) > 1.0  # axial parts do not cancel
+
+
+def test_escape_is_not_orthogonal_to_the_pull_axis():
+    """The positional and force analyses share a component; they are not independent."""
+    from positional_control import escape_directions
+
+    result = escape_directions()
+    assert result["axial_weight_cos2"] == pytest.approx(0.248, abs=0.005)
+    assert result["transverse_weight_sin2"] == pytest.approx(0.752, abs=0.005)
+    assert result["axial_weight_cos2"] + result["transverse_weight_sin2"] == pytest.approx(1.0)
+
+
+def test_including_axial_stiffness_raises_the_ceiling_above_the_transverse_bound():
+    """Transverse-only is a lower bound, so adding axial stiffness must help."""
+    from positional_control import NEWTON_PER_METRE_PER_EV_PER_A2, escape_directions, max_operating_temperature
+
+    geometry = competing_site_geometry()
+    radius = geometry["target_radius_angstrom"]
+    weights = escape_directions()
+    transverse_only = max_operating_temperature(radius, 7.27 / NEWTON_PER_METRE_PER_EV_PER_A2)
+    combined_stiffness = (
+        weights["axial_weight_cos2"] * 450.0 + weights["transverse_weight_sin2"] * 7.27
+    )
+    combined = max_operating_temperature(radius, combined_stiffness / NEWTON_PER_METRE_PER_EV_PER_A2)
+    assert combined > transverse_only
+    assert combined > 1000.0
