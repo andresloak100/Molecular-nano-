@@ -22,9 +22,22 @@ whether a molecular machine works" is most of the ladder.
 | 7 | Free energy at the operating temperature | **not done** | unowned |
 | 8 | Quantum rate theory (tunneling) | **scaffolded** | A2 |
 | 9 | Enumerated competing channels, not just site choice | **not done** | unowned |
-| 10 | Positional / thermal error rate | **done** | A2 |
-| 11 | Mount stiffness and mechanical model | **not done** | unowned |
+| 10 | Positional / thermal error rate | **done**, single-mode | A2 |
+| 11 | Mount stiffness and mechanical force coupling | **partial**, k measured, k_force open | rung-5, A1 |
 | 12 | Tool regeneration: a closed cycle | **not even posed** | unowned |
+
+Rung 11 moved today: A1 measured a mounted tip's lateral stiffness at 7.27 N/m
+instead of quoting the literature's 10–100, and a mechanical-coupling lane
+opened to compute the force needed to drive the abstraction. Feasibility there
+reduces to one comparison, `k_ceiling >= max(k_positioning(T), k_force)`, of
+which two of the three terms are now numbers.
+
+Rung 10's remaining weakness is worth naming because every other correction
+found today ran the safe way and this one does not: it treats the tip as a
+single harmonic coordinate, while the true positional variance sums over all
+modes as `Σ kT/λ_k`. That understates σ by an unquantified amount — small
+against the present margins, not zero, and closable only with the Hessian that
+rung 11 also needs.
 
 Below the ladder sit two cross-cutting requirements — multireference validity
 of the reference method, and prospective experimental validation — neither of
