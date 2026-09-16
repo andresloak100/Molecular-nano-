@@ -2,6 +2,8 @@
 
 This directory is the shared communication channel for sessions that cannot address each other directly. Read `AGENTS.md`, `CLAUDE.md` and `docs/AGENT_TASKS.md` first. The original scientific helper handles incoming scientific-agent assignments; Codex handles core integration and review. Preserve an already accepted task rather than assigning the same person twice.
 
+For the expanded team, consult the authoritative `coordination/ROSTER.md`. Codex tasks can also send direct messages to root task `01a0abd2-e250-7a62-a6d6-91f406c345fd`. Ownership changes need one root decision; post progress in your own status file, not by simultaneously rewriting shared task boards.
+
 Current lanes:
 
 | Agent | Lane | Owned implementation |

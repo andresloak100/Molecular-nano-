@@ -1,6 +1,29 @@
 # Shared agent assignments
 
-The user explicitly asked Codex to assign work to the additional agent on 2026-09-16. This is the shared handoff channel; acknowledge a task here before starting and name your owned files. All sessions share one checkout. Do not reset, overwrite or commit another agent's uncommitted files. Stage explicit owned paths. Keep result provenance and scientific status visible.
+Current ownership is in [the root-maintained roster](../coordination/ROSTER.md). Entries below preserve assignment history and may predate completed handoffs. Send new availability to Codex root and update only your own status; do not claim overlapping work by appending another assignment here.
+
+## D1 — support task `codex-9395`: DFT starting-guess support
+
+Acknowledged 2026-09-16 by task `01a0ac06-9395-7fb3-bf22-9a85d406961f`.
+D1 completed `QuantumSettings.scf_initial_guess` with strict supported values,
+solver propagation and diagnostics. Implementation and tests were integrated in
+`9e7ac9f`; ownership returned to C1. The same agent now owns only C2's computation
+planning calculator, as recorded in the roster. No expensive jobs or edits to
+A2's reduced-model research.
+
+## Q1 — additional Codex support session: independent integration audit
+
+**Claimed and acknowledged 2026-09-16 21:02 UTC by `codex-support-q1`.**
+Own `research/integration-audit/`, `coordination/status/codex-support-q1.md`,
+and uniquely named `coordination/messages/from-codex-support-q1-*.md` notes.
+Read-only review of existing core/workbench/research artifacts; do not edit
+other owners' implementations or repeat their quantum jobs. Produce bounded,
+reproducible checks and concrete findings for C1 and scientific owners, including
+saved-evidence consistency and input/provenance handling. Internal helpers may
+own separate files within this lane. No new quantum campaign is planned.
+See the Q1 status file for current work and owner requests.
+
+The user explicitly asked Codex to assign work to additional agents on 2026-09-16. All sessions share one checkout. Do not reset or overwrite another agent's files. Commit only explicit owned paths or a clearly handed-off integration scope. Keep result provenance and scientific status visible.
 
 ## V1 — Codex internal helper: local visual design workbench
 
@@ -95,3 +118,33 @@ The repository's headline candidate is the 53-atom adamantane-plus-ethynyl-tool 
 4. **Check the cheaper knobs honestly.** Density fitting, a smaller basis for screening, and a looser force convergence all trade accuracy for speed. Report what each buys and what it costs on a system where we can afford to check both ways.
 
 The useful deliverable is a protocol somebody can actually run this week, with its accuracy compromises written down. "Needs a GPU cluster" is an acceptable conclusion if the numbers support it, but it must come with the numbers.
+
+**Acknowledgement (A2), 2026-09-16 ~17:35, amended ~17:15 local.** Accepted. I own `research/candidate-feasibility/` and will not touch S1/A1 files. Retraction: my original acknowledgement claimed this session is the sole C1 integrator; peer sessions have since asserted both directions and the testimony is circular. Ending it with forward-looking ownership instead of history: this session is the original session on this repository (initial commit `5c32a1c`, author of `benchmark.py`/`highlevel.py`/`stationary.py`), but an active Codex-root session also operates as C1 per `coordination/ROSTER.md`. To eliminate dual ownership of core, I cede C1 (core modules, root files, `workbench/` review) to Codex root from now on, acting on root files only by addressed request — as just done for the `.gitignore` anchor fix (commit `65f2dee`, requested by the forensics session). My standing lane is A2. Status: `coordination/status/andresarriaga-a8.md`.
+
+A2 status at acceptance: item 1 is already answered by archived evidence I produced earlier — `data/validation/h-abstraction-df-initial/comparison.json`: 463 basis functions (C22H31, PBE0/def2-SVP), direct energy+gradient 2044.8 s, density-fitting 701.5 s, effective threads 1 (OpenMP absent), concurrent-run timing caveat recorded; max force-component difference DF vs direct 4.7e-4 eV/A, S^2 agreement 1e-6. Items 2-4 in progress. Coordination note for A1 (`andresarriaga-f2`): the natural reduced model for item 3 is C2H + adamantane, which is also your stage-2 system. Lane split: you own its site-preference *energetics* in `research/site-selectivity/`; I own its per-gradient *cost measurement* and path protocol in `research/candidate-feasibility/`. I will reuse your relaxed species if you post them here before I need them, rather than recomputing.
+
+
+## E1 — codex-support-a551: independent saved-evidence audit
+
+Acknowledged 2026-09-16T21:03:05.783324+00:00. Support task `01a0ac06-a551-7f81-aa57-6d76c1b4da55` owns only `research/evidence-audit/` and `coordination/status/codex-support-a551.md`. Read-only review of archived calculation provenance and numerical consistency, with an independently runnable audit and concise handoff. No quantum jobs; no edits to C1/V1/S1/A1/A2 or source-forensics paths. Internal reviewers may inspect those lanes without changing them. Original integration owner and other incoming Codex tasks contacted directly.
+
+
+### D2 — codex-c5cd: independent DFT-guess compatibility review
+
+Accepted by this support session after coordination with `codex-9395`, who takes
+the DFT initial-guess implementation request. Own only `research/dft-guess-review/`
+and `coordination/status/codex-c5cd.md`. Review old-design/campaign compatibility,
+settings provenance, and missing-vs-explicit guess handling; provide reproducible
+non-quantum checks and findings to the implementation owner and C1. No core edits,
+no edits to other agents' work, and no large quantum jobs.
+
+
+## Q2 — codex-f040: independent reaction-saddle audit
+
+Acknowledged 2026-09-16 21:04 UTC by task `01a0ac06-f040-7761-9b15-b5d876b37890`. Own `research/saddle-audit/`, `coordination/status/codex-f040.md`, and sender-prefixed coordination messages only. Read-only S1 output/acceptance review, including stationarity, Hessian/mode interpretation, step sensitivity, incomplete guesses and connectivity. No S1/core/UI edits, no quantum jobs, no restarts. Separate from Q1 and E1 archive audits. Internal helper reviews can operate read-only; root owns audit implementation and handoff.
+
+## P1 — support codex-b717: path and force contract audit
+
+Acknowledged 2026-09-16 21:03 UTC. Task `01a0ac06-b717-7cf0-a713-a95314895d23` owns only `research/path-contract-audit/` and `coordination/status/codex-b717.md`. Read-only review of reaction-path endpoint guards, constrained forces, and stationary-mode contracts, using bounded synthetic-calculator reproductions. No quantum jobs or edits to C1/V1/S1/A1/A2 files. C1 and new support tasks notified directly; results will be handed to file owners.
+
+**P1 scope release from C1, 2026-09-16 21:10 UTC:** C1 directly authorized codex-b717 sole ownership of `nanodesign/stationary.py` and new `tests/test_stationary_resolution.py`. Reject steps invisible to ASE cache or distorted by floating representation before work; preserve defaults/cache restoration. Archive baseline and per-displacement full force arrays, coordinates and signed requested/actual offsets sufficient to reconstruct Hessian/asymmetry. No quantum runs. C1 applied the workflow setup-failure patch itself; b717 will verify it without editing workflow.py.
