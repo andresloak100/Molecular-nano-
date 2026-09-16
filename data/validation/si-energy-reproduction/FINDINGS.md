@@ -391,6 +391,51 @@ in one state of a cycle whose other states are unexamined. Which wins is a *barr
 barriers are blocked on the same missing machinery as everything else kinetic —
 now the third independent line arriving at that gap.
 
+## 11. DFT overstates site selectivity by 45 percent
+
+The calibration A1 proposed, to measure the DFT method error on the exact
+quantity a site preference depends on. Acyclic analogue of A1's comparison,
+since the abstractor cancels: D(propane secondary) − D(isobutane tertiary).
+Propane and isopropyl relaxed here; isobutane and tert-butyl on the published
+geometries. Both methods evaluated at identical geometries, so the residual is
+pure electronic-method error.
+
+| Quantity | kcal/mol |
+|---|---|
+| secondary − tertiary, PBE0-D3/def2-SVP | +3.011 |
+| secondary − tertiary, CCSD(T)/cc-pVDZ | **+2.083** |
+| **DFT method error on the difference** | **+0.928** |
+
+**The direction is unfavourable.** DFT *overstates* the site difference by 45%.
+The error does not blur the answer, it flatters it — a DFT site preference will
+make the tool look more selective than it is, in exactly the direction the
+project would like to believe. That is the failure mode least likely to be
+questioned by a reader who wants the tool to work.
+
+**Do not quote the script's verdict field.** It printed "survives this check"
+because the residual came in at 0.928 against a threshold of 1.0 that I chose
+arbitrarily. A binary pass at 93% of its own cutoff is a coin-flip dressed as a
+decision. What matters is the error relative to the signal:
+
+| If the adamantane signal is | method error is |
+|---|---|
+| 2.08, behaving like the acyclic analogue | 45% of signal |
+| ~1.0, cage-compressed as predicted | 93% of signal |
+| ~0.5, strongly compressed | **186% of signal** |
+
+So the pre-registered reading holds in substance: **if the adamantane site
+difference comes out small, it is not separable from method error.** That
+couples directly to the pyramidalization prediction in §5 — the two questions
+share an input, and the scenario where the chemistry is most interesting is the
+one where the method is least able to resolve it.
+
+**Usable anchor:** acyclic secondary-minus-tertiary at CCSD(T)/cc-pVDZ is
+**+2.083 kcal/mol**. Compare an adamantane bridgehead-versus-methylene number
+against this rather than against literature, which is a 298 K enthalpy at a
+different level — a mismatch A1 caught in the original pre-registration. Both
+sides of this comparison are bare electronic differences, so it sidesteps the
+thermal correction entirely.
+
 ## 7. What is NOT established
 
 - **No DFT barrier exists for either reaction**, because no DFT saddle has been

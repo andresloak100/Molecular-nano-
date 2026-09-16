@@ -117,7 +117,61 @@
         }
       ],
       "ccsd_t_minao_above_lowest_kcal_per_mol": 0.0
+    },
+    {
+      "species": "tert_butyl",
+      "spin_2s": 1,
+      "geometry_source": "published",
+      "geometry_provenance": "published UCCSD(T)/cc-pVDZ",
+      "dft_energy_ev": -4285.539016829602,
+      "dft_seconds": 75.74079520907253,
+      "dft_s2": 0.7548370410076046,
+      "dft_basis_functions": 101,
+      "ccsd_t_energy_hartree": -157.3329436708331,
+      "ccsd_t_seconds": 820.7129615410231,
+      "ccsd_t_selected_guess": "minao",
+      "ccsd_t_hf_s2": 0.7641356640171235,
+      "ccsd_t_basis_functions": 101,
+      "ccsd_t_scf_attempts": [
+        {
+          "guess": "minao",
+          "converged": true,
+          "hf_energy_hartree": -156.68587114310668,
+          "s2": 0.7641356640171235
+        },
+        {
+          "guess": "atom",
+          "converged": true,
+          "hf_energy_hartree": -156.68587114310668,
+          "s2": 0.7641356274720756
+        },
+        {
+          "guess": "huckel",
+          "converged": true,
+          "hf_energy_hartree": -156.68587114310532,
+          "s2": 0.7641358983837989
+        },
+        {
+          "guess": "1e",
+          "converged": true,
+          "hf_energy_hartree": -156.68587114310668,
+          "s2": 0.7641359707849169
+        }
+      ],
+      "ccsd_t_minao_above_lowest_kcal_per_mol": 0.0
     }
   ],
-  "status": "running"
+  "status": "completed",
+  "secondary_minus_tertiary_kcal_per_mol": {
+    "pbe0_d3bj_def2svp": 3.0110087462236605,
+    "ccsd_t_ccpvdz": 2.083102832499417
+  },
+  "dft_method_error_on_site_difference_kcal_per_mol": 0.9279059137242434,
+  "comparison_to_primary_vs_tertiary_swing_kcal_per_mol": 4.14,
+  "verdict": "DFT site difference survives this check",
+  "caveats": [
+    "One functional and one basis pair; def2-SVP against cc-pVDZ, so a small residual basis mismatch is folded in along with the method difference.",
+    "Acyclic analogue. Adamantane's bridgehead radical is held pyramidal by the cage and does not behave like an unconstrained tertiary radical, so this bounds rather than reproduces A1's case.",
+    "A small residual shows error cancellation for this pair; it does not validate PBE0-D3 for barriers, for the candidate, or for anything else."
+  ]
 }

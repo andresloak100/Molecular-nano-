@@ -1,0 +1,111 @@
+{
+  "note": "DFT guess scan for the open-shell species in the isobutane survey. Prompted by A2 finding PBE0 guess dependence on propynyl, which invalidated my earlier blanket claim that DFT is guess-independent.",
+  "method": "pbe0/def2-svp, D3 omitted (dispersion is guess-independent and additive)",
+  "species": [
+    {
+      "species": "ethynyl_radical",
+      "attempts": [
+        {
+          "guess": "minao",
+          "energy_hartree": -76.44974231467029,
+          "s2": 0.7976099751182488,
+          "converged": true,
+          "seconds": 7.798826958052814
+        },
+        {
+          "guess": "atom",
+          "energy_hartree": -76.44974231466799,
+          "s2": 0.7976101741419157,
+          "converged": true,
+          "seconds": 6.51514279213734
+        },
+        {
+          "guess": "huckel",
+          "energy_hartree": -76.44974231467035,
+          "s2": 0.7976098963875202,
+          "converged": true,
+          "seconds": 8.393141832901165
+        },
+        {
+          "guess": "1e",
+          "energy_hartree": -76.44974231466861,
+          "s2": 0.7976096247321092,
+          "converged": true,
+          "seconds": 12.716081917053089
+        }
+      ],
+      "spread_kcal_per_mol": 1.480296021156846e-09,
+      "minao_above_lowest_kcal_per_mol": 3.566978364233364e-11
+    },
+    {
+      "species": "tert_butyl_radical",
+      "attempts": [
+        {
+          "guess": "minao",
+          "energy_hartree": -157.4835981607693,
+          "s2": 0.7548371512008369,
+          "converged": true,
+          "seconds": 68.92757500009611
+        },
+        {
+          "guess": "atom",
+          "energy_hartree": -157.48359816076692,
+          "s2": 0.7548371353389953,
+          "converged": true,
+          "seconds": 61.33972112508491
+        },
+        {
+          "guess": "huckel",
+          "energy_hartree": -157.48359816076817,
+          "s2": 0.754837151680789,
+          "converged": true,
+          "seconds": 129.6506037081126
+        },
+        {
+          "guess": "1e",
+          "energy_hartree": -157.48359816076731,
+          "s2": 0.7548371475753797,
+          "converged": true,
+          "seconds": 88.86097291694023
+        }
+      ],
+      "spread_kcal_per_mol": 1.498130912978013e-09,
+      "minao_above_lowest_kcal_per_mol": 0.0
+    },
+    {
+      "species": "isobutane_ethynyl_ts",
+      "attempts": [
+        {
+          "guess": "minao",
+          "energy_hartree": -234.59303099125296,
+          "s2": 0.792407576327335,
+          "converged": true,
+          "seconds": 158.08562995912507
+        },
+        {
+          "guess": "atom",
+          "energy_hartree": -234.59303099115638,
+          "s2": 0.7924096400665306,
+          "converged": true,
+          "seconds": 154.86094587505795
+        },
+        {
+          "guess": "huckel",
+          "energy_hartree": -234.5930309912246,
+          "s2": 0.7924090829444168,
+          "converged": true,
+          "seconds": 171.7300732920412
+        },
+        {
+          "guess": "1e",
+          "energy_hartree": -39.87897588266921,
+          "s2": 0.7500578568431919,
+          "converged": false,
+          "seconds": 3641.0411089169793
+        }
+      ],
+      "spread_kcal_per_mol": 6.060296240832486e-08,
+      "minao_above_lowest_kcal_per_mol": 0.0
+    }
+  ]
+}
