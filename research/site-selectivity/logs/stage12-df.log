@@ -7,3 +7,6 @@
 [run ] acetylene (C2H2, spin=0)
 [done] acetylene: E = -2099.891625 eV, 3 steps, |F|max = 0.0165, 17 s, nbf = 38, S2 = 0.0
 [run ] adamantane (C10H16, spin=0)
+[done] adamantane: E = -10612.983601 eV, 6 steps, |F|max = 0.0183, 1756 s, nbf = 220, S2 = 0.0
+[seed] adamantyl_bridgehead seeded from relaxed adamantane
+[run ] adamantyl_bridgehead (C10H15, spin=1)
