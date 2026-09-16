@@ -1,0 +1,49 @@
+{
+ "reactive_site": "adamantane bridgehead C-H, ethynyl abstraction tool (53-atom candidate)",
+ "description": "Seed ledger. Each row is a competing reaction the intended target abstraction must beat. Values are PENDING until the owning lane fills them from a validated calculation; nothing here is invented. electronic_ddg_kcal is E-barrier(competitor) - E-barrier(intended): positive means the intended pathway is favored. differential_correction_kcal is the (vibrational + tunnelling) correction that DIFFERS between the two pathways (equal parts cancel). Fill via the owning lane, then read with discrimination_ledger.py.",
+ "sign_convention": "electronic_ddg_kcal > 0 => intended pathway wins over this competitor.",
+ "competitors": [
+  {
+   "competitor": "wrong_site_methylene_abstraction",
+   "owner_lane": "A1 (research/site-selectivity)",
+   "electronic_ddg_kcal": null,
+   "differential_correction_kcal": null,
+   "uncertainty_kcal": null,
+   "method": "pending",
+   "state_guess_controls": "pending (open-shell: scan guesses at every geometry, DFT included)",
+   "status_note": "A1 reports the tool is essentially unselective on intrinsic energetics; fill the actual number and uncertainty here."
+  },
+  {
+   "competitor": "tool_workpiece_welding",
+   "owner_lane": "S1 / welding-screen lane",
+   "electronic_ddg_kcal": null,
+   "differential_correction_kcal": null,
+   "uncertainty_kcal": null,
+   "method": "pending",
+   "state_guess_controls": "pending",
+   "status_note": "Post-abstraction welding was identified as a real failure mode on main; needs its own saddle and gap."
+  },
+  {
+   "competitor": "back_reaction_reabstraction",
+   "owner_lane": "S1 (research/reference-saddle)",
+   "electronic_ddg_kcal": null,
+   "differential_correction_kcal": null,
+   "uncertainty_kcal": null,
+   "method": "pending",
+   "state_guess_controls": "pending",
+   "status_note": "Reverse H-transfer from tool back to workpiece."
+  },
+  {
+   "competitor": "adjacent_bridgehead_or_secondary_sites",
+   "owner_lane": "A1 (research/site-selectivity)",
+   "electronic_ddg_kcal": null,
+   "differential_correction_kcal": null,
+   "uncertainty_kcal": null,
+   "method": "pending",
+   "state_guess_controls": "pending",
+   "status_note": "Degenerate competitor shell; account for multiplicity (a union bound over equivalent sites was raised on main)."
+  }
+ ],
+ "how_to_fill": "Set electronic_ddg_kcal and uncertainty_kcal from your lane's validated ΔΔG‡ (intended minus competitor barrier, kcal/mol). Add differential_correction_kcal only for the part of ZPE/tunnelling that differs between the two pathways. Then: python3 research/programmable-assembly/discrimination_ledger.py",
+ "goal": "Every row RESOLVED (|gap| > uncertainty) with intended_wins true. That is the concrete form of ranking competing reactions to <1 kcal/mol."
+}

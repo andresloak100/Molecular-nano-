@@ -98,3 +98,61 @@ def test_invalid_inputs():
         required_fidelity(0, 0.9)
     with pytest.raises(ValueError):
         rt(0)
+
+
+# --- discrimination ledger reader ---
+import json as _json
+import tempfile as _tempfile
+import os as _os
+from discrimination_ledger import read_ledger, classify
+
+
+def _write(d):
+    p = _tempfile.mktemp(suffix=".json")
+    open(p, "w").write(_json.dumps(d))
+    return p
+
+
+def test_pending_row_is_pending():
+    assert classify({"competitor": "x"})["status"] == "PENDING"
+
+
+def test_resolved_row_when_gap_exceeds_uncertainty():
+    v = classify({"electronic_ddg_kcal": 3.0, "uncertainty_kcal": 0.5})
+    assert v["status"] == "RESOLVED" and v["intended_wins"] is True
+
+
+def test_unresolved_when_uncertainty_swamps_gap():
+    v = classify({"electronic_ddg_kcal": 0.3, "uncertainty_kcal": 2.0})
+    assert v["status"] == "UNRESOLVED"
+
+
+def test_differential_correction_folds_into_gap():
+    v = classify({"electronic_ddg_kcal": 3.0, "differential_correction_kcal": -1.0,
+                  "uncertainty_kcal": 0.5})
+    assert v["effective_ddg_kcal"] == pytest.approx(2.0)
+
+
+def test_ledger_reports_pending_when_empty():
+    p = _write({"competitors": [{"competitor": "a"}]})
+    r = read_ledger(p)
+    assert r["all_resolved"] is False
+    _os.unlink(p)
+
+
+def test_ledger_flags_losing_competitor():
+    p = _write({"competitors": [
+        {"competitor": "loser", "electronic_ddg_kcal": -2.0, "uncertainty_kcal": 0.3}]})
+    r = read_ledger(p)
+    assert "loser" in r["intended_loses_to"]
+    _os.unlink(p)
+
+
+def test_ledger_limiting_gap_drives_yield():
+    p = _write({"competitors": [
+        {"competitor": "a", "electronic_ddg_kcal": 5.0, "uncertainty_kcal": 0.5},
+        {"competitor": "b", "electronic_ddg_kcal": 3.0, "uncertainty_kcal": 0.5}]})
+    r = read_ledger(p, program_length=50)
+    assert r["limiting_discrimination_kcal"] == 3.0  # the smaller winning gap binds
+    assert 0.0 < r["assembler_reading"]["correct_full_length_yield"] < 1.0
+    _os.unlink(p)

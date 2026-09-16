@@ -133,7 +133,24 @@ real assemblers (especially ribosome/enzyme engineering) carries biosecurity
 considerations that belong with the user and appropriate review, not with an
 autonomous session; this lane stops at the physics of fidelity and yield.
 
+## The discrimination ledger (shared north-star artifact)
+
+`discrimination_ledger.py` + `discrimination-ledger.json` operationalize
+`coordination/NORTH_STAR.md`: one row per competing reaction at the reactive
+site, each with the ΔΔG‡ gap vs the intended pathway, its method, state/guess
+controls, the vibrational/tunnelling delta that *differs* between pathways, and
+an uncertainty. The reader marks each row RESOLVED (|gap| > uncertainty) or
+UNRESOLVED, flags any competitor the intended pathway loses to, and turns the
+smallest resolved winning gap into an assembler yield — so selectivity work
+(A1), saddle gaps (S1) and assembler feasibility all read off one table. The
+seed ledger ships with the four competitor rows (wrong-site, welding,
+back-reaction, degenerate shell) all `pending`; owning lanes fill their number
+and uncertainty. Run: `python3 discrimination_ledger.py`.
+
 ## Files
 
 - `assembler_model.py` — fidelity / proofreading / yield model. Stdlib only.
-- `test_assembler_model.py` — 12 tests, all passing.
+- `discrimination_ledger.py` — reads/validates the ledger, reports resolved vs
+  pending, computes yield from the limiting gap.
+- `discrimination-ledger.json` — seed ledger, all rows pending.
+- `test_assembler_model.py` — 19 tests, all passing.

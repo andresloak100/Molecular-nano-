@@ -2,6 +2,18 @@
 
 Updated: 2026-09-16 ~23:25 UTC. (Prior updates ~21:50, ~22:30, ~22:40 UTC.)
 
+**NORTH STAR published (~00:20 UTC), on user instruction to guide all lanes.**
+`coordination/NORTH_STAR.md`: the unifying objective is ranking the competing
+reactions at the reactive site to <1 kcal/mol — the gate for BOTH the
+mechanosynthesis track and the programmable-assembler track. Reframes every
+lane (S1→pathway gaps not lone barriers; A1→discrimination window; A2→cost per
+competitor; guess/method lanes→protect the <1 kcal/mol floor;
+vib/tunnelling→put corrections inside ΔΔG‡). Concrete shared artifact built and
+tested: the **discrimination ledger** (`research/programmable-assembly/
+discrimination_ledger.py` + seed JSON), one row per competitor, resolved-vs-
+pending, feeding assembler yield. Broadcast: `-north-star.md`. Offered to lead
+to endorse in the roster; reassigns nothing.
+
 **REFERENCE-RELIABILITY RESOLVED (~23:55 UTC).** Ran the ROHF-vs-UHF barrier
 test: barrier moves only −0.16 kcal/mol from UHF (S²=1.21) to clean ROHF
 (S²=0.7500). The +2.40 reference is robust to spin contamination; the
