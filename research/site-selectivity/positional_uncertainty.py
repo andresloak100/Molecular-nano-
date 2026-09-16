@@ -219,9 +219,14 @@ def atom_uncertainty(characterization: dict, atom_index: int, temperature_kelvin
         "largest_sigma_angstrom": float(sigma.max()),
         "principal_axes": axes.T.tolist(),
         "covariance_angstrom2": block.tolist(),
-        "softest_direction_stiffness_n_per_m": float(
-            EV_PER_ANGSTROM2_TO_N_PER_M / (_kt_ev(result["temperature_kelvin"]) / float(variances.max()))
-        ) if not options.get("quantum", True) else None,
+        # No stiffness is reported here on purpose. An earlier version derived
+        # one from the variance and had k_B T and the variance inverted, so it
+        # returned 25.7 N/m for a system built at exactly 10 N/m. Stiffness has
+        # one correct source in this module, effective_stiffness(), which takes
+        # it from the Hessian compliance and is valid for both statistics;
+        # k = k_B T / sigma**2 only holds classically and would be wrong applied
+        # to a quantum variance that includes zero-point motion.
+        "stiffness": "call effective_stiffness() for this atom; not derived from the variance here",
     }
 
 

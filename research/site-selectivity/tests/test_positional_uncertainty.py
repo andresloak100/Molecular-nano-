@@ -319,3 +319,33 @@ def test_end_to_end_against_the_real_core_hessian():
     classical = math.sqrt(Boltzmann * 298.15 / electron_volt / force_constant)
     assert result["sigma_angstrom"] == pytest.approx(classical, rel=1e-3)
     assert result["sigma_angstrom"] > classical
+
+
+def test_stiffness_and_spread_are_mutually_consistent():
+    """Cross-check the two paths against the classical relation k = kT / sigma^2.
+
+    An earlier version returned a stiffness from atom_uncertainty with k_B T and
+    the variance inverted, giving 25.7 N/m for a system built at 10 N/m. Nothing
+    caught it because the two paths were never compared. They are now.
+    """
+    for built in (5.0, 10.0, 47.5, 300.0):
+        data = isotropic(built)
+        stiffness = effective_stiffness(data, 0)["softest_stiffness_n_per_m"]
+        assert stiffness == pytest.approx(built, rel=1e-9)
+
+        sigma = atom_uncertainty(data, 0, 300.0, quantum=False)["largest_sigma_angstrom"]
+        # Classically k = k_B T / sigma^2, which must reproduce the same value.
+        from positional_uncertainty import EV_PER_ANGSTROM2_TO_N_PER_M as CONVERT
+
+        implied = (Boltzmann * 300.0 / electron_volt) / sigma**2 * CONVERT
+        assert implied == pytest.approx(built, rel=1e-9)
+
+
+def test_atom_uncertainty_reports_no_numeric_stiffness():
+    """Stiffness has exactly one source in this module, and it is not here."""
+    result = atom_uncertainty(isotropic(10.0), 0, 300.0, quantum=False)
+    assert isinstance(result["stiffness"], str)
+    assert not any(
+        isinstance(value, float) and "stiff" in key
+        for key, value in result.items()
+    )
