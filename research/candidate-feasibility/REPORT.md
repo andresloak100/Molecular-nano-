@@ -28,6 +28,25 @@ An affordable path would not be evidence that the tool abstracts the right
 hydrogen, and an unaffordable one is not evidence against it. Site selectivity
 belongs to A1 and locating a genuine saddle to S1.
 
+**Two findings this lane produced by asking what the cost was *for*.** Both are
+written up separately in `PHYSICS_COMPLETENESS.md` and cost no quantum time.
+
+*Positional control has a real constraint with a shape.* The apex may move
+2.495 Å in any direction before a different hydrogen is nearest, which needs
+4.8 N/m of mount stiffness at 298 K for a 10⁻¹⁵ error rate and 1.25 N/m at
+77 K. Set against the buildable range, a long handle worked in bending (~2 N/m)
+misses by nine orders of magnitude at room temperature and passes cold. The
+design rule is **mount stiffly and short, or operate cold** — conditional
+throughout on the nearest hydrogen being the one that reacts, which is
+unestablished.
+
+*Whether a classical barrier can become a rate is unresolved, and one number
+decides it.* The crossover temperature is 0.229 × ω*[cm⁻¹]. On the only
+measured imaginary frequency available (259i) tunneling is a 7% correction; on
+the value implied by the experimental activation energy (~1648i) it is the
+mechanism. S1's saddle produces the first ω* on a functional's own surface, and
+it should be reported as a headline beside the barrier.
+
 ---
 
 ## 1. What one evaluation costs

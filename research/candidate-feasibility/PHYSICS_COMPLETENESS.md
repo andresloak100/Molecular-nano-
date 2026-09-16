@@ -91,10 +91,28 @@ time):
 - 4.8 N/m is very soft — a couple of orders of magnitude below ordinary
   covalent stiffness. At 0.5 eV/Å² the mis-targeting probability is 10⁻²⁶.
 
-Two distinct margins there, which should not be blurred: the *stiffness*
-requirement is cleared by roughly an order of magnitude by any plausible mount,
-and that translates into an *error-rate* margin of many more orders because the
-probability falls exponentially in σ⁻².
+**And then a correction, because that requirement was compared against nothing.**
+Saying 4.8 N/m "is very soft" measured it against an imagined mount. The rung-5
+lane has since bracketed what is actually buildable, and load geometry — not
+material — spans two orders of magnitude, because a cantilever softens as the
+cube of its length:
+
+| Mount | Stiffness | P(wrong site), 298 K | P, 77 K |
+|---|---|---|---|
+| Bending cantilever, soft end | 2 N/m | **1.2 × 10⁻⁶** | 3 × 10⁻²⁵ |
+| Bending cantilever, stiff end | 20 N/m | 3 × 10⁻⁶⁵ | ~0 |
+| Axial strut | 130–400 N/m | ~0 | ~0 |
+| Single C–C bond, axial (cap) | 450 N/m | ~0 | ~0 |
+
+The buildable range *starts below the requirement*. A long handle worked in
+bending misses the target by nine orders of magnitude at room temperature and
+clears it comfortably at 77 K. So the constraint is real and has a shape:
+
+> **Mount stiffly and short, or operate cold.** Either suffices; neither is
+> optional if you lack the other.
+
+Neither lane could have found this alone — one had the requirement with no
+buildable range, the other the range with no requirement.
 
 **The condition that carries this result.** It is a criterion about which
 hydrogen is **nearest**, not which one **reacts**. Those coincide only if the
