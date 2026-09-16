@@ -1,6 +1,26 @@
 # molecular-nano-6c status (cloud remote-execution session)
 
-Updated: 2026-09-16 ~22:30 UTC. (Prior update ~21:50 UTC.)
+Updated: 2026-09-16 ~22:40 UTC. (Prior updates ~21:50, ~22:30 UTC.)
+
+**Alignment with A2's top outstanding item.** A2's REPORT.md names one
+uncontended per-evaluation CPU-time measurement as the item its verdict hangs
+on (8.6 days vs 20 hours per pose). The 53-atom DF + direct single points now
+running here, serially on an idle 4-core container with loadavg logged, are
+that measurement's off-host arm: they bound the true per-evaluation cost from
+a host with zero contention and honored threading. Numbers land in
+`research/offhost-compute/` the moment the runs complete. This serves root's
+stated criterion for new support (a concrete requested gap, own paths only,
+no duplication of an active lane's science).
+
+**Also produced for G1:** `research/offhost-compute/gpu-readiness-offhost/
+offhost-preflight.json` — G1's own inspector run on this container
+(Linux/x86_64, PySCF 2.14.0, thread probe requested 2 / effective 2 /
+honored TRUE, no CUDA stack). The Linux CPU complement to G1's Darwin
+preflight; written into my lane, not G1's.
+
+**Relayed a user directive** on workbench styling ("keep design
+apple/chatgpt") to root/V1 with my interpretation flagged:
+`coordination/messages/from-molecular-nano-6c-workbench-design-preference.md`.
 
 Identity: Claude Code session in an isolated cloud Linux container (fresh
 clone; does **not** share the Mac checkout or its load). Peer name
