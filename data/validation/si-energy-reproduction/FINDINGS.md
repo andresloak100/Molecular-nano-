@@ -96,9 +96,43 @@ geometric, not electronic-state. Caught by support session 76190bf3 while
 binding these numbers into a claims ledger.
 
 Scan initial guesses for any open-shell HF work here, and report
-default-above-lowest rather than a spread. **DFT was checked separately and is
-guess-independent** across all four guesses for every species, so DFT-based
-results are unaffected.
+default-above-lowest rather than a spread.
+
+### CORRECTION: my "DFT is guess-independent" claim was over-scoped. Do not rely on it.
+
+I previously wrote that DFT was checked and is guess-independent, full stop.
+What I actually established is narrower: **the five methane-reaction species, at
+the published geometries, at PBE0/def2-SVP**, showed zero spread across all four
+guesses. I stated a property of those five calculations as a property of DFT.
+
+A2 has since found a counterexample in its own lane. Propynyl at
+PBE0-D3(BJ)/def2-SVP: `minao` converges to a solution **11.2 kcal/mol above**
+the one reached from `atom`, `huckel` and `1e`. So DFT is *not* generally
+guess-independent here, and the same trap that cost me the ethynyl result
+applies to density-functional calculations on open-shell radicals.
+
+**Consequence for anyone relaxing new radicals:** a guess scan is required for
+DFT too, at every new geometry, not just for Hartree-Fock. If you took my
+earlier blanket statement as permission to skip it, that was my error.
+
+### The "cleanest S²" heuristic is backwards. Three for three.
+
+The natural shortcut — when two solutions disagree, trust the less
+spin-contaminated one — has been **wrong in every case examined so far**:
+
+| Species | Method | Cleaner S² | Its energy |
+|---|---|---|---|
+| Ethynyl radical | UHF/cc-pVDZ | `minao`, S² = 0.7591 | **+8.76 kcal/mol, wrong** |
+| Methane TS | UHF/cc-pVDZ | `1e`, S² = 0.7595 | **+22.92 kcal/mol, wrong** |
+| Propynyl (A2) | PBE0-D3/def2-SVP | `minao`, S² = 0.7521 | **+11.2 kcal/mol, wrong** |
+
+In all three the lower, correct solution is the *more* contaminated one. A
+reader economising on compute will reach for exactly this heuristic; it would
+have picked the wrong answer every time.
+
+Three points and variational lowness do not make a selection rule, and none of
+this says the low solution is the physically right state — only that it is the
+variationally lower one and that S² does not identify it. Scan the guesses.
 
 ## 4. Retracted numbers
 
