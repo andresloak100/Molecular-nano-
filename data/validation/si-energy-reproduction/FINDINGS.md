@@ -510,6 +510,32 @@ The −2.1 expectation came from a literature enthalpy comparison, and its
 apparent inversion was an artifact of comparing a 298 K enthalpy with a bare
 electronic difference — the category error A1 identified independently.
 
+### The functional-stability check is uninformative, and provably so
+
+A1 repeated the site difference with a second functional: PBE0-D3/def2-SVP gives
++0.804, B3LYP-D3/def2-SVP gives +0.857, a spread of 0.053. A1 correctly warned
+that this does **not** make the result resolvable, because stability and
+accuracy are different properties and two functionals of the same family
+agreeing is what a systematic error looks like from the inside.
+
+**That inference is directly confirmed by data in this lane rather than left as
+an argument.** Errors against CCSD(T) on the primary-vs-tertiary reaction energy:
+
+| Method | error, methane | error, isobutane | **drift** |
+|---|---|---|---|
+| PBE0-D3/def2-TZVP | −3.26 | −6.51 | **3.25** |
+| B3LYP-D3/def2-TZVP | −4.24 | −7.49 | **3.25** |
+
+The two functionals disagree about absolute energies by nearly 1 kcal/mol and
+agree **exactly** about how the error changes with site. So the class-level
+systematic is measured, not inferred.
+
+Which makes the stability check stronger than uninformative: **the agreement was
+predicted.** Had B3LYP differed from PBE0 by more than a few hundredths on the
+site difference, *that* would have been the surprise. A check whose result was
+foreseeable cannot discriminate, and it removes one candidate explanation while
+leaving the dominant one untouched.
+
 ## 7. What is NOT established
 
 - **No DFT barrier exists for either reaction**, because no DFT saddle has been
