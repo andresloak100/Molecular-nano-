@@ -162,6 +162,51 @@ def main() -> None:
         ),
         "levels": results,
         "spread_kcal_per_mol": (max(differences) - min(differences)) if len(differences) > 1 else None,
+        # The calibration this lane requested, now measured rather than extrapolated.
+        # It replaces the primary-versus-tertiary swing as the relevant number,
+        # because it is secondary-versus-tertiary, which is this lane's comparison.
+        "measured_secondary_versus_tertiary_calibration": {
+            "acyclic_secondary_minus_tertiary_dft_kcal_per_mol": 3.011,
+            "acyclic_secondary_minus_tertiary_ccsd_t_kcal_per_mol": 2.083,
+            "dft_error_on_the_difference_kcal_per_mol": 0.928,
+            "dft_overstates_by_fraction": 3.011 / 2.083 - 1.0,
+            "level": "PBE0-D3(BJ)/def2-SVP against all-electron CCSD(T)/cc-pVDZ",
+            "species": "propane and isopropyl relaxed; isobutane and tert-butyl on published geometries",
+            "source": "data/validation/si-energy-reproduction/secondary-tertiary-calibration.json",
+            "direction_matters": (
+                "DFT OVERSTATES the site difference by 45 percent. The error does not merely blur "
+                "the answer, it flatters it: a DFT site preference makes the tool look MORE "
+                "selective than it is, which is the failure mode least likely to be questioned."
+            ),
+            "error_as_fraction_of_signal": {
+                "if_adamantane_matches_the_acyclic_2.08": 0.928 / 2.083,
+                "if_the_cage_compresses_it_to_1.0": 0.928 / 1.0,
+                "if_the_cage_compresses_it_to_0.5": 0.928 / 0.5,
+            },
+            "consequence": (
+                "If the adamantane difference comes out small, it is NOT separable from method "
+                "error. The cage-pyramidalization prediction and the method-error question are "
+                "coupled through the same quantity: the more the cage compresses the difference, "
+                "the larger the error is as a fraction of it."
+            ),
+            "do_not_quote_a_binary_verdict": (
+                "The originating script printed a pass because its threshold was 1.0 and the "
+                "residual was 0.928. Its author flagged that as a coin-flip dressed as a decision "
+                "and asked that it not be quoted. A residual at 93 percent of an arbitrary cutoff "
+                "is not a pass."
+            ),
+        },
+        "correct_anchor_for_this_lane": {
+            "value_kcal_per_mol": 2.083,
+            "quantity": "acyclic secondary minus tertiary, bare electronic difference",
+            "level": "all-electron CCSD(T)/cc-pVDZ",
+            "why": (
+                "Both this and the adamantane number are bare electronic differences, so comparing "
+                "them sidesteps the electronic-versus-298 K-enthalpy mismatch that makes the "
+                "Fattahi and Kass value not directly comparable. A result well below 2.083 is the "
+                "cage pyramidalization showing up against a same-level benchmark."
+            ),
+        },
         "peer_measured_site_dependent_dft_error": {
             "methane_primary": {"dft": -26.80, "ccsd_t": -24.79, "error": -2.01},
             "isobutane_tertiary": {"dft": -38.38, "ccsd_t": -32.23, "error": -6.15},

@@ -243,6 +243,49 @@ rough magnitude** against the literature expectation, and state plainly that a
 quantitative comparison awaits the two radical Hessians. Do not claim numerical
 agreement with an enthalpy using an electronic energy.
 
+#### The right anchor, and the method error measured against it
+
+The enthalpy mismatch is sidestepped entirely by comparing against a *same-level
+electronic* benchmark instead. A peer lane computed the acyclic analogue of this
+lane's exact comparison — secondary versus tertiary, all four species, at both
+levels (`data/validation/si-energy-reproduction/secondary-tertiary-calibration.json`):
+
+| Quantity | Value |
+|---|---|
+| Acyclic secondary − tertiary, PBE0-D3/def2-SVP | +3.011 kcal/mol |
+| Acyclic secondary − tertiary, CCSD(T)/cc-pVDZ | **+2.083 kcal/mol** |
+| **DFT error on the difference** | **+0.928 kcal/mol** |
+
+**Use +2.083 as the anchor.** Both it and the adamantane number are bare
+electronic differences, so the comparison is clean. A result well below 2.083 is
+the cage pyramidalization showing up against a same-level benchmark.
+
+**The direction of the error is unfavourable and matters more than its size.**
+DFT gives 3.011 where CCSD(T) gives 2.083, so PBE0-D3 **overstates** the site
+difference by 45%. The error does not merely blur the answer, it *flatters* it — a
+DFT site preference will make the tool look **more** selective than it is, which
+is the failure mode least likely to be questioned.
+
+**And the error is not separable from the signal if the cage compresses the gap**,
+which is exactly what the pre-registration predicts:
+
+| If adamantane's difference is | Error as fraction of signal |
+|---|---|
+| 2.08 (matches acyclic) | 45% |
+| ~1.0 (cage compresses) | 93% |
+| ~0.5 (compresses strongly) | 186% |
+
+So the two questions are coupled through the same quantity: the more the cage
+compresses the difference, the larger the method error is relative to it. If the
+adamantane number comes out small, **it is not separable from method error**, and
+that must be stated rather than reported as a small preference.
+
+One procedural note carried at the originating author's request: their script
+printed a "survives this check" verdict because its threshold was 1.0 and the
+residual was 0.928. They flagged that as a coin-flip dressed as a decision and
+asked it not be quoted. A residual at 93% of an arbitrary cutoff is not a pass,
+and no verdict field is used here.
+
 For comparison, not as a target: all-electron CCSD(T)/cc-pVDZ gives tertiary
 abstraction 7.44 kcal/mol more exothermic than primary for C2H + isobutane
 versus C2H + methane. That is acyclic, and the cage is exactly what breaks the
