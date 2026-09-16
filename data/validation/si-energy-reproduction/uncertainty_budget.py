@@ -127,12 +127,33 @@ THERMAL_FREE_ENERGY = Term(
 
 TUNNELLING = Term(
     "hydrogen tunnelling", None, True, False,
-    "not computed anywhere in this repository",
-    "Hydrogen transfer over a thin barrier tunnels. Room-temperature "
-    "transmission coefficients of 2-10 are routine, and at the cryogenic "
-    "temperatures mechanosynthesis proposals typically assume, tunnelling can "
-    "dominate the rate entirely and is not a correction to a classical barrier "
-    "but a replacement for it. A barrier height alone cannot give a rate here.")
+    "not computed; and the input it depends on, |nu| at a verified saddle, is unmeasured",
+    "Hydrogen transfer over a thin barrier tunnels, and below the crossover "
+    "temperature T_c = h c |nu| / (2 pi k_B) it is not a correction to a classical "
+    "rate but a replacement for it. THE SIGN OF THE CONCLUSION DEPENDS ENTIRELY ON "
+    "|nu|, WHICH THIS PROJECT HAS NOT MEASURED. Assuming a typical H-transfer value "
+    "of 1500-2000i cm^-1 gives T_c = 344-458 K, so room temperature sits BELOW "
+    "crossover and tunnelling dominates. But the only |nu| we actually have for this "
+    "reaction is 259i cm^-1 (Temelso Table 1), giving T_c = 59 K, which would put "
+    "room temperature far ABOVE crossover and make tunnelling a modest correction. "
+    "A 2.2 kcal/mol barrier with a loose early transition structure (acceptor-H "
+    "1.67 A) is physically consistent with shallow negative curvature, so 259i is "
+    "not obviously wrong - but that structure carries three imaginary modes and is "
+    "not a first-order saddle, so its 259i is not necessarily the reaction-coordinate "
+    "frequency either. S1's verified saddles settle this, and until they do, "
+    "'tunnelling dominates' and 'tunnelling is minor' are BOTH unsupported.")
+
+
+def crossover_temperature_kelvin(imaginary_frequency_cm: float) -> float:
+    """T_c = h c |nu| / (2 pi k_B). Below T_c, tunnelling dominates the rate.
+
+    Derived independently here and cross-checked against support session
+    76190bf3's rate-physics lane; both give 343.5 K at 1500 cm^-1 and 458.0 K at
+    2000 cm^-1. The formula is cheap and exact; the difficulty is entirely in
+    obtaining a trustworthy |nu|.
+    """
+    planck, light_speed, boltzmann = 6.62607015e-34, 2.99792458e10, 1.380649e-23
+    return planck * light_speed * float(imaginary_frequency_cm) / (2 * math.pi * boltzmann)
 
 
 @dataclass
@@ -236,6 +257,21 @@ def main() -> int:
             "C-H stretch frequencies. Tunnelling is "
             "worse still: for hydrogen transfer it is not a correction to a rate but a "
             "replacement for the classical picture, and nothing in this repository computes it."),
+    }
+    payload["tunnelling_crossover"] = {
+        "formula": "T_c = h c |nu| / (2 pi k_B); below T_c tunnelling dominates the rate",
+        "kelvin_by_imaginary_frequency_cm": {
+            str(nu): crossover_temperature_kelvin(nu) for nu in (259, 1000, 1500, 2000, 2500)
+        },
+        "room_temperature_kelvin": 298.0,
+        "status": "UNRESOLVED",
+        "why": (
+            "Assuming a typical H-transfer |nu| of 1500-2000i puts room temperature BELOW "
+            "crossover and tunnelling dominant. The only |nu| this project actually has for "
+            "the reaction, 259i from Temelso Table 1, puts room temperature far ABOVE "
+            "crossover and tunnelling minor. Those are opposite conclusions and the input "
+            "distinguishing them is unmeasured. S1's verified saddles supply it."),
+        "cross_checked_with": "support session 76190bf3 rate-physics lane; values agree exactly",
     }
     path = OUT / "uncertainty-budget.json"
     path.write_text(json.dumps(payload, indent=2, allow_nan=False) + "\n")
