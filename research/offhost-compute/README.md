@@ -61,6 +61,28 @@ This is diagnostic, not final: wall-clock on 4 threads still confounds core
 speed with threading. The single-thread CPU-time run below is what separates
 them cleanly, and is the measurement A2 named as its top outstanding item.
 
+## Result 2b — single-thread CPU time resolves A2's range toward "days"
+
+A2 named a single-thread CPU-time measurement as the item its verdict hangs
+on. Done (`cputime-summary.json`), DF 53-atom energy+gradient, one process:
+
+- **Total CPU: 1807 s** (1748 user + 59 system), wall 1585 s, peak RSS 2.6 GB,
+  1 major page fault (not memory-starved). cpu/wall ≈ 1.14 (BLAS spun slightly
+  above one core in the gradient), so this is a clean, contention-independent
+  cost.
+- The archived Mac DF run was **701 s** wall at one thread. This container's
+  single core took **1585 s** wall / 1807 s CPU for the same work — i.e. the
+  Mac's single core is ~2.3x faster than this box's.
+
+**Interpretation for A2, decisive:** if the archived Mac 701 s had been heavily
+contended, an uncontended fast M-series core would have finished far under
+701 s. Instead this (slower) container needed 1585 s single-threaded and only
+matched the Mac by using four cores. So the archived 701 s was **near its
+true uncontended cost**, not a 10x-inflated number. The DF path projection
+therefore sits at the *days-per-pose* end of A2's range, not the 20-hour end.
+The contention factor that dominates the shared host's *other* timings did not
+materially inflate this particular DF record.
+
 ## Result 3 — projection arithmetic re-run on off-host cost
 
 Re-running C2's evaluation-count arithmetic (2,407 evaluations for the default

@@ -1,0 +1,17 @@
+{
+ "cli_return_code": 0,
+ "loadavg": [
+  1.04296875,
+  1.07861328125,
+  1.45654296875
+ ],
+ "wall_seconds": 1585.491,
+ "user_cpu_seconds": 1747.92,
+ "system_cpu_seconds": 58.94,
+ "total_cpu_seconds": 1806.86,
+ "peak_rss_mb": 2617.8,
+ "involuntary_context_switches": 29581,
+ "major_page_faults": 1,
+ "requested_threads": 1,
+ "note": "CPU time is machine-transferable in a way wall clock is not: it is insensitive to whether the host was otherwise busy. cpu/wall ~1 confirms the run was compute-bound on one core and uncontended."
+}
