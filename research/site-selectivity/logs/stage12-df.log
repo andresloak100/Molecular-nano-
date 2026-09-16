@@ -10,3 +10,6 @@
 [done] adamantane: E = -10612.983601 eV, 6 steps, |F|max = 0.0183, 1756 s, nbf = 220, S2 = 0.0
 [seed] adamantyl_bridgehead seeded from relaxed adamantane
 [run ] adamantyl_bridgehead (C10H15, spin=1)
+[done] adamantyl_bridgehead: E = -10594.900986 eV, 8 steps, |F|max = 0.0294, 3471 s, nbf = 215, S2 = 0.7541371380574873
+[seed] adamantyl_methylene seeded from relaxed adamantane
+[run ] adamantyl_methylene (C10H15, spin=1)

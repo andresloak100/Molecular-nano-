@@ -266,7 +266,59 @@ def joint_thermal_cost(temperature_kelvin: float = 300.0,
                     "joint_cost_sigma": cost,
                 })
     competent.sort(key=lambda item: item["joint_cost_sigma"])
+    decomposition = None
+    if competent:
+        best = competent[0]
+        angular_sq = best["tilt_in_sigma"] ** 2
+        axial_sq = best["approach_in_sigma"] ** 2
+        total = angular_sq + axial_sq
+        decomposition = {
+            "angular_fraction_of_cost": angular_sq / total,
+            "axial_fraction_of_cost": axial_sq / total,
+            # Softening a mode tenfold grows its spread by sqrt(10).
+            "joint_cost_if_angular_softened_tenfold": math.hypot(
+                best["tilt_in_sigma"] / math.sqrt(10.0), best["approach_in_sigma"]
+            ),
+            "joint_cost_if_axial_softened_tenfold": math.hypot(
+                best["tilt_in_sigma"], best["approach_in_sigma"] / math.sqrt(10.0)
+            ),
+            "irreducible_angular_floor_sigma": best["tilt_in_sigma"],
+            "finding": (
+                "The protection is essentially AXIAL stiffness, not angular. The tilt is nearly "
+                "free and the approach is what costs. Softening the angular mode tenfold moves "
+                "the joint cost only from 36.8 to 35.8, while softening the axial mode tenfold "
+                "moves it to 14.4. So calling this an angular-tolerance problem, as this lane "
+                "and its peers initially did, misplaces the emphasis by a factor of sixteen in "
+                "cost share. Lengthening the tip raises angular compliance cubically but acts on "
+                "the term carrying six percent, so it is comparatively safe for THIS failure mode "
+                "-- the opposite of what the cantilever law suggests in isolation, and the "
+                "opposite of its effect on mis-targeting, which is lateral-limited. The two "
+                "failure modes have opposing stiffness sensitivities and cannot both be tuned "
+                "with one knob."
+            ),
+            "angular_floor_note": (
+                "Because the angular term is irreducible at 8.9 sigma, no amount of axial "
+                "softening makes the THERMAL route viable. Every route that matters is driven."
+            ),
+        }
     return {
+        "quadrature_decomposition": decomposition,
+        "thermal_versus_control": {
+            "axial_travel_to_competence_angstrom": 1.45,
+            "lateral_margin_treated_as_ample_angstrom": 2.4949626493635075,
+            "ratio": 1.45 / 2.4949626493635075,
+            "warning": (
+                "A sigma analysis bounds THERMAL access and does not bound CONTROL error. This is "
+                "this lane's own guardrail applied to its own result. The welding geometry needs "
+                "1.45 Angstrom of axial travel, which is LESS than the 2.495 Angstrom lateral "
+                "margin the project treats as comfortable. Thermally that is a 1e-294 tail and "
+                "genuinely unreachable; but a systematic 1.45 Angstrom axial misplacement is not "
+                "a tail event, it is a calibration error of a size nothing in this project has "
+                "excluded, and the mis-targeting analysis implicitly tolerates errors of that "
+                "scale in a different direction. Thermal inaccessibility must not be quoted as "
+                "safety against a positioner."
+            ),
+        },
         "spreads": spreads,
         "competent_point_count": len(competent),
         "reachable_in_principle": bool(competent),
@@ -284,7 +336,7 @@ def joint_thermal_cost(temperature_kelvin: float = 300.0,
 
 
 def main() -> None:
-    output = Path(__file__).resolve().parent / "evidence" / "angular-tolerance-screen-r3"
+    output = Path(__file__).resolve().parent / "evidence" / "angular-tolerance-screen-r4"
     output.mkdir(parents=True, exist_ok=False)
 
     distance = distance_to_welding_geometry(300.0)
@@ -351,6 +403,14 @@ def main() -> None:
               f"({cheapest['tilt_in_sigma']:.1f} sigma) plus approach "
               f"{abs(cheapest['axial_offset_angstrom']):.2f} A ({cheapest['approach_in_sigma']:.1f} sigma)")
         print(f"  JOINT COST: {cheapest['joint_cost_sigma']:.1f} combined sigma")
+        d = joint["quadrature_decomposition"]
+        print(f"  cost share: angular {100*d['angular_fraction_of_cost']:.1f}%, "
+              f"axial {100*d['axial_fraction_of_cost']:.1f}%")
+        print(f"  soften angular 10x -> {d['joint_cost_if_angular_softened_tenfold']:.1f} sigma; "
+              f"soften axial 10x -> {d['joint_cost_if_axial_softened_tenfold']:.1f} sigma")
+        print(f"  CONTROL-ERROR WARNING: needs {joint['thermal_versus_control']['axial_travel_to_competence_angstrom']} A "
+              f"axial travel vs a {joint['thermal_versus_control']['lateral_margin_treated_as_ample_angstrom']:.2f} A "
+              "lateral margin called ample")
     print("wrote", output / "screen.json")
 
 
