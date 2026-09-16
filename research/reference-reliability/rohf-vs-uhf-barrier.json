@@ -1,0 +1,86 @@
+{
+ "generated_utc": "2026-09-16T22:16:08.290060+00:00",
+ "compute_host": {
+  "system": "Linux",
+  "machine": "x86_64",
+  "loadavg": [
+   0.74560546875,
+   1.0078125,
+   1.4248046875
+  ]
+ },
+ "barrier_definition": "E(TS) - E(CH4) - E(C2H), CCSD(T)/cc-pVDZ, atom guess",
+ "references": {
+  "UHF": {
+   "species": {
+    "methane.xyz": {
+     "reference": "RHF",
+     "scf_converged": true,
+     "ccsd_converged": true,
+     "hf_s_squared": 0.0,
+     "ccsd_t_total_hartree": -40.39031887473882,
+     "t1_diagnostic": 0.00494
+    },
+    "ethynyl_radical.xyz": {
+     "reference": "UHF",
+     "scf_converged": true,
+     "ccsd_converged": true,
+     "hf_s_squared": 1.2212,
+     "ccsd_t_total_hartree": -76.40409705207371,
+     "t1_diagnostic": 0.08359
+    },
+    "methane_ethynyl_ts.xyz": {
+     "reference": "UHF",
+     "scf_converged": true,
+     "ccsd_converged": true,
+     "hf_s_squared": 1.2143,
+     "ccsd_t_total_hartree": -116.79059348850657,
+     "t1_diagnostic": 0.06384
+    }
+   },
+   "barrier_kcal_per_mol": 2.3986
+  },
+  "ROHF": {
+   "species": {
+    "methane.xyz": {
+     "reference": "RHF",
+     "scf_converged": true,
+     "ccsd_converged": true,
+     "hf_s_squared": 0.0,
+     "ccsd_t_total_hartree": -40.39031887471154,
+     "t1_diagnostic": 0.00494
+    },
+    "ethynyl_radical.xyz": {
+     "reference": "ROHF",
+     "scf_converged": true,
+     "ccsd_converged": true,
+     "hf_s_squared": 0.75,
+     "ccsd_t_total_hartree": -76.40520738877476,
+     "t1_diagnostic": 0.03497
+    },
+    "methane_ethynyl_ts.xyz": {
+     "reference": "ROHF",
+     "scf_converged": true,
+     "ccsd_converged": true,
+     "hf_s_squared": 0.75,
+     "ccsd_t_total_hartree": -116.79196076138274,
+     "t1_diagnostic": 0.03157
+    }
+   },
+   "barrier_kcal_per_mol": 2.2374
+  }
+ },
+ "comparison": {
+  "uhf_barrier_kcal_per_mol": 2.3986,
+  "rohf_barrier_kcal_per_mol": 2.2374,
+  "rohf_minus_uhf_kcal_per_mol": -0.1612,
+  "published_table4_kcal_per_mol": 2.4,
+  "reading": "If |ROHF - UHF| is small (<~0.5 kcal/mol) the UHF reference was adequate despite the T1/D1 flags and +2.40 stands. If it is comparable to or larger than the ~5 kcal/mol DFT discrepancy, the reference itself is method-sensitive and the DFT comparison must carry that as an explicit reference uncertainty.",
+  "limits": [
+   "ROHF-based CCSD here uses ROHF orbitals in PySCF's CCSD; it is close to but not bit-identical to the paper's RCCSD(T) variant.",
+   "Neither reference resolves genuine multireference character; only a multireference method (CASPT2/NEVPT2) does. Agreement between ROHF and UHF bounds spin-contamination sensitivity, not static-correlation error.",
+   "cc-pVDZ, fixed supplied collinear TS geometry with three reported imaginary modes."
+  ]
+ },
+ "elapsed_seconds": 63.4
+}

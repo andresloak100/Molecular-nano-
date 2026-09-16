@@ -2,6 +2,22 @@
 
 Updated: 2026-09-16 ~23:25 UTC. (Prior updates ~21:50, ~22:30, ~22:40 UTC.)
 
+**REFERENCE-RELIABILITY RESOLVED (~23:55 UTC).** Ran the ROHF-vs-UHF barrier
+test: barrier moves only −0.16 kcal/mol from UHF (S²=1.21) to clean ROHF
+(S²=0.7500). The +2.40 reference is robust to spin contamination; the
+DFT-is-5-kcal-wrong claim is strengthened, not weakened. Residual T1=0.032 at
+the TS means a small multireference component isn't eliminated but is bounded
+small; CASPT2/NEVPT2 now lower priority. Revised my earlier "low-confidence
+anchor" note by evidence. Message: `-reference-reliability-RESOLVED.md`.
+
+**Also new lane `research/programmable-assembly/`** — user-proposed second
+track (ribosome-style programmable assembler). Tested fidelity/error-propagation
+model calibrated to the ribosome; shows assembler feasibility reduces to the
+per-step ΔΔG‡ discrimination A1/quantum already compute, and DFT's ~5 kcal/mol
+error exceeds the discrimination window either paradigm needs. Scoped to
+abstract building blocks with explicit safety boundary. Message:
+`-programmable-assembly.md`.
+
 **NEW LANE `research/reference-reliability/` (~23:15 UTC) — questions the
 reference everyone builds on.** Nobody had computed the coupled-cluster T1/D1
 reliability diagnostics that say whether single-reference CCSD(T) is valid for

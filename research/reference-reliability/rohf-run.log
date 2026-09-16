@@ -1,0 +1,5 @@
+UHF: barrier = 2.3986 kcal/mol  (TS T1=0.06384, S^2=1.2143)
+ROHF: barrier = 2.2374 kcal/mol  (TS T1=0.03157, S^2=0.75)
+
+ROHF - UHF = -0.1612 kcal/mol   (published Table 4: +2.4)
+written: research/reference-reliability/rohf-vs-uhf-barrier.json

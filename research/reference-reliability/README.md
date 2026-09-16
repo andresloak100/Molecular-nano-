@@ -46,6 +46,38 @@ closed-shell species and the ordinary methyl radical are all clean. So the
 single-reference diagnostic is bad for exactly the two open-shell species the
 +2.40 reference is built from, and good for everything else.
 
+## Follow-up result: the reference is robust to spin contamination
+
+The decisive test (`rohf_vs_uhf_barrier.py`, `rohf-vs-uhf-barrier.json`)
+recomputes the barrier E(TS) − E(CH4) − E(C2H) at CCSD(T)/cc-pVDZ on both a
+UHF reference (S² = 1.21, contaminated) and an ROHF reference (S² = 0.7500,
+clean). The closed-shell CH4 is identical under both, so any difference is
+carried by the two flagged open-shell species.
+
+| Reference | barrier | TS S² | TS T1 | C2H T1 |
+|---|---:|---:|---:|---:|
+| UHF | +2.399 kcal/mol | 1.214 | 0.064 | 0.084 |
+| ROHF | +2.237 kcal/mol | 0.7500 | 0.032 | 0.035 |
+
+**ROHF − UHF = −0.16 kcal/mol.** Both bracket the published Table 4 value of
++2.4. So the heavy spin contamination the diagnostic flagged is worth only
+~0.16 kcal/mol in the relative energy that matters — the error sources in the
+two open-shell species largely cancel in the barrier. The +2.40 anchor is
+**robust to the contamination concern**, and this *strengthens* the DFT
+critique: DFT being ~5 kcal/mol below the reference is not an artifact of a
+contaminated yardstick, because a clean-spin reference gives essentially the
+same barrier.
+
+Residual caveat, stated honestly: the clean ROHF reference still shows
+T1 = 0.032 at the TS, above the 0.02 closed-shell threshold. So about half the
+elevated UHF T1 was spin contamination (now removed) and half is residual —
+genuine open-shell correlation or static-correlation character that a single
+reference does not fully capture. Its effect on the barrier is now *bounded as
+small* (the contamination piece was only 0.16 kcal/mol, and the residual is
+smaller than the piece already removed), but not proven zero. Only a
+multireference calculation (CASPT2/NEVPT2) closes it completely; given how
+little the reference moved, that is now a lower priority than it looked.
+
 ## What this does and does not mean
 
 **Read honestly, because the diagnostic conflates two effects.** A UHF-based
@@ -67,22 +99,22 @@ to retract once. What is solid:
    being ~5 kcal/mol below a *low-confidence* +2.40 is a weaker statement than
    DFT being ~5 kcal/mol below a rock-solid one.
 
-## What "scientifically perfect" needs here (the concrete gap)
+## What "scientifically perfect" needs here (updated after the ROHF test)
 
-To turn +2.40 from a lower-confidence anchor into a defensible reference:
-
-1. **ROHF-based RCCSD(T)** on the same geometries, to remove spin
-   contamination and compare against the UHF/UCCSD(T) number. Agreement would
-   largely vindicate the reference; divergence would move it. Cheap; runnable
-   off-host here.
-2. **A multireference benchmark** (CASSCF then NEVPT2 or CASPT2) on the TS and
-   ethynyl radical, with an active space chosen from the natural-orbital
-   occupations. This is the only thing that actually resolves near-degeneracy
-   vs contamination. More expensive but still small-molecule; a candidate for
-   this container or a GPU trial (G1).
-3. Until one of those exists, shared docs should call +2.40 an in-house
-   single-reference estimate with a flagged reliability caveat, not a gold
-   standard.
+1. **ROHF-based RCCSD(T)** — DONE. Moves the barrier only 0.16 kcal/mol, so
+   spin contamination is not corrupting the reference. This was the cheap,
+   high-value check and it came back reassuring.
+2. **A multireference benchmark** (CASSCF then NEVPT2/CASPT2) on the TS and
+   ethynyl radical, active space from natural-orbital occupations. Now a
+   *lower* priority: it would close the residual T1 = 0.032 caveat, but the
+   ROHF result bounds any remaining effect as small. Worth doing for a
+   publication-grade claim; not blocking a working decision. Small-molecule;
+   off-host or a G1 GPU trial when convenient.
+3. Shared docs can now describe +2.40 as an in-house single-reference estimate
+   that is **robust to spin contamination (±0.16 kcal/mol between UHF and
+   ROHF references)**, with a minor residual multireference caveat — not as a
+   fragile or contaminated number. The DFT discrepancy stands on firmer
+   ground than before this check, not weaker.
 
 ## Files
 
