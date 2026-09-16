@@ -32,8 +32,8 @@ The solver provides energies and forces. The optimizer uses those quantities to 
 | Structure and input definition | `nanodesign/candidates.py`, `nanodesign/design.py` | Generate unrelaxed H-abstraction endpoints; preserve atom indices; load explicit coordinates, electronic settings and anchors; check units, geometry and metadata; hash inputs. | Generated structures and nominal bonds are starting hypotheses. |
 | Electronic solver | `nanodesign/quantum.py` | ASE calculator backed by CPU PySCF; finite-cluster Kohn–Sham DFT energy and analytical forces; optional explicit D3 correction; SCF, spin and software diagnostics. | A converged electronic calculation is not a calibrated prediction or proof of the correct state. |
 | Constrained optimization | `nanodesign/workflow.py` | Single-point evaluation; FIRE endpoint relaxation; endpoint checks; IDPP initialization, ordinary NEB and climbing-image NEB; candidate barrier reporting. | Fixed-anchor, zero-temperature electronic potential surface; no operating cycle or kinetic reliability model. |
-| Evidence audit | `nanodesign/workflow.py`, `audit_result` | Report numerical stage convergence and outstanding scientific evidence separately; always retain `design_validated: false`. | Presently a conservative status audit, not a quantitative uncertainty estimator. |
-| User interface | `nanodesign/cli.py`, `nanodesign/__main__.py` | `candidate`, `check`, `calculate` and `audit`; explicit calculation stage and output destination; failure/interruption exit status. | Local command-line interface; no graphical editor, remote scheduler or hardware controller. |
+| Evidence and accuracy checks | `nanodesign/workflow.py`, `nanodesign/benchmark.py`, `nanodesign/stationary.py` | Report numerical status separately; compare reference-geometry energies; characterize finite-difference vibrational modes; retain `design_validated: false`. | Fixed-geometry discrepancies and local curvature are evidence, not a quantitative tool-reliability estimator. |
+| User interface | `nanodesign/cli.py`, `nanodesign/__main__.py` | `candidate`, `check`, `calculate`, `audit`, `benchmark` and `characterize`; explicit calculation stage and output destination; failure/interruption exit status. | Local command-line interface; no graphical editor, remote scheduler or hardware controller. |
 
 ### Structure and solver contract
 
@@ -57,8 +57,8 @@ Each run requires a new output directory. During execution, `result.json` record
 |---|---|---|
 | Explicit tool/target geometry | Implemented for one H-abstraction candidate; custom finite-cluster endpoints can be loaded. | Additional tool families, realistic surfaces, attachment geometry and fabrication evidence. |
 | Electronic energies and forces | CPU DFT adapter implemented. | Independent calibration against appropriate high-level calculations or measurements. |
-| Geometry and reaction-path optimization | Implemented with fixed anchors and convergence checks. | Saddle refinement, constrained vibrational modes and verified path connectivity. |
-| Scientific provenance | Input hashes, method settings, diagnostics and run artifacts implemented. Published geometry seeds carry separate provenance. | Reconciled benchmark targets and a versioned calibration dataset. |
+| Geometry and reaction-path optimization | Implemented with fixed anchors and convergence checks; optional finite-difference mode characterization. | Saddle refinement, displacement-step convergence and verified path connectivity. |
+| Scientific provenance | Input hashes, method settings, diagnostics and run artifacts implemented; source-checked reference comparisons and executed SVP/TZVP results saved. | Reconciled benchmark targets and expanded calibration across relevant reactions. |
 | Uncertainty | Missing evidence is listed; no confidence interval is calculated. | Separate numerical error, method error, model-size/boundary effects and operational variability. |
 | Automated design search | Not implemented. Separation and lateral offset are explicit candidate parameters. | Outer optimizer, objectives, resource limits, comparable evaluations and rejection criteria. |
 | GPU execution | Not integrated or tested. | Optional adapter, compatible hardware/software, CPU/GPU numerical equivalence checks and workload measurements. |
@@ -83,3 +83,5 @@ A later optimizer would propose tool geometry, pose or boundary-condition change
 Numerical failures, a changed reaction basin and unknown physical uncertainty must remain explicit outcomes. A low computed barrier by itself must never become a success score. An outer optimizer should initially work within a calibrated family of elementary reactions; complete machine design would additionally require verified components, fabrication routes and operational cycles.
 
 For physical assumptions and reaction-path interpretation, see [MODEL.md](MODEL.md). For scientific source provenance and the reference-data discrepancy, see [SOURCE_NOTES.md](../SOURCE_NOTES.md).
+
+The first executed reference comparisons and a real quantum geometry-to-vibration integration check are preserved in [data/validation](../data/validation/README.md). Their numerical results and limits are summarized in [ACCURACY.md](ACCURACY.md).

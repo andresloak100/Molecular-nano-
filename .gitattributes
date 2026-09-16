@@ -1,2 +1,3 @@
 # Preserve the downloaded reference supplement byte-for-byte, including its whitespace.
 data/reference/temelso_2006_si.txt -whitespace
+**/temelso_2006_si.txt -whitespace

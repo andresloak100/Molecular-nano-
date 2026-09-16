@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "stage": "relax",
+  "state": "initial",
+  "status": "completed",
+  "started_utc": "2026-09-16T20:30:32.796594+00:00",
+  "software_version": "0.1.0",
+  "python_version": "3.14.7",
+  "input_hashes": {
+    "design_sha256": "fd328cd9765a5d80b0610b950571c6ad4fa7f002491e9abc224356dfff39fefb",
+    "initial_sha256": "ca2b9e7e2dff725c1898f9129306e5de35aceb7f10827ffddf59640e29052187",
+    "final_sha256": "ca2b9e7e2dff725c1898f9129306e5de35aceb7f10827ffddf59640e29052187"
+  },
+  "quantum_settings": {
+    "charge": 0,
+    "spin": 0,
+    "xc": "pbe0",
+    "basis": "def2-svp",
+    "dispersion": "d3bj",
+    "grid_level": 3,
+    "conv_tol": 1e-11,
+    "max_cycle": 150,
+    "threads": 2,
+    "memory_mb": 2000,
+    "density_fit": false
+  },
+  "design": {
+    "schema_version": 1,
+    "length_unit": "angstrom",
+    "initial": "h2.xyz",
+    "final": "h2.xyz",
+    "fixed_indices": [],
+    "name": "H2 software integration verification, not an assembly tool",
+    "quantum": {
+      "charge": 0,
+      "spin": 0,
+      "xc": "pbe0",
+      "basis": "def2-svp",
+      "dispersion": "d3bj",
+      "grid_level": 3,
+      "conv_tol": 1e-11,
+      "max_cycle": 150,
+      "threads": 2,
+      "memory_mb": 2000,
+      "density_fit": false
+    }
+  },
+  "optimization": {
+    "fmax_ev_per_angstrom": 0.0003,
+    "max_steps_per_stage": 200,
+    "images": 7
+  },
+  "units": {
+    "length": "angstrom",
+    "energy": "eV",
+    "force": "eV/angstrom"
+  },
+  "geometry_converged": true,
+  "structure": {
+    "energy_ev": -31.669406535024525,
+    "free_force_max_ev_per_angstrom": 0.0002874014481741372,
+    "forces_ev_per_angstrom": [
+      [
+        -1.1078333121712247e-16,
+        1.678817088819845e-15,
+        -0.0002874014481741372
+      ],
+      [
+        1.1078333121711488e-16,
+        -1.6788170888198198e-15,
+        0.0002874014481570102
+      ]
+    ],
+    "anchor_force_sum_ev_per_angstrom": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "anchor_force_groups": {},
+    "anchor_force_interpretation": "Internal force; global sum can cancel opposing loads. Separate group holding forces are negatives of group internal forces.",
+    "hydrogen_transfer": {},
+    "endpoint_identity_ok": null,
+    "topology_screen": {
+      "assessed": false,
+      "preserved": null
+    },
+    "quantum_diagnostics": {
+      "call_id": "ca87fe8b-8191-44d7-9540-fca8eb2d53fc",
+      "settings": {
+        "charge": 0,
+        "spin": 0,
+        "xc": "pbe0",
+        "basis": "def2-svp",
+        "dispersion": "d3bj",
+        "grid_level": 3,
+        "conv_tol": 1e-11,
+        "max_cycle": 150,
+        "threads": 2,
+        "memory_mb": 2000,
+        "density_fit": false
+      },
+      "scf_converged": true,
+      "gradient_completed": true,
+      "model": "nonperiodic all-electron nonrelativistic Kohn-Sham DFT",
+      "energy_scope": "Born-Oppenheimer electronic energy plus nuclear repulsion and specified D3",
+      "versions": {
+        "pyscf": "2.14.0",
+        "libxc": "7.0.0",
+        "numpy": "2.5.3",
+        "ase": "3.29.0",
+        "dftd3": "1.6.0"
+      },
+      "requested_pyscf_threads": 2,
+      "effective_pyscf_threads": 1,
+      "threads_honored": false,
+      "threading_note": "This PySCF build ran on 1 thread(s) despite threads=2; timings reflect the effective count. Builds without OpenMP cannot use additional cores within one calculation.",
+      "scf_cycles": 5,
+      "electron_count": 2,
+      "alpha_electrons": 1,
+      "beta_electrons": 1,
+      "basis_functions": 10,
+      "reference": "RKS",
+      "s2": 0.0,
+      "expected_s2": 0.0,
+      "s2_deviation": 0.0,
+      "spin_contamination": 0.0,
+      "effective_multiplicity": 1.0,
+      "stability_checked": false,
+      "grid_response": true,
+      "auxiliary_basis_response": false,
+      "dft_energy_hartree": -1.1637594912985272,
+      "dispersion_energy_hartree": -6.974204758819346e-05,
+      "total_energy_hartree": -1.1638292333461153,
+      "dispersion_three_body": false,
+      "energy_unit": "eV",
+      "force_unit": "eV/Angstrom",
+      "hartree_eV": 27.211386024367243,
+      "bohr_angstrom": 0.52917721092,
+      "net_force_eV_A": [
+        -7.592786212752239e-30,
+        2.524354896707238e-29,
+        -1.712697908842764e-14
+      ],
+      "elapsed_seconds": 0.1706751671154052
+    }
+  },
+  "elapsed_seconds": 10.251826958032325,
+  "validation": {
+    "design_validated": false,
+    "numerical_stage_converged": true,
+    "accuracy_claim": "Uncalibrated finite-cluster quantum model; no guaranteed design accuracy.",
+    "missing_evidence": [
+      "Independent reaction-specific quantum benchmark and error estimate",
+      "Larger basis, integration-grid, and cluster/boundary convergence",
+      "Electronic-state stability and alternative spin-state investigation",
+      "Transition-state modes and connectivity (or a separately verified barrierless path)",
+      "Competing reactions, approach/retraction paths, and tip regeneration",
+      "Finite-temperature free energies, tunnelling, and positioning uncertainty",
+      "Experimental confirmation and whole-machine integration"
+    ]
+  }
+}

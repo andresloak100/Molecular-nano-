@@ -1,0 +1,146 @@
+{
+  "archived_inputs": "inputs",
+  "file_sha256": {
+    "provenance.json": "2aad2f4e2c5de2662ec0f48b9c2909f0b6e31cfc10a873cf59c051bf2f626126",
+    "temelso_2006_si.txt": "ab1c05fb9add21e85d5e97e25f105c2abc59ffe3106b9fe7b181f892d951ff6e",
+    "README.md": "7cf6c14a9efe06aca27516016ac04ea47f74e52f65547f45ad0f8f40cf8986cd",
+    "methane.xyz": "98ef73821932c34eea275db3f49c3455309369b25fa98678574d350a37298df1",
+    "ethynyl_radical.xyz": "849a25cefa5341ff37dce2f062ad747e507836494fee7f4cf9a8440b8cd0d5ce",
+    "methane_ethynyl_ts.xyz": "b4411a8b74750f53c81f4847d8f84acc85099e57fee39c3f10d24387615a3fb1",
+    "acetylene.xyz": "bbfcd8823b2055c91cb87308e0f36a2aa1113350776069209b449e4c2782727f",
+    "methyl_radical.xyz": "8898fe48bd09156545faeeb6f600872ff7bf906f404e9fa9e9f0636ff65b1f65"
+  },
+  "provenance": {
+    "title": "High-Level ab Initio Studies of Hydrogen Abstraction from Prototype Hydrocarbon Systems, Supporting Information",
+    "authors": [
+      "Berhane Temelso",
+      "C. David Sherrill",
+      "Ralph C. Merkle",
+      "Robert A. Freitas Jr."
+    ],
+    "year": 2006,
+    "article_doi": "10.1021/jp061821e",
+    "supplement_doi": "10.1021/jp061821e.s001",
+    "figshare_api": "https://api.figshare.com/v2/articles/3056932",
+    "download_url": "https://ndownloader.figshare.com/files/4762681",
+    "source_filename": "jp061821e_si_001.txt",
+    "license": "CC BY-NC 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-nc/4.0/",
+    "retrieved": "2026-09-16",
+    "source_sha256": "ab1c05fb9add21e85d5e97e25f105c2abc59ffe3106b9fe7b181f892d951ff6e",
+    "conversion": {
+      "source_length_unit": "bohr",
+      "output_length_unit": "angstrom",
+      "angstrom_per_bohr": 0.529177210544
+    },
+    "geometry_usage": "Published starting geometries; reoptimize and verify frequencies/electronic state before treating as stationary structures. Absolute energies in SI do not reproduce the stated main-paper methane barrier; not validated reference energies.",
+    "structures": [
+      {
+        "file": "methyl_radical.xyz",
+        "source_label": "CH3",
+        "atoms": 4,
+        "source_declared_count": 4,
+        "dummy_X_removed": 0,
+        "charge": 0,
+        "multiplicity": 2,
+        "source_energy_hartree": -39.718644173874,
+        "source_energy_status": "unverified_not_a_validation_target"
+      },
+      {
+        "file": "methane.xyz",
+        "source_label": "CH4",
+        "atoms": 5,
+        "source_declared_count": 5,
+        "dummy_X_removed": 0,
+        "charge": 0,
+        "multiplicity": 1,
+        "source_energy_hartree": -40.362981446705,
+        "source_energy_status": "unverified_not_a_validation_target"
+      },
+      {
+        "file": "ethynyl_radical.xyz",
+        "source_label": "CCH",
+        "atoms": 3,
+        "source_declared_count": 3,
+        "dummy_X_removed": 0,
+        "charge": 0,
+        "multiplicity": 2,
+        "source_energy_hartree": -76.404097045377,
+        "source_energy_status": "unverified_not_a_validation_target"
+      },
+      {
+        "file": "acetylene.xyz",
+        "source_label": "HCCH",
+        "atoms": 4,
+        "source_declared_count": 4,
+        "dummy_X_removed": 0,
+        "charge": 0,
+        "multiplicity": 1,
+        "source_energy_hartree": -77.115274196558,
+        "source_energy_status": "unverified_not_a_validation_target"
+      },
+      {
+        "file": "isobutane.xyz",
+        "source_label": "Isobutane",
+        "atoms": 14,
+        "source_declared_count": 14,
+        "dummy_X_removed": 0,
+        "charge": 0,
+        "multiplicity": 1,
+        "source_energy_hartree": -157.99275508678,
+        "source_energy_status": "unverified_not_a_validation_target"
+      },
+      {
+        "file": "tert_butyl_radical.xyz",
+        "source_label": "T-butyl",
+        "atoms": 13,
+        "source_declared_count": 13,
+        "dummy_X_removed": 1,
+        "charge": 0,
+        "multiplicity": 2,
+        "source_energy_hartree": -157.332943673808,
+        "source_energy_status": "unverified_not_a_validation_target"
+      },
+      {
+        "file": "methane_ethynyl_ts.xyz",
+        "source_label": "CH3-H-CCH",
+        "atoms": 8,
+        "source_declared_count": 8,
+        "dummy_X_removed": 0,
+        "charge": 0,
+        "multiplicity": 2,
+        "source_energy_hartree": -116.790593477289,
+        "source_energy_status": "unverified_not_a_validation_target"
+      },
+      {
+        "file": "isobutane_ethynyl_ts.xyz",
+        "source_label": "C(CH3)3--H-CCH",
+        "atoms": 17,
+        "source_declared_count": 17,
+        "dummy_X_removed": 0,
+        "charge": 0,
+        "multiplicity": 2,
+        "source_energy_hartree": -234.397851246347,
+        "source_energy_status": "unverified_not_a_validation_target"
+      }
+    ]
+  },
+  "source_energy_caveat": "The SI's labeled absolute methane, ethynyl and TS energies imply about -14.76 kcal/mol, inconsistent with the main-paper positive barrier. They are unverified and unused as energy targets; see SOURCE_NOTES.md in the source checkout.",
+  "geometry_validation": "Exact atom sequence and converted SI coordinates checked within 5e-11 angstrom",
+  "reaction_conservation": {
+    "elements": {
+      "C": 3,
+      "H": 5
+    },
+    "charge": 0,
+    "electrons": 23,
+    "spin_2s": 1
+  },
+  "data_license": "CC BY-NC 4.0; independent of repository code license",
+  "portable_export": {
+    "removed_field": "source_directory (local machine path)",
+    "original_manifest_sha256": "56f1a2601a819925fe708f27ca621ce895909957b90cf71a34c91059696341af",
+    "source_reference_directory": "data/reference",
+    "all_other_content_preserved": true
+  }
+}

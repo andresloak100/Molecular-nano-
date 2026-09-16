@@ -20,7 +20,7 @@ The workflow first optimizes both endpoints with identical anchors. It rejects u
 
 Only a converged band with an interior energy maximum yields a `candidate_electronic_barrier_ev`: max(Eimage) − Einitial. A missing interior maximum is not proof of barrierless chemistry. The endpoints are states at the specified tool pose; this energy difference is not automatically the gas-phase separated-reactant activation barrier.
 
-NEB convergence alone does not verify a first-order saddle. Transition-state refinement, vibrational analysis and forward/backward connectivity remain required. There is no zero-point, vibrational entropy, tunnelling, solvent, field, thermal bath or alternative-spin correction in these energies. No rate or assembly reliability is inferred from them.
+NEB convergence alone does not verify a first-order saddle. The optional characterization command computes a constrained finite-difference Hessian and signed vibrational modes. Transition-state refinement, displacement-step convergence and forward/backward connectivity remain required. There is no zero-point, vibrational entropy, tunnelling, solvent, field, thermal bath or alternative-spin correction in these energies. No rate or assembly reliability is inferred from them.
 
 ## Validation layers
 

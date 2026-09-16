@@ -9,12 +9,12 @@ import platform
 import time
 
 import numpy as np
-from ase.io import write
+from ase.io import write, read
 from ase.mep import NEB
 from ase.optimize import FIRE
 
 from . import __version__
-from .design import load_design, endpoint_identity_ok, transfer_distances, topology_screen
+from .design import load_design, endpoint_identity_ok, transfer_distances, topology_screen, validate_pair, sha256
 from .quantum import PySCFCalculator
 
 
@@ -172,5 +172,58 @@ def run(design_path, output, stage="singlepoint", state="initial", fmax=0.03, st
     finally:
         result["elapsed_seconds"] = time.monotonic() - started
         result["validation"] = audit_result(result)
+        json_write(out / "result.json", result)
+    return result
+
+
+def run_characterization(design_path, structure_path, output, *, image=-1, step=0.005,
+                         fmax=0.03, frequency_tolerance=20.0, max_free_coordinates=120):
+    """Constrained curvature check; no transition-state connectivity claim."""
+    from .stationary import characterize_stationary_point
+
+    for name, value in (("step", step), ("fmax", fmax), ("frequency_tolerance", frequency_tolerance)):
+        if not np.isfinite(value) or value <= 0:
+            raise ValueError(f"{name} must be positive and finite.")
+    if type(max_free_coordinates) is not int or max_free_coordinates <= 0:
+        raise ValueError("max_free_coordinates must be a positive integer.")
+    data, initial, _, settings, hashes = load_design(design_path)
+    atoms = read(structure_path, index=image)
+    validate_pair(initial, atoms, data.get("fixed_indices", []))
+    atoms.set_constraint(initial.constraints)
+    free_coordinates = 3 * (len(atoms) - len(data.get("fixed_indices", [])))
+    if free_coordinates > max_free_coordinates:
+        raise ValueError(f"This structure has {free_coordinates} free coordinates and needs at least {2*free_coordinates+1} quantum evaluations. Increase --max-free-coordinates explicitly if intended.")
+    out = Path(output).resolve()
+    out.mkdir(parents=True, exist_ok=False)
+    started = time.monotonic()
+    hashes["structure_sha256"] = sha256(structure_path)
+    result = {"schema_version": 1, "stage": "characterize", "status": "running",
+              "started_utc": datetime.now(timezone.utc).isoformat(), "software_version": __version__,
+              "input_hashes": hashes, "design": data, "structure_image": image,
+              "quantum_settings": asdict(settings), "expected_force_evaluations": 2*free_coordinates+1,
+              "units": {"length": "angstrom", "energy": "eV", "frequency": "cm^-1"}}
+    json_write(out / "result.json", result)
+    write(out / "input.extxyz", atoms)
+    atoms.calc = PySCFCalculator(settings, event_log=out / "electronic.jsonl")
+    try:
+        if force_max(atoms) > fmax:
+            raise ValueError("The structure is not stationary at the requested free-force tolerance. Relax or refine the saddle before an expensive Hessian calculation.")
+        result["stationary"] = characterize_stationary_point(atoms, step_angstrom=step,
+            force_tolerance_ev_per_angstrom=fmax, frequency_tolerance_cm1=frequency_tolerance,
+            max_free_coordinates=max_free_coordinates)
+        result["quantum_diagnostics"] = atoms.calc.diagnostics
+        result["status"] = "completed"
+    except KeyboardInterrupt:
+        result["status"] = "interrupted"
+        result["error"] = {"type": "KeyboardInterrupt", "message": "Characterization interrupted."}
+        raise
+    except Exception as exc:
+        result["status"] = "failed"
+        result["error"] = {"type": type(exc).__name__, "message": str(exc)}
+        raise
+    finally:
+        result["elapsed_seconds"] = time.monotonic() - started
+        result["validation"] = {"design_validated": False, "transition_state_validated": False,
+            "missing_evidence": ["Mode eigenvector/reactive-coordinate assessment and forward/backward connectivity", "Displacement-step convergence", "Electronic-state stability", "Reaction-specific method calibration"]}
         json_write(out / "result.json", result)
     return result

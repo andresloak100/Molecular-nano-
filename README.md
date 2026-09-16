@@ -14,6 +14,8 @@ This repository starts with one elementary operation: a supported ethynyl radica
 - Checks for clashes, inconsistent charge/spin, moving anchors, failed SCF/geometry/path convergence, and endpoints that collapse to the same reaction state.
 - Reproducible outputs: input geometries, settings, input hashes, forces, spin diagnostics, trajectories, timings, failure records and outstanding validation work.
 - Published small-molecule geometry seeds for method calibration, with provenance, original units, and identified source inconsistencies.
+- A fixed-geometry comparison with a published methane/ethynyl reaction reference, preserving results species by species. Its discrepancy includes method and geometry differences; it is not a measured assembler error rate.
+- Central-difference vibrational characterization of the free coordinates, reporting negative-curvature and unresolved soft modes, numerical Hessian asymmetry and the remaining transition-state checks.
 
 The first structure is a **finite diamondoid cluster**, not a converged diamond surface. The initial coordinates are constructed geometry, not optimized coordinates. A reaction path describes hydrogen transfer at one fixed tool pose; approach, withdrawal, regeneration and entire assembly sequences require additional calculations.
 
@@ -44,6 +46,17 @@ nanodesign calculate designs/h-abstraction/design.json \
   --stage path --images 7 --steps 200 --fmax 0.03 --out runs/h-abstraction-path
 
 nanodesign audit runs/h-abstraction-path/result.json
+
+# Compare the default method at published small-molecule geometries.
+nanodesign benchmark --out runs/methane-reference
+
+# Optional: characterize a converged structure. This is expensive:
+# two force evaluations for each free Cartesian coordinate, plus the original.
+# This 53-atom candidate has 141 free coordinates (283 evaluations).
+nanodesign characterize examples/h-abstraction/design.json \
+  --structure runs/h-abstraction-relax/structure.extxyz \
+  --max-free-coordinates 141 --out runs/h-abstraction-modes
+
 pytest -q
 ```
 
@@ -58,6 +71,8 @@ Accuracy needs a target: material and surface, elementary reaction, environment,
 Before accepting a design, establish reaction-specific quantum benchmarks; converge the basis, grid, cluster size and mechanical boundaries; verify electronic states; confirm transition states and connectivity; quantify competing pathways and finite-temperature effects; then validate predicted behavior experimentally. Those are outstanding research tasks, not boxes that this implementation silently checks off.
 
 The program does **not** currently predict assembly error rates, synthesis accessibility, arbitrary mechanosynthesis reactions, tool lifetime or a whole nanofactory. It does not replace electronic structure with a Lennard-Jones animation or use a nonreactive force field to infer bond-making chemistry.
+
+The reference comparison uses the attributed data in this source checkout. When running a separately installed package, supply `--reference-dir /path/to/data/reference`. A reference-geometry energy difference is not a newly optimized DFT activation barrier. Likewise, one negative vibrational mode alone does not verify a reaction transition state: its direction and connectivity still need checking. See [accuracy checks](docs/ACCURACY.md).
 
 Read [the physical model](docs/MODEL.md), [source notes](SOURCE_NOTES.md), and [reference geometry provenance](data/reference/provenance.json). The reference data have their own stated licensing terms; see [data/reference/README.md](data/reference/README.md).
 

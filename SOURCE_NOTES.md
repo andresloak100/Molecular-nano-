@@ -20,6 +20,8 @@ Files: `methane.xyz`, `ethynyl_radical.xyz`, `methyl_radical.xyz`, `acetylene.xy
 
 **Data-quality hold:** directly subtracting the SI's labeled absolute methane and ethynyl energies from its methane transition-structure energy gives approximately −14.76 kcal/mol, inconsistent with the main paper's positive barrier. No cause is assigned here. Do not use these SI absolute energies as acceptance targets until reconciled with the original calculation settings or an author correction. Metadata marks them unverified. Geometry provenance remains useful independently.
 
+Additional source checks: the methane UCCSD(T)/cc-pVDZ collinear structure has three imaginary frequencies in main-paper Table 1 (259i, 50i, 50i cm⁻¹), so it is a nominal transition-structure candidate, not a verified first-order saddle. Its converted SI donor–H and acceptor–H distances are 1.149220 and 1.672376 Å, whereas Table 2 lists 1.148 and 1.678 Å; this discrepancy is unresolved. Original coordinates are retained. Table 5 footnote d uses RCCSD(T)/cc-pVDZ vibrational corrections for the reported 1.7 kcal/mol 0 K barrier; the 2.2 kcal/mol bare comparator must remain separate.
+
 ## Proposed first executable chemical operation
 
 Start with the gas-phase calibration reaction **C₂H• + CH₄ → C₂H₂ + CH₃•**, all species neutral. Methane and acetylene are singlets; ethynyl and methyl are doublets; the combined reaction is a neutral doublet. In PySCF conventions, the combined system has `charge=0, spin=1` (spin means Nα−Nβ, not multiplicity). There are eight atoms and 23 electrons. Use the ground-state ethynyl solution, inspect spin density and electronic stability, and watch for state switching along the path.

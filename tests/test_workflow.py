@@ -140,3 +140,34 @@ def test_geometric_screen_detects_dissociated_bond():
     assert topology_screen(atoms, [[0, 1, 1]])["preserved"]
     atoms.positions[1, 0] = 2.0
     assert not topology_screen(atoms, [[0, 1, 1]])["preserved"]
+
+
+def test_characterization_preserves_constraints_and_records_result(tmp_path, monkeypatch):
+    design = write_test_design(tmp_path)
+    monkeypatch.setattr(workflow, "PySCFCalculator", DoubleWell)
+    result = workflow.run_characterization(design, tmp_path / "initial.xyz", tmp_path / "modes")
+    assert result["status"] == "completed"
+    assert result["stationary"]["frozen_atom_indices"] == [0]
+    assert result["stationary"]["negative_mode_count"] == 0
+    assert result["stationary"]["force_requests"] == 7
+    assert result["validation"]["transition_state_validated"] is False
+
+
+def test_characterization_rejects_large_cost_before_computation(tmp_path, monkeypatch):
+    design = write_test_design(tmp_path)
+    with pytest.raises(ValueError, match="free coordinates"):
+        workflow.run_characterization(design, tmp_path / "initial.xyz", tmp_path / "modes", max_free_coordinates=2)
+    assert not (tmp_path / "modes").exists()
+
+
+def test_characterization_stops_if_not_stationary(tmp_path, monkeypatch):
+    design = write_test_design(tmp_path)
+    atoms = load_design(design)[1]
+    atoms.positions[1, 0] = 0.5
+    write(tmp_path / "displaced.xyz", atoms)
+    monkeypatch.setattr(workflow, "PySCFCalculator", DoubleWell)
+    with pytest.raises(ValueError, match="not stationary"):
+        workflow.run_characterization(design, tmp_path / "displaced.xyz", tmp_path / "modes", fmax=0.01)
+    result = json.loads((tmp_path / "modes" / "result.json").read_text())
+    assert result["status"] == "failed"
+    assert "stationary" not in result

@@ -12,7 +12,7 @@ from ase.io import write
 from .candidates import make_h_abstraction
 from .design import load_design
 from .quantum import QuantumSettings
-from .workflow import json_write, run, audit_result
+from .workflow import json_write, run, audit_result, run_characterization
 
 
 def create_design(output, separation, offset):
@@ -55,6 +55,19 @@ def main(argv=None):
     calc.add_argument("--images", type=int, default=7, help="Total NEB images including endpoints")
     audit = sub.add_parser("audit", help="Show numerical status and missing physical validation.")
     audit.add_argument("result")
+    benchmark = sub.add_parser("benchmark", help="Compare energies at published reference geometries; this is not a calibrated tool prediction.")
+    benchmark.add_argument("--out", required=True)
+    benchmark.add_argument("--settings", help="JSON quantum settings, or a design JSON containing quantum settings")
+    benchmark.add_argument("--reference-dir", help="Directory with the attributed published geometry package")
+    characterize = sub.add_parser("characterize", help="Compute free-coordinate vibrational modes at a proposed stationary structure.")
+    characterize.add_argument("design")
+    characterize.add_argument("--structure", required=True, help="Optimized structure or trajectory; coordinates in Å")
+    characterize.add_argument("--image", type=int, default=-1, help="Trajectory frame, default final frame")
+    characterize.add_argument("--out", required=True)
+    characterize.add_argument("--step", type=float, default=0.005, help="Central-difference displacement in Å")
+    characterize.add_argument("--fmax", type=float, default=0.03)
+    characterize.add_argument("--frequency-tolerance", type=float, default=20.0, help="Unresolved-mode threshold in cm^-1")
+    characterize.add_argument("--max-free-coordinates", type=int, default=120, help="Cost guard: each free coordinate requires two quantum force evaluations")
     args = parser.parse_args(argv)
     try:
         if args.command == "candidate":
@@ -76,6 +89,24 @@ def main(argv=None):
         elif args.command == "audit":
             result = json.loads(Path(args.result).read_text())
             print(json.dumps(audit_result(result), indent=2))
+        elif args.command == "benchmark":
+            from .benchmark import run_benchmark
+            settings_data = json.loads(Path(args.settings).read_text()) if args.settings else {}
+            settings = QuantumSettings(**settings_data.get("quantum", settings_data))
+            result = run_benchmark(settings, args.reference_dir, args.out)
+            print(json.dumps({"result": str(Path(args.out).resolve() / "benchmark.json"),
+                              "computed": result.get("computed"), "comparison": result.get("comparison"),
+                              "method_validated": False}, indent=2))
+        elif args.command == "characterize":
+            result = run_characterization(args.design, args.structure, args.out, image=args.image,
+                step=args.step, fmax=args.fmax, frequency_tolerance=args.frequency_tolerance,
+                max_free_coordinates=args.max_free_coordinates)
+            print(json.dumps({"result": str(Path(args.out).resolve() / "result.json"),
+                              "status": result["status"], "classification": result["stationary"]["classification"],
+                              "negative_mode_count": result["stationary"]["negative_mode_count"],
+                              "unresolved_near_zero_mode_count": result["stationary"]["unresolved_near_zero_mode_count"],
+                              "frequencies_cm1": result["stationary"]["frequencies_cm1"],
+                              "design_validated": False}, indent=2))
     except KeyboardInterrupt:
         print("Calculation interrupted; inspect its result.json and saved trajectories.", file=sys.stderr)
         return 130
