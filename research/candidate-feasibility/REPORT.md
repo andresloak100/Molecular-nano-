@@ -88,7 +88,20 @@ run a NEB on this system, so there is no calibration for them; that is a real
 weakness of the projection and the reason the answer is a range.
 
 Even the optimistic scenario exceeds four days for a single pose on a machine
-that is shared. The campaign in `examples/pose-campaign` has nine poses.
+that is shared.
+
+**A distinction worth getting right, because it changes what is actually
+blocked.** The campaign in `examples/pose-campaign` has nine poses, but its
+controls specify `stage: "singlepoint"`, not `"path"`. As configured it is one
+evaluation per pose — about 1.8 hours in total at the archived density-fitted
+cost, and affordable today. Nothing about the campaign is blocked by this
+report.
+
+What is infeasible is switching that campaign, or any single pose, to
+`stage: "path"`. Nine poses at the central scenario would be roughly 77 days
+at the pessimistic end of the contention range and about 7.5 days at the
+optimistic end. The gap between "run the campaign" and "run a path" is three
+orders of magnitude in evaluations, and it is the whole of the problem.
 
 **How much of that is the machine rather than the method.** The archived
 per-evaluation cost is wall clock under contention of unrecorded magnitude, so
@@ -192,8 +205,10 @@ heuristic, not a selection rule, and it does not relieve anyone of scanning.
 
 Runnable this week, with its compromises stated.
 
-1. **Do not run the 53-atom path at default settings.** 4.3 days is the
-   optimistic case for one pose and the campaign has nine.
+1. **Run the nine-pose campaign as configured — it is affordable.** Its
+   controls say `stage: "singlepoint"`, about 1.8 hours in total density-fitted.
+   Do not switch it to `stage: "path"`: that is 530-2400 evaluations per pose
+   instead of one.
 2. **Use density fitting throughout.** Measured 4.7e-4 eV/Å force deviation
    against a 0.03 tolerance is the best-supported approximation available, and
    it is the one number here that contention cannot touch.
