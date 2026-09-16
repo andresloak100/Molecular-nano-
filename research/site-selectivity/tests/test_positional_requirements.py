@@ -283,3 +283,61 @@ def test_competitor_count_is_validated():
     for bad in (0, -1, 2.5, True):
         with pytest.raises(PositionalRequirementError):
             required_stiffness(MARGIN, 1e-15, 300.0, competitor_count=bad)
+
+
+def test_maximum_operating_temperature_brackets_room_temperature():
+    """The measured tip, expressed as an operating specification.
+
+    Both criteria are quoted because they bracket rather than disagree: the union
+    over bisector half-spaces is the exact failure event, and the sphere-exit
+    criterion is a strict upper bound on it, so it yields the lower T_max.
+    """
+    from positional_requirements import maximum_operating_temperature
+
+    measured = 7.2715  # apex carbon, propyne model, compliance-based
+
+    exact = maximum_operating_temperature(measured, 4.431, 300.0)
+    conservative = maximum_operating_temperature(measured, 4.825, 298.15)
+
+    assert exact["maximum_operating_temperature_kelvin"] == pytest.approx(492.3, abs=1.0)
+    assert conservative["maximum_operating_temperature_kelvin"] == pytest.approx(449.3, abs=1.0)
+    # The conservative criterion must give the lower limit, never the higher.
+    assert (
+        conservative["maximum_operating_temperature_kelvin"]
+        < exact["maximum_operating_temperature_kelvin"]
+    )
+    for result in (exact, conservative):
+        assert result["meets_requirement_at_reference"]
+        assert result["margin_above_room_temperature_kelvin"] > 100.0
+
+
+def test_operating_temperature_is_linear_in_stiffness():
+    from positional_requirements import maximum_operating_temperature
+
+    single = maximum_operating_temperature(10.0, 5.0, 300.0)
+    double = maximum_operating_temperature(20.0, 5.0, 300.0)
+    assert single["maximum_operating_temperature_kelvin"] == pytest.approx(600.0)
+    assert double["maximum_operating_temperature_kelvin"] == pytest.approx(1200.0)
+    with pytest.raises(PositionalRequirementError):
+        maximum_operating_temperature(10.0, 0.0, 300.0)
+
+
+def test_the_union_bound_is_contained_in_the_sphere_exit_event():
+    """Why the two criteria bracket rather than compete.
+
+    Crossing a bisector plane at perpendicular distance d puts the apex at radius
+    at least d, since d is the closest approach of that plane to the origin. So
+    the union of half-spaces is a subset of the sphere-exit event and its
+    probability can never be larger -- which is why the sphere-exit criterion
+    demands the higher stiffness.
+    """
+    margin = MARGIN
+    for competitors in (1, 6):
+        union = required_stiffness(margin, 1e-15, 300.0, competitor_count=competitors)
+        sigma_union = union["required_sigma_angstrom"]
+        # 3D sphere-exit tail at the same sigma must be at least the union's target.
+        # P(|r| > d) for an isotropic Gaussian, via the chi-3 survival function.
+        from scipy.stats import chi
+
+        sphere_tail = float(chi.sf(margin / sigma_union, df=3))
+        assert sphere_tail >= 1e-15

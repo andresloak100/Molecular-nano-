@@ -333,3 +333,46 @@ def assess(margin_angstrom: float, achievable_stiffness_n_per_m: float,
             "computed stiffness an upper bound, so a real mount is softer than modelled."
         ),
     }
+
+
+def maximum_operating_temperature(measured_stiffness_n_per_m: float,
+                                  required_stiffness_n_per_m: float,
+                                  reference_temperature_kelvin: float) -> dict:
+    """Highest temperature at which a measured mount still meets the requirement.
+
+    The classical requirement is k = k_B T / sigma**2 at fixed sigma, so it is
+    linear in temperature and inverts trivially: T_max = T * k_measured /
+    k_required.
+
+    This is the most useful presentation of a positional margin, and it is worth
+    saying why rather than only how.  A stiffness headroom of 1.5x sounds thin
+    and invites worry; the same fact expressed as a mis-targeting probability of
+    1e-23 sounds like absurd overkill.  Both are correct, because the probability
+    falls exponentially in sigma^-2 while sigma falls only as the square root of
+    stiffness, so a small stiffness margin buys an enormous probability margin.
+    An operating temperature avoids both distortions and states the result as a
+    specification: this tool holds atomic positional precision up to about so many
+    kelvin.
+
+    Applies only to the classical regime.  Above the quantum crossover the spread
+    stops falling with temperature, so cooling saturates and heating is worse than
+    linear; see ``quantum_correction`` and ``cooling_assessment``.
+    """
+    measured = _positive("measured_stiffness_n_per_m", measured_stiffness_n_per_m)
+    required = _positive("required_stiffness_n_per_m", required_stiffness_n_per_m)
+    reference = _positive("reference_temperature_kelvin", reference_temperature_kelvin)
+    limit = reference * measured / required
+    return {
+        "measured_stiffness_n_per_m": measured,
+        "required_stiffness_n_per_m": required,
+        "reference_temperature_kelvin": reference,
+        "maximum_operating_temperature_kelvin": limit,
+        "stiffness_headroom_factor": measured / required,
+        "meets_requirement_at_reference": bool(measured >= required),
+        "margin_above_room_temperature_kelvin": limit - 298.15,
+        "note": (
+            "Classical regime only, and it bounds which hydrogen is NEAREST the apex rather "
+            "than which one reacts. A rigid-anchor compliance makes the stiffness an upper "
+            "bound, while a proxy mount floppier than the real one makes it a lower estimate."
+        ),
+    }
