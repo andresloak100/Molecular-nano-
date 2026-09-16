@@ -1,0 +1,438 @@
+"""Does thermal motion let the tip hit the wrong hydrogen?
+
+This is the question the whole repository is built on top of and has not asked.
+Everything so far measures *energies*: barriers, reaction energies, site
+preferences. But a peer lane established that this tool has no steric
+discrimination between adamantane's sixteen C-H sites, and this project's own
+calibration puts the thermodynamic preference between site types at a few
+kcal/mol at most. If the chemistry does not choose the site, then position
+does, and position is not exact: the tip is a mechanical object at finite
+temperature and it wanders.
+
+Drexler's criterion for atomically precise manufacturing is an error rate per
+operation small enough that a large product is still perfect - conventionally
+quoted around 1e-15. That is a statement about a probability distribution of
+tip positions, not about a barrier. This module computes it.
+
+THE GEOMETRY. At the nominal 3.6 A pose, the target bridgehead hydrogen sits on
+the tool axis, and the twelve nearest competing hydrogens sit 2.158 A away from
+that axis, laterally. So the tip has a target radius of roughly half that
+before a competing site is closer than the intended one.
+
+THE PHYSICS. For an isotropic two-dimensional Gaussian of lateral wander with
+standard deviation sigma per axis, the probability of straying beyond radius R
+is exp(-R^2 / (2 sigma^2)). Setting that below 1e-15 requires
+
+    sigma < R / sqrt(2 ln(1e15)) = R / 8.31
+
+With R = 1.079 A that is sigma < 0.130 A, which converts through classical
+equipartition, sigma^2 = kT/k, into a *required lateral stiffness*. That number
+is the design specification this project has never written down.
+
+TWO CONTRIBUTIONS TO THE STIFFNESS, and only one is measured here.
+
+The *interaction* stiffness is the curvature of the potential energy surface as
+the tool slides laterally over the substrate: does the chemistry itself pull the
+tip back over the target? This module measures it by scanning the lateral offset
+the candidate builder already exposes, and reading the curvature at the minimum.
+
+The *mount* stiffness is what the handle and its anchors contribute, and it is
+not measured here. It needs a Hessian, which is expensive and is named as the
+refinement rather than guessed at. The two add, so the interaction stiffness
+alone is a lower bound on the total, and the sigma computed from it alone is an
+upper bound.
+
+WHY COOLING DOES NOT SOLVE IT. Classical equipartition says sigma^2 = kT/k, so
+sigma goes to zero as the temperature does. That is wrong at low temperature.
+The quantum result,
+
+    sigma^2 = (hbar / (2 mu omega)) * coth(hbar omega / (2 kT))
+
+approaches hbar/(2 mu omega) rather than zero: zero-point motion sets a floor
+that no amount of cooling removes. Both are computed, and the floor is reported,
+because "run it cold" is the obvious first suggestion and it has a limit.
+
+WHAT THIS IS NOT. A rigid scan, so no relaxation: real curvatures are softer,
+which makes the measured interaction stiffness an upper bound on itself. A
+harmonic fit near one minimum. A model that asks only whether the tip is *over*
+the right hydrogen, not whether being there makes the reaction go - that is a
+barrier question and belongs to S1. And an error rate computed this way counts
+mis-positioning only; it is a necessary condition for precision, not a
+sufficient one.
+
+Run from the repository root:
+
+    python research/candidate-feasibility/positional_control.py --handle hydrogen
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import math
+from pathlib import Path
+import sys
+
+import numpy as np
+
+ROOT = Path(__file__).resolve().parents[2]
+LANE = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(LANE))
+
+from nanodesign.candidates import make_h_abstraction  # noqa: E402
+from nanodesign.quantum import PySCFCalculator, QuantumSettings  # noqa: E402
+from reduced_models import HANDLES, TIP_APEX, reduced_candidate  # noqa: E402
+from timing import load_snapshot, timed  # noqa: E402
+
+EVIDENCE = LANE / "evidence"
+
+BOLTZMANN_EV_PER_K = 8.617333262e-5
+HBAR_J_S = 1.054571817e-34
+EV_TO_J = 1.602176634e-19
+ANGSTROM_TO_M = 1e-10
+AMU_TO_KG = 1.66053906660e-27
+DREXLER_ERROR_TARGET = 1e-15
+TEMPERATURES_K = (4.0, 77.0, 195.0, 298.15, 500.0)
+
+
+def competing_site_geometry(separation: float = 3.6) -> dict:
+    """How far the tip may wander before a wrong hydrogen is the nearest one.
+
+    A wrong turn worth recording, because it is the obvious way to do this and
+    it is wrong by a factor of four. Ranking competitors by their lateral
+    distance from the tool axis picks out three hydrogens 1.452 A off-axis and
+    concludes the tip has only a 0.73 A margin. Those three sit at z = -3.66,
+    on the far side of the cage, 7.4 A from the apex: the tip cannot reach them
+    at any lateral offset. Lateral distance alone ignores whether a site is
+    reachable in z.
+
+    The criterion used instead is Voronoi from the apex. Slide the apex
+    laterally toward a competitor and find the offset at which that competitor
+    becomes equidistant from the apex with the target. The smallest such offset
+    over all competitors is the margin. This correctly identifies the six
+    equatorial methylene hydrogens, at z = -0.15, as the real rivals.
+
+    Still only a geometric proxy. "Nearest hydrogen" is not "the hydrogen that
+    reacts": abstraction also wants a roughly collinear C-C...H-C approach, and
+    a tip that is nearest to the target but badly angled may do nothing at all.
+    This bounds mis-targeting, it does not predict the product.
+    """
+    reactant, _, metadata = make_h_abstraction(separation, 0.0)
+    positions = reactant.positions
+    symbols = reactant.get_chemical_symbols()
+    target = metadata["transferred_hydrogen"]
+    target_position = positions[target]
+    apex = positions[metadata["tip_apex"]]
+
+    competitors = []
+    for index in metadata["substrate_indices"]:
+        if symbols[index] != "H" or index == target:
+            continue
+        position = positions[index]
+        lateral_vector = position[:2] - apex[:2]
+        lateral_distance = float(np.linalg.norm(lateral_vector))
+        entry = {
+            "index": index,
+            "position": position.tolist(),
+            "lateral_from_tool_axis_angstrom": float(np.linalg.norm(position[:2])),
+            "z_angstrom": float(position[2]),
+            "distance_to_apex_angstrom": float(np.linalg.norm(position - apex)),
+        }
+        if lateral_distance < 1e-9:
+            # Directly under the apex: moving laterally never favours it.
+            entry["crossover_offset_angstrom"] = None
+            entry["reachable_by_lateral_motion"] = False
+            competitors.append(entry)
+            continue
+
+        # Worst case: the apex slides straight at this competitor.
+        # With apex(x) = apex + x*d and d a unit lateral vector, the x^2 terms
+        # cancel between the two squared distances, leaving
+        #     x = (|apex-C|^2 - |apex-T|^2) / (2 d . (C - T))
+        direction = np.array([lateral_vector[0], lateral_vector[1], 0.0]) / lateral_distance
+        numerator = float(
+            np.dot(apex - position, apex - position)
+            - np.dot(apex - target_position, apex - target_position)
+        )
+        denominator = 2.0 * float(np.dot(direction, position - target_position))
+        crossover = numerator / denominator if abs(denominator) > 1e-12 else None
+        entry["crossover_offset_angstrom"] = crossover if (crossover is not None and crossover > 0) else None
+        entry["reachable_by_lateral_motion"] = entry["crossover_offset_angstrom"] is not None
+        competitors.append(entry)
+
+    reachable = [c for c in competitors if c["crossover_offset_angstrom"] is not None]
+    reachable.sort(key=lambda entry: entry["crossover_offset_angstrom"])
+    if not reachable:
+        raise RuntimeError("No competing hydrogen becomes nearest at any lateral offset.")
+    margin = reachable[0]["crossover_offset_angstrom"]
+
+    naive = min(c["lateral_from_tool_axis_angstrom"] for c in competitors) / 2.0
+    return {
+        "target_hydrogen_index": target,
+        "target_is_on_tool_axis": bool(np.linalg.norm(target_position[:2]) < 1e-9),
+        "n_competing_substrate_hydrogens": len(competitors),
+        "criterion": "Voronoi from the apex: lateral offset at which a competitor becomes equidistant with the target",
+        "target_radius_angstrom": margin,
+        "nearest_rival_index": reachable[0]["index"],
+        "nearest_rival_z_angstrom": reachable[0]["z_angstrom"],
+        "n_rivals_at_that_offset": sum(
+            1 for c in reachable if abs(c["crossover_offset_angstrom"] - margin) < 1e-6
+        ),
+        "rejected_naive_radius_angstrom": naive,
+        "why_naive_is_wrong": (
+            "Half the smallest lateral offset of any competitor. Picks hydrogens "
+            "on the far side of the cage that the tip cannot reach at any offset, "
+            "and understates the margin roughly fourfold."
+        ),
+        "limits": (
+            "Nearest-hydrogen is not the same as the hydrogen that reacts. "
+            "Abstraction also wants a near-collinear approach, so this bounds "
+            "mis-targeting rather than predicting a product."
+        ),
+        "reachable_rivals": reachable[:6],
+    }
+
+
+def required_sigma(target_radius: float, error_target: float = DREXLER_ERROR_TARGET) -> float:
+    """Lateral sigma per axis that keeps the 2-D miss probability under the target.
+
+    For an isotropic 2-D Gaussian, P(r > R) = exp(-R^2 / (2 sigma^2)) exactly.
+    """
+    return target_radius / math.sqrt(2.0 * math.log(1.0 / error_target))
+
+
+def error_probability(target_radius: float, sigma: float) -> float:
+    if sigma <= 0:
+        return 0.0
+    return math.exp(-(target_radius ** 2) / (2.0 * sigma ** 2))
+
+
+def classical_sigma(stiffness_ev_per_a2: float, temperature_k: float) -> float:
+    """sigma = sqrt(kT/k). One harmonic coordinate, classical equipartition.
+
+    Amplitude scales as 1/sqrt(stiffness), not equally across coordinates.
+    """
+    if stiffness_ev_per_a2 <= 0:
+        return float("inf")
+    return math.sqrt(BOLTZMANN_EV_PER_K * temperature_k / stiffness_ev_per_a2)
+
+
+def quantum_sigma(stiffness_ev_per_a2: float, reduced_mass_amu: float, temperature_k: float) -> dict:
+    """Harmonic-oscillator sigma including zero-point motion.
+
+    sigma^2 = (hbar / (2 mu omega)) coth(hbar omega / (2 kT)), which tends to
+    hbar/(2 mu omega) as T -> 0 rather than to zero.
+    """
+    if stiffness_ev_per_a2 <= 0:
+        return {"sigma_angstrom": float("inf"), "zero_point_sigma_angstrom": float("inf")}
+    k_si = stiffness_ev_per_a2 * EV_TO_J / (ANGSTROM_TO_M ** 2)
+    mu_si = reduced_mass_amu * AMU_TO_KG
+    omega = math.sqrt(k_si / mu_si)
+    zero_point_variance = HBAR_J_S / (2.0 * mu_si * omega)
+    x = HBAR_J_S * omega / (2.0 * BOLTZMANN_EV_PER_K * EV_TO_J * temperature_k)
+    # coth overflows for large x (cold, stiff); it is 1 to machine precision there.
+    coth = 1.0 / math.tanh(x) if x < 350 else 1.0
+    variance = zero_point_variance * coth
+    return {
+        "sigma_angstrom": math.sqrt(variance) / ANGSTROM_TO_M,
+        "zero_point_sigma_angstrom": math.sqrt(zero_point_variance) / ANGSTROM_TO_M,
+        "omega_rad_per_s": omega,
+        "hbar_omega_ev": HBAR_J_S * omega / EV_TO_J,
+        "kt_ev": BOLTZMANN_EV_PER_K * temperature_k,
+        "quantum_regime": bool(HBAR_J_S * omega / EV_TO_J > BOLTZMANN_EV_PER_K * temperature_k),
+    }
+
+
+def lateral_scan(handle: str, offsets, settings: QuantumSettings) -> list[dict]:
+    """Energy against lateral tool offset, rigid: no relaxation at any offset."""
+    points = []
+    for offset in offsets:
+        atoms, _ = reduced_candidate(handle, separation=3.6, lateral=float(offset))
+        atoms.calc = PySCFCalculator(settings, event_log=EVIDENCE / f"lateral-{handle}.jsonl")
+        point: dict = {"lateral_offset_angstrom": float(offset), "n_atoms": len(atoms)}
+        try:
+            with timed(point, "timing"):
+                point["energy_ev"] = float(atoms.get_potential_energy())
+            diagnostics = atoms.calc.diagnostics
+            point.update(
+                scf_converged=diagnostics["scf_converged"],
+                s2=diagnostics["s2"],
+                basis_functions=diagnostics["basis_functions"],
+            )
+            print(f"  offset {offset:5.2f} A   E = {point['energy_ev']:.6f} eV"
+                  f"   cpu {point['timing']['cpu_seconds']:.1f} s")
+        except Exception as exc:  # noqa: BLE001 - a failed point is a result
+            point["error"] = f"{type(exc).__name__}: {exc}"
+            print(f"  offset {offset:5.2f} A   FAILED: {point['error'][:70]}")
+        points.append(point)
+    return points
+
+
+def fit_curvature(points: list[dict], window: float = 0.45) -> dict:
+    """Quadratic fit near the minimum; curvature is the lateral stiffness.
+
+    Only points within ``window`` of the minimum are fitted, because a harmonic
+    reading of a landscape is only meaningful near its bottom.
+    """
+    usable = [p for p in points if "energy_ev" in p]
+    if len(usable) < 3:
+        return {"fitted": False, "reason": f"only {len(usable)} points converged; need 3"}
+    minimum = min(usable, key=lambda p: p["energy_ev"])
+    centre = minimum["lateral_offset_angstrom"]
+    local = [p for p in usable if abs(p["lateral_offset_angstrom"] - centre) <= window]
+    if len(local) < 3:
+        local = sorted(usable, key=lambda p: abs(p["lateral_offset_angstrom"] - centre))[:3]
+    x = np.array([p["lateral_offset_angstrom"] for p in local])
+    y = np.array([p["energy_ev"] for p in local])
+    coefficients = np.polyfit(x, y, 2)
+    curvature = 2.0 * float(coefficients[0])  # E = a x^2 + ... -> k = d2E/dx2 = 2a
+    residuals = y - np.polyval(coefficients, x)
+    return {
+        "fitted": True,
+        "stiffness_ev_per_angstrom_squared": curvature,
+        "minimum_at_offset_angstrom": centre,
+        "points_used": len(local),
+        "fit_window_angstrom": window,
+        "max_fit_residual_ev": float(np.abs(residuals).max()),
+        "energy_range_over_scan_ev": float(max(p["energy_ev"] for p in usable)
+                                           - min(p["energy_ev"] for p in usable)),
+        "curvature_sign_note": (
+            "A negative or near-zero curvature means the interaction does not "
+            "localize the tip laterally at all, so every bit of positional "
+            "control would have to come from the mount."
+        ),
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--handle", default="hydrogen", choices=list(HANDLES))
+    parser.add_argument("--max-offset", type=float, default=1.2)
+    parser.add_argument("--step", type=float, default=0.2)
+    parser.add_argument("--basis", default="def2-svp")
+    parser.add_argument("--out", default=None)
+    args = parser.parse_args()
+
+    EVIDENCE.mkdir(parents=True, exist_ok=True)
+    out = EVIDENCE / (args.out or f"positional-control-{args.handle}.json")
+    if out.exists():
+        raise SystemExit(f"{out} exists; evidence is never overwritten. Choose --out.")
+
+    geometry = competing_site_geometry()
+    radius = geometry["target_radius_angstrom"]
+    needed = required_sigma(radius)
+
+    settings = QuantumSettings(
+        xc="pbe0", basis=args.basis, dispersion="d3bj",
+        density_fit=True, threads=1, scf_initial_guess="atom",
+    )
+
+    report: dict = {
+        "schema_version": 1,
+        "question": "Does thermal motion of the tip let it reach the wrong hydrogen?",
+        "why": (
+            "This tool has no steric site discrimination and only a few kcal/mol "
+            "of thermodynamic preference, so selectivity rests on position. "
+            "Position at finite temperature is a distribution, not a point."
+        ),
+        "geometry": geometry,
+        "specification": {
+            "error_target_per_operation": DREXLER_ERROR_TARGET,
+            "target_radius_angstrom": radius,
+            "required_lateral_sigma_angstrom": needed,
+            "derivation": "P(r > R) = exp(-R^2 / 2 sigma^2) for an isotropic 2-D Gaussian",
+            "required_stiffness_ev_per_angstrom_squared_at_298K": (
+                BOLTZMANN_EV_PER_K * 298.15 / needed ** 2
+            ),
+        },
+        "method": f"PBE0-D3(BJ)/{args.basis}, density fitting, rigid lateral scan, no relaxation",
+        "model": f"{args.handle}-handle reduced candidate",
+        "measures": "interaction contribution to lateral stiffness only",
+        "does_not_measure": (
+            "the mount's own stiffness, which adds to it and needs a Hessian; "
+            "so sigma computed here is an UPPER bound and the verdict it gives "
+            "is pessimistic by an unknown amount"
+        ),
+        "host_at_start": load_snapshot(),
+        "status": "running",
+    }
+    out.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
+
+    print(f"target radius {radius:.3f} A "
+          f"({geometry['n_competitors_at_that_distance']} competing H at "
+          f"{geometry['nearest_competitor_lateral_angstrom']:.3f} A lateral)")
+    print(f"required sigma for {DREXLER_ERROR_TARGET:.0e} error rate: {needed:.4f} A")
+    print(f"required stiffness at 298 K: "
+          f"{report['specification']['required_stiffness_ev_per_angstrom_squared_at_298K']:.2f} eV/A^2\n")
+
+    offsets = np.arange(0.0, args.max_offset + 1e-9, args.step)
+    print(f"lateral scan, {args.handle} handle, {len(offsets)} points:")
+    points = lateral_scan(args.handle, offsets, settings)
+    report["scan"] = points
+    out.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
+
+    fit = fit_curvature(points)
+    report["fit"] = fit
+    if fit["fitted"]:
+        stiffness = fit["stiffness_ev_per_angstrom_squared"]
+        tool_mass = sum(
+            mass for index, mass in enumerate(reduced_candidate(args.handle)[0].get_masses())
+            if index >= TIP_APEX
+        )
+        report["reduced_mass_amu"] = float(tool_mass)
+        report["reduced_mass_note"] = (
+            "Mass of the displaced tool atoms. The substrate is anchored and "
+            "treated as infinitely massive, which understates sigma slightly."
+        )
+        rows = {}
+        for temperature in TEMPERATURES_K:
+            classical = classical_sigma(stiffness, temperature)
+            quantum = quantum_sigma(stiffness, tool_mass, temperature)
+            rows[f"{temperature:g}K"] = {
+                "temperature_k": temperature,
+                "classical_sigma_angstrom": classical,
+                "classical_error_probability": error_probability(radius, classical),
+                "quantum_sigma_angstrom": quantum["sigma_angstrom"],
+                "quantum_error_probability": error_probability(radius, quantum["sigma_angstrom"]),
+                "zero_point_sigma_angstrom": quantum["zero_point_sigma_angstrom"],
+                "hbar_omega_ev": quantum.get("hbar_omega_ev"),
+                "kt_ev": quantum.get("kt_ev"),
+                "quantum_regime": quantum.get("quantum_regime"),
+                "meets_target_classical": error_probability(radius, classical) < DREXLER_ERROR_TARGET,
+                "meets_target_quantum": error_probability(radius, quantum["sigma_angstrom"]) < DREXLER_ERROR_TARGET,
+            }
+        report["thermal"] = rows
+        zero_point = quantum_sigma(stiffness, tool_mass, 1.0)["zero_point_sigma_angstrom"]
+        report["zero_point_floor"] = {
+            "sigma_angstrom": zero_point,
+            "error_probability_at_floor": error_probability(radius, zero_point),
+            "coolable_to_target": error_probability(radius, zero_point) < DREXLER_ERROR_TARGET,
+            "meaning": (
+                "Cooling reduces sigma only until zero-point motion dominates. "
+                "If the error probability at this floor already exceeds the "
+                "target, no temperature fixes this stiffness."
+            ),
+        }
+
+        print(f"\nfitted interaction stiffness: {stiffness:.3f} eV/A^2 "
+              f"(minimum at {fit['minimum_at_offset_angstrom']:.2f} A, "
+              f"scan spans {fit['energy_range_over_scan_ev']:.4f} eV)")
+        print(f"reduced mass {tool_mass:.1f} amu, zero-point sigma {zero_point:.4f} A\n")
+        print(f"{'T (K)':>8} {'sigma_cl':>10} {'sigma_qm':>10} {'P(wrong site)':>16} {'meets 1e-15':>12}")
+        for name, row in rows.items():
+            print(f"{row['temperature_k']:8.2f} {row['classical_sigma_angstrom']:10.4f} "
+                  f"{row['quantum_sigma_angstrom']:10.4f} {row['quantum_error_probability']:16.3e} "
+                  f"{str(row['meets_target_quantum']):>12}")
+    else:
+        print(f"\nno curvature fit: {fit['reason']}")
+
+    report["status"] = "completed"
+    report["host_at_end"] = load_snapshot()
+    out.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
+    print(f"\nwrote {out.relative_to(ROOT)}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
