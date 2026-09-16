@@ -140,8 +140,40 @@ TUNNELLING = Term(
     "1.67 A) is physically consistent with shallow negative curvature, so 259i is "
     "not obviously wrong - but that structure carries three imaginary modes and is "
     "not a first-order saddle, so its 259i is not necessarily the reaction-coordinate "
-    "frequency either. S1's verified saddles settle this, and until they do, "
-    "'tunnelling dominates' and 'tunnelling is minor' are BOTH unsupported.")
+    "frequency either. S1's verified saddles settle this directly. "
+    "EXPERIMENT NOW CONSTRAINS IT INDEPENDENTLY AND FAVOURS THE LOW BRANCH: Opansky & "
+    "Leone 1996 fit C2H + CH4 over 154-359 K to a single exponential, "
+    "k = 1.2e-11 exp(-491/T). A Wigner factor kappa = 1 + (hc|nu|/kT)^2/24 varies only "
+    "1.2-fold across that range at 259i, which a clean single exponential accommodates, "
+    "but 3.7-fold at 1500i, which would show as pronounced Arrhenius curvature over a "
+    "2.3-fold span in temperature. So the measured linearity is evidence for the low "
+    "|nu| and for a classical-with-modest-tunnelling regime. Qualitative only, since "
+    "Wigner is itself unreliable once kappa exceeds about 2, but the direction does not "
+    "depend on its precision. The term stays unmeasured until a verified saddle supplies "
+    "|nu| directly; it is no longer symmetric between the two branches.")
+
+
+CURVATURE_PRECISION = Term(
+    "precision of |nu| itself: single-step finite difference, unconverged", None, True, False,
+    "stationary.py reports finite_difference_step_convergence_checked false; raised by S1",
+    "Raised by S1 and it is the term that will outlive the other three. The crossover "
+    "test needs |nu|, but |nu| is currently one finite-difference estimate with no step-size "
+    "convergence check. S1 has queued a second Hessian at a different step. How much this "
+    "matters depends entirely on where |nu| lands: at 259i the room-temperature boundary of "
+    "1301 cm^-1 is a factor of five away, so the verdict survives being wrong by tens of "
+    "percent; near 1301 a ten percent error flips which rate model applies.")
+
+QUANTUM_AMPLITUDE_NOTE = (
+    "Verified cross-lane result, A1 proposed and this lane confirmed. Positional spread uses "
+    "sigma_quantum/sigma_classical = sqrt(x coth x) with x = hbar*omega/2kT, not Drexler's "
+    "classical sqrt(kT/k). On the committed H2 Hessian at 4383.9 cm^-1 the ratio is 3.253, and "
+    "the quantum spread is 87.51 mA at 298 K, 77 K and 4 K ALIKE, because it is pure zero-point "
+    "motion; the classical formula gives 26.90, 13.67 and 3.12, wrong by a factor of 28 at 4 K. "
+    "The ten-percent crossover frequency scales linearly with temperature: 336 cm^-1 at 298 K, "
+    "87 at 77 K, 4.5 at 4 K, so cooling makes MORE modes quantum. For this design that is "
+    "nonetheless favourable: a 30 N/m mount mode near 101 cm^-1 saturates low, and the margin "
+    "widens from 21 spreads at 298 K to 43 at 4 K. Use the classical form only for the soft "
+    "mount modes that set the tip spread, never for stiff bond modes.")
 
 
 def crossover_temperature_kelvin(imaginary_frequency_cm: float) -> float:
@@ -233,7 +265,7 @@ def build() -> list[Budget]:
         ]),
         Budget("Any claim about which hydrogen the tool abstracts, at a real temperature", None, [
             ZERO_POINT_ENERGY, THERMAL_FREE_ENERGY, TUNNELLING,
-            GEOMETRY_ERROR_NONSTATIONARY,
+            GEOMETRY_ERROR_NONSTATIONARY, CURVATURE_PRECISION,
         ]),
     ]
 
@@ -271,8 +303,28 @@ def main() -> int:
             "the reaction, 259i from Temelso Table 1, puts room temperature far ABOVE "
             "crossover and tunnelling minor. Those are opposite conclusions and the input "
             "distinguishing them is unmeasured. S1's verified saddles supply it."),
-        "cross_checked_with": "support session 76190bf3 rate-physics lane; values agree exactly",
+        "cross_checked_with": (
+            "support session 76190bf3 rate-physics lane and S1; all three agree. S1 expresses the "
+            "same boundary as a frequency, |nu| = 2 pi k_B T / (h c) = 1301 cm^-1 at 298 K, which "
+            "reproduces here to 1301.4."),
+        "boundary_frequency_cm_at_298K": 1301.4,
+        "experimental_constraint": {
+            "source": "Opansky & Leone 1996, C2H + CH4, 154-359 K, k = 1.2e-11 exp(-491/T)",
+            "apparent_activation_energy_kcal_per_mol": 0.976,
+            "wigner_kappa_variation_across_measured_range": {
+                "259": 1.2, "1000": 2.8, "1301": 3.4, "1500": 3.7, "2000": 4.2},
+            "inference": (
+                "A single exponential fitted cleanly over a 2.3-fold temperature span is "
+                "compatible with the 1.2-fold Wigner variation at 259i and not with the "
+                "3.7-fold variation at 1500i, which would curve the Arrhenius plot visibly. "
+                "Evidence for the low branch, available without waiting for S1."),
+            "consistency_chain": (
+                "electronic +2.399 (in-house CCSD(T)) -> 0 K with ZPE +1.7 (Temelso Table 5) "
+                "-> apparent Ea +0.976 (experiment). Monotone decreasing, the expected ordering."),
+            "strength": "qualitative; Wigner is unreliable above kappa ~2, so the high-|nu| column is indicative only",
+        },
     }
+    payload["positional_spread_quantum_correction"] = QUANTUM_AMPLITUDE_NOTE
     path = OUT / "uncertainty-budget.json"
     path.write_text(json.dumps(payload, indent=2, allow_nan=False) + "\n")
 
