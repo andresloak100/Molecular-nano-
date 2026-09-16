@@ -98,6 +98,18 @@ def test_nonconverged_scf_is_rejected():
     assert atoms.calc.diagnostics["scf_converged"] is False
 
 
+def test_effective_thread_count_is_reported_not_assumed():
+    """Builds without OpenMP ignore the thread request; the record must show it."""
+    atoms = Atoms("H2", positions=[[0, 0, 0], [0, 0, 0.91]])
+    _, _, diagnostics = evaluate(atoms, small_settings(threads=2))
+    effective = diagnostics["effective_pyscf_threads"]
+    assert diagnostics["requested_pyscf_threads"] == 2
+    assert isinstance(effective, int) and effective >= 1
+    assert diagnostics["threads_honored"] is (effective == 2)
+    assert ("threading_note" in diagnostics) is (effective != 2)
+    json.dumps(diagnostics, allow_nan=False)
+
+
 def test_ase_cache_invalidation_after_geometry_change():
     atoms = Atoms("H2", positions=[[0, 0, 0], [0, 0, 0.91]])
     atoms.calc = PySCFCalculator(small_settings())

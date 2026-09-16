@@ -72,7 +72,9 @@ PySCF documents conversion between compatible CPU and GPU objects and lists meth
 
 The proposed integration would preserve the existing energy/force units and diagnostics contract. It would record the backend and dependencies, compare CPU/GPU energies and forces on identical geometries, and check optimized structures and reaction paths before accepting equivalent numerical behavior. D3 must continue to be included exactly once. Hardware acceleration would change where calculations run, not their level of physical validation.
 
-CPU threading is configurable now. Within the current process, electronic evaluations are protected against conflicting changes to PySCF's global thread setting. Distributed jobs, parallel NEB images and GPU scheduling are future execution features.
+CPU threading is requested through the `threads` setting, but only an OpenMP-enabled PySCF build can honour it. The standard macOS arm64 wheel is built without OpenMP and runs every calculation on a single thread no matter what is requested, so a multi-core machine can deliver single-core speed. Each run therefore records `requested_pyscf_threads`, `effective_pyscf_threads` and `threads_honored` in its quantum diagnostics, and adds a `threading_note` when the two differ; reported timings must be read against the effective count. Obtaining a threaded build is a packaging change, not a change to the physics.
+
+Within the current process, electronic evaluations are protected against conflicting changes to PySCF's global thread setting. Distributed jobs, parallel NEB images and GPU scheduling are future execution features. Because NEB image evaluations are independent, running them as separate processes is the scaling route that does not depend on the solver's own threading.
 
 ## Future outer design optimizer
 

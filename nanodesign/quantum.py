@@ -156,7 +156,18 @@ class PySCFCalculator(Calculator):
             with _PYSCF_LOCK:
                 previous_threads = lib.num_threads()
                 lib.num_threads(self.settings.threads)
-                self.diagnostics["effective_pyscf_threads"] = int(lib.num_threads())
+                # A PySCF build without OpenMP silently ignores the request, so
+                # record what the process actually used rather than what was asked.
+                effective_threads = int(lib.num_threads())
+                self.diagnostics["requested_pyscf_threads"] = self.settings.threads
+                self.diagnostics["effective_pyscf_threads"] = effective_threads
+                self.diagnostics["threads_honored"] = effective_threads == self.settings.threads
+                if effective_threads != self.settings.threads:
+                    self.diagnostics["threading_note"] = (
+                        f"This PySCF build ran on {effective_threads} thread(s) despite "
+                        f"threads={self.settings.threads}; timings reflect the effective count. "
+                        "Builds without OpenMP cannot use additional cores within one calculation."
+                    )
                 try:
                     molecule = gto.M(
                         atom=list(zip(self.atoms.get_chemical_symbols(), self.atoms.positions.tolist())),
