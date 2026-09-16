@@ -288,3 +288,54 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+def cantilever_scaling(stiffness_n_per_m: float, lever_angstrom: float,
+                       target_lever_angstrom: float) -> float:
+    """Transverse stiffness of a tip of a different length, k proportional to L^-3.
+
+    A protruding tip behaves as a cantilever about its anchor plane, so its
+    transverse stiffness scales as the inverse cube of the lever arm.  Verified
+    on this model: the apex carbon at L = 3.0593 A gives 7.272 N/m and the apex
+    hydrogen at L = 4.1332 A gives 2.915, a ratio of 2.495 against the cubic
+    prediction of 2.466 -- agreement to 1.2 percent.  Two points on one molecule,
+    so this is a scaling law supported by a single check, not a converged fit.
+    """
+    stiffness = float(stiffness_n_per_m)
+    lever = float(lever_angstrom)
+    target = float(target_lever_angstrom)
+    if min(stiffness, lever, target) <= 0:
+        raise ValueError("stiffness and both lever arms must be positive")
+    return stiffness * (lever / target) ** 3
+
+
+def maximum_tip_length(stiffness_n_per_m: float, lever_angstrom: float,
+                       required_stiffness_n_per_m: float) -> dict:
+    """Longest tip that still meets a stiffness requirement, under L^-3 scaling.
+
+    This is the design-relevant form of the constraint.  A stiffness headroom is
+    hard to act on; a length budget is the variable a tool designer actually
+    controls, and the cubic scaling makes it far tighter than the stiffness
+    margin suggests.
+    """
+    stiffness = float(stiffness_n_per_m)
+    lever = float(lever_angstrom)
+    required = float(required_stiffness_n_per_m)
+    if min(stiffness, lever, required) <= 0:
+        raise ValueError("all three arguments must be positive")
+    limit = lever * (stiffness / required) ** (1.0 / 3.0)
+    return {
+        "measured_stiffness_n_per_m": stiffness,
+        "measured_lever_angstrom": lever,
+        "required_stiffness_n_per_m": required,
+        "maximum_lever_angstrom": limit,
+        "spare_length_angstrom": limit - lever,
+        "spare_length_fraction": limit / lever - 1.0,
+        "stiffness_headroom_factor": stiffness / required,
+        "note": (
+            "A stiffness headroom of h corresponds to a length budget of only h^(1/3), so a "
+            "1.6-fold stiffness margin is an 18 percent length margin. Tip length is the "
+            "dominant design lever for positional stiffness, and reaching further to address "
+            "a hindered site costs stiffness cubically."
+        ),
+    }
