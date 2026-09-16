@@ -303,8 +303,41 @@ Both protections derive from the same collinearity and degrade under the same
 angular wander, so one angular tolerance covers both. **No angular tolerance has
 been computed**; every positional analysis so far has been a lateral distance.
 
+### Measured: the welding well is deeper than the reaction that creates it
+
+Screen 2, run in this lane at A1's request. Model reaction CH3• + C2H2 →
+propenyl radical, all species relaxed, PBE0-D3(BJ)/def2-SVP.
+
+| Step, same level of theory | kcal/mol |
+|---|---|
+| intended abstraction, C2H + iso-C4H10 → C2H2 + t-C4H9 | −38.38 |
+| **welding addition, CH3• + C2H2 → propenyl** | **−41.42** |
+
+**The welding step is 3.0 kcal/mol more downhill than the abstraction it would
+follow.** So the intended product is not a shallow trap beside a deeper well; it
+sits above a well of comparable or greater depth. That is worse than the
+bond-additivity estimate of ≈30 suggested.
+
+Product connectivity was verified rather than assumed: C0 carries 3 H and
+C1–C2 is 1.315 Å, so it is propenyl CH3–CH=CH• and **not** allyl. Allyl would
+have been resonance-stabilised by 12–15 kcal/mol and would have inflated the
+exothermicity while looking like a clean result — the check was run precisely
+because −41.4 was more exothermic than expected.
+
+**Quote the comparison, not the absolute.** PBE0-D3 is measurably too
+exothermic on this chemistry here, by 2.01 kcal/mol for primary abstraction and
+6.15 for tertiary, and the addition will carry a similar bias. The number is
+also electronic-only, at a basis we measured is unconverged, with methyl
+substituting for adamantyl. The internal comparison survives most of that
+because both sides carry the same bias in the same direction; the absolute
+−41.42 does not.
+
+A1's caveat, amended: methyl→adamantyl corrections make the real case safer on
+the **barrier** (hindrance) but the exothermicity margin is conditional on
+adamantyl retaining tertiary stabilisation that the cage may largely remove.
+
 Neither protection is established as sufficient. Thermodynamics says the well is
-deep; geometry says the approach is bad. Which wins is a *barrier* question, and
+deep — deeper than the intended reaction — and geometry says the approach is bad. Which wins is a *barrier* question, and
 barriers are blocked on the same missing machinery as everything else kinetic —
 now the third independent line arriving at that gap.
 

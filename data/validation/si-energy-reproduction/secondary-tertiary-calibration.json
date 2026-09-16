@@ -41,6 +41,82 @@
         }
       ],
       "ccsd_t_minao_above_lowest_kcal_per_mol": 0.0
+    },
+    {
+      "species": "isopropyl",
+      "spin_2s": 1,
+      "geometry_source": "relax",
+      "geometry_provenance": "propane minus one secondary H, relaxed here",
+      "label": "isopropyl",
+      "geometry_converged": true,
+      "final_fmax_ev_per_angstrom": 0.019461529691722993,
+      "relax_seconds": 1464.1499063330702,
+      "loadavg_at_start": [
+        30.7705078125,
+        64.12744140625,
+        119.94482421875
+      ],
+      "relax_method": "pbe0-d3bj/def2-svp with density fitting",
+      "dft_energy_ev": -3217.6033287665496,
+      "dft_seconds": 63.317359750159085,
+      "dft_s2": 0.7548856875455918,
+      "dft_basis_functions": 77,
+      "ccsd_t_energy_hartree": -118.12582180875613,
+      "ccsd_t_seconds": 255.3690281668678,
+      "ccsd_t_selected_guess": "minao",
+      "ccsd_t_hf_s2": 0.7640914317836298,
+      "ccsd_t_basis_functions": 77,
+      "ccsd_t_scf_attempts": [
+        {
+          "guess": "minao",
+          "converged": true,
+          "hf_energy_hartree": -117.6447495588801,
+          "s2": 0.7640914317836298
+        },
+        {
+          "guess": "atom",
+          "converged": true,
+          "hf_energy_hartree": -117.6447495588795,
+          "s2": 0.7640914311274685
+        },
+        {
+          "guess": "huckel",
+          "converged": true,
+          "hf_energy_hartree": -117.64474955887907,
+          "s2": 0.7640918038771414
+        },
+        {
+          "guess": "1e",
+          "converged": true,
+          "hf_energy_hartree": -117.64474955888123,
+          "s2": 0.7640916582028474
+        }
+      ],
+      "ccsd_t_minao_above_lowest_kcal_per_mol": 0.0
+    },
+    {
+      "species": "isobutane",
+      "spin_2s": 0,
+      "geometry_source": "published",
+      "geometry_provenance": "published UCCSD(T)/cc-pVDZ",
+      "dft_energy_ev": -4303.419777596475,
+      "dft_seconds": 72.5805712081492,
+      "dft_s2": 0.0,
+      "dft_basis_functions": 106,
+      "ccsd_t_energy_hartree": -157.99275510530532,
+      "ccsd_t_seconds": 218.35034391703084,
+      "ccsd_t_selected_guess": "minao",
+      "ccsd_t_hf_s2": 0.0,
+      "ccsd_t_basis_functions": 106,
+      "ccsd_t_scf_attempts": [
+        {
+          "guess": "minao",
+          "converged": true,
+          "hf_energy_hartree": -157.30917780999994,
+          "s2": 0.0
+        }
+      ],
+      "ccsd_t_minao_above_lowest_kcal_per_mol": 0.0
     }
   ],
   "status": "running"

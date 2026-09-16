@@ -124,6 +124,117 @@
         }
       ],
       "status": "completed"
+    },
+    {
+      "method": "pbe0/def2-tzvp+d3bj",
+      "xc": "pbe0",
+      "basis": "def2-tzvp",
+      "dispersion": "d3bj",
+      "reference_geometry_energy_kcal_per_mol": -2.7967794511296313,
+      "reaction_energy_kcal_per_mol": -38.74487947885617,
+      "species": [
+        {
+          "species": "ethynyl_radical",
+          "energy_ev": -2082.6283801664295,
+          "basis_functions": 68,
+          "s2": 0.7943638410793117,
+          "expected_s2": 0.75,
+          "elapsed_seconds": 15.607397665968165,
+          "effective_threads": 1,
+          "threads_honored": true,
+          "loadavg_before": [
+            294.39404296875,
+            268.80517578125,
+            204.10693359375
+          ],
+          "loadavg_after": [
+            297.99951171875,
+            270.7763671875,
+            205.935546875
+          ]
+        },
+        {
+          "species": "acetylene",
+          "energy_ev": -2102.2198714668257,
+          "basis_functions": 74,
+          "s2": 0.0,
+          "expected_s2": 0.0,
+          "elapsed_seconds": 12.728317291941494,
+          "effective_threads": 1,
+          "threads_honored": true,
+          "loadavg_before": [
+            297.99951171875,
+            270.7763671875,
+            205.935546875
+          ],
+          "loadavg_after": [
+            303.4697265625,
+            272.85498046875,
+            207.43115234375
+          ]
+        },
+        {
+          "species": "isobutane",
+          "energy_ev": -4307.956107193597,
+          "basis_functions": 184,
+          "s2": 0.0,
+          "expected_s2": 0.0,
+          "elapsed_seconds": 417.7275997090619,
+          "effective_threads": 1,
+          "threads_honored": true,
+          "loadavg_before": [
+            303.4697265625,
+            272.85498046875,
+            207.43115234375
+          ],
+          "loadavg_after": [
+            143.6259765625,
+            194.7451171875,
+            197.06396484375
+          ]
+        },
+        {
+          "species": "tert_butyl_radical",
+          "energy_ev": -4290.044753314546,
+          "basis_functions": 178,
+          "s2": 0.7552112883934434,
+          "expected_s2": 0.75,
+          "elapsed_seconds": 408.8511760828551,
+          "effective_threads": 1,
+          "threads_honored": true,
+          "loadavg_before": [
+            143.6259765625,
+            194.7451171875,
+            197.06396484375
+          ],
+          "loadavg_after": [
+            233.5126953125,
+            172.97509765625,
+            181.04296875
+          ]
+        },
+        {
+          "species": "isobutane_ethynyl_ts",
+          "energy_ev": -6390.705767226638,
+          "basis_functions": 252,
+          "s2": 0.789484119301143,
+          "expected_s2": 0.75,
+          "elapsed_seconds": 2616.2986010420136,
+          "effective_threads": 1,
+          "threads_honored": true,
+          "loadavg_before": [
+            233.5126953125,
+            172.97509765625,
+            181.04296875
+          ],
+          "loadavg_after": [
+            29.49072265625,
+            35.5224609375,
+            49.1064453125
+          ]
+        }
+      ],
+      "status": "completed"
     }
   ],
   "status": "running"
