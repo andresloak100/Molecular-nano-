@@ -68,11 +68,37 @@ solutions at the supplied geometry:
 8.7 kcal/mol apart, both genuinely stable. The default lands on the higher one
 and CCSD(T) built on it is 14.3 kcal/mol too high. That single artifact made a
 correct published entry look erroneous and produced a retracted conclusion of
-mine. The supplied transition structure admits solutions spread 22.9 kcal/mol.
+mine.
 
-Scan initial guesses for any open-shell HF work here. **DFT was checked
-separately and is guess-independent** across all four guesses for every species,
-so DFT-based results are unaffected.
+**Correction, and it matters: the transition structure is NOT in the same
+situation.** An earlier version of this section quoted a 22.9 kcal/mol spread
+for the TS alongside the ethynyl warning, which implied the two cases were
+alike. They are not. Per-guess detail from the same artifact:
+
+| Guess | Ethynyl, above lowest | TS, above lowest |
+|---|---|---|
+| `minao` (default) | **+8.76** | 0.00 |
+| `huckel` | **+8.76** | 0.00 |
+| `atom` | 0.00 | 0.00 |
+| `1e` | 0.00 | **+22.92** |
+
+For the ethynyl radical the default guess is **wrong**, and two of four guesses
+land on the higher solution. For the transition structure the default guess is
+**right**: `minao`, `atom` and `huckel` all converge to the identical lowest
+solution, and the 22.9 figure is driven entirely by `1e`, a crude bare-nucleus
+guess nobody uses in practice.
+
+So a raw spread is the wrong summary statistic. The quantity that matters is
+how far the *default* sits above the lowest, which is 8.76 kcal/mol for ethynyl
+and 0.00 for the transition structure. **No coupled-cluster number built on the
+TS is compromised by guess choice**; the problems at that geometry are
+geometric, not electronic-state. Caught by support session 76190bf3 while
+binding these numbers into a claims ledger.
+
+Scan initial guesses for any open-shell HF work here, and report
+default-above-lowest rather than a spread. **DFT was checked separately and is
+guess-independent** across all four guesses for every species, so DFT-based
+results are unaffected.
 
 ## 4. Retracted numbers
 
