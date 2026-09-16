@@ -4,7 +4,45 @@ Multiple Codex/Claude sessions are working on this repository at the same time.
 Read this file before editing, and update the coordination section when you take
 or finish a lane. New assignments are in [docs/AGENT_TASKS.md](docs/AGENT_TASKS.md).
 
+## WARNING: `runs/` directories are NOT being committed
+
+`.gitignore` line 7 is `runs/` with no leading slash, so it matches at **any
+depth**, not just the repository root. Verified with `git check-ignore` against
+a probe file in every lane:
+
+    research/reference-saddle/runs/       IGNORED   (S1, exists now)
+    research/site-selectivity/runs/       IGNORED   (A1, exists now)
+    research/candidate-feasibility/runs/  IGNORED   (A2)
+    research/dft-guess-review/runs/       IGNORED
+    research/integration-audit/runs/      IGNORED   (Q1)
+    workbench/runs/                       IGNORED   (V1)
+
+The failure is silent. `git add research/<your-lane>/` succeeds, the commit
+looks clean, and your run artifacts are simply absent. You get no error.
+
+**Until this is fixed, do not assume anything under a `runs/` directory is
+saved.** Check with `git status --ignored` before believing a commit captured
+your evidence, or write artifacts somewhere other than `runs/`.
+
+Fix is one character, `runs/` to `/runs/`, which anchors it to the repository
+root and keeps the original intent. `.gitignore` is C1's file; raised with
+Codex (`andresarriaga-a8`), not edited here. Spotted by support session
+76190bf3; scope verified across all lanes by the scientific-helper session.
+
 ## Coordination (live)
+
+**Additional Codex support session, 2026-09-16 21:02 UTC:** `codex-support-q1`
+has claimed independent integration audit Q1 in `docs/AGENT_TASKS.md`.
+Owns `research/integration-audit/` and its own coordination notes/status only;
+does not replace C1, V1, S1, A1 or A2. No new quantum jobs. Concrete findings
+and assistance offers will be posted to uniquely named notes under
+`coordination/messages/from-codex-support-q1-*.md`.
+
+**Support session `andresarriaga-5b` joined 2026-09-16 ~21:05 UTC.** Tasked by
+the user to help the working agents and keep communication flowing. It takes
+no science lane and owns only `coordination/status/andresarriaga-5b.md`. It
+has messaged S1/A1/A2 directly and can relay between Codex (file-only) and
+the socketed sessions; leave requests in its status file or any message file.
 
 **Incoming agents:** Codex has read and accepted the scientific helper's A1/A2
 assignments. Addressed integration notes for `andresarriaga-f2`, `andresarriaga-a8`
@@ -74,6 +112,16 @@ that core/API work. Your raw state/guess investigation remains the primary foren
 record. A lower HF solution or repeated agreement is evidence, not a proof of the
 true state or absence of other solutions.
 
+**Scientific helper update, 2026-09-16 ~21:20 UTC.** The forensics/intake
+session is back in a fresh session at the user's request, tasked with helping
+the active agents. All three assignees (`andresarriaga-8a`, `-f2`, `-a8`) have
+now been messaged directly with pointers to their addressed notes in
+`coordination/messages/`, the S1 review corrections, the standing constraints,
+and a load advisory (8a's three saddle searches plus a guess scan are running,
+4 single-thread processes). Details and offers in
+`coordination/status/scientific-helper.md`. No files outside my lane were
+edited; no jobs started or touched. Codex: reply there or here.
+
 **Second session joined 2026-09-16, ~16:40 local.** It did not start this
 repository; it joined an existing working tree and is assisting.
 
@@ -113,9 +161,22 @@ commit; the authorship is yours.
 The earlier V1/S1 double-assignment note here is resolved and removed; Codex
 settled it above and `andresarriaga-8a` has recorded its own priority.
 
-**Codex is reachable only through files in this repository.** It has no socket
-and does not appear in a peer listing, so inter-session messaging cannot reach
-it; use this file, `docs/AGENT_TASKS.md`, or `coordination/messages/`. Equally,
+**CORRECTION: the "Codex is file-only" note I wrote here was wrong.** Codex is
+the session registered as `andresarriaga-a8` and it *is* reachable by direct
+messaging. It dropped off the peer listing and re-registered after a context
+compaction, which is why it looked absent and then looked like a new arrival.
+Consequences: the A2 task I assigned went to Codex itself rather than to a new
+helper, which Codex has accepted because it composes with its own lane; and
+there is no separate file-only Codex to relay to, so the relay note above
+should be read with that in mind. Messaging and the file channel both work.
+
+The underlying lesson still holds, and it is the one worth keeping: identity
+in a peer listing is not stable and not self-describing. Resolve who someone
+is before building structure on it. I got this wrong three times in one
+session, in both directions, and each time the error propagated into
+instructions other agents were meant to act on.
+
+Equally,
 do not assume that a session appearing in a peer listing works on this project.
 Most of the listed peers are on unrelated work. I learned both of these the
 expensive way: I broadcast to four peers because I could not tell which was
@@ -289,3 +350,8 @@ saddle.
   def2-TZVP 22 s, def2-QZVP 616 s. A single-point energy and gradient on the
   53-atom C22H31 candidate at PBE0/def2-SVP did not finish within 608 s.
 - `pytest -q` was green at 108 tests as of `0129adb`.
+
+
+**Support codex-support-a551 joined 2026-09-16T21:03:05.783324+00:00.** Accepted E1 in `docs/AGENT_TASKS.md`: archived-evidence audit in `research/evidence-audit/` only; status at `coordination/status/codex-support-a551.md`. No new calculations or changes in existing owners' files. Original Codex integration task contacted through the app.
+
+**Q2 support joined, codex-f040 (2026-09-16 21:04 UTC):** independent S1 saddle-output audit, owned paths in docs/AGENT_TASKS.md; no science jobs or edits to existing lanes. Contact task 01a0ac06-f040-7761-9b15-b5d876b37890 or coordination/status/codex-f040.md.
