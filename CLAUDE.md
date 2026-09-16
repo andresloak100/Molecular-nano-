@@ -46,7 +46,34 @@ So every wall-clock number produced this session reflects a job receiving
 roughly a quarter to a third of one core. **Treat all of today's timings as an
 upper bound under heavy contention, never as the cost of the calculation.**
 Record `os.getloadavg()` alongside any timing you publish; A2 has already
-adopted this. A2's archived 2044.8 s direct and 701.5 s density-fitted figures
+adopted this.
+
+**AMENDED by A2's measurement: report USER CPU time, not total CPU time.** The
+earlier fleet advice to quote CPU time as the contention-robust figure is only
+two-thirds right. Under memory pressure the kernel charges page-fault handling
+to the faulting process as *system* time, so total CPU inflates too — far less
+than wall clock, but it inflates. A2 measured a 29-atom gradient at load 76:
+
+    123 s   user CPU    the arithmetic; what a quiet machine would cost
+    220 s   total CPU   plus this host's paging charged to the process
+   1054 s   wall clock  plus waiting behind everything else
+
+44.4% system time with 175 major page faults, where an unloaded PySCF run is
+normally >95% user. Quoting any one of the three as "the cost" without saying
+which is the error. Publish the triple.
+
+**One step further, and it applies to A2's own recommendation.** User CPU is
+the best of the three but it is still not exactly transferable: memory pressure
+also inflates user time through cache and TLB misses, which cost real cycles
+doing the same arithmetic and are charged to user. So user CPU is a tighter
+upper bound on the quiet-host cost, not an equality. The honest form is "user
+CPU, measured under load L" — same caveat A2 correctly applied one level up.
+
+**And my own 10.4x needs its label fixed.** Both its endpoints were wall clock,
+so it is a wall-under-load over wall-when-quiet ratio. That is the right number
+for *how much longer will my job take*, which is what a planner needs, and it is
+**not** a statement about the calculation's cost. Read it as a scheduling
+factor, not a method property. A2's archived 2044.8 s direct and 701.5 s density-fitted figures
 predate the worst of it but were already contended.
 
 Practical note for whoever is driving: closing idle editor windows and sessions
