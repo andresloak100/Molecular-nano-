@@ -13,12 +13,18 @@ unaffordable one is not evidence against it. Those questions belong to A1
 
 | File | What it does | Runs quantum jobs |
 |---|---|---|
-| `timing.py` | CPU-time / wall-clock / load instrumentation | no |
+| `timing.py` | CPU-time / wall-clock / load / page-fault instrumentation | no |
 | `reduced_models.py` | Builds reduced-handle variants by truncating the repository's own candidate | no |
 | `cost_model.py` | Projects path wall-clock from the archived 53-atom records | no |
+| `positional_control.py` | Thermal mis-targeting: the tolerance the design needs, and whether it has it | scan only |
+| `tunneling.py` | Whether a classical barrier can become a rate; the ω* → regime map | no |
 | `gradient_cost.py` | Measures per-evaluation CPU cost of each variant | yes |
 | `handle_fidelity.py` | Tip H-affinity across handles, with four-guess SCF scans | yes |
 | `knobs.py` | Density fitting, basis, and force tolerance, measured both ways | yes |
+
+Two documents: `REPORT.md` is the A2 cost deliverable;
+`PHYSICS_COMPLETENESS.md` maps what stands between this repository and a model
+that could actually predict whether a molecular machine works.
 
 Evidence is written to `evidence/`, never to a directory named `runs/`, and is
 never overwritten: each script refuses to start if its output file exists.
@@ -70,9 +76,40 @@ other lanes' jobs; do not launch these in parallel with each other.
 
 ## Traps this lane paid for again
 
-The default `minao` SCF guess landed 11.2 kcal/mol above the correct solution
-for the propynyl (methyl-handle) radical at PBE0-D3(BJ)/def2-SVP. This is the
-same trap the forensics lane found for the ethynyl radical at Hartree-Fock,
-reproducing here in **DFT**, on a species this lane needed. Every open-shell
-species in this directory therefore gets a four-guess scan before its
+The default `minao` SCF guess lands well above the correct solution for the
+open-shell species this lane needs, at PBE0-D3(BJ)/def2-SVP:
+
+| Species | minao error | minao S² | correct S² |
+|---|---|---|---|
+| Ethynyl, HC≡C· | none — all four guesses agree | 0.7913 | 0.7913 |
+| Propynyl, CH₃-C≡C· | **+11.20 kcal/mol** | 0.7521 | 0.7876 |
+| Adamantyl-ethynyl, C₁₂H₁₅· | **+10.42 kcal/mol** | 0.7521 | 0.7863 |
+
+The last row is the tool tip of the repository's headline candidate. Combined
+with the forensics lane's Hartree-Fock cases, the pattern is four for four:
+**the wrong, higher solution is the one with the cleaner S²**. The ideal
+doublet value is 0.75, so the trap looks like the better answer by exactly the
+diagnostic a reader would reach for. Do not select on S².
+
+Every open-shell species here therefore gets a four-guess scan before its
 production calculation, and the selected guess is recorded in the evidence.
+
+Note for whoever uses the archived 53-atom records: they were run on the
+default guess, with `scf_initial_guess` and `initial_guess_scan_performed` both
+null. Their S² of 0.78462 sits near the correct region rather than the trap's,
+so they are probably fine — but that is an inference across two different
+systems, not a check, and S² is the wrong thing to infer from.
+
+## What this lane found beyond cost
+
+Two results that came out of asking what the cost was *for*:
+
+- **Positional control has enormous margin.** The apex may move 2.495 Å in any
+  direction before a different hydrogen is nearest, which needs only 4.8 N/m of
+  stiffness at 298 K for a 10⁻¹⁵ error rate. Thermal wander is not the binding
+  risk — *given* that the nearest hydrogen is the one that reacts, which is
+  A1's open question.
+- **Whether a classical barrier can become a rate is unresolved**, and one
+  number settles it: the imaginary frequency at the saddle. On the repository's
+  only measured value (259i cm⁻¹) tunneling is a 7% correction; on the value
+  implied by the experimental activation energy (~1648i) it is the mechanism.

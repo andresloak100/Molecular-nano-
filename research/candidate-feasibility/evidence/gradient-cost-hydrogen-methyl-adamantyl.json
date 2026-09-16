@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "question": "What does one energy+gradient evaluation cost for the candidate and its reduced variants?",
+  "unit": "one energy-and-gradient evaluation, the unit a NEB optimizer step consumes",
+  "method": "PBE0-D3(BJ)/def2-svp, density fitting",
+  "timing_basis": "Process CPU time is the transferable cost on this single-threaded build. Wall clock on this host today is inflated by contention from other lanes and is recorded alongside, not instead.",
+  "measures": "cost only; says nothing about whether any model describes the reaction correctly",
+  "host_at_start": {
+    "load_average_1min": 74.5615234375,
+    "load_average_5min": 66.23779296875,
+    "load_average_15min": 96.75244140625,
+    "logical_cores": 8,
+    "oversubscription_1min": 9.3201904296875
+  },
+  "systems": {},
+  "status": "running"
+}
