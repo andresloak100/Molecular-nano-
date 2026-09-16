@@ -241,6 +241,17 @@ def census(separation_angstrom: float = 3.6, lateral_offset_angstrom: float = 0.
     tightest = min(
         others, key=lambda site: site["apex_displacement_to_become_nearest_hydrogen_angstrom"]
     )
+    # The competitors are symmetry-degenerate, so reporting a single limiting
+    # index invites reading an arbitrary tie-break as a specific atom. Three
+    # downstream readers did exactly that. Report the whole tied set.
+    _TIE_TOLERANCE = 1e-9
+    tied = [
+        site for site in others
+        if abs(
+            site["apex_displacement_to_become_nearest_hydrogen_angstrom"]
+            - tightest["apex_displacement_to_become_nearest_hydrogen_angstrom"]
+        ) <= _TIE_TOLERANCE
+    ]
 
     # Handle-damage check: can the apex reach a hydrogen of its own mount?
     tool_hydrogens = [i for i in tool if symbols[i] == "H"]
@@ -319,8 +330,17 @@ def census(separation_angstrom: float = 3.6, lateral_offset_angstrom: float = 0.
                 "to the perpendicular bisector plane of the intended and competing hydrogen."
             ),
             "margin_angstrom": tightest["apex_displacement_to_become_nearest_hydrogen_angstrom"],
-            "limiting_hydrogen_index": tightest["hydrogen_index"],
             "limiting_site_type": tightest["site_type"],
+            "tied_competitor_count": len(tied),
+            "tied_competitor_hydrogen_indices": sorted(site["hydrogen_index"] for site in tied),
+            "tied_competitor_carbon_indices": sorted({site["carbon_index"] for site in tied}),
+            "tie_tolerance_angstrom": _TIE_TOLERANCE,
+            "limiting_hydrogen_index": tightest["hydrogen_index"],
+            "limiting_hydrogen_index_note": (
+                "An arbitrary representative of a symmetry-degenerate tied set, not a "
+                "distinguished atom. Bind identity to limiting_site_type and to the tied "
+                "index list, never to this single index."
+            ),
             "interpretation": (
                 "A necessary geometric condition only. Being the nearest hydrogen is not the "
                 "reaction criterion; this margin does not include approach barriers, relaxation, "
@@ -356,7 +376,7 @@ def census(separation_angstrom: float = 3.6, lateral_offset_angstrom: float = 0.
 def main() -> None:
     # Not named "runs": .gitignore ignores that directory name at any depth,
     # which would silently drop this evidence from the repository.
-    output = Path(__file__).resolve().parent / "evidence" / "stage0-site-census-r3"
+    output = Path(__file__).resolve().parent / "evidence" / "stage0-site-census-r4"
     output.mkdir(parents=True, exist_ok=False)
     result = census()
     (output / "census.json").write_text(
@@ -401,6 +421,11 @@ def main() -> None:
         f"{nearest['margin_angstrom']:.3f} A apex displacement before H",
         nearest["limiting_hydrogen_index"],
         f"({nearest['limiting_site_type']}) becomes closest",
+    )
+    print(
+        "  tied competitors:", nearest['tied_competitor_count'],
+        "hydrogens", nearest['tied_competitor_hydrogen_indices'],
+        "on carbons", nearest['tied_competitor_carbon_indices'],
     )
     print("apex to nearest own-mount H:", f"{result['handle_proximity']['apex_to_nearest_tool_hydrogen_angstrom']:.3f} A")
     print("wrote", output / "census.json")
