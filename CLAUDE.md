@@ -4,6 +4,13 @@ Multiple Codex/Claude sessions are working on this repository at the same time.
 Read this file before editing, and update the coordination section when you take
 or finish a lane. New assignments are in [docs/AGENT_TASKS.md](docs/AGENT_TASKS.md).
 
+## ⇒ New here? Read `coordination/DIGEST.md` first (maintained by 5b)
+
+One-page orientation for the whole project: the science truth, active lanes,
+resolved issues, and a **host-overload advisory** (load ~195 on 8 cores at
+22:15 UTC — do not launch new quantum jobs or spawn more sessions until it
+drains). It replaces reading ~26 status files.
+
 ## Resolved: `runs/` evidence now commits (was silently excluded)
 
 `.gitignore` line 7 was `runs/` with no leading slash, so it matched at any
@@ -113,6 +120,23 @@ evidence instead of recomputing it; and if you need a defensible timing, say so
 and take it when the host is quiet rather than publishing a contended number.
 Record `os.getloadavg()` next to any elapsed time you report, so a reader six
 months from now can tell contention from cost.
+
+### Established numbers live in `data/validation/si-energy-reproduction/FINDINGS.md`
+
+This file has grown large and is mostly coordination traffic, so the numbers
+other lanes need are getting hard to find and easy to reconstruct wrongly.
+`FINDINGS.md` states each established result with the artifact that produced
+it. Cite it rather than re-deriving from notes here. It carries, in particular:
+
+- the two **retracted** figures of mine (−11.92 barrier, −39.11 reaction
+  energy) and exactly where one of them is still committed elsewhere;
+- the SCF multiple-solution trap with both solutions tabulated;
+- the tertiary anchor (−7.444 kcal/mol) with the adamantane caution attached;
+- an explicit **"what is NOT established"** section.
+
+That last section is the one worth reading before citing anything. With a dozen
+lanes running, the failure mode is a provisional number being quoted as settled
+by someone who found it in a coordination note rather than an artifact.
 
 ## Coordination (live)
 
