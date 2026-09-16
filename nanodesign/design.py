@@ -1,20 +1,52 @@
 """Explicit structures, mechanical boundary conditions, and atom identities."""
 from __future__ import annotations
 
+import bz2
+import gzip
 import hashlib
+from io import BytesIO, TextIOWrapper
 import json
+import lzma
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import numpy as np
 from ase.constraints import FixAtoms
 from ase.data import covalent_radii
 from ase.io import read
+from ase.io.formats import filetype, get_compression, get_ioformat
 
 from .quantum import QuantumSettings
 
 
 def sha256(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def read_coordinate_snapshot(path, raw, *, index=-1):
+    """Let ASE parse captured bytes using the original filename's format hints.
+
+    Hashing uses the original bytes, including compression. Format detection and
+    ordinary text/binary readers see only this snapshot, not the live source.
+    Filename-only readers (such as ASE's database reader) get a temporary copy.
+    """
+    _, compression = get_compression(str(path))
+    decompress = {"gz": gzip.decompress, "bz2": bz2.decompress, "xz": lzma.decompress}
+    contents = decompress[compression](raw) if compression else raw
+    with BytesIO(contents) as probe:
+        probe.name = str(path)
+        format_name = filetype(probe)
+    io_format = get_ioformat(format_name)
+    if not io_format.acceptsfd:
+        with TemporaryDirectory(prefix="nanodesign-input-") as temporary:
+            snapshot = Path(temporary) / path.name
+            snapshot.write_bytes(raw)
+            return read(snapshot, format=format_name, index=index)
+    source = BytesIO(contents)
+    source.name = str(path)
+    stream = source if io_format.isbinary else TextIOWrapper(source, encoding=io_format.encoding)
+    with stream:
+        return read(stream, format=format_name, index=index)
 
 
 def validate_pair(initial, final, fixed_indices):
@@ -41,14 +73,17 @@ def validate_pair(initial, final, fixed_indices):
 
 def load_design(path):
     path = Path(path).resolve()
-    data = json.loads(path.read_text())
+    design_bytes = path.read_bytes()
+    data = json.loads(design_bytes)
     if data.get("schema_version") != 1:
         raise ValueError("Unsupported design schema_version; expected 1.")
     if data.get("length_unit") != "angstrom":
         raise ValueError("Declare length_unit='angstrom'; convert other coordinate units before import.")
     initial_path = (path.parent / data["initial"]).resolve()
     final_path = (path.parent / data["final"]).resolve()
-    initial, final = read(initial_path), read(final_path)
+    initial_bytes, final_bytes = initial_path.read_bytes(), final_path.read_bytes()
+    initial = read_coordinate_snapshot(initial_path, initial_bytes)
+    final = read_coordinate_snapshot(final_path, final_bytes)
     fixed = data.get("fixed_indices", [])
     validate_pair(initial, final, fixed)
     settings = QuantumSettings(**data["quantum"])
@@ -87,7 +122,8 @@ def load_design(path):
             seen.add(pair)
     for atoms in (initial, final):
         atoms.set_constraint(FixAtoms(indices=fixed))
-    provenance = {"design_sha256": sha256(path), "initial_sha256": sha256(initial_path), "final_sha256": sha256(final_path)}
+    provenance = {name: hashlib.sha256(raw).hexdigest() for name, raw in (
+        ("design_sha256", design_bytes), ("initial_sha256", initial_bytes), ("final_sha256", final_bytes))}
     return data, initial, final, settings, provenance
 
 

@@ -1,0 +1,31 @@
+{
+  "review": "V2 follow-up",
+  "utc": "2026-09-16T21:17:04.117611+00:00",
+  "git_head": "9e7ac9f9ce6541cb96a0313582db1a8f27788514",
+  "solver_jobs_launched": 0,
+  "fixtures": "synthetic, temporary directories only",
+  "command": [
+    "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/.venv/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "research/workbench-boundary-audit",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "source_sha256_before": {
+    "workbench/server.py": "d4fdb451d3ab2f5418489cc4f17e9d984b7712cf61c1db8e6bebbc7c9b0c8344",
+    "workbench/static/app.js": "67d94db91353c086e0cee2e3d527c6b455ceab61fb283f3c4b3fe4d594014cb8",
+    "workbench/test_server.py": "21df0b4f6983eb02ad6ca28522df8f2a167210c5d1a0819fadd7cd7c00b8f968"
+  },
+  "source_sha256_after": {
+    "workbench/server.py": "d4fdb451d3ab2f5418489cc4f17e9d984b7712cf61c1db8e6bebbc7c9b0c8344",
+    "workbench/static/app.js": "67d94db91353c086e0cee2e3d527c6b455ceab61fb283f3c4b3fe4d594014cb8",
+    "workbench/test_server.py": "21df0b4f6983eb02ad6ca28522df8f2a167210c5d1a0819fadd7cd7c00b8f968"
+  },
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "test_catalog_link_remains_consistent_after_another_reader_refreshes (test_boundaries.BoundaryRegressionTests.test_catalog_link_remains_consistent_after_another_reader_refreshes) ... ok\ntest_selected_directory_replacement_cannot_escape_original_boundary (test_boundaries.BoundaryRegressionTests.test_selected_directory_replacement_cannot_escape_original_boundary) ... ok\ntest_matching_hashes_do_not_validate_malformed_quantum_settings (test_imported_evidence.ImportedEvidenceRegressionTests.test_matching_hashes_do_not_validate_malformed_quantum_settings) ... ok\ntest_null_path_endpoint_is_invalid_evidence_without_aborting_catalog (test_imported_evidence.ImportedEvidenceRegressionTests.test_null_path_endpoint_is_invalid_evidence_without_aborting_catalog) ... ok\ntest_null_path_topology_is_invalid_evidence_without_aborting_catalog (test_imported_evidence.ImportedEvidenceRegressionTests.test_null_path_topology_is_invalid_evidence_without_aborting_catalog) ... ok\ntest_well_formed_fixture_is_completed (test_imported_evidence.ImportedEvidenceRegressionTests.test_well_formed_fixture_is_completed) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.078s\n\nOK\n"
+}

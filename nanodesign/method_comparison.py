@@ -24,7 +24,7 @@ from ase.units import Hartree
 from . import __version__
 from .benchmark import EV_PER_KCAL_PER_MOL, SPECIES, _write_json, run_benchmark
 from .highlevel import CCSettings, coupled_cluster_energy
-from .quantum import QuantumSettings
+from .quantum import QuantumSettings, SCF_INITIAL_GUESSES
 
 
 class MethodComparisonError(RuntimeError):
@@ -65,7 +65,38 @@ def _energy_differences(energies: dict[str, float]) -> dict[str, float]:
     return values
 
 
-def _paired_input(dft: dict[str, Any], output: Path, name: str, basis: str):
+def _check_dft_guess_provenance(
+    dft: dict[str, Any], record: dict[str, Any], name: str, expected_guess: str,
+) -> None:
+    """Check recorded guesses against the request without rewriting evidence.
+
+    This backend used minao before exposing a guess setting. Only a missing
+    field has that historical meaning; explicit invalid values are not defaults.
+    Other settings are not filled from today's QuantumSettings defaults.
+    """
+    diagnostics = record.get("quantum_diagnostics", {})
+    if not isinstance(diagnostics, dict):
+        raise MethodComparisonError(f"Invalid DFT quantum_diagnostics for {name}")
+    sources = (
+        ("benchmark quantum_settings", dft.get("quantum_settings", {})),
+        ("species quantum_settings", record.get("quantum_settings", {})),
+        ("quantum_diagnostics.settings", diagnostics.get("settings", {})),
+        ("quantum_diagnostics", diagnostics),
+    )
+    for label, settings in sources:
+        if not isinstance(settings, dict):
+            raise MethodComparisonError(f"Invalid DFT {label} for {name}")
+        guess = settings.get("scf_initial_guess", "minao")
+        if not isinstance(guess, str) or guess not in SCF_INITIAL_GUESSES:
+            raise MethodComparisonError(f"Invalid DFT scf_initial_guess in {label} for {name}")
+        if guess != expected_guess:
+            raise MethodComparisonError(f"DFT scf_initial_guess mismatch in {label} for {name}: expected {expected_guess!r}, recorded {guess!r}")
+
+
+def _paired_input(
+    dft: dict[str, Any], output: Path, name: str, basis: str,
+    *, expected_dft_guess: str = "minao",
+):
     spec = SPECIES[name]
     path = output / "dft" / "inputs" / spec["file"]
     # Parse the exact bytes that were hashed, rather than reading a mutable
@@ -79,6 +110,7 @@ def _paired_input(dft: dict[str, Any], output: Path, name: str, basis: str):
         raise MethodComparisonError(f"Incomplete DFT calculation for {name}")
     if record.get("charge") != spec["charge"] or record.get("spin_2s") != spec["spin"]:
         raise MethodComparisonError(f"DFT nominal charge/spin mismatch for {name}")
+    _check_dft_guess_provenance(dft, record, name, expected_dft_guess)
     settings = record["quantum_settings"]
     if settings.get("basis") != basis or settings.get("xc") != "pbe0" or settings.get("dispersion") != "d3bj":
         raise MethodComparisonError(f"Unexpected DFT method for {name}")
@@ -167,7 +199,7 @@ def run_method_comparison(output, directory=None, basis: str = "cc-pvdz", *, cc_
             _write_json(record_path, record, exclusive=True)
             species_started = time.monotonic()
             try:
-                atoms, digest = _paired_input(dft, output, name, basis)
+                atoms, digest = _paired_input(dft, output, name, basis, expected_dft_guess=dft_settings.scf_initial_guess)
                 record.update(geometry_file=f"dft/inputs/{spec['file']}", dft_xyz_sha256=digest, cc_xyz_sha256=digest)
                 _write_json(record_path, record)
                 settings = CCSettings(charge=spec["charge"], spin=spec["spin"], basis=basis,
@@ -224,7 +256,7 @@ def run_method_comparison(output, directory=None, basis: str = "cc-pvdz", *, cc_
             _write_json(summary_path, result)
         # A later accidental change to archived inputs invalidates pairing.
         for name in SPECIES:
-            _paired_input(dft, output, name, basis)
+            _paired_input(dft, output, name, basis, expected_dft_guess=dft_settings.scf_initial_guess)
         dft_relative = _energy_differences({name: entry["dft_energy_ev"] for name, entry in result["species"].items()})
         cc_relative = _energy_differences({name: entry["cc_energy_ev"] for name, entry in result["species"].items()})
         differences = {key: _finite_number(dft_relative[key] - cc_relative[key], f"aggregate method difference {key}") for key in dft_relative}

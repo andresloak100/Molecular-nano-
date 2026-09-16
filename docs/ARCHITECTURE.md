@@ -1,8 +1,10 @@
 # Architecture and computing requirements
 
-The current system is a local Python research application that evaluates explicit atomic structures using quantum chemistry. Its layers cover structure definition, the electronic solver, constrained optimization, evidence auditing, bounded pose campaigns, and a command-line interface. An optimizer that autonomously discovers better tool structures would be a future outer loop around these layers.
+The current system is a local Python research application that evaluates explicit atomic structures using quantum chemistry. Its layers cover structure definition, the electronic solver, constrained optimization, evidence auditing, bounded pose campaigns, a command-line interface and an independent read-only visual workbench. An optimizer that autonomously discovers better tool structures would be a future outer loop around these layers.
 
 **A GPU is not required for the initial 53-atom candidate.** The implemented calculation path uses CPU PySCF, ASE and NumPy. The candidate contains two finite diamondoid clusters, C22H31, with a neutral doublet electronic state. A full reaction-path calculation requires many electronic calculations; its resource requirements depend on the basis, method, images and convergence behavior. This architecture does not imply a completion time for a particular computer.
+
+The [computation planner](../research/compute-planning/README.md) uses the saved direct/DF timings with explicit stage and cache assumptions. It counts both ordinary and climbing NEB, endpoint work and Hessian displacements. Its projections are scenarios from uncontrolled overlapping measurements, not guaranteed runtimes or accelerator speedups.
 
 ## Calculation pipeline
 
@@ -18,6 +20,7 @@ flowchart TD
     SOLVER -->|"Energy, forces, electronic diagnostics"| JOB
     JOB --> RECORD["Run record, structures, trajectories and logs"]
     RECORD --> AUDIT["Evidence audit: workflow.audit_result"]
+    RECORD --> VIEW["Local 3D coordinates and evidence workbench"]
     AUDIT --> REPORT["Numerical status and missing scientific evidence"]
     FUTURE["Future outer loop: propose and compare tool designs"] -.-> INPUT
     REPORT -.-> FUTURE
@@ -35,7 +38,8 @@ The solver provides energies and forces. The optimizer uses those quantities to 
 | Electronic solver | `nanodesign/quantum.py` | ASE calculator backed by CPU PySCF; finite-cluster Kohn–Sham DFT energy and analytical forces; optional explicit D3 correction; SCF, spin and software diagnostics. | A converged electronic calculation is not a calibrated prediction or proof of the correct state. |
 | Constrained optimization | `nanodesign/workflow.py` | Single-point evaluation; FIRE endpoint relaxation; endpoint checks; IDPP initialization, ordinary NEB and climbing-image NEB; candidate barrier reporting. | Fixed-anchor, zero-temperature electronic potential surface; no operating cycle or kinetic reliability model. |
 | Evidence and accuracy checks | `nanodesign/workflow.py`, `nanodesign/benchmark.py`, `nanodesign/stationary.py`, `nanodesign/highlevel.py`, `nanodesign/method_comparison.py` | Report numerical status separately; compare reference-geometry energies and paired DFT/CCSD(T) results; characterize finite-difference vibrational modes; retain `design_validated: false`. | Fixed-geometry discrepancies and local curvature are evidence, not a quantitative tool-reliability estimator. |
-| User interface | `nanodesign/cli.py`, `nanodesign/__main__.py` | `candidate`, `check`, `calculate`, `audit`, `benchmark`, `compare-methods` and `characterize`; explicit calculation stage and output destination; failure/interruption exit status. | Local command-line interface; no graphical editor, remote scheduler or hardware controller. |
+| Calculation interface | `nanodesign/cli.py`, `nanodesign/__main__.py` | Candidate creation, checks, calculation, reference comparison, characterization and campaign commands; explicit output destinations and failure/interruption exit status. | Local command-line execution; no remote scheduler or hardware controller. |
+| Visual workbench | `workbench/server.py`, `workbench/static/` | Local 3D coordinate inspection, measurements, pose selection and saved calculation/reference evidence; explicit import boundaries and source links. | Read-only; no graphical coordinate editor, solver execution or design validation. |
 | Campaign orchestration | `nanodesign/campaign.py` | Enumerate explicit poses, snapshot comparable inputs, execute a bounded number of serial jobs, preserve retries, lock concurrent workers, and report numerical/scientific evidence. | No learned objective, autonomous topology search, calibrated ranking, runtime budget or distributed scheduling. |
 
 ### Structure and solver contract
@@ -43,6 +47,8 @@ The solver provides energies and forces. The optimizer uses those quantities to 
 A design consists of an explicit `design.json` plus initial and final structures. Coordinates must be declared in Å. Atom order and identity remain unchanged across endpoints. Fixed atom indices define the mechanical boundary, and those anchor coordinates must be identical at both ends of a reaction path. A moved tool requires a separately specified pose.
 
 The solver receives atomic numbers and coordinates plus charge, spin, functional, basis and numerical settings. It returns energy in eV, forces in eV/Å and diagnostics. PySCF's `spin` is the alpha-minus-beta electron count; the intended doublet uses `spin=1`. The current adapter uses restricted DFT for spin zero and unrestricted DFT otherwise. It does not automatically switch electronic methods to recover from failure.
+
+`scf_initial_guess` explicitly chooses one of `minao`, `atom`, `1e`, or `huckel` for DFT, with `minao` preserving historical behavior. New records serialize the effective choice and mark electronic-state identity and the ground state as unverified. A separate setting controls HF starting guesses in the coupled-cluster reference. Neither setting automatically scans or selects among solutions.
 
 The default PBE0/def2-SVP calculation with D3(BJ) is an explicit approximation awaiting reaction-specific calibration. The geometry workflow uses the ASE calculator interface; this is the intended boundary for adding another solver. The current workflow still instantiates `PySCFCalculator` directly, so an interchangeable backend selector has not been implemented.
 

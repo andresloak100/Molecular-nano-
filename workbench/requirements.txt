@@ -1,0 +1,2 @@
+# No third-party runtime dependencies. Requires Python >=3.11.
+# Browser assets are local; no CDN or npm installation is used.

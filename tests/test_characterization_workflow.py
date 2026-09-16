@@ -94,6 +94,30 @@ def test_constraint_replacement_cost_and_baseline_diagnostics_are_accurate(setup
     assert saved["validation"]["transition_state_validated"] is False
 
 
+@pytest.mark.parametrize("suffix", [".extxyz", ".traj"])
+def test_selected_frame_and_hash_share_snapshot_despite_source_edit(setup, tmp_path, monkeypatch, suffix):
+    design, atoms, out = setup
+    other = atoms.copy()
+    other.positions[1, 0] = 1.2
+    source = tmp_path / ("frames" + suffix)
+    write(source, [other, atoms])
+    captured_hash = sha256(source)
+    real_reader = workflow.read_coordinate_snapshot
+
+    def parse_then_edit(path, raw, **kwargs):
+        selected = real_reader(path, raw, **kwargs)
+        write(path, other)
+        return selected
+
+    monkeypatch.setattr(workflow, "read_coordinate_snapshot", parse_then_edit)
+    result = workflow.run_characterization(design, source, out, image=1, step=.002)
+    assert result["status"] == "completed"
+    assert result["structure_image"] == 1
+    assert result["input_hashes"]["structure_sha256"] == captured_hash
+    assert sha256(source) != captured_hash
+    np.testing.assert_array_equal(read(out / "input.extxyz").positions, atoms.positions)
+
+
 def test_force_guard_archives_residual_and_requested_settings_without_displacements(setup, tmp_path):
     design, atoms, out = setup
     atoms.positions[1, 0] = 1.2

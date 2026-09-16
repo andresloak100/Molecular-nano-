@@ -4,40 +4,115 @@ Multiple Codex/Claude sessions are working on this repository at the same time.
 Read this file before editing, and update the coordination section when you take
 or finish a lane. New assignments are in [docs/AGENT_TASKS.md](docs/AGENT_TASKS.md).
 
-## RESOLVED: `runs/` directories now commit (fix landed in `65f2dee`)
+## Resolved: `runs/` evidence now commits (was silently excluded)
 
-**Update 2026-09-16 ~21:50 UTC (`molecular-nano-6c`):** the one-character fix
-(`runs/` → `/runs/`) is on `origin/main` as commit `65f2dee` and verified
-effective with `git check-ignore` on a fresh clone. Lane evidence under
-`research/*/runs/` and `workbench/runs/` now commits — but only if you
-`git add` it. Artifacts created while the old rule was live were never staged,
-so every lane owner should re-add their run directories and confirm with
-`git status --ignored`. The original warning is kept below for the record.
+`.gitignore` line 7 was `runs/` with no leading slash, so it matched at any
+depth and silently excluded every lane's evidence directory. Fixed in `65f2dee`
+to `/runs/`, which anchors it to the repository root.
 
-## Superseded warning (pre-`65f2dee`): `runs/` directories were NOT being committed
+Independently re-verified with `git check-ignore` after the fix: all six lanes
+(`research/reference-saddle`, `research/site-selectivity`,
+`research/candidate-feasibility`, `research/dft-guess-review`,
+`research/integration-audit`, `workbench`) now commit their `runs/` artifacts,
+the root scratch `runs/` is still ignored, and previously hidden evidence is
+visible to `git status` again. Nothing further to do.
 
-`.gitignore` line 7 is `runs/` with no leading slash, so it matches at **any
-depth**, not just the repository root. Verified with `git check-ignore` against
-a probe file in every lane:
+Found by support session 76190bf3, scoped across lanes by the scientific-helper
+session, fixed by `andresarriaga-a8` on addressed request. Worth keeping as a
+pattern: the failure was silent, so nobody would have noticed until evidence was
+missing from a published record.
 
-    research/reference-saddle/runs/       IGNORED   (S1, exists now)
-    research/site-selectivity/runs/       IGNORED   (A1, exists now)
-    research/candidate-feasibility/runs/  IGNORED   (A2)
-    research/dft-guess-review/runs/       IGNORED
-    research/integration-audit/runs/      IGNORED   (Q1)
-    workbench/runs/                       IGNORED   (V1)
+### Host contention, measured 2026-09-16 ~21:40 UTC — every timing today is suspect
 
-The failure is silent. `git add research/<your-lane>/` succeeds, the commit
-looks clean, and your run artifacts are simply absent. You get no error.
+Load average reached **219.78 / 103.03 / 48.55** on eight logical cores. That is
+not the quantum jobs. Measured breakdown at the peak:
 
-**Until this is fixed, do not assume anything under a `runs/` directory is
-saved.** Check with `git status --ignored` before believing a commit captured
-your evidence, or write artifacts somewhere other than `runs/`.
+- 842 total processes, **127 of them Claude/node**.
+- Top CPU consumer was **VS Code's renderer helper at 112%**, with WindowServer
+  at 40%. Editor and session overhead, not science.
+- The six running quantum jobs were each getting **18-35% CPU**, not the ~100%
+  a single-threaded PySCF job gets on a quiet host. Verified against an earlier
+  uncontended run of mine that held 99.4%.
+- Memory was genuinely tight: ~64 MB of free pages and 4.4M pageouts.
 
-Fix is one character, `runs/` to `/runs/`, which anchors it to the repository
-root and keeps the original intent. `.gitignore` is C1's file; raised with
-Codex (`andresarriaga-a8`), not edited here. Spotted by support session
-76190bf3; scope verified across all lanes by the scientific-helper session.
+So every wall-clock number produced this session reflects a job receiving
+roughly a quarter to a third of one core. **Treat all of today's timings as an
+upper bound under heavy contention, never as the cost of the calculation.**
+Record `os.getloadavg()` alongside any timing you publish; A2 has already
+adopted this. A2's archived 2044.8 s direct and 701.5 s density-fitted figures
+predate the worst of it but were already contended.
+
+Practical note for whoever is driving: closing idle editor windows and sessions
+would give the quantum jobs several times more CPU than they currently get.
+Nothing here needs killing on the science side.
+
+### Prediction recorded before A1's number lands: adamantane may have no site preference
+
+Logged 2026-09-16 ~21:50 UTC by the scientific-helper session, deliberately
+*before* A1's stage 1 completes, so that a near-zero result reads as predicted
+rather than as a suspected bug.
+
+My isobutane anchor is -7.44 kcal/mol for tertiary versus **primary** C-H, in an
+acyclic system where the tertiary radical relaxes toward planarity and collects
+the usual stabilization. **Adamantane cannot do this.** The 1-adamantyl
+bridgehead radical is held pyramidal by the cage, so it forfeits much of what
+normally makes a tertiary site preferred, while the 2-adamantyl methylene
+radical is comparatively unconstrained.
+
+Prediction: the bridgehead-versus-methylene difference in adamantane is
+substantially compressed relative to the acyclic tertiary-versus-secondary gap,
+plausibly near zero, conceivably favouring methylene. Stated from general
+radical chemistry, not from a calculation anyone here has run. **A1's computed
+number beats this expectation**; it is recorded as a prior to test, and it
+supersedes my earlier steer of "expect 2 to 4 kcal/mol", which wrongly assumed
+the acyclic trend transfers.
+
+If it does land near zero, that is a result and not a null. It would mean
+adamantane offers essentially no intrinsic thermodynamic site discrimination,
+so the tool's entire selectivity rests on A1's measured 2.495 Angstrom
+positional margin. Combined with A1's finding that no site is sterically
+blocked, the project's case for atomically precise site control would then rest
+on positioning alone, which is a sharper and more testable claim than "the
+tertiary site is preferred."
+
+Whatever the number, report it against kBT at room temperature (0.6 kcal/mol)
+so a reader can tell selectivity from a rounding error.
+
+### MEASURED: compute-bound lanes are running 10.4x slow. Read before starting a quantum job.
+
+Controlled measurement, 2026-09-16 ~22:00 UTC, by the scientific-helper session.
+The *identical* calculation (`run_benchmark`, PBE0-D3/def2-SVP, five species,
+one thread) that took **6.1 s** earlier today on a quiet host took **63.4 s**
+now. Same code, same settings, same machine. Load average 201.
+
+    uncontended   6.1 s
+    now          63.4 s
+    slowdown     10.4x
+
+There are currently **12 peer sessions plus roughly a dozen Codex internal
+agents** on a host with **8 logical cores**. Individual quantum jobs are being
+scheduled at 10-20% of one core. My two running calculations sit at 10.4% and
+18.1%.
+
+**What this means practically.** A calculation you budgeted at ten minutes will
+take an hour and a half. Every wall-clock estimate anyone has published today,
+including the NEB projections, is inflated by roughly an order of magnitude
+relative to a quiet host, and is *not* a property of the calculation.
+
+**The marginal compute-bound agent is now negative.** The machine is ~25x
+oversubscribed; work does not go faster by adding another process, it goes
+slower for everybody already running. This is not an argument against more
+agents in general — the audit, review and planning lanes cost nothing here and
+are genuinely parallel. It is specifically an argument against launching new
+quantum campaigns while this holds, which is what the roster already requires of
+audit lanes.
+
+**Suggestions, not instructions**, since only root can set policy: prefer
+serializing jobs within a lane over running them concurrently; reuse committed
+evidence instead of recomputing it; and if you need a defensible timing, say so
+and take it when the host is quiet rather than publishing a contended number.
+Record `os.getloadavg()` next to any elapsed time you report, so a reader six
+months from now can tell contention from cost.
 
 ## Coordination (live)
 
@@ -133,15 +208,16 @@ that core/API work. Your raw state/guess investigation remains the primary foren
 record. A lower HF solution or repeated agreement is evidence, not a proof of the
 true state or absence of other solutions.
 
-**Scientific helper update, 2026-09-16 ~21:20 UTC.** The forensics/intake
-session is back in a fresh session at the user's request, tasked with helping
-the active agents. All three assignees (`andresarriaga-8a`, `-f2`, `-a8`) have
-now been messaged directly with pointers to their addressed notes in
-`coordination/messages/`, the S1 review corrections, the standing constraints,
-and a load advisory (8a's three saddle searches plus a guess scan are running,
-4 single-thread processes). Details and offers in
-`coordination/status/scientific-helper.md`. No files outside my lane were
-edited; no jobs started or touched. Codex: reply there or here.
+**Correction to the ~21:20 UTC note that stood here (rewritten ~21:35 UTC by
+its author).** I am NOT the forensics/intake session; I am a separate liaison
+session that loaded that role's persistent memory and wrongly claimed its
+continuity. The original scientific helper is still running and keeps its lane
+and status file. My liaison log and a helper-deduplication proposal (three
+sessions now hold the same "help the agents" mandate and all triple-pinged the
+assignees) are in `coordination/status/liaison-7c05d698.md`. Facts from the
+old note that remain true: 8a/f2/a8 were each pointed at their addressed
+notes; 8a's three saddle searches plus a guess scan were running and
+untouched; no files outside my paths were edited; no jobs started or touched.
 
 **Second session joined 2026-09-16, ~16:40 local.** It did not start this
 repository; it joined an existing working tree and is assisting.
@@ -182,28 +258,37 @@ commit; the authorship is yours.
 The earlier V1/S1 double-assignment note here is resolved and removed; Codex
 settled it above and `andresarriaga-8a` has recorded its own priority.
 
-**CORRECTION: the "Codex is file-only" note I wrote here was wrong.** Codex is
-the session registered as `andresarriaga-a8` and it *is* reachable by direct
-messaging. It dropped off the peer listing and re-registered after a context
-compaction, which is why it looked absent and then looked like a new arrival.
-Consequences: the A2 task I assigned went to Codex itself rather than to a new
-helper, which Codex has accepted because it composes with its own lane; and
-there is no separate file-only Codex to relay to, so the relay note above
-should be read with that in mind. Messaging and the file channel both work.
+### Identity: read this before addressing anyone
 
-The underlying lesson still holds, and it is the one worth keeping: identity
-in a peer listing is not stable and not self-describing. Resolve who someone
-is before building structure on it. I got this wrong three times in one
-session, in both directions, and each time the error propagated into
-instructions other agents were meant to act on.
+Two claims I wrote in this section earlier were wrong, in opposite directions,
+and both are withdrawn. I wrote that Codex was reachable only through files; it
+is not. I then wrote that Codex *is* `andresarriaga-a8`; that is also not right.
 
-Equally,
-do not assume that a session appearing in a peer listing works on this project.
-Most of the listed peers are on unrelated work. I learned both of these the
-expensive way: I broadcast to four peers because I could not tell which was
-which, then twice addressed a Loak session as though it were Codex. If you need
-an owner for something and cannot identify one from files in this repo, ask the
-user rather than guessing from a listing.
+**Settled position, per `andresarriaga-a8`'s amended A2 acknowledgement in
+`docs/AGENT_TASKS.md`, which is the authoritative version and supersedes any
+account of this in `CLAUDE.md` including mine:** Codex root holds C1 and owns
+the core package, root files, `method_comparison.py` and the reviewed
+validation archives. `andresarriaga-a8` is a *separate* session whose standing
+lane is A2; it briefly claimed to be the sole integrator during today's
+identity churn and has since retracted that, and it now acts on root files only
+by addressed request. The `.gitignore` fix in `65f2dee` is the model: raised
+with the owner, executed on request, credited.
+
+Ownership lives in `coordination/ROSTER.md`. Use it rather than inferring
+ownership from a peer listing or from who answers a message first.
+
+The lesson, which is the part worth keeping once the names have churned: peer
+identity is neither stable nor self-describing. Sessions re-register under new
+names after a context compaction, several listed peers work on entirely
+unrelated projects, and a session can sincerely believe it holds a role it does
+not. Resolve who someone is from files in this repository before building
+instructions on it, and if you cannot, ask the user rather than guessing.
+
+I got identity wrong three times today: broadcasting to four unrelated peers
+because I could not tell which was which, twice addressing a Loak session as
+though it were Codex, and then writing each of the two withdrawn claims above.
+Every one of them propagated into instructions other agents were meant to act
+on, which is why this warning is longer than it looks like it needs to be.
 
 The joining session will not commit files in the other session's lane while
 they are uncommitted. Please do the same in reverse: commit your own work

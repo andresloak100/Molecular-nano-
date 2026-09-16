@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Molecular Nano · Research workbench</title>
+  <link rel="stylesheet" href="/app.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Molecular Nano home"><span class="brand-mark" aria-hidden="true">⬡</span><span>Molecular<span class="brand-light">Nano</span><small>RESEARCH WORKBENCH</small></span></a>
+    <div class="topbar-right"><span class="local-indicator">Local evidence</span><span class="readonly">Read only</span></div>
+  </header>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Workbench navigation">
+      <div class="sidebar-label">WORKSPACE</div>
+      <nav id="navigation">
+        <button class="nav-button active" data-tab="structure"><span aria-hidden="true">◈</span>Atomic structure</button>
+        <button class="nav-button" data-tab="poses"><span aria-hidden="true">▦</span>Pose study<span id="pose-count" class="nav-count">—</span></button>
+        <button class="nav-button" data-tab="calculations"><span aria-hidden="true">≋</span>Calculations</button>
+        <button class="nav-button" data-tab="references"><span aria-hidden="true">⇄</span>Reference comparison</button>
+        <button class="nav-button" data-tab="path"><span aria-hidden="true">⌁</span>Path & vibrations</button>
+      </nav>
+      <div class="sidebar-foot"><span class="small-orbit" aria-hidden="true">◎</span><strong>Evidence before claims</strong><p>Inspect coordinates, numerical results, and what remains unverified.</p><div class="version-label">FINITE CLUSTER · VACUUM</div></div>
+    </aside>
+    <main>
+      <div class="page-heading"><div><div class="eyebrow">ATOMISTIC DESIGN / H ABSTRACTION</div><h1 id="page-title">Atomic structure</h1><p id="page-description">Inspect the candidate, one atom at a time.</p></div><span class="research-badge">Research candidate</span></div>
+      <div id="error-banner" class="error-banner" role="alert" hidden></div>
+      <div id="notice-banner" class="notice-banner" hidden></div>
+      <section id="structure-summary" class="summary-bar" aria-label="Structure summary">
+        <div><span class="summary-label">COMPOSITION</span><strong id="formula">Loading…</strong></div>
+        <div><span class="summary-label">ATOMS</span><strong id="atom-count">—</strong></div>
+        <div><span class="summary-label">FIXED ANCHORS</span><strong id="anchor-count">—</strong></div>
+        <div><span class="summary-label">DONOR → APEX</span><strong id="apex-distance">—</strong></div>
+        <div class="summary-status"><span class="summary-label">DESIGN STATUS</span><strong>Not validated</strong></div>
+      </section>
+      <section id="molecule-section" class="molecule-grid">
+        <div class="viewer-card">
+          <div class="viewer-header"><div><span class="eyebrow">ATOMIC COORDINATES</span><h2 id="structure-label">Loading structure</h2></div><a id="structure-source" class="text-link" target="_blank" rel="noopener">Source ↗</a></div>
+          <div class="viewer-toolbar"><label class="select-wrap"><span class="sr-only">Structure</span><select id="structure-select" aria-label="Structure"></select></label><div id="endpoint-controls" class="segmented" hidden><button id="initial-button" class="selected">Initial</button><button id="final-button">Final guess</button></div><button id="reset-view" class="quiet-button" title="Reset camera">↺ Reset view</button></div>
+          <div class="canvas-wrap"><canvas id="molecule-canvas" tabindex="0" aria-label="Interactive atomic structure. Drag to rotate, scroll to zoom. Use arrow keys to rotate, plus and minus to zoom, and Home to reset. Select atoms with the controls below."></canvas><div class="canvas-corner"><span id="coordinate-status">Actual coordinates · Å</span><span class="orthographic">ORTHOGRAPHIC</span></div><div class="canvas-actions"><button id="zoom-in" title="Zoom in" aria-label="Zoom in">+</button><button id="zoom-out" title="Zoom out" aria-label="Zoom out">−</button></div><div class="canvas-tip">Drag to rotate <span>·</span> Scroll to zoom <span>·</span> Click two atoms to measure</div><div id="atom-tooltip" class="atom-tooltip" hidden></div><div id="canvas-empty" class="canvas-empty" hidden>No coordinates available</div></div>
+          <div class="display-controls"><label><input type="checkbox" id="show-indices">Atom indices</label><label><input type="checkbox" id="show-hydrogen" checked>Hydrogen</label><label><span>Show</span><select id="group-select" aria-label="Visible atom group"><option value="all">Tool + substrate</option><option value="tool">Tool only</option><option value="substrate">Substrate only</option></select></label></div>
+          <div class="viewer-legend"><span><i class="dot carbon"></i>C</span><span><i class="dot hydrogen"></i>H</span><span><i class="dot anchor"></i>Fixed anchor</span><span><i class="dot reactive"></i>Transfer atoms</span><span class="group-legend"><i class="dot tool"></i>Tool <i class="dot substrate"></i>Substrate</span></div>
+          <p id="bond-note" class="bond-note">Distance-inferred bonds are visual guides, not electronic bond orders.</p>
+        </div>
+        <aside class="inspector">
+          <section class="panel"><div class="panel-heading"><h2>Geometry</h2><span class="tiny-badge">Recorded</span></div><dl id="geometry-details" class="detail-list"></dl><p id="geometry-scope" class="muted small"></p></section>
+          <section class="panel measurement-panel"><div class="panel-heading"><h2>Measure a pair</h2><button id="clear-selection" class="text-button">Clear</button></div><div class="atom-selects"><label>Atom A<select id="atom-a" aria-label="Measurement atom A"><option value="">Select atom</option></select></label><span>↔</span><label>Atom B<select id="atom-b" aria-label="Measurement atom B"><option value="">Select atom</option></select></label></div><div id="pair-distance" class="measurement-value" aria-live="polite">— <span>Å</span></div><div id="selection-detail" class="muted small">Choose two atoms in the viewer or above.</div></section>
+          <section class="panel transfer-panel"><div class="panel-heading"><h2>H transfer</h2><span class="tiny-badge amber">Geometry only</span></div><div id="transfer-details"></div><p class="muted small">Endpoints are supplied guesses. A reaction path and connected transition state are not established here.</p></section>
+        </aside>
+      </section>
+      <section id="poses-section" class="content-section" hidden></section>
+      <section id="calculations-section" class="content-section" hidden></section>
+      <section id="references-section" class="content-section" hidden></section>
+      <section id="path-section" class="content-section" hidden></section>
+      <footer class="main-footer"><span>Numerical completion does not establish chemical accuracy or a working molecular machine.</span><span id="loaded-status">Loading local records…</span></footer>
+    </main>
+  </div>
+</body>
+</html>

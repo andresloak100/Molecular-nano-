@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from dataclasses import asdict
 from datetime import datetime, timezone
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -11,12 +12,12 @@ import tempfile
 import time
 
 import numpy as np
-from ase.io import write, read
+from ase.io import write
 from ase.mep import NEB
 from ase.optimize import FIRE
 
 from . import __version__
-from .design import load_design, endpoint_identity_ok, transfer_distances, topology_screen, validate_pair, sha256
+from .design import load_design, endpoint_identity_ok, transfer_distances, topology_screen, validate_pair, read_coordinate_snapshot
 from .quantum import PySCFCalculator
 
 
@@ -118,13 +119,13 @@ def run(design_path, output, stage="singlepoint", state="initial", fmax=0.03, st
               "optimization": {"fmax_ev_per_angstrom": fmax, "max_steps_per_stage": steps, "images": images},
               "units": {"length": "angstrom", "energy": "eV", "force": "eV/angstrom"}}
     json_write(out / "result.json", result)
-    write(out / "input-initial.extxyz", initial)
-    write(out / "input-final.extxyz", final)
     reaction = data.get("hydrogen_transfer")
     metadata = data.get("metadata", {})
-    for atoms in (initial, final):
-        atoms.calc = PySCFCalculator(settings, event_log=out / "electronic.jsonl")
     try:
+        write(out / "input-initial.extxyz", initial)
+        write(out / "input-final.extxyz", final)
+        for atoms in (initial, final):
+            atoms.calc = PySCFCalculator(settings, event_log=out / "electronic.jsonl")
         if stage in {"singlepoint", "relax"}:
             atoms = initial if state == "initial" else final
             if stage == "relax":
@@ -211,7 +212,9 @@ def run_characterization(design_path, structure_path, output, *, image=-1, step=
         raise ValueError("image must be an integer selecting exactly one structure.")
     image = int(image)
     data, initial, _, settings, hashes = load_design(design_path)
-    atoms = read(structure_path, index=image)
+    structure_path = Path(structure_path).resolve()
+    structure_bytes = structure_path.read_bytes()
+    atoms = read_coordinate_snapshot(structure_path, structure_bytes, index=image)
     validate_pair(initial, atoms, data.get("fixed_indices", []))
     atoms.set_constraint(initial.constraints)
     # An input trajectory can carry a cached result from a different method.
@@ -221,7 +224,7 @@ def run_characterization(design_path, structure_path, output, *, image=-1, step=
     free_coordinates = 3 * (len(atoms) - len(data.get("fixed_indices", [])))
     if free_coordinates > max_free_coordinates:
         raise ValueError(f"This structure has {free_coordinates} free coordinates and needs {2*free_coordinates+1} quantum evaluations for a complete Hessian. Increase --max-free-coordinates explicitly if intended.")
-    hashes["structure_sha256"] = sha256(structure_path)
+    hashes["structure_sha256"] = hashlib.sha256(structure_bytes).hexdigest()
     out = Path(output).resolve()
     out.mkdir(parents=True, exist_ok=False)
     started = time.monotonic()

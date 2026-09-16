@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "annotation_date": "2026-09-16",
+  "kind": "retrospective_interpretation",
+  "source": "method_comparison.json",
+  "source_sha256": "385b6f0faf1848ebdf15a9581bcf82fcf44ccb18da1f41bf3868b4003e22a8f0",
+  "original_record_modified": false,
+  "recorded_cc_initial_guess": null,
+  "inferred_cc_initial_guess": "minao",
+  "inference_basis": "This run used the then-default PySCF HF starting guess; the schema-1 record did not serialize the guess. This is retrospective provenance, not an originally recorded explicit choice.",
+  "electronic_state_identity_verified": false,
+  "ground_state_verified": false,
+  "saddle_verified": false,
+  "method_accuracy_validated": false,
+  "interpretation": "The original MINAO-default calculation converged to a different ethynyl HF solution. Its CCSD(T) nominal transition-structure relative energy of -11.9238734 kcal/mol and reaction energy of -39.1106366 kcal/mol must be read with that electronic-solution dependence. The later explicit atom-guess run gives +2.3986156 and -24.7881518 kcal/mol, respectively, and reproduces the source ethynyl coupled-cluster energy. Neither convergence, a lower energy nor that agreement proves a ground state or a valid reaction saddle. These are fixed-geometry method comparisons, not calibrated assembler accuracy or verified reaction barriers.",
+  "alternate_record": "../paired-ccpvdz-atom/method_comparison.json",
+  "source_forensics": "../si-energy-reproduction/",
+  "historical_data_policy": "Preserve the original raw record and its method differences; attach subsequent interpretation separately. Do not substitute the alternate energies into the old result."
+}

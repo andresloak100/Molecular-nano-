@@ -1,0 +1,45 @@
+{
+  "review": "DFT initial-guess legacy campaign compatibility",
+  "checked_utc": "2026-09-16T21:05:47.469348+00:00",
+  "scientific_evidence": false,
+  "quantum_evaluations": 0,
+  "simulated_default_extension": true,
+  "git_head": "67ab3bdbf06895e5f5c62e9eed785136879674aa",
+  "source_sha256": {
+    "nanodesign/quantum.py": "9e70a81c5658d23e64568f30bf455e1de9875d76a174d0a687ed675ee1231b2b",
+    "nanodesign/campaign.py": "9318190ce5fbd90bbec508edf080906e8b1d49950d16e20c333aa3a19580329d",
+    "nanodesign/design.py": "d1bfc73d29d3f648bee2cd3e054b173643d45cbb45faf5b9da96e212244f7769"
+  },
+  "cases": [
+    {
+      "saved_status": "pending",
+      "readable": true,
+      "counts": {
+        "pending": 1
+      },
+      "all_fixture_files_unchanged": true
+    },
+    {
+      "saved_status": "completed",
+      "readable": false,
+      "error_type": "ValueError",
+      "error": "Result quantum settings differ from the campaign plan.",
+      "all_fixture_files_unchanged": true
+    },
+    {
+      "saved_status": "failed",
+      "readable": false,
+      "error_type": "ValueError",
+      "error": "Result quantum settings differ from the campaign plan.",
+      "all_fixture_files_unchanged": true
+    },
+    {
+      "saved_status": "not_converged",
+      "readable": false,
+      "error_type": "ValueError",
+      "error": "Result quantum settings differ from the campaign plan.",
+      "all_fixture_files_unchanged": true
+    }
+  ],
+  "all_legacy_cases_readable": false
+}
