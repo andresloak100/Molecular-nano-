@@ -270,6 +270,44 @@ the spread is real and it is the fifth confirmed case.
 Artifact: `si-energy-reproduction-isobutane.json`, written per species so a
 timeout leaves usable evidence. Reproduce: `python reproduce_isobutane.py`.
 
+## 12. "DFT gets the barrier sign wrong" is a methane statement
+
+The isobutane DFT survey completes the comparison. Both methods at the same
+published geometries, so this is a pure method comparison of the same quantity.
+
+| Method | methane (primary) | isobutane (tertiary) |
+|---|---|---|
+| **CCSD(T)/cc-pVDZ** | **+2.40** | **−0.63** |
+| PBE0-D3/def2-SVP | −3.62 | −3.11 |
+| PBE0-D3/def2-TZVP | −2.89 | −2.80 |
+| B3LYP-D3/def2-TZVP | −3.77 | −3.74 |
+
+**At methane, coupled cluster is positive and every functional is negative — a
+sign disagreement. At isobutane, coupled cluster is negative and every
+functional is negative — they agree.** The magnitude error also halves, from
+−5.29 to −2.17 kcal/mol for PBE0-D3/def2-TZVP.
+
+So the project's most-repeated DFT result, that the functionals get the barrier
+sign wrong, **is a statement about the methane reaction**. At the tertiary site
+they are qualitatively right and quantitatively closer. This reaches the same
+scoping conclusion as §6 by a completely different route — §6 argues from
+coupled cluster returning a submerged barrier itself, this argues from DFT and
+coupled cluster agreeing once the reaction is exothermic enough.
+
+Note the error direction is constant even where the sign agreement changes:
+every functional is too low at both geometries. What changes is whether "too
+low" crosses zero, which is a property of where the reference sits, not of the
+functional becoming better behaved.
+
+**Caveat carried from §7:** none of these are DFT barriers. They are single
+points at a coupled-cluster stationary point that is not stationary on any DFT
+surface — S1 measured a 2.38 eV/Å residual there. The comparison is valid as a
+method comparison at fixed geometry and says nothing about what a relaxed DFT
+saddle would give.
+
+M06-2X did not complete in this survey under host contention; the def2-SVP
+entry and three def2-TZVP entries did.
+
 ## 7. What is NOT established
 
 - **No DFT barrier exists for either reaction**, because no DFT saddle has been
