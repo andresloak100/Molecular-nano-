@@ -10,7 +10,7 @@
     "huckel",
     "1e"
   ],
-  "status": "running",
+  "status": "completed",
   "species": [
     {
       "species": "ethynyl_radical",
@@ -171,6 +171,62 @@
         }
       ],
       "elapsed_seconds": 54.49192333291285
+    },
+    {
+      "species": "isobutane_ethynyl_ts",
+      "source_label": "C(CH3)3--H-CCH",
+      "variant": "UCCSD(T)",
+      "basis_functions": 139,
+      "published_energy_hartree": -234.397851246347,
+      "recomputed_energy_hartree": -234.39785129704438,
+      "difference_kcal_per_mol": -3.181309529535724e-05,
+      "reproduces_published_value": true,
+      "selected_initial_guess": "minao",
+      "hartree_fock_s2": 1.2242131874962254,
+      "scf_solution_spread_kcal_per_mol": 10.63504776477569,
+      "scf_attempts": [
+        {
+          "initial_guess": "minao",
+          "converged": true,
+          "hartree_fock_energy_hartree": -233.46264790643178,
+          "hartree_fock_s2": 1.2242131874962254
+        },
+        {
+          "initial_guess": "atom",
+          "converged": true,
+          "hartree_fock_energy_hartree": -233.4626479064357,
+          "hartree_fock_s2": 1.224210604286192
+        },
+        {
+          "initial_guess": "huckel",
+          "converged": true,
+          "hartree_fock_energy_hartree": -233.44569987891865,
+          "hartree_fock_s2": 0.7592691165753358
+        },
+        {
+          "initial_guess": "1e",
+          "converged": false
+        }
+      ],
+      "elapsed_seconds": 7125.815804667072
     }
-  ]
+  ],
+  "reproduced": [
+    "ethynyl_radical",
+    "acetylene",
+    "tert_butyl_radical",
+    "isobutane",
+    "isobutane_ethynyl_ts"
+  ],
+  "not_reproduced": [],
+  "barrier_kcal_per_mol": {
+    "from_published_absolute_energies": -0.6269536158329551,
+    "from_recomputed_absolute_energies": -0.6269695866308006
+  },
+  "reaction_energy_kcal_per_mol": {
+    "from_published_absolute_energies": -32.232487159688496,
+    "from_recomputed_absolute_energies": -32.23247452915187
+  },
+  "interpretation": "A tertiary C-H barrier below the primary C-H barrier is the expected ordering and is not by itself a validation. The supplied transition structure is a nominal geometry from the source, not a verified first-order saddle, and no DFT saddle has been located for either reaction.",
+  "method_validated": false
 }

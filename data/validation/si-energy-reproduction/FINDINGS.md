@@ -190,251 +190,50 @@ radical chemistry, not from a calculation run here; A1's computed number
 supersedes it. Recorded before A1's result landed so a near-zero value reads as
 predicted rather than as a suspected bug.
 
-## 6. Isobutane reproduction: four of five species
+## 6. Isobutane complete: all five reproduce, and the tertiary barrier is SUBMERGED
 
-Ethynyl, acetylene, tert-butyl and isobutane all reproduce the published
-absolute energies to under 1×10⁻⁷ Ha, reinforcing methane as the single
-corrupted entry. The 139-basis-function transition structure is still running;
-the published absolutes imply −0.627 kcal/mol for that barrier.
+All five isobutane-reaction species reproduce the published absolute energies to
+under 1×10⁻⁷ Ha, including the 139-basis-function transition structure (7126 s
+under load). **Across both reactions, 9 of 10 published species now reproduce
+and methane remains the sole corrupted entry.**
+
+| Reaction | Site | CCSD(T)/cc-pVDZ barrier |
+|---|---|---|
+| C2H + CH4 | primary C–H | **+2.399** |
+| C2H + iso-C4H10 | **tertiary C–H** | **−0.627 — submerged** |
+
+Bell–Evans–Polanyi now has **both endpoints verified** rather than one inferred:
+α = 0.406, a normal early-transition-state slope. The barrier falls 3.03
+kcal/mol for 7.44 more exothermicity, which is the quantitative form of the
+reactivity–selectivity mechanism in §9.
+
+### This scopes a conclusion the fleet has adopted, including by me
+
+The external-validation lane excluded every submerged DFT barrier using Opansky
+& Leone: a rate that rises with temperature cannot come from a submerged
+barrier. I endorsed it, and it is correct — **for methane.** That measurement is
+C2H + CH4.
+
+At the **tertiary** site, coupled cluster *itself* returns a submerged barrier.
+So a submerged barrier is not intrinsically a DFT artifact; it is the right
+answer for the more exothermic reaction. **And the tertiary site is the one the
+tool actually targets.** Applying the methane-derived exclusion to the adamantane
+bridgehead would be an error. The exclusion must be scoped to the reaction it
+was measured on.
+
+That also means the tertiary abstraction is effectively capture-controlled
+rather than barrier-controlled, which removes barrier height as a selectivity
+mechanism at that site — consistent with, and independent of, the
+reactivity–selectivity argument in §9.
+
+### Fifth SCF multiple-solution case
+
+The isobutane transition structure shows a 10.64 kcal/mol spread across the four
+guesses. `minao` happened to find the lowest here, so this number is safe, but
+the spread is real and it is the fifth confirmed case.
 
 Artifact: `si-energy-reproduction-isobutane.json`, written per species so a
 timeout leaves usable evidence. Reproduce: `python reproduce_isobutane.py`.
-
-## 9. Why the tool is unselective: a mechanism, not a coincidence
-
-Synthesis proposed by A2 from exothermicity; **tested here against the transition
-structure geometries, which are independent evidence and could have disagreed.**
-
-Three findings had been treated as separate puzzles: the tool shows no steric
-discrimination at any cage site; the thermodynamic site preference is near zero;
-and real adamantane selectivity is small, roughly 1.0–1.3 kcal/mol. They are one
-finding. **The tool discriminates poorly because it is thermodynamically hungry.**
-A reagent running 32 kcal/mol downhill reaches its transition state early, before
-it has committed to a particular C–H, so the sites look alike to it.
-
-The published geometries confirm it without using any energy:
-
-| Reaction | ΔE (kcal/mol) | acceptor–H (Å) | donor–H (Å) |
-|---|---|---|---|
-| C2H + CH4, primary | −24.79 | 1.672 | 1.149 |
-| C2H + iso-C4H10, **tertiary** | **−32.23** | **2.213** | **1.116** |
-
-The more exothermic reaction has the acceptor 0.54 Å further away and the donor
-C–H barely stretched, 1.116 against an equilibrium near 1.10. That is a
-demonstrably earlier transition state for the more exothermic reaction — Hammond,
-read straight off the coordinates. Bell–Evans–Polanyi across the two points gives
-α = 0.41 using the SI-implied isobutane barrier, a normal early-transition-state
-value.
-
-**Two points do not establish a relationship.** The running isobutane transition
-structure supplies a third and will test α rather than assume it.
-
-### The design consequence, which is the part worth acting on
-
-This converts the project's question from *"make this tool work"* to *"where on
-the reactivity–selectivity curve should the tool sit?"* A less reactive tip would
-discriminate better and might not react at all. The repository explores exactly
-one point on that axis and has no way to say whether it is the right one.
-
-That reframing also explains why A1's positional result matters more than it
-first appeared. If chemical discrimination is intrinsically weak for a reagent
-this hot, then positional control is not one selectivity mechanism among several
-— it is close to the only one available, which is precisely what A1's steric
-census independently found.
-
-## 10. The tool may weld itself to the workpiece — and the geometry may prevent it
-
-Failure mode raised by A1; protective hypothesis **tested here against the
-candidate's own product coordinates**, which A1 had not used.
-
-Follow the operation to its end. After transfer, the tool is a closed-shell
-terminal alkyne, adamantyl–C≡C–H, and the workpiece is a 1-adamantyl radical,
-sitting 3.6 Å apart. A carbon radical beside an alkyne is not a stable
-arrangement: addition across the C≡C forms a C–C σ bond worth roughly 85
-kcal/mol at the cost of demoting C≡C to C=C, roughly 54, so the addition is
-around 30 kcal/mol exothermic on bond additivity. **The intended product is
-metastable and the deep well is "tool covalently bonded to workpiece".**
-
-This failure mode is worse than mis-targeting and has had none of the
-attention. Mis-targeting places one atom badly; welding destroys the tool and
-the workpiece together and produces no further products at all.
-
-### Two protections, both free, both angular
-
-Measured on the product geometry from `candidates.py`:
-
-| Quantity | Value |
-|---|---|
-| angle: C≡C axis vs apex→radical | **0.0°** |
-| radical to apex carbon | 3.600 Å |
-| radical to transferred H | **2.540 Å** |
-
-**First**, the radical sits exactly end-on along the C≡C axis. Radical addition
-needs a perpendicular approach into a π lobe; 0° is the worst possible vector
-for it. A1 predicted this and the coordinates confirm it exactly.
-
-> **Convention warning, so nobody reads a disagreement into two files.** A1's
-> independent screen reports **180°** for this same geometry
-> (`research/site-selectivity/evidence/product-state-welding-screen/screen.json`).
-> The two are identical: I measure from the distal→apex axis direction, A1
-> measures from apex→distal, so the values are reciprocal. Perpendicular offset
-> is 0.000 Å either way. Flagged explicitly because this project has already
-> lost time to two correct numbers for different quantities, and 0 versus 180
-> in two files invites exactly that.
-
-
-**Second, not previously noted:** the transferred hydrogen lands on the apex
-carbon, directly between the radical and the alkyne, closer to the radical
-(2.540 Å) than the apex carbon itself is (3.600 Å). The newly formed C–H
-physically occupies the approach vector. This is structural rather than
-incidental — the H necessarily lands on the atom the radical was pointing at,
-so **the abstraction event installs a steric block against the addition that
-would otherwise follow it.**
-
-A1 quantified this further and it is stronger than "in the way": against ASE's
-van der Waals radii (C 1.700, H 1.200, sum 2.900 Å) the 2.540 Å separation is a
-gap of **−0.360 Å**. Reproduced here exactly. The radical and the hydrogen it
-just surrendered are already inside each other's van der Waals envelopes, so
-the block is in hard contact along the approach vector rather than merely on
-it. Reaching an addition-competent geometry would require 4.219 Å of apex
-travel (A1's screen).
-
-Both protections derive from the same collinearity and degrade under the same
-angular wander, so one angular tolerance covers both. **No angular tolerance has
-been computed**; every positional analysis so far has been a lateral distance.
-
-### Measured: the welding well is deeper than the reaction that creates it
-
-Screen 2, run in this lane at A1's request. Model reaction CH3• + C2H2 →
-propenyl radical, all species relaxed, PBE0-D3(BJ)/def2-SVP.
-
-| Step, same level of theory | kcal/mol |
-|---|---|
-| intended abstraction, C2H + iso-C4H10 → C2H2 + t-C4H9 | −38.38 |
-| **welding addition, CH3• + C2H2 → propenyl** | **−41.42** |
-
-**The welding step is 3.0 kcal/mol more downhill than the abstraction it would
-follow.** So the intended product is not a shallow trap beside a deeper well; it
-sits above a well of comparable or greater depth. That is worse than the
-bond-additivity estimate of ≈30 suggested.
-
-Product connectivity was verified rather than assumed: C0 carries 3 H and
-C1–C2 is 1.315 Å, so it is propenyl CH3–CH=CH• and **not** allyl. Allyl would
-have been resonance-stabilised by 12–15 kcal/mol and would have inflated the
-exothermicity while looking like a clean result — the check was run precisely
-because −41.4 was more exothermic than expected.
-
-**Quote the comparison, not the absolute.** PBE0-D3 is measurably too
-exothermic on this chemistry here, by 2.01 kcal/mol for primary abstraction and
-6.15 for tertiary, and the addition will carry a similar bias. The number is
-also electronic-only, at a basis we measured is unconverged, with methyl
-substituting for adamantyl. The internal comparison survives most of that
-because both sides carry the same bias in the same direction; the absolute
-−41.42 does not.
-
-A1's caveat, amended: methyl→adamantyl corrections make the real case safer on
-the **barrier** (hindrance) but the exothermicity margin is conditional on
-adamantyl retaining tertiary stabilisation that the cage may largely remove.
-
-### Screen 3: the welding geometry is reachable. The protection is mechanical, not geometric.
-
-A1's angular screen, verified here. A1's first pass scanned only *outward* from
-the product pose, found no competent path, and read as geometric exclusion —
-A1 caught that as an artifact, since the dangerous direction is approach, not
-retraction. Rescanning both ways finds 25 competent grid points.
-
-Cheapest route: 40° tilt (8.9σ) plus 1.45 Å approach (35.7σ), joint cost
-**36.8σ** in quadrature. Arithmetic verified. Thermally that is ~1e-294 — the
-welding geometry is not thermally accessible, and that conclusion is robust.
-
-**But the decomposition inverts what protects it.** We had both been calling
-this an angular tolerance problem:
-
-| Term | σ | share of joint cost |
-|---|---|---|
-| angular tilt | 8.9 | **5.9%** |
-| axial approach | 35.7 | **94.1%** |
-
-The protection is essentially **axial stiffness**; the tilt is nearly free.
-Softening the angular mode tenfold moves the joint cost 36.8 → 35.8, nothing.
-Softening the axial mode tenfold moves it to 14.4. So tip length, which raises
-angular compliance cubically, acts on the term carrying six percent — it is
-comparatively safe here, the opposite of what the cubic law suggests alone.
-
-**And the σ analysis bounds thermal access, not control error.** Applying A1's
-own guardrail to A1's own result: a Boltzmann tail answers *will thermal motion
-take it there*, not *what if the positioner puts it there*.
-
-    axial travel to reach addition competence   1.45 Å
-    lateral margin the project calls ample      2.495 Å
-
-**The welding geometry needs less axial travel than the lateral positioning
-slack the project already treats as comfortable.** A systematic 1.45 Å
-misplacement is not a tail event; it is a calibration error of a scale nothing
-here has excluded. The angular term sets an irreducible 8.9σ floor, so no axial
-softening makes the *thermal* route viable — every route that matters is driven.
-
-### The protections are state-specific, and the machine cycles through states
-
-Raised by A1. Every number above describes the **product pose**, and the
-transferred hydrogen blocks the approach precisely because the abstraction just
-put it there. **Regeneration removes it by definition.** Once the tool is
-recharged the apex is a bare alkyne carbon with no steric block.
-
-So the honest object is a per-state risk table — approach, abstract, withdraw,
-regenerate, re-approach — and this project has characterised exactly one row.
-Nothing models the regeneration step at all.
-
-Neither protection is established as sufficient. Thermodynamics says the well is
-deep — deeper than the intended reaction — and geometry says the approach is bad
-in one state of a cycle whose other states are unexamined. Which wins is a *barrier* question, and
-barriers are blocked on the same missing machinery as everything else kinetic —
-now the third independent line arriving at that gap.
-
-## 11. DFT overstates site selectivity by 45 percent
-
-The calibration A1 proposed, to measure the DFT method error on the exact
-quantity a site preference depends on. Acyclic analogue of A1's comparison,
-since the abstractor cancels: D(propane secondary) − D(isobutane tertiary).
-Propane and isopropyl relaxed here; isobutane and tert-butyl on the published
-geometries. Both methods evaluated at identical geometries, so the residual is
-pure electronic-method error.
-
-| Quantity | kcal/mol |
-|---|---|
-| secondary − tertiary, PBE0-D3/def2-SVP | +3.011 |
-| secondary − tertiary, CCSD(T)/cc-pVDZ | **+2.083** |
-| **DFT method error on the difference** | **+0.928** |
-
-**The direction is unfavourable.** DFT *overstates* the site difference by 45%.
-The error does not blur the answer, it flatters it — a DFT site preference will
-make the tool look more selective than it is, in exactly the direction the
-project would like to believe. That is the failure mode least likely to be
-questioned by a reader who wants the tool to work.
-
-**Do not quote the script's verdict field.** It printed "survives this check"
-because the residual came in at 0.928 against a threshold of 1.0 that I chose
-arbitrarily. A binary pass at 93% of its own cutoff is a coin-flip dressed as a
-decision. What matters is the error relative to the signal:
-
-| If the adamantane signal is | method error is |
-|---|---|
-| 2.08, behaving like the acyclic analogue | 45% of signal |
-| ~1.0, cage-compressed as predicted | 93% of signal |
-| ~0.5, strongly compressed | **186% of signal** |
-
-So the pre-registered reading holds in substance: **if the adamantane site
-difference comes out small, it is not separable from method error.** That
-couples directly to the pyramidalization prediction in §5 — the two questions
-share an input, and the scenario where the chemistry is most interesting is the
-one where the method is least able to resolve it.
-
-**Usable anchor:** acyclic secondary-minus-tertiary at CCSD(T)/cc-pVDZ is
-**+2.083 kcal/mol**. Compare an adamantane bridgehead-versus-methylene number
-against this rather than against literature, which is a 298 K enthalpy at a
-different level — a mismatch A1 caught in the original pre-registration. Both
-sides of this comparison are bare electronic differences, so it sidesteps the
-thermal correction entirely.
 
 ## 7. What is NOT established
 
