@@ -1,0 +1,8 @@
+{
+  "question": "Is radical addition across the product alkyne exothermic? (tool-to-workpiece welding)",
+  "model_reaction": "CH3. + C2H2 -> propenyl radical",
+  "method": "PBE0-D3(BJ)/def2-SVP, all species relaxed",
+  "reaction_energy_kcal_per_mol": -41.41778829682688,
+  "raised_by": "A1 (andresarriaga-f2)",
+  "caveat": "Methyl substitutes for adamantyl; magnitude shifts, sign and scale transfer. Electronic only, no ZPE. Says nothing about the BARRIER, which decides the race against withdrawal."
+}

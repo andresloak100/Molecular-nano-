@@ -168,11 +168,25 @@ Tip H-affinity `A(R) = E(R-CC-H) - E(R-CC*) - E(H)` at PBE0-D3(BJ)/def2-SVP
 with density fitting, rigid geometries truncated from the candidate's own 3.6 Å
 pose, four-guess SCF scan on every open-shell species:
 
-| Handle | Tool fragment | A(R), kcal/mol |
-|---|---|---|
-| Hydrogen | HC≡C· | -136.72 |
-| Methyl | CH₃-C≡C· | -136.52 |
-| Adamantyl | pending | pending |
+| Handle | Tool fragment | A(R), kcal/mol | Shift vs. real handle |
+|---|---|---|---|
+| Hydrogen | HC≡C· | −136.72 | −0.57 |
+| Methyl | CH₃-C≡C· | −136.52 | −0.38 |
+| **Adamantyl (the real one)** | C₁₂H₁₅· | **−136.15** | — |
+
+**The full spread across all three handles is 0.57 kcal/mol.** Replacing the
+entire 27-atom adamantane cage with a single hydrogen atom moves the tip's
+appetite for a hydrogen by about half a kilocalorie. The ordering is also the
+chemically sensible one — methyl is a better mimic of an alkyl cage than a bare
+hydrogen is, and it lands closer — which is weak evidence that the trend is
+real rather than numerical noise.
+
+**A methodological point that is larger than the result.** The adamantyl
+radical's SCF solutions span 10.42 kcal/mol depending on the starting guess,
+and the default `minao` picks the wrong one. That artifact is **eighteen times
+the size of the effect being measured**. Without the four-guess scan this table
+would have been confidently wrong, and it would have looked fine. The scan is
+not defensive padding here; it is the only reason the number means anything.
 
 **Sanity check against known chemistry.** The hydrogen-handle case is just
 acetylene: `A(H) = -136.72 kcal/mol` is the negative of the acetylene C-H bond
@@ -202,9 +216,15 @@ same mounted tool. A relayed finding from another lane sharpens this: the
 nominal pose sits at only +0.200 Å van der Waals clearance, so steric detail
 near the tip is not a free parameter.
 
-The honest status of the reduction is therefore: **defensible for screening the
-electronics of the bond being broken, undemonstrated as a mechanical
-substitute.**
+The honest status of the reduction is therefore: **electronically faithful to
+within 0.57 kcal/mol, and undemonstrated as a mechanical substitute.** That is
+now a measurement rather than a hope, and it makes the reduced model usable for
+the path calculation — which is what A2 item 3 was asking. What it does not
+license is treating the reduced model as the same *mounted tool*: the rung-5
+lane has since measured a mounted tip's lateral stiffness at 7.27 N/m, well
+below the 10–100 N/m the literature had everyone assuming, precisely because
+this tip is a long thin protruding alkyne whose soft direction is a transverse
+bend. Mechanical fidelity remains the open half.
 
 ## 4. The cheap knobs
 

@@ -15,3 +15,4 @@
 {"timestamp":"2026-09-16T22:20:20.489868+00:00","call_id":"f4063779-6951-4274-a6d4-9bd7a3846900","event":"scf_cycle","elapsed_seconds":855.5123890421819,"cycle":15,"e_tot":-466.44168774572233,"energy_unit":"Hartree"}
 {"timestamp":"2026-09-16T22:20:30.432898+00:00","call_id":"f4063779-6951-4274-a6d4-9bd7a3846900","event":"scf_completed","elapsed_seconds":865.4552205000073,"converged":true,"cycles":15,"e_tot":-466.44168774561297,"energy_unit":"Hartree"}
 {"timestamp":"2026-09-16T22:20:30.669872+00:00","call_id":"f4063779-6951-4274-a6d4-9bd7a3846900","event":"gradient_started","elapsed_seconds":865.6921600841451}
+{"timestamp":"2026-09-16T22:23:39.080705+00:00","call_id":"f4063779-6951-4274-a6d4-9bd7a3846900","event":"calculation_completed","elapsed_seconds":1054.0991313341074,"energy_eV":-12693.329692557441,"scf_converged":true,"gradient_completed":true}
