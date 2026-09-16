@@ -319,3 +319,50 @@ def test_including_axial_stiffness_raises_the_ceiling_above_the_transverse_bound
     combined = max_operating_temperature(radius, combined_stiffness / NEWTON_PER_METRE_PER_EV_PER_A2)
     assert combined > transverse_only
     assert combined > 1000.0
+
+
+def test_tensor_contraction_reproduces_the_axially_symmetric_shortcut():
+    """For a diagonal axial tensor, u.K.u must equal 0.248 k_ax + 0.752 k_tr."""
+    from positional_control import escape_directions, escape_stiffness_under_tensor
+
+    axial, transverse = 450.0, 7.27
+    tensor = np.diag([transverse, transverse, axial])
+    result = escape_stiffness_under_tensor(tensor)
+    weights = escape_directions()
+    expected = weights["axial_weight_cos2"] * axial + weights["transverse_weight_sin2"] * transverse
+    assert result["softest_stiffness"] == pytest.approx(expected, rel=1e-9)
+    # Axial symmetry means all six directions are equally stiff.
+    assert result["isotropic_in_escape_set"] is True
+
+
+def test_an_anisotropic_tensor_picks_a_softest_direction():
+    """The point of the API: one soft azimuth is enough to govern."""
+    from positional_control import escape_stiffness_under_tensor
+
+    tensor = np.diag([1.0, 60.0, 450.0])  # very soft along x only
+    result = escape_stiffness_under_tensor(tensor)
+    assert result["isotropic_in_escape_set"] is False
+    assert result["spread_across_directions"] > 1.0
+    # The softest must be the one most aligned with the soft x axis.
+    softest = np.asarray(result["softest_direction"]["unit_vector"])
+    for entry in result["stiffness_by_direction"]:
+        assert result["softest_stiffness"] <= entry["stiffness_along_direction"] + 1e-12
+    assert abs(softest[0]) > 0.5
+
+
+def test_tensor_api_rejects_malformed_input():
+    from positional_control import escape_stiffness_under_tensor
+
+    with pytest.raises(ValueError, match="3x3"):
+        escape_stiffness_under_tensor(np.eye(2))
+    with pytest.raises(ValueError, match="symmetric"):
+        escape_stiffness_under_tensor(np.array([[1.0, 2.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]))
+
+
+def test_softest_is_never_above_the_mean_of_the_six():
+    from positional_control import escape_stiffness_under_tensor
+
+    tensor = np.diag([3.0, 25.0, 200.0])
+    result = escape_stiffness_under_tensor(tensor)
+    values = [e["stiffness_along_direction"] for e in result["stiffness_by_direction"]]
+    assert result["softest_stiffness"] <= sum(values) / len(values)

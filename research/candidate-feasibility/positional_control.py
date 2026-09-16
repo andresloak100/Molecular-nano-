@@ -440,6 +440,63 @@ def escape_directions(separation: float = 3.6) -> dict:
     }
 
 
+def escape_stiffness_under_tensor(stiffness_tensor, separation: float = 3.6) -> dict:
+    """Softest of the six escape directions under a full stiffness tensor.
+
+    ``stiffness_tensor`` is a 3x3 matrix in the same frame as the structures
+    (tool axis along +z), in any consistent units; the returned stiffnesses
+    carry those units. The stiffness resisting escape along a unit direction u
+    is the contraction u.K.u, and what governs is the SOFTEST of the six, never
+    their mean.
+
+    Supplied so the mechanical lane can select against a real tensor instead of
+    the axially symmetric shortcut. For a diagonal, axially symmetric tensor
+    this reproduces 0.248 k_axial + 0.752 k_transverse exactly.
+
+    A CAVEAT THAT APPLIES TO EVERY sigma IN THIS MODULE, and which the growing
+    confidence around this result should not outrun. Treating the tip as one
+    harmonic coordinate with one stiffness understates the total positional
+    variance, because every mode contributes: <u^2> = sum_k (kT / lambda_k)
+    |e_k|^2 over modes. The soft transverse bend dominates and the sum
+    converges quickly since contributions fall as 1/lambda, but a handful of
+    further soft modes could plausibly add tens of percent to sigma^2. That
+    error runs in the UNSAFE direction, unlike the axial-stiffness correction.
+    It is small against the margins seen here and it is not zero, and closing
+    it needs the Hessian nobody has computed.
+    """
+    matrix = np.asarray(stiffness_tensor, dtype=float)
+    if matrix.shape != (3, 3):
+        raise ValueError("stiffness_tensor must be 3x3")
+    if not np.allclose(matrix, matrix.T, atol=1e-9):
+        raise ValueError("stiffness_tensor must be symmetric")
+
+    geometry = escape_directions(separation)
+    evaluated = []
+    for direction in geometry["directions"]:
+        unit = np.asarray(direction["unit_vector"], dtype=float)
+        evaluated.append({
+            "rival_index": direction["rival_index"],
+            "unit_vector": direction["unit_vector"],
+            "stiffness_along_direction": float(unit @ matrix @ unit),
+        })
+    softest = min(evaluated, key=lambda entry: entry["stiffness_along_direction"])
+    stiffnesses = [entry["stiffness_along_direction"] for entry in evaluated]
+    return {
+        "softest_direction": softest,
+        "softest_stiffness": softest["stiffness_along_direction"],
+        "stiffness_by_direction": evaluated,
+        "spread_across_directions": max(stiffnesses) - min(stiffnesses),
+        "isotropic_in_escape_set": bool(max(stiffnesses) - min(stiffnesses) < 1e-9),
+        "rule": "The softest direction governs; the mean is meaningless because the six transverse components cancel.",
+        "single_mode_caveat": (
+            "This is one harmonic coordinate. Total positional variance sums "
+            "over all modes, so a single-stiffness sigma understates it - an "
+            "error in the unsafe direction, small against these margins but "
+            "not zero, and closable only with a Hessian."
+        ),
+    }
+
+
 def max_operating_temperature(target_radius: float, stiffness_ev_per_a2: float) -> float:
     """Highest temperature at which a given stiffness still meets the error target.
 
