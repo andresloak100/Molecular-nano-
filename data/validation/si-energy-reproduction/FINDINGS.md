@@ -326,24 +326,37 @@ It does not rescue the DFT barriers. Relaxing an internal mismatch lowers the
 energy at that structure, which makes the barrier *more* submerged, not less.
 But the reason has to be stated correctly.
 
-**What is convention-free**, and therefore what should be quoted: the force on
-the transferring hydrogen itself, projected on the donor→acceptor axis, at
-PBE0-D3/def2-TZVP:
+**RETRACTED: my "the reaction proceeds at the seed" claim was wrong.** I
+reported the force on the transferring hydrogen along the donor→acceptor axis
+(+0.350 methane, +0.048 isobutane, both "toward acceptor") and concluded PBE0 is
+not pushing the hydrogen back, so S1's dissociation must emerge later. **That is
+wrong, and S1's original dissociation reading was right.**
 
-    methane TS     fmax 2.383 eV/A    force on H  +0.350   toward acceptor
-    isobutane TS   fmax 2.621 eV/A    force on H  +0.048   toward acceptor
+A single-atom force in the lab frame is not a statement about a bond distance.
+The convention-free quantity is the rate of change of an *internal coordinate*,
+which needs both atoms' forces. Under steepest descent at the methane seed:
 
-Both point **toward the product**, so at the seed geometry PBE0 is not pushing
-the hydrogen back. That complicates the reading that these surfaces simply run
-downhill to reactants: S1's observed dissociation is not seeded by the initial
-force on the transferring atom and must emerge later in the optimisation.
+| Distance | r (Å) | d(r)/dstep |
+|---|---|---|
+| H – acceptor C | 1.672 | **+0.869 lengthening** |
+| H – donor C | 1.149 | **+0.995 lengthening** |
+| donor C – acceptor C | 2.822 | **+1.864 lengthening** |
 
-**A projection onto a hand-built reaction-coordinate mode should not be quoted
-from this work.** I tried one, with the hydrogen moving forward and the heavy
-atoms recoiling, and it returned −0.333 — the opposite sign to the hydrogen's
-own force. The heavy atoms carry the large C≡C force, so any mode that includes
-them is contaminated by it, and the weights I chose were arbitrary rather than
-mass-weighted. The single-atom projection above is the defensible statement.
+**Everything is separating.** The hydrogen does drift toward the acceptor in the
+lab frame — but the acceptor is receding faster than the hydrogen is chasing it,
+so the H–acceptor distance still grows. The complex is dissociating at the seed,
+exactly as S1 observed over 65 optimiser frames.
+
+That also rehabilitates the hand-built mode I told people not to quote. It gave
+−0.333; S1's independent decomposition gave −0.457; both negative, both
+agreeing the transfer coordinate runs backward. They were right and my
+"convention-free" single-atom fix was the wrong measurement, not the right one.
+
+**The transferable lesson is narrower than "use mass weighting".** I criticised
+a mode projection for contamination, then replaced it with a single-atom force
+that was wrong for a different reason. A per-atom force answers *where does this
+atom go*; a reaction asks *what happens to these distances*. Only the second is
+a bond question, and it needs both partners.
 
 ### CORRECTION: M06-2X did complete, and it overturns the obvious reading
 
