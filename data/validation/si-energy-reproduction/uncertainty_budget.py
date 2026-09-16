@@ -141,15 +141,20 @@ TUNNELLING = Term(
     "not obviously wrong - but that structure carries three imaginary modes and is "
     "not a first-order saddle, so its 259i is not necessarily the reaction-coordinate "
     "frequency either. S1's verified saddles settle this directly. "
-    "EXPERIMENT NOW CONSTRAINS IT INDEPENDENTLY AND FAVOURS THE LOW BRANCH: Opansky & "
-    "Leone 1996 fit C2H + CH4 over 154-359 K to a single exponential, "
-    "k = 1.2e-11 exp(-491/T). A Wigner factor kappa = 1 + (hc|nu|/kT)^2/24 varies only "
-    "1.2-fold across that range at 259i, which a clean single exponential accommodates, "
-    "but 3.7-fold at 1500i, which would show as pronounced Arrhenius curvature over a "
-    "2.3-fold span in temperature. So the measured linearity is evidence for the low "
-    "|nu| and for a classical-with-modest-tunnelling regime. Qualitative only, since "
-    "Wigner is itself unreliable once kappa exceeds about 2, but the direction does not "
-    "depend on its precision. The term stays unmeasured until a verified saddle supplies "
+    "EXPERIMENT DOES NOT RESOLVE IT EITHER, AND MY EARLIER CLAIM THAT IT FAVOURED THE "
+    "LOW BRANCH IS WITHDRAWN. Two arguments can be built from Opansky & Leone 1996 "
+    "(C2H + CH4, 154-359 K, k = 1.2e-11 exp(-491/T)) and they point in OPPOSITE "
+    "directions. (a) Form of fit: a Wigner factor varies 1.2-fold across that range at "
+    "259i but 3.7-fold at 1500i, and a clean single exponential accommodates the former, "
+    "not the latter - favours LOW |nu|. (b) Magnitude of the fitted value: starting from "
+    "the 1.70 kcal/mol zero-point-corrected barrier, reproducing the measured apparent Ea "
+    "of 0.976 REQUIRES substantial tunnelling, around 1000-1800i with no prefactor "
+    "temperature dependence, and is unreachable within Wigner once a T^1 prefactor is "
+    "included - favours HIGH |nu|. Neither is robust: (a) infers curvature from the "
+    "authors' reporting choice rather than from residuals, and was transcribed from an "
+    "abstract; (b) is acutely sensitive to the assumed prefactor exponent and to the true "
+    "barrier, and uses Wigner outside its validity range at the cold end. The two "
+    "arguments cancel rather than compose. The question is OPEN. ""depend on its precision. The term stays unmeasured until a verified saddle supplies "
     "|nu| directly; it is no longer symmetric between the two branches.")
 
 
@@ -313,7 +318,18 @@ def main() -> int:
             "apparent_activation_energy_kcal_per_mol": 0.976,
             "wigner_kappa_variation_across_measured_range": {
                 "259": 1.2, "1000": 2.8, "1301": 3.4, "1500": 3.7, "2000": 4.2},
-            "inference": (
+            "RETRACTION": (
+                "An earlier version of this file claimed the Arrhenius linearity favoured the low "
+                "branch. That is withdrawn. A second argument from the same measurement, based on "
+                "the magnitude of the fitted activation energy rather than the form of the fit, "
+                "points the opposite way: reproducing +0.976 from a 1.70 zero-point-corrected "
+                "barrier requires substantial tunnelling and therefore HIGH |nu|. Neither argument "
+                "is robust and they do not compose. The question is open."),
+            "magnitude_argument_required_nu_cm": {
+                "Ea0=1.4, no prefactor T-dependence": 747,
+                "Ea0=1.7, no prefactor T-dependence": 1648,
+                "with a T^1 prefactor": "unreachable within Wigner"},
+            "inference_form_of_fit_ONLY": (
                 "A single exponential fitted cleanly over a 2.3-fold temperature span is "
                 "compatible with the 1.2-fold Wigner variation at 259i and not with the "
                 "3.7-fold variation at 1500i, which would curve the Arrhenius plot visibly. "
