@@ -192,3 +192,88 @@ processes, my single job pinned at 63.7% of one core; by 21:13 the one-minute
 figure had risen to 239. Every wall-clock number measured in this window is
 invalid, which matters most for A2, whose task *is* a timing measurement. I hold
 one process and will not add a second.
+
+---
+
+# A1 COMPLETE — final handoff, 2026-09-16 ~19:40 UTC
+
+## The assigned question, answered
+
+**Does the tool hit the right hydrogen? Yes — but not because the chemistry
+prefers it. Because the geometry does.**
+
+| Half of the question | Answer |
+|---|---|
+| Does the chemistry discriminate? | **No.** 0.804 kcal/mol, below its own method-error bar, ~0.9 k_BT |
+| Does the geometry discriminate? | **Yes.** 2.495 Å margin, met at 1.6–2.1× stiffness headroom |
+
+## Stage 1 and 2 result, gate cleared
+
+    D(bridgehead)  103.025 kcal/mol      abstraction -33.776
+    D(methylene)   103.830               abstraction -32.972
+    SITE DIFFERENCE D(methylene) - D(bridgehead)   +0.804 kcal/mol
+    cancellation identity residual                  5.4e-15
+    method-error bar (secondary->tertiary, same level)  0.928
+    ratio                                           0.87  NOT RESOLVABLE
+
+Positive means the bridgehead is the weaker bond and the easier abstraction. The
+cage compresses the acyclic CCSD(T) preference of +2.083 by **61%**, which is
+pyramidalization made quantitative against a same-level benchmark. **The sign is
+not claimable** — the value sits below its own error bar. Corrected for the
+measured 45% overstatement, best estimate ~0.55 kcal/mol.
+
+Method-stable across two hybrids (PBE0 +0.804, B3LYP +0.857, spread 0.053), which
+removes functional sensitivity but **does not** make it resolvable: two functionals
+of one family agreeing is what a systematic error looks like from the inside.
+
+Four-guess gate: all four open-shell species independent to ≤1.1e-07 kcal/mol, S²
+identical to four decimals. Confirms the advance prediction that saturated carbon
+radicals are the clean class.
+
+## What this lane built beyond its brief
+
+Because the chemistry turned out not to discriminate, the positional half became
+load-bearing, and nothing in the package computed it.
+
+| Artifact | Result |
+|---|---|
+| `positional_uncertainty.py` | tip compliance and thermal + zero-point spread from a Hessian |
+| `positional_requirements.py` | margin → required mount stiffness; T_max 449–492 K |
+| `tip_stiffness.py` | **measured** mount: 7.27 N/m lateral, 251.03 axial, ratio 34.5 |
+| `product_state_screen.py` | welding geometry: exactly end-on, transferred H blocks at −0.36 Å |
+| `angular_tolerance.py` | welding reachable in principle at 36.8 joint σ — mechanical, not forbidden |
+| 57 tests | analytic physics, not regressions |
+
+Findings that generalise past this candidate:
+
+1. **Narrow, protruding and collinear — what makes a good abstraction tool — is
+   the same geometry that is laterally floppy.** The literature's 10–100 N/m
+   describes diamondoid bulk, not a protruding alkyne.
+2. **The tip is a cantilever, k ∝ L⁻³** (fitted exponent 3.04). A 1.64× stiffness
+   margin is only an **18% length budget** — this tip is 0.55 Å from failure.
+3. **The two failure modes have opposing stiffness sensitivities.** Mis-targeting
+   is lateral-limited, welding is axial-limited (94% of its cost). One knob cannot
+   tune both.
+4. **Every positional result in this project is a thermal bound.** The welding
+   geometry needs 1.45 Å of axial travel — *less* than the lateral margin called
+   ample. Thermal inaccessibility is not safety against a positioner.
+
+## Corrections this lane made to its own work
+
+Recorded because they are the reason to trust the rest: a 7× headroom claim
+withdrawn after measuring the stiffness it assumed; an inverted stiffness field
+(25.67 N/m for a 10 N/m system); a one-sided scan that found a benign answer by
+construction; a propagated tunnelling claim chased to the lane that adopted it; and
+a 103.03-vs-102.4 near-miss that looked like a bullseye and was a category error.
+
+## Not done, with reasons
+
+- **Zero-point/thermal correction** to the site difference: reduces exactly to the
+  two radicals' ZPE difference; needs two 151-gradient Hessians, ~a day each here.
+- **Stage 3 saddles**: blocked project-wide. Note that submergence at a tertiary
+  site is *not* a DFT artifact — CCSD(T) gives it too — and the experimental
+  exclusion argument is scoped to methane.
+- **Cage-mounted tip stiffness**: the decisive open quantity. Record lever arm
+  alongside stiffness or the modulus and geometry effects confound.
+- **Regeneration**: posted separately. The one state characterised is the most
+  protected by construction, hence least informative about the others.
