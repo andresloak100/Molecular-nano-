@@ -496,11 +496,65 @@ literature. The next calculation in this area is a bigger tool model, not a bett
 formula: ethynyl on adamantyl, or a ladder of mounts showing the bend stiffness
 converge toward the cage limit.
 
-Two internal checks passed: the 88.3 cm⁻¹ mode sits well below the 338 cm⁻¹
+Three internal checks passed. The 88.3 cm⁻¹ mode sits well below the 338 cm⁻¹
 quantum crossover and the measured quantum/classical ratio is 1.009, as the
-crossover table predicts for a soft mode; and back-solving 7.27 N/m on one carbon
-mass gives 101 cm⁻¹ against the observed 88.3, consistent with a slightly larger
-effective mass.
+crossover table predicts for a soft mode. Back-solving 7.27 N/m on one carbon mass
+gives 101 cm⁻¹ against the observed 88.3, consistent with a slightly larger
+effective mass. And the frequency **falsifies** the clamped alternative outright:
+μ = k/ω² gives 15.8 amu for the compliance value, 0.39 of the molecular mass and
+exactly what a transverse bend should look like, against **173.6 amu for the
+clamped 79.8 N/m — 4.3× the entire 40.06 amu molecule**, which is impossible. A
+one-line check any reader can redo from the stored numbers.
+
+### The tip is a cantilever, and that converts the margin into a length budget
+
+Hypothesis tested rather than assumed: a protruding tip should bend about its
+anchor plane as a cantilever, giving k ∝ L⁻³. The single Hessian supplies two
+reference points at different lever arms:
+
+| Reference point | Lever from anchor plane | Stiffness |
+|---|---|---|
+| Apex carbon | 3.0593 Å | 7.272 N/m |
+| Apex hydrogen | 4.1332 Å | 2.915 N/m |
+
+Measured ratio 2.495 against the cubic prediction 2.466 — **agreement to 1.2%**,
+and the cubic exponent beats L² (1.83) and L⁴ (3.33) decisively, so it is not a
+fit with a free exponent. Two points on one molecule, so this is a scaling law
+with one check behind it, not a converged relation.
+
+**This matters more than the stiffness number.** A stiffness headroom is hard to
+act on; tip length is what a designer sets. Cubic scaling means a headroom of *h*
+is a length budget of only *h*^(1/3):
+
+| | Value |
+|---|---|
+| Measured lever / stiffness | 3.06 Å / 7.27 N/m |
+| Requirement | 4.43 N/m |
+| Maximum lever | **3.61 Å** |
+| Spare length | **0.55 Å, i.e. 18%** |
+
+So **this tip sits within about half an Ångström of the length at which positional
+control fails.** A 1.64× stiffness margin is an 18% length margin. That is the
+quantitative form of the design tension above: reaching further to address a
+hindered site costs stiffness *cubically*, a steep exchange rate rather than a
+gentle one.
+
+It also redirects the mount ladder. The informative experiment is not just
+measuring cage-mounted stiffness but recording **lever arm alongside stiffness**,
+because a stiffer cage may also move the effective bending point inward — and the
+cubic term would dominate that. Measuring stiffness alone confounds the two.
+
+**Scope limit, stated because it is easy to overreach here:** the scaling was
+verified across *reference points on one mount*, which is textbook cantilever
+behaviour. Whether stiffness at fixed lever scales cleanly when the *mount*
+changes is a separate claim and is not tested. The cubic law must not be used to
+extrapolate methyl → adamantyl.
+
+A peer lane reported the apex hydrogen's 2.92 N/m as a *failing* verdict at 0.65×.
+It is not an alternative verdict: propyne has a terminal hydrogen only because
+propyne was the proxy, and the real tool is a radical with no hydrogen at the
+apex. What that second point legitimately provides is the lever arm establishing
+the scaling law.
 
 **The standing conclusion is therefore narrower than first written:** the
 positional criterion is met on a deliberately conservative mount model with under
