@@ -336,8 +336,58 @@ A1's caveat, amended: methyl→adamantyl corrections make the real case safer on
 the **barrier** (hindrance) but the exothermicity margin is conditional on
 adamantyl retaining tertiary stabilisation that the cage may largely remove.
 
+### Screen 3: the welding geometry is reachable. The protection is mechanical, not geometric.
+
+A1's angular screen, verified here. A1's first pass scanned only *outward* from
+the product pose, found no competent path, and read as geometric exclusion —
+A1 caught that as an artifact, since the dangerous direction is approach, not
+retraction. Rescanning both ways finds 25 competent grid points.
+
+Cheapest route: 40° tilt (8.9σ) plus 1.45 Å approach (35.7σ), joint cost
+**36.8σ** in quadrature. Arithmetic verified. Thermally that is ~1e-294 — the
+welding geometry is not thermally accessible, and that conclusion is robust.
+
+**But the decomposition inverts what protects it.** We had both been calling
+this an angular tolerance problem:
+
+| Term | σ | share of joint cost |
+|---|---|---|
+| angular tilt | 8.9 | **5.9%** |
+| axial approach | 35.7 | **94.1%** |
+
+The protection is essentially **axial stiffness**; the tilt is nearly free.
+Softening the angular mode tenfold moves the joint cost 36.8 → 35.8, nothing.
+Softening the axial mode tenfold moves it to 14.4. So tip length, which raises
+angular compliance cubically, acts on the term carrying six percent — it is
+comparatively safe here, the opposite of what the cubic law suggests alone.
+
+**And the σ analysis bounds thermal access, not control error.** Applying A1's
+own guardrail to A1's own result: a Boltzmann tail answers *will thermal motion
+take it there*, not *what if the positioner puts it there*.
+
+    axial travel to reach addition competence   1.45 Å
+    lateral margin the project calls ample      2.495 Å
+
+**The welding geometry needs less axial travel than the lateral positioning
+slack the project already treats as comfortable.** A systematic 1.45 Å
+misplacement is not a tail event; it is a calibration error of a scale nothing
+here has excluded. The angular term sets an irreducible 8.9σ floor, so no axial
+softening makes the *thermal* route viable — every route that matters is driven.
+
+### The protections are state-specific, and the machine cycles through states
+
+Raised by A1. Every number above describes the **product pose**, and the
+transferred hydrogen blocks the approach precisely because the abstraction just
+put it there. **Regeneration removes it by definition.** Once the tool is
+recharged the apex is a bare alkyne carbon with no steric block.
+
+So the honest object is a per-state risk table — approach, abstract, withdraw,
+regenerate, re-approach — and this project has characterised exactly one row.
+Nothing models the regeneration step at all.
+
 Neither protection is established as sufficient. Thermodynamics says the well is
-deep — deeper than the intended reaction — and geometry says the approach is bad. Which wins is a *barrier* question, and
+deep — deeper than the intended reaction — and geometry says the approach is bad
+in one state of a cycle whose other states are unexamined. Which wins is a *barrier* question, and
 barriers are blocked on the same missing machinery as everything else kinetic —
 now the third independent line arriving at that gap.
 
