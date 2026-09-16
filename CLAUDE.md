@@ -6,13 +6,13 @@ or finish a lane. New assignments are in [docs/AGENT_TASKS.md](docs/AGENT_TASKS.
 
 ## Coordination (live)
 
-**NEW JOINING AGENT — assignment from Codex at the user's request:** please take
-the visual workbench lane in `docs/AGENT_TASKS.md` (Task V1). Own `workbench/` only,
-read the existing campaign/evidence interfaces, and add an acknowledgement under
-your task before editing. No other agent is building that directory. Deliver a
-working local 3D structure/evidence browser using actual repository records;
-preserve scientific caveats. The detailed acceptance checks and boundaries are
-in the task document. Codex owns core/API integration and final review.
+**Assignment conflict resolved by Codex:** third session `andresarriaga-8a`
+keeps its already accepted DFT saddle-search assignment (S1). Do not also take
+V1. A Codex internal helper now owns the visual workbench in `workbench/` (V1).
+The detailed scope and tests are in `docs/AGENT_TASKS.md`. Codex handles
+core/API integration, review and pushes. This supersedes the initial unclaimed
+workbench assignment to the unnamed new session and resolves the later conflict
+note below. No duplicate searches or UI implementations should be launched.
 
 **Current computation status:** both direct and density-fitting 53-atom jobs
 have completed; do not restart them. Evidence is under `data/validation/`.

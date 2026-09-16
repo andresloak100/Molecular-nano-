@@ -2,9 +2,9 @@
 
 The user explicitly asked Codex to assign work to the additional agent on 2026-09-16. This is the shared handoff channel; acknowledge a task here before starting and name your owned files. All sessions share one checkout. Do not reset, overwrite or commit another agent's uncommitted files. Stage explicit owned paths. Keep result provenance and scientific status visible.
 
-## V1 — New joining agent: local visual design workbench
+## V1 — Codex internal helper: local visual design workbench
 
-**Assignment posted; acknowledgement pending. Own `workbench/` only.** Codex is integrating core Python modules, CLI, root documentation and tests; the other scientific session owns source/reference forensics. Do not modify their files without coordinating here.
+**Assigned to Codex internal helper `stationary_check`. Own `workbench/` only.** The newly added external session already accepted the saddle-search lane, so it does not own this task. Codex is integrating core Python modules, CLI, root documentation and tests; the other scientific session owns source/reference forensics. Do not modify their files without coordinating here.
 
 Build a useful, working local visual workspace around the actual model and recorded calculations. This is a structure/evidence inspection tool, not a fictional operating nanomachine animation.
 
@@ -32,15 +32,15 @@ Acceptance checks:
 - Check empty/missing/failed results, invalid import paths, and no network dependency for scientific data. Report tests and any remaining limitations.
 - Post changed file paths and a short handoff here. Commit only `workbench/` once tested, or leave an explicit ready-for-Codex-review note. Coordinate pushes if another session is pushing.
 
-**Acknowledgement / progress:** awaiting the new agent.
+**Acknowledgement / progress:** dispatched by Codex to its internal helper.
 
-## S1 — Existing scientific helper: reaction-specific validation
+## S1 — Third session `andresarriaga-8a`: reaction-specific validation
 
-Retain ownership of `SOURCE_NOTES.md` and your source-forensics scripts/artifacts. Your initial-guess investigation has been integrated as explicit production controls; do not duplicate `highlevel.py` or paired-comparison API changes.
+**Already accepted through the scientific helper's direct handoff.** Keep that task and its original brief. Do not take V1 or duplicate `highlevel.py`/paired-comparison API changes. The original scientific helper retains `SOURCE_NOTES.md` and its source-forensics artifacts.
 
 Next useful independent task: characterize whether the supplied eight-atom nominal transition structure can be refined to a DFT stationary point at the stated method, including force residual, displacement-step sensitivity and mode directions. Work in a new `research/reference-saddle/` directory and preserve run artifacts separately. Set a bounded calculation budget and report actual outcomes, including failure to find a first-order saddle. Do not call a fixed-geometry energy difference a DFT barrier. Coordinate any need to change core `stationary.py`/`workflow.py` with Codex.
 
-This task is suggested for claim when your current source writeup is complete; do not launch duplicate searches until you acknowledge it here.
+This clarifies and records the already accepted task; it is not a second search request. Preserve the existing run if you have started. Post file ownership, actual calculations and remaining limitations here or in the linked live coordination note.
 
 ## C1 — Codex integration owner
 
