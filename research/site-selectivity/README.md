@@ -205,6 +205,44 @@ discrimination": **the intrinsic chemistry favours the wrong sites, and
 positional control must overcome an adverse preference rather than a neutral
 one.** The measured number governs over all of this.
 
+#### The comparison is not yet apples-to-apples, and here is exactly what is missing
+
+This is a rigor gap in the pre-registration itself, and it has not been flagged
+elsewhere in the project. **What this lane computes is a bare electronic
+Born–Oppenheimer difference. What Fattahi & Kass report is a bond dissociation
+*enthalpy* at 298 K.** Those differ by zero-point and thermal vibrational terms,
+so quoting agreement or disagreement between them without the correction would be
+comparing two different quantities.
+
+The useful part is that the correction collapses to one clean term. Because the
+site difference is
+
+    ΔD = E(adamantyl_methylene) − E(adamantyl_bridgehead)
+
+the adamantane and hydrogen-atom contributions cancel *exactly*, and a free
+hydrogen atom has no vibrations at all. So the entire zero-point-plus-thermal
+correction to the site difference is
+
+    ZPE+thermal(2-adamantyl) − ZPE+thermal(1-adamantyl)
+
+the difference between two C₁₀H₁₅ isomers, each with 69 vibrational modes.
+Nothing else enters. Its magnitude is plausibly a few tenths of a kcal/mol and
+its sign is not predictable without computing it — which is material when the
+expected signal is about 2 kcal/mol and the experimental uncertainty is ±1.9.
+
+It is not affordable here. Each radical needs a full Hessian: 75 free
+coordinates, so 151 gradient evaluations, at the several hundred seconds per
+gradient this host currently delivers. That is on the order of a day per radical.
+The affordable approximation is a partial Hessian over the radical centre and
+its immediate neighbours, which captures the local modes that dominate the
+difference but carries an uncontrolled truncation error and would have to be
+labelled as such.
+
+So the correct framing for the result, adopted here: compare the **sign and
+rough magnitude** against the literature expectation, and state plainly that a
+quantitative comparison awaits the two radical Hessians. Do not claim numerical
+agreement with an enthalpy using an electronic energy.
+
 For comparison, not as a target: all-electron CCSD(T)/cc-pVDZ gives tertiary
 abstraction 7.44 kcal/mol more exothermic than primary for C2H + isobutane
 versus C2H + methane. That is acyclic, and the cage is exactly what breaks the
@@ -269,6 +307,22 @@ diagnostics are all load-independent.
 
 Not attempted. Given the state of the barrier machinery above, the honest
 deliverable is to say so with the reason rather than half-finish it.
+
+**And when barriers do exist, they will still not be the selectivity.** This
+reaction transfers a hydrogen — the lightest nucleus — so nuclear tunnelling
+through the barrier is a large effect at 300 K, commonly a factor of 3 to 30 on
+the rate. It is also **not the same size at both sites**, because it depends on
+the barrier's imaginary frequency and width, which differ between the bridgehead
+and methylene transition structures. Tunnelling can therefore *reorder* a site
+preference: a site with a slightly higher but thinner barrier can win.
+
+So the chain from here to an actual selectivity is: electronic difference (this
+lane, running) → zero-point and thermal correction (identified above, not
+affordable yet) → located saddles at both sites (blocked, S1's lane) →
+tunnelling correction. An Eckart correction is closed-form from a located
+saddle's imaginary frequency and so is cheap once the saddles exist. Nothing in
+this lane should be read as a rate or a selectivity, and a
+tunnelling-uncorrected barrier ratio should not be either.
 
 ## The other half of the selectivity argument
 
@@ -342,6 +396,73 @@ Next step for it, not yet run: a tip Hessian for the actual candidate. A full
 Hessian on the 53-atom system is out of reach on this hardware, so the route is
 a partial Hessian over the apex and its neighbours with the cage frozen, which
 is a bounded upper bound on stiffness and is stated as such.
+
+## Requirements, not just grades: `positional_requirements.py`
+
+The uncertainty layer grades a structure. A design tool should also say what a
+design must achieve, so this inverts the question: given the measured margin, how
+stiff must the mount be? Tests in `tests/test_positional_requirements.py`.
+
+### The positional criterion is met, with headroom
+
+At 300 K, keeping the apex inside the measured 2.495 Å margin with a crossing
+probability of 1e-15 requires a spread of **0.314 Å**, which is a stiffness of
+**4.2 N/m**.
+
+| Target crossing probability | Required σ | Required stiffness |
+|---|---|---|
+| 1e-3 | 0.807 Å | 0.64 N/m |
+| 1e-6 | 0.525 Å | 1.50 N/m |
+| 1e-12 | 0.355 Å | 3.29 N/m |
+| 1e-15 | 0.314 Å | 4.20 N/m |
+
+A stiff diamondoid mount is expected to supply 10–100 N/m. At 30 N/m the spread
+is 0.117 Å, the margin is **21 σ** wide, and there is roughly **sevenfold
+stiffness headroom**. So on the positional axis this design is not close to its
+limit: **positional precision is not the binding constraint here — the chemistry
+is.** That is the first time this project can say the margin is met rather than
+merely defined, and it is why the stage 1/2 energetics carry the weight.
+
+The crossing probability is **not an error rate** and no field reports one. It is
+a harmonic-equilibrium one-dimensional tail evaluated eight spreads out, where a
+harmonic model is least trustworthy, applied to an operation that is driven
+rather than equilibrium. What survives is the required-versus-achievable
+stiffness comparison, which is robust exactly because it is not close.
+
+### A qualification on the canonical feasibility argument
+
+Drexler's σ = √(k_B T / k) is a **classical** formula. The quantum amplitude
+carries a factor √(x coth x) with x = ħω / 2k_B T, so the classical form
+understates the spread wherever ħω is not small against k_B T.
+
+Measured against a DFT Hessian another lane had already computed and committed
+(H₂ at PBE0-D3/def2-SVP, `data/validation/h2-integration/modes/`), the
+bond-length spread is **87.3 mÅ quantum against 26.9 mÅ classical at 298 K** —
+the classical value is 3.25× too small, and the quantum value is unchanged
+between 4 K and 298 K because it is entirely zero-point motion. Three independent
+routes agree to 1e-4 relative: the forward mode sum over the stored Hessian, the
+closed-form diatomic amplitude at the reported 4383.9 cm⁻¹ stretch, and this
+module's ratio. No new electronic-structure time was spent.
+
+**This does not sink the classical formula**, and the module says so rather than
+overclaiming. A tip's spread is set by its *soft* mount modes, and the correction
+exceeds ten percent only above **338 cm⁻¹** at room temperature:
+
+| Mode | σ_quantum / σ_classical | Regime |
+|---|---|---|
+| 50 cm⁻¹ | 1.002 | near-classical |
+| 100 cm⁻¹ | 1.010 | near-classical |
+| 338 cm⁻¹ | 1.100 | crossover |
+| 1000 cm⁻¹ | 1.561 | mixed |
+| 4384 cm⁻¹ | 3.242 | zero-point dominated |
+
+A 10–100 N/m mount mode moving tens of atomic masses sits near 100 cm⁻¹, where
+the correction is under one percent. So the usable rule is conditional: classical
+is adequate for the soft modes that set the spread, and must not be used for
+stiff bond modes, whose zero-point floor it sets to nearly zero. Both are
+computed and the regime is reported rather than assumed. Cryogenic operation
+pushes the crossover down, so more modes need the quantum form there — which
+matters because cooling is the usual proposed remedy for positional error.
 
 ## Reproducing
 
