@@ -305,8 +305,46 @@ surface — S1 measured a 2.38 eV/Å residual there. The comparison is valid as 
 method comparison at fixed geometry and says nothing about what a relaxed DFT
 saddle would give.
 
-M06-2X did not complete in this survey under host contention; the def2-SVP
-entry and three def2-TZVP entries did.
+### CORRECTION: M06-2X did complete, and it overturns the obvious reading
+
+I recorded M06-2X as not finishing. **That was wrong** — I read the log before
+the process exited. It completed at **−11.27 kcal/mol**, and it changes the
+conclusion, so the error was not harmless: the support lane built an analysis on
+the three remaining functionals and reached a conclusion this datum falsifies.
+
+How much each method moves from the primary to the tertiary site:
+
+| Method | methane | isobutane | shift | % of CCSD(T) shift |
+|---|---|---|---|---|
+| CCSD(T)/cc-pVDZ | +2.40 | −0.63 | **−3.03** | reference |
+| PBE0-D3/def2-TZVP | −2.89 | −2.80 | +0.09 | **−3%** |
+| B3LYP-D3/def2-TZVP | −3.77 | −3.74 | +0.03 | **−1%** |
+| **M06-2X/def2-TZVP** | −8.23 | −11.27 | **−3.04** | **100%** |
+
+"The functionals are blind to the substitution" is true of PBE0 and B3LYP — they
+move 3% and 1% of the reference shift, in the wrong direction — and **decisively
+false of M06-2X**, which reproduces the substitution response essentially
+exactly. Notably it is the one parameterised on barrier heights.
+
+**So M06-2X carries a large constant offset while tracking the site dependence
+almost perfectly**, and its error is identical at both sites to 0.01 kcal/mol:
+
+| Method | error, methane | error, isobutane | error drift |
+|---|---|---|---|
+| PBE0-D3/def2-TZVP | −5.29 | −2.17 | 3.12 |
+| B3LYP-D3/def2-TZVP | −6.17 | −3.11 | 3.06 |
+| **M06-2X/def2-TZVP** | −10.63 | −10.64 | **0.01** |
+
+**Selectivity is a difference between sites, and a constant error cancels in a
+difference while a drifting one does not.** That inverts the ranking: the worst
+functional for absolute barriers is the best for the site difference, and
+PBE0-D3 — which the selectivity lane is using — is among the worst for it.
+
+**Two points cannot establish that an error is constant.** A 0.01 kcal/mol
+agreement across two reactions is striking but could be coincidence, and a
+systematic offset in a barrier-height-parameterised functional is plausible
+rather than surprising. A third reaction would test it. This is a reason to run
+the check, not a reason to switch functionals.
 
 ## 7. What is NOT established
 
