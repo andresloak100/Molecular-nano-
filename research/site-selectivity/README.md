@@ -116,7 +116,76 @@ van der Waals overlap before any chemistry is considered. Possibly deliberate
 for an abstraction geometry, but it should be recorded rather than rediscovered
 when the nine-pose results are interpreted.
 
-## Stages 1 and 2 — site energetics. Running.
+## RESULT — stages 1 and 2 complete, gate cleared
+
+**The site difference is +0.804 kcal/mol, and it is smaller than its own method
+error bar. Adamantane offers essentially no intrinsic thermodynamic site
+discrimination.**
+
+| Quantity | Value |
+|---|---|
+| D(bridgehead), adiabatic electronic | 103.025 kcal/mol |
+| D(methylene) | 103.830 |
+| **Site difference, D(methylene) − D(bridgehead)** | **+0.804** |
+| Sign meaning | bridgehead is the *weaker* bond, i.e. the easier abstraction |
+| Cancellation identity residual | 5.4e-15 — holds to machine precision |
+| Abstraction energies | bridgehead −33.776, methylene −32.972 |
+
+### Against the three reference points
+
+| | Value | |
+|---|---|---|
+| Pre-registered prediction (Fattahi & Kass enthalpies) | −2.1 | **opposite sign** |
+| Acyclic anchor, same level, CCSD(T)/cc-pVDZ | +2.083 | same sign |
+| **Measured adamantane** | **+0.804** | |
+
+The pre-registration got the **mechanism** right and the **sign** wrong. The cage
+does compress the tertiary preference — 2.083 → 0.804, a **61% reduction** — which
+is the pyramidalization effect appearing quantitatively against a same-level
+benchmark. It does not overshoot into inversion as the experimental-enthalpy
+comparison implied.
+
+### The number is below its own error bar, so the sign is not claimable
+
+| | |
+|---|---|
+| Measured | 0.804 kcal/mol |
+| Measured method-error bar (secondary→tertiary, same level) | 0.928 |
+| Ratio | **0.87 — not resolvable** |
+| Best estimate of truth after the 45% overstatement | ~0.55 kcal/mol |
+| k_BT at 298 K | 0.5925 → the corrected value is **~0.9 k_BT** |
+
+This is exactly what the calibration anticipated: a small difference would not be
+separable from method error. It is small, and it is not. **The sign cannot be
+claimed**, and the pre-registration cannot be called refuted either — a 0.87σ
+discrepancy against this lane's own error bar refutes nothing. Measurement and
+prediction agree the difference is small and disagree on its sign, with the
+disagreement inside the combined uncertainties.
+
+**This is a finding, not a null result.** It means the design's selectivity rests
+entirely on the positional margin, which is measured and met.
+
+### The gate cleared
+
+The four-guess scan this lane refused to quote a number without:
+
+| Species | Spread | S² across all four guesses |
+|---|---|---|
+| adamantyl_bridgehead | 1.10e-07 kcal/mol | 0.7541 identical |
+| adamantyl_methylene | 9.26e-08 | 0.7546 identical |
+| hydrogen_atom | 5.01e-10 | 0.7500 identical |
+| ethynyl | 1.67e-08 | 0.7919 identical |
+
+Numerical noise rather than spread, and S² identical to four decimals across all
+guesses, so these are genuinely unique solutions. A peer's advance prediction —
+that saturated carbon radicals would come back null, since all five failures in
+this project have been alkynyl — is **confirmed**. The exposure this lane flagged
+for its absolute abstraction energies (they retain ethynyl, an alkynyl radical) did
+not bite: ethynyl is clean at this geometry, so the −33.78 and the exothermicity
+ladder stand. That does not falsify the alkynyl hypothesis, since propynyl at the
+same level showed an 11.2 kcal/mol spread — the class is at risk, not every member.
+
+## Stages 1 and 2 — method and provenance
 
 `site_energetics.py` → `evidence/stage12-pbe0-svp-df/`.
 PBE0-D3(BJ)/def2-SVP, density fitting, six species each relaxed independently to
