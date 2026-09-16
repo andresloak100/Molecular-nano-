@@ -5,19 +5,23 @@ not yet measured and are named rather than estimated.
 
 **Verdict: not at default settings on this host as it stands — but the margin
 is contention, not chemistry, and that changes what to do about it.** Using the
-archived timings at face value, one pose costs between 4.3 and 19.5 days of
-uninterrupted single-core compute, and the campaign has nine poses. However,
-those timings are wall clock taken under unrecorded contention, and this host's
-measured contention factor reaches 10.4x. If the archived runs carried anything
-like that factor, the same central scenario is **20 hours, not 8.6 days**. The
-verdict genuinely hangs on a number nobody has measured yet.
+archived timings at face value, a path on *one* pose costs between 4.3 and 19.5
+days of uninterrupted single-core compute. However, those timings are wall clock
+taken under unrecorded contention, and this host's measured contention factor
+reaches 10.4x. If the archived runs carried anything like that factor, the same
+central scenario is **20 hours, not 8.6 days**. The verdict genuinely hangs on a
+number nobody has measured yet.
+
+Note what is *not* blocked: the nine-pose campaign in `examples/pose-campaign`
+is configured for `stage: "singlepoint"`, one evaluation per pose, roughly
+1.8 hours in total. It is affordable today. The cliff is the path stage, which
+costs 530-2400 evaluations where the campaign costs one.
 
 So the deliverable splits in two. The evaluation *count* is solid and is the
-real structural problem: 530 to 2400 serial evaluations for one pose, times
-nine poses. The per-evaluation *cost* is not yet established to better than an
-order of magnitude, and establishing it is cheap. A reduced model brings one
-pose into range under either reading; the reduction is defensible on
-electronics and undemonstrated on mechanics.
+real structural problem. The per-evaluation *cost* is not yet established to
+better than an order of magnitude, and establishing it is cheap. A reduced
+model brings one pose into range under either reading; the reduction is
+defensible on electronics and undemonstrated on mechanics.
 
 **What this verdict is not.** It says nothing about whether the reaction works.
 An affordable path would not be evidence that the tool abstracts the right
