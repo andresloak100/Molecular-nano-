@@ -253,6 +253,35 @@ def census(separation_angstrom: float = 3.6, lateral_offset_angstrom: float = 0.
         ) <= _TIE_TOLERANCE
     ]
 
+    # Group the competitors into degenerate shells by apex displacement.  Site
+    # type alone does not identify a shell: three of the four competitor shells
+    # are methylene_secondary, so quoting "the methylene competitor" is
+    # ambiguous.  Shells are a property of this tool placement on an unrelaxed
+    # candidate, not an established symmetry of the relaxed system.
+    shells: list[dict] = []
+    for site in sorted(
+        others, key=lambda item: item["apex_displacement_to_become_nearest_hydrogen_angstrom"]
+    ):
+        value = site["apex_displacement_to_become_nearest_hydrogen_angstrom"]
+        if shells and abs(shells[-1]["apex_displacement_angstrom"] - value) <= _TIE_TOLERANCE:
+            shells[-1]["hydrogen_indices"].append(site["hydrogen_index"])
+            shells[-1]["carbon_indices"].add(site["carbon_index"])
+            shells[-1]["site_types"].add(site["site_type"])
+        else:
+            shells.append({
+                "shell": len(shells) + 1,
+                "apex_displacement_angstrom": value,
+                "site_relocation_angstrom": site["apex_translation_required_angstrom"],
+                "hydrogen_indices": [site["hydrogen_index"]],
+                "carbon_indices": {site["carbon_index"]},
+                "site_types": {site["site_type"]},
+            })
+    for shell in shells:
+        shell["hydrogen_indices"] = sorted(shell["hydrogen_indices"])
+        shell["carbon_indices"] = sorted(shell["carbon_indices"])
+        shell["site_types"] = sorted(shell["site_types"])
+        shell["count"] = len(shell["hydrogen_indices"])
+
     # Handle-damage check: can the apex reach a hydrogen of its own mount?
     tool_hydrogens = [i for i in tool if symbols[i] == "H"]
     apex_to_own_hydrogens = sorted(float(distances[apex, i]) for i in tool_hydrogens)
@@ -322,6 +351,24 @@ def census(separation_angstrom: float = 3.6, lateral_offset_angstrom: float = 0.
             "reachable_alternative_count": len(reachable_others),
             "blocked_alternative_count": len(others) - len(reachable_others),
         },
+        "competitor_shells": {
+            "definition": (
+                "The 15 competing hydrogens grouped by apex displacement to become nearest. "
+                "Intra-shell members agree to machine precision. Three of the four shells are "
+                "methylene_secondary, so site type alone does not identify a shell."
+            ),
+            "shell_count": len(shells),
+            "shells": shells,
+            "caveat": (
+                "These shells are a property of this tool placement on an unrelaxed candidate, "
+                "not an established symmetry of the relaxed system. Exact degeneracy is what an "
+                "idealized unrelaxed cage must produce; relaxation, a different mount orientation "
+                "or an azimuthal preference would lift these ties by an amount this file cannot "
+                "bound. Do not treat shell membership as a rigorous symmetry reduction. It is "
+                "distinct from the species-level symmetry of isolated adamantane, which does "
+                "rigorously give exactly two adamantyl radicals; see tests/test_species_symmetry.py."
+            ),
+        },
         # The conservative margin. This is the one to quote as a tolerance.
         "nearest_hydrogen_margin": {
             "definition": (
@@ -376,7 +423,7 @@ def census(separation_angstrom: float = 3.6, lateral_offset_angstrom: float = 0.
 def main() -> None:
     # Not named "runs": .gitignore ignores that directory name at any depth,
     # which would silently drop this evidence from the repository.
-    output = Path(__file__).resolve().parent / "evidence" / "stage0-site-census-r4"
+    output = Path(__file__).resolve().parent / "evidence" / "stage0-site-census-r5"
     output.mkdir(parents=True, exist_ok=False)
     result = census()
     (output / "census.json").write_text(
@@ -422,6 +469,13 @@ def main() -> None:
         nearest["limiting_hydrogen_index"],
         f"({nearest['limiting_site_type']}) becomes closest",
     )
+    for shell in result["competitor_shells"]["shells"]:
+        print(
+            f"  shell {shell['shell']}: {shell['count']:2d} sites at",
+            f"{shell['apex_displacement_angstrom']:.4f} A",
+            "/".join(shell["site_types"]),
+            "H", shell["hydrogen_indices"],
+        )
     print(
         "  tied competitors:", nearest['tied_competitor_count'],
         "hydrogens", nearest['tied_competitor_hydrogen_indices'],
