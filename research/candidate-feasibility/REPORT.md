@@ -151,6 +151,18 @@ pose, four-guess SCF scan on every open-shell species:
 | Methyl | CH₃-C≡C· | -136.52 |
 | Adamantyl | pending | pending |
 
+**Sanity check against known chemistry.** The hydrogen-handle case is just
+acetylene: `A(H) = -136.72 kcal/mol` is the negative of the acetylene C-H bond
+dissociation energy, so this calculation puts that bond at 136.7 kcal/mol.
+Acetylene's C-H bond is experimentally about 133 kcal/mol as an enthalpy at
+298 K. These numbers are bare electronic energies with no zero-point or
+thermal correction, and zero-point energy lowers a C-H dissociation energy by
+roughly 4-5 kcal/mol, so an electronic value a few kcal/mol above the
+experimental enthalpy is what agreement looks like here. It is a coarse check
+— rigid unrelaxed geometries, a small basis, no ZPE computed — but it is the
+first number in this lane anchored to something outside the repository, and it
+lands where it should rather than somewhere absurd.
+
 Hydrogen versus methyl differ by **0.19 kcal/mol**. For scale, this project's
 own CCSD(T) calibration puts tertiary abstraction 7.4 kcal/mol more exothermic
 than primary, and published kinetic selectivity in adamantane corresponds to
