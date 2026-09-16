@@ -135,6 +135,41 @@ Four points and variational lowness do not make a selection rule, and none of
 this says the low solution is the physically right state — only that it is the
 variationally lower one and that S² does not identify it. Scan the guesses.
 
+### The failures are not random: every one is an alkynyl radical
+
+Five cases is enough to ask what predicts them rather than just counting. Sorted
+by how far the default `minao` guess sits above the lowest solution:
+
+| Species | Method | minao above lowest | Class |
+|---|---|---|---|
+| ethynyl radical H–C≡C• | UHF/cc-pVDZ | **+8.76** | alkynyl radical |
+| propynyl CH3–C≡C• (A2) | PBE0-D3/def2-SVP | **+11.20** | alkynyl radical |
+| adamantyl-ethynyl tip (A2) | PBE0-D3/def2-SVP | **+10.42** | alkynyl radical |
+| methane TS | UHF/cc-pVDZ | 0.00 | transition structure |
+| isobutane TS | UHF/cc-pVDZ | 0.00 | transition structure |
+| ethynyl radical | PBE0/def2-SVP | 0.00 | alkynyl radical |
+| tert-butyl radical | PBE0/def2-SVP | 0.00 | saturated C radical |
+| methyl radical | UHF/cc-pVDZ | 0.00 | saturated C radical |
+
+**Every failure is an alkynyl radical, R–C≡C•.** Saturated carbon radicals are
+clean in both cases checked, and in both transition structures `minao` found the
+lowest solution (their spreads come from `1e`, which nobody uses).
+
+Chemically this is the known σ/π near-degeneracy of C2H-type radicals: the
+²Σ⁺ and ²Π states lie close together, so the SCF has two genuine low-lying
+solutions to fall into. It is a property of that radical centre's electronic
+structure, not of PySCF. Caveat on the apparent exception: bare ethynyl is clean
+at DFT but fails at UHF, while substituted alkynyls fail at DFT too — different
+bases are involved and I would not push that sub-pattern hard.
+
+**Why this matters more than the base rate does. The tool tip is an alkynyl
+radical.** It sits squarely in the affected class, and A2 measured it failing by
+10.42 kcal/mol. Every calculation involving the *unreacted* tool is at risk and
+must be scanned. Conversely, A1's adamantyl radicals are saturated carbon
+radicals, the clean class, so that scan is more likely to return null — worth
+knowing in advance so a null is not later read as evidence the scan was
+unnecessary.
+
 **The fourth case is not a proxy.** It is the adamantyl-supported ethynyl tool
 tip itself, C12H15, truncated from the headline 53-atom candidate at its own
 pose. So the trap is confirmed on the actual tool species, not only on
