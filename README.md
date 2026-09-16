@@ -1,6 +1,6 @@
 # Molecular nano
 
-Quantum-chemistry research software for **positional diamondoid mechanosynthesis**: the atomically precise assembly of stiff molecular structures envisioned in Drexler's molecular machinery proposals.
+Quantum-chemistry research software for **positional diamondoid mechanosynthesis**: the atomically precise assembly of stiff molecular structures proposed in the molecular-machinery literature.
 
 This repository starts with one elementary operation: a supported ethynyl radical removing a selected hydrogen from a diamondoid site. It generates atom-resolved candidate geometries, computes electronic energies and forces, relaxes mechanically constrained structures, and searches reaction paths using climbing-image nudged elastic band (CI-NEB).
 
