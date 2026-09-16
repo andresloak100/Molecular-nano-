@@ -251,3 +251,35 @@ def test_crossover_scales_linearly_with_temperature():
     for temperature, expected in ((298.15, 336.0), (150.0, 169.0), (77.0, 87.0), (4.0, 4.5)):
         got = crossover_wavenumber(temperature, 0.10)["crossover_wavenumber_cm1"]
         assert got == pytest.approx(expected, rel=0.02)
+
+
+def test_six_degenerate_competitors_barely_change_the_requirement():
+    """The census finds a six-fold tied shell, so the honest target is a union bound.
+
+    The point of computing it is to show it does not matter: the requirement
+    grows only logarithmically in the number of competitors, so accounting for
+    all six moves it by a few percent rather than by a factor of six.
+    """
+    single = required_stiffness(MARGIN, 1e-15, 300.0, competitor_count=1)
+    six = required_stiffness(MARGIN, 1e-15, 300.0, competitor_count=6)
+
+    assert six["per_competitor_target_probability"] == pytest.approx(1e-15 / 6)
+    assert six["required_sigma_angstrom"] < single["required_sigma_angstrom"]
+    # sigma = margin / (sqrt(2) * erfcinv(2e-15/6)); erfcinv(3.333e-16) = 5.772,
+    # so margin/sigma = 8.161 and sigma = 0.3057 A. Checked by hand.
+    assert six["required_sigma_angstrom"] == pytest.approx(0.3057, abs=1e-4)
+    assert six["required_stiffness_classical_n_per_m"] == pytest.approx(4.431, abs=0.01)
+    # A sixfold tighter probability budget costs under ten percent in stiffness.
+    ratio = (
+        six["required_stiffness_classical_n_per_m"]
+        / single["required_stiffness_classical_n_per_m"]
+    )
+    assert 1.0 < ratio < 1.10
+    # And it is still far below any real mount, which is the conclusion that matters.
+    assert six["required_stiffness_classical_n_per_m"] < 10.0
+
+
+def test_competitor_count_is_validated():
+    for bad in (0, -1, 2.5, True):
+        with pytest.raises(PositionalRequirementError):
+            required_stiffness(MARGIN, 1e-15, 300.0, competitor_count=bad)

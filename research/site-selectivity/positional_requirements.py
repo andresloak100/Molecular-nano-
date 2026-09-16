@@ -146,7 +146,8 @@ def crossover_wavenumber(temperature_kelvin: float = 298.15, tolerance: float = 
 
 def required_stiffness(margin_angstrom: float, target_probability: float,
                        temperature_kelvin: float = 298.15, *,
-                       effective_mass_amu: float | None = None) -> dict:
+                       effective_mass_amu: float | None = None,
+                       competitor_count: int = 1) -> dict:
     """Stiffness the mount must supply to keep the tip inside ``margin``.
 
     The classical requirement k = k_B T / sigma**2 needs no mass.  The quantum
@@ -159,12 +160,30 @@ def required_stiffness(margin_angstrom: float, target_probability: float,
     target = _probability("target_probability", target_probability)
     temperature = _positive("temperature_kelvin", temperature_kelvin)
 
-    sigma = required_sigma(margin, target)
+    if isinstance(competitor_count, bool) or not isinstance(competitor_count, int) or competitor_count < 1:
+        raise PositionalRequirementError("competitor_count must be a positive integer")
+
+    # The census finds the nearest competitors are symmetry-degenerate -- six of
+    # them for this candidate -- each defining its own bisector plane in its own
+    # direction.  Crossing any one of them is an error, so the correct target for
+    # a single plane is the total budget divided by the number of competitors.
+    # This is a union bound, so it is conservative: the events overlap slightly,
+    # which can only make the true total smaller than the sum.
+    per_plane_target = target / competitor_count
+    sigma = required_sigma(margin, per_plane_target)
     kt_ev = Boltzmann * temperature / electron_volt
     classical_ev = kt_ev / sigma**2
     result = {
         "margin_angstrom": margin,
         "target_crossing_probability": target,
+        "competitor_count": competitor_count,
+        "per_competitor_target_probability": per_plane_target,
+        "competitor_count_note": (
+            "Union bound over the degenerate nearest competitors, each with its own bisector "
+            "plane in its own direction. Conservative, since overlapping events make the true "
+            "total smaller than the sum. Weak in stiffness terms: the requirement grows only "
+            "logarithmically in the competitor count."
+        ),
         "temperature_kelvin": temperature,
         "required_sigma_angstrom": sigma,
         "margin_in_required_sigma": margin / sigma,
