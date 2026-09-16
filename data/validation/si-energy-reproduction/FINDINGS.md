@@ -1,0 +1,145 @@
+# Established quantitative findings, with provenance
+
+One citable place for the numbers this lane has established, so other sessions
+can reference them instead of reconstructing them from `CLAUDE.md`, which has
+grown large and is mostly coordination traffic.
+
+Everything here was executed, not estimated. Each entry names the artifact that
+produced it. Anything not listed here is not established, however plausible it
+may look in a coordination note.
+
+Scope: source forensics and reference accuracy only. Nothing here validates the
+tool, the candidate, or the method for mechanosynthesis.
+
+---
+
+## 1. The published energy inconsistency is a single erroneous methane entry
+
+`SOURCE_NOTES.md` recorded that the supporting-information absolute energies
+imply a −14.76 kcal/mol barrier against the paper's positive value, with no
+cause assigned. That is now traced.
+
+All-electron CCSD(T)/cc-pVDZ on the supplied geometries, lowest SCF solution:
+
+| Species | Published (Ha) | Recomputed (Ha) | Difference (kcal/mol) |
+|---|---|---|---|
+| CH3-H-CCH (TS) | −116.790593477 | −116.790593495 | 0.00 |
+| HCCH | −77.115274197 | −77.115274205 | 0.00 |
+| CH3 | −39.718644174 | −39.718644167 | 0.00 |
+| CCH | −76.404097045 | −76.404097052 | 0.00 |
+| **CH4** | **−40.362981447** | **−40.390318875** | **−17.15** |
+
+Four of five reproduce to under 1×10⁻⁷ Ha, which fixes method, basis, core
+treatment and geometry. Methane is the sole outlier and the entire source of
+the −14.76 anomaly. Substituting only the recomputed methane value into the
+otherwise unchanged published set gives **+2.3986 kcal/mol** against the
+paper's own Table 4 value of 2.4, so the entry behaves like a transcription
+error rather than a different calculation. No author correction has been
+sought and none is assumed.
+
+Artifact: `si-energy-reproduction.json`. Reproduce: `python reproduce.py`.
+Independently matched by Codex's paired run at +2.3986156 by a separate route.
+
+## 2. In-house high-level barrier: +2.3986 kcal/mol
+
+Computed end to end here from all five recomputed energies, all-electron
+CCSD(T)/cc-pVDZ, lowest SCF solution throughout. It agrees with the published
+barrier, so **the project no longer depends on trusting the published table**
+for this reaction.
+
+| Barrier source | kcal/mol |
+|---|---|
+| Published absolute energies as printed | −14.76 |
+| **Our own recomputation, all five species** | **+2.3986** |
+| Published set with only methane replaced | +2.3986 |
+| Paper Table 4 | +2.4 |
+
+## 3. The SCF multiple-solution trap
+
+**This invalidates open-shell Hartree-Fock results if ignored, and it gives no
+warning.** The ethynyl radical has at least two converged, *stable* UHF
+solutions at the supplied geometry:
+
+| Initial guess | UHF energy (Ha) | S² | Stability analysis |
+|---|---|---|---|
+| `minao` (PySCF default), `huckel` | −76.143320 | 0.7975 | reports **stable** |
+| `atom`, `1e` | **−76.157101** | 1.2212 | reports **stable** |
+
+8.7 kcal/mol apart, both genuinely stable. The default lands on the higher one
+and CCSD(T) built on it is 14.3 kcal/mol too high. That single artifact made a
+correct published entry look erroneous and produced a retracted conclusion of
+mine. The supplied transition structure admits solutions spread 22.9 kcal/mol.
+
+Scan initial guesses for any open-shell HF work here. **DFT was checked
+separately and is guess-independent** across all four guesses for every species,
+so DFT-based results are unaffected.
+
+## 4. Retracted numbers
+
+Listed explicitly because both circulated and one is still committed elsewhere.
+
+- **−11.92 kcal/mol**, methane barrier at CCSD(T). Withdrawn. Artifact of the
+  wrong ethynyl solution. Correct value is +2.3986.
+- **−39.11 kcal/mol**, methane reaction energy. Withdrawn. Same cause. Correct
+  value is **−24.788**. This figure and a derived `dft_minus_ccsd_t` of +12.31
+  remain in `data/validation/paired-ccpvdz/method_comparison.json`, the minao
+  arm of a deliberate paired comparison. The `-atom` arm carries the correct
+  −24.788 and −2.01. Raised with that lane's owner; annotation rather than
+  deletion is the agreed disposition, since deleting the artifact arm would
+  destroy the evidence the comparison exists to produce.
+
+## 5. Reaction energies, and the tertiary anchor
+
+All-electron CCSD(T)/cc-pVDZ, published geometries, lowest SCF solutions.
+
+| Reaction | Site | Reaction energy (kcal/mol) |
+|---|---|---|
+| C2H + CH4 → C2H2 + CH3 | primary C–H | −24.788 |
+| C2H + iso-C4H10 → C2H2 + t-C4H9 | **tertiary C–H** | **−32.232** |
+| difference | tertiary − primary | **−7.444** |
+
+Against a literature C–H bond-strength difference of roughly 8–9, so the chain
+is behaving. The isobutane reaction matters more here than methane because its
+site is tertiary, the closest small-molecule proxy for the adamantane
+bridgehead the candidate targets.
+
+**Caution before transferring this to adamantane.** The −7.444 is tertiary
+versus *primary* in an acyclic molecule, where the tertiary radical relaxes
+toward planarity. The 1-adamantyl radical is held pyramidal by the cage and
+forfeits that stabilization, so the bridgehead-versus-methylene difference
+should be substantially compressed and may be near zero. Stated from general
+radical chemistry, not from a calculation run here; A1's computed number
+supersedes it. Recorded before A1's result landed so a near-zero value reads as
+predicted rather than as a suspected bug.
+
+## 6. Isobutane reproduction: four of five species
+
+Ethynyl, acetylene, tert-butyl and isobutane all reproduce the published
+absolute energies to under 1×10⁻⁷ Ha, reinforcing methane as the single
+corrupted entry. The 139-basis-function transition structure is still running;
+the published absolutes imply −0.627 kcal/mol for that barrier.
+
+Artifact: `si-energy-reproduction-isobutane.json`, written per species so a
+timeout leaves usable evidence. Reproduce: `python reproduce_isobutane.py`.
+
+## 7. What is NOT established
+
+- **No DFT barrier exists for either reaction**, because no DFT saddle has been
+  located. Every DFT figure in circulation is a single point at a
+  coupled-cluster stationary point that is not stationary on any DFT surface;
+  S1 measured a 2.38 eV/Å residual force there under PBE0, about eighty times
+  this repository's 0.03 convergence threshold. S1 is closing this.
+- **Nothing about the 53-atom candidate.** No path, no barrier, no selectivity.
+- **No kinetic site preference**, for anything. A1 established that the
+  abstractor terms cancel exactly between the thermodynamic cycles, so site
+  preference is abstractor-independent by construction and cannot come from
+  reaction energies. It must come from barriers, which do not yet exist.
+- **No experimental validation of anything.**
+
+## 8. Host contention — do not read today's timings as costs
+
+Controlled measurement: the identical benchmark call took **6.1 s** on a quiet
+host and **63.4 s** at load 201. A **10.4× slowdown**, with 12 peer sessions
+plus roughly a dozen internal agents on 8 logical cores. Every wall-clock
+figure produced today is inflated by about an order of magnitude and describes
+the scheduler rather than the calculation. Ratios and energies are unaffected.

@@ -1,0 +1,211 @@
+{
+  "schema_version": 1,
+  "question": "Is the 53-atom candidate reaction path computable on this hardware?",
+  "computes_chemistry": false,
+  "inputs": "Archived 53-atom records under data/validation/; no new calculations.",
+  "system": {
+    "formula": "C22H31",
+    "atoms": 53,
+    "basis_functions": 463,
+    "method": "PBE0-D3(BJ)/def2-SVP, neutral doublet, UKS"
+  },
+  "measured_evaluation_costs": {
+    "direct": {
+      "seconds_per_energy_and_gradient": 2044.835078458069,
+      "basis_functions": 463,
+      "scf_cycles": 14,
+      "effective_threads": null,
+      "threads_honored": null,
+      "effective_threads_recorded": false,
+      "settings": {
+        "charge": 0,
+        "spin": 1,
+        "xc": "pbe0",
+        "basis": "def2-svp",
+        "dispersion": "d3bj",
+        "grid_level": 3,
+        "conv_tol": 1e-09,
+        "max_cycle": 150,
+        "threads": 2,
+        "memory_mb": 2000,
+        "density_fit": false
+      },
+      "source": "singlepoint record",
+      "threads_note": "This run predates the thread diagnostics (added in 121c30f), so its effective thread count is not recorded. The requested value was 2. This PySCF build has no OpenMP and was measured at one effective thread in every instrumented run, so one thread is the expected value here, but it is an inference from the build, not a measurement of this run.",
+      "scf_seconds": null,
+      "gradient_seconds": null,
+      "stage_breakdown_note": "The direct run predates stage instrumentation; no SCF/gradient split exists for it."
+    },
+    "density_fitting": {
+      "seconds_per_energy_and_gradient": 701.4406276668888,
+      "basis_functions": 463,
+      "scf_cycles": 14,
+      "effective_threads": 1,
+      "threads_honored": false,
+      "effective_threads_recorded": true,
+      "settings": {
+        "charge": 0,
+        "spin": 1,
+        "xc": "pbe0",
+        "basis": "def2-svp",
+        "dispersion": "d3bj",
+        "grid_level": 3,
+        "conv_tol": 1e-09,
+        "max_cycle": 150,
+        "threads": 2,
+        "memory_mb": 2000,
+        "density_fit": true
+      },
+      "source": "singlepoint record",
+      "scf_seconds": 477.228295332985,
+      "gradient_seconds": 224.21042162482627
+    },
+    "contention": {
+      "both_runs_concurrent": true,
+      "controlled_benchmark": false,
+      "note": "Both timings were taken with other jobs on the host and no load average was recorded. Each is an upper bound on its uncontended cost by an unknown factor, and the 2.91x direct-over-DF ratio is an observation, not a speedup measurement."
+    },
+    "density_fitting_accuracy_cost": {
+      "max_force_component_deviation_ev_per_angstrom": 0.00047351250676175294,
+      "rms_force_component_deviation_ev_per_angstrom": 0.00018127028868633892,
+      "s2_difference": 9.721859157707513e-07,
+      "optimization_tolerance_ev_per_angstrom": 0.03,
+      "note": "Measured at one geometry (the unrelaxed pose) only. A deviation far below the force tolerance there does not guarantee the same near a saddle, where the surface is flatter."
+    }
+  },
+  "path_evaluation_counts": {
+    "images": 7,
+    "step_limit_per_stage": 200,
+    "interior_images_evaluated_per_neb_step": 5,
+    "stages": {
+      "endpoint_relaxations": {
+        "count": 2,
+        "evaluations_each_at_limit": 200
+      },
+      "preliminary_neb": {
+        "evaluations_per_step": 5,
+        "step_limit": 200
+      },
+      "climbing_image_neb": {
+        "evaluations_per_step": 5,
+        "step_limit": 200
+      }
+    },
+    "ceiling_evaluations": 2400,
+    "serial": true,
+    "density_reuse_between_geometries": false,
+    "scenarios": {
+      "optimistic": {
+        "endpoint_steps": 40,
+        "pre_neb_steps": 30,
+        "ci_neb_steps": 60,
+        "basis": "Well-behaved FIRE relaxations from a good guess; loose pre-NEB tolerance (3x fmax) converges quickly; CI-NEB converges well inside its limit."
+      },
+      "central": {
+        "endpoint_steps": 80,
+        "pre_neb_steps": 60,
+        "ci_neb_steps": 120,
+        "basis": "Ordinary behaviour for a 53-atom radical system with fixed anchors and a hand-built starting band."
+      },
+      "ceiling": {
+        "endpoint_steps": 200,
+        "pre_neb_steps": 200,
+        "ci_neb_steps": 200,
+        "basis": "Every stage exhausts its step limit. This is what the code permits, not what it is expected to need."
+      }
+    }
+  },
+  "projection": {
+    "direct": {
+      "seconds_per_evaluation_as_archived": 2044.835078458069,
+      "scenarios": {
+        "optimistic": {
+          "evaluations": 530,
+          "seconds": 1083762.5915827765,
+          "hours": 301.04516432854905,
+          "days": 12.543548513689544,
+          "assumed_steps": {
+            "endpoint": 40,
+            "pre_neb": 30,
+            "ci_neb": 60
+          }
+        },
+        "central": {
+          "evaluations": 1060,
+          "seconds": 2167525.183165553,
+          "hours": 602.0903286570981,
+          "days": 25.087097027379087,
+          "assumed_steps": {
+            "endpoint": 80,
+            "pre_neb": 60,
+            "ci_neb": 120
+          }
+        },
+        "ceiling": {
+          "evaluations": 2400,
+          "seconds": 4907604.188299365,
+          "hours": 1363.2233856387127,
+          "days": 56.800974401613026,
+          "assumed_steps": {
+            "endpoint": 200,
+            "pre_neb": 200,
+            "ci_neb": 200
+          }
+        }
+      }
+    },
+    "density_fitting": {
+      "seconds_per_evaluation_as_archived": 701.4406276668888,
+      "scenarios": {
+        "optimistic": {
+          "evaluations": 530,
+          "seconds": 371763.53266345104,
+          "hours": 103.26764796206973,
+          "days": 4.302818665086239,
+          "assumed_steps": {
+            "endpoint": 40,
+            "pre_neb": 30,
+            "ci_neb": 60
+          }
+        },
+        "central": {
+          "evaluations": 1060,
+          "seconds": 743527.0653269021,
+          "hours": 206.53529592413946,
+          "days": 8.605637330172478,
+          "assumed_steps": {
+            "endpoint": 80,
+            "pre_neb": 60,
+            "ci_neb": 120
+          }
+        },
+        "ceiling": {
+          "evaluations": 2400,
+          "seconds": 1683457.506400533,
+          "hours": 467.6270851112592,
+          "days": 19.4844618796358,
+          "assumed_steps": {
+            "endpoint": 200,
+            "pre_neb": 200,
+            "ci_neb": 200
+          }
+        }
+      }
+    }
+  },
+  "process_parallelism": {
+    "mechanism": "ASE's NEB evaluates images serially in one process; a parallel band needs separate OS processes and is not implemented here.",
+    "interior_images": 5,
+    "logical_cores": 8,
+    "max_useful_processes_for_the_band": 5,
+    "central_scenario_density_fitting": {
+      "band_serial_hours": 175.3601569167222,
+      "band_ideally_parallel_hours": 35.07203138334444,
+      "endpoints_serial_hours": 31.17513900741728,
+      "total_serial_hours": 206.53529592413946,
+      "total_with_parallel_band_hours": 66.24717039076171
+    },
+    "caveats": "Ideal scaling assumes one image per core with no memory pressure and no contention. This host has eight logical cores already shared by other lanes, and the endpoint relaxations stay serial, so the parallel figure is a floor that the current code cannot reach without being modified."
+  },
+  "interpretation": "A cost projection says nothing about whether the reaction works. An affordable path is not evidence of a viable tool, and an unaffordable one is not evidence against it."
+}
