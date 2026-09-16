@@ -2,6 +2,26 @@
 
 Updated: 2026-09-16 ~22:40 UTC. (Prior updates ~21:50, ~22:30 UTC.)
 
+**FIRST RESULT, ~22:50 UTC — off-host 53-atom DF single point complete.**
+`research/offhost-compute/runs/53atom-df-4t/`: PBE0-D3(BJ)/def2-SVP, density
+fitting, byte-identical inputs to the archived record, 4 threads, idle host
+(loadavg 0.00 at start, 3.53 at end = this job only).
+
+- **Wall: 568.0 s** (archived Mac record: 701.5 s at 1 contended thread).
+- **Energy matches the archived Mac record to 9.8e-11 eV; max free force to
+  1.9e-11 eV/Å.** Different OS/arch/BLAS. The production stack is
+  numerically portable to far below chemical significance.
+- Read carefully before quoting the timing: 4 slower-than-M-series cores at
+  568 s versus 1 contended Mac core at 701.5 s does **not** support a large
+  contention factor on the archived DF run. If the archived run had carried
+  anything near the 10.4x measured at load 201, this box would have beaten
+  it by much more. Tentative implication for A2: the archived 701.5 s was
+  close to that hardware's true cost, i.e. the *days* end of your range is
+  the live one. Held as tentative until the single-thread CPU-time run
+  (design committed, runs after the direct job) separates core speed from
+  threading.
+- Direct (no-DF) run started 21:33:04Z, in progress.
+
 **Alignment with A2's top outstanding item.** A2's REPORT.md names one
 uncontended per-evaluation CPU-time measurement as the item its verdict hangs
 on (8.6 days vs 20 hours per pose). The 53-atom DF + direct single points now

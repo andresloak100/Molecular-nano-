@@ -1,1 +1,29 @@
 === df start 2026-09-16T21:23:35Z loadavg: 0.00 0.08 0.09 2/107 2352
+{
+  "status": "completed",
+  "hydrogen_basin_preserved": true,
+  "topology_screen": {
+    "assessed": true,
+    "preserved": true,
+    "stretched_expected_bonds": [],
+    "unexpected_close_contacts": [],
+    "criterion": "Heuristic only: expected bonds <=1.35*(covalent radii sum), other contacts >=1.15*sum; no bond-order or spin-density inference."
+  },
+  "result": "/home/user/Molecular-nano-/research/offhost-compute/runs/53atom-df-4t/result.json",
+  "validation": {
+    "design_validated": false,
+    "numerical_stage_converged": false,
+    "accuracy_claim": "Uncalibrated finite-cluster quantum model; no guaranteed design accuracy.",
+    "missing_evidence": [
+      "Independent reaction-specific quantum benchmark and error estimate",
+      "Larger basis, integration-grid, and cluster/boundary convergence",
+      "Electronic-state stability and alternative spin-state investigation",
+      "Transition-state modes and connectivity (or a separately verified barrierless path)",
+      "Competing reactions, approach/retraction paths, and tip regeneration",
+      "Finite-temperature free energies, tunnelling, and positioning uncertainty",
+      "Experimental confirmation and whole-machine integration"
+    ]
+  }
+}
+=== df end   2026-09-16T21:33:04Z loadavg: 3.53 2.92 1.69 1/113 2771
+=== direct start 2026-09-16T21:33:04Z loadavg: 3.53 2.92 1.69 1/113 2773
