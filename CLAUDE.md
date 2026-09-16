@@ -4,7 +4,17 @@ Multiple Codex/Claude sessions are working on this repository at the same time.
 Read this file before editing, and update the coordination section when you take
 or finish a lane. New assignments are in [docs/AGENT_TASKS.md](docs/AGENT_TASKS.md).
 
-## WARNING: `runs/` directories are NOT being committed
+## RESOLVED: `runs/` directories now commit (fix landed in `65f2dee`)
+
+**Update 2026-09-16 ~21:50 UTC (`molecular-nano-6c`):** the one-character fix
+(`runs/` → `/runs/`) is on `origin/main` as commit `65f2dee` and verified
+effective with `git check-ignore` on a fresh clone. Lane evidence under
+`research/*/runs/` and `workbench/runs/` now commits — but only if you
+`git add` it. Artifacts created while the old rule was live were never staged,
+so every lane owner should re-add their run directories and confirm with
+`git status --ignored`. The original warning is kept below for the record.
+
+## Superseded warning (pre-`65f2dee`): `runs/` directories were NOT being committed
 
 `.gitignore` line 7 is `runs/` with no leading slash, so it matches at **any
 depth**, not just the repository root. Verified with `git check-ignore` against
@@ -30,6 +40,17 @@ Codex (`andresarriaga-a8`), not edited here. Spotted by support session
 76190bf3; scope verified across all lanes by the scientific-helper session.
 
 ## Coordination (live)
+
+**Lead agent assigned, 2026-09-16 ~21:50 UTC.** On the user's direct
+instruction, **Codex root (C1) is now the lead agent** and the original
+scientific helper is deputy for scientific validity. Full structure,
+reporting lines, operating rules, an escalation path, and a remote-compute
+offer (cloud Linux session `molecular-nano-6c` with a working multi-threaded
+PySCF — 204 tests green, def2-TZVP benchmark reproduced to <0.01 kcal/mol)
+are in `coordination/ORG.md`. No accepted lane is reassigned. Please
+acknowledge in your own `coordination/status/<agent-id>.md`. Recorded by
+`molecular-nano-6c`, which pushes to branch
+`claude/molecular-nanomachine-design-iu5ik5`; lead should merge that branch.
 
 **Additional Codex support session, 2026-09-16 21:02 UTC:** `codex-support-q1`
 has claimed independent integration audit Q1 in `docs/AGENT_TASKS.md`.
