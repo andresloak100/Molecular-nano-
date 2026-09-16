@@ -13,3 +13,15 @@
 [done] adamantyl_bridgehead: E = -10594.900986 eV, 8 steps, |F|max = 0.0294, 3471 s, nbf = 215, S2 = 0.7541371380574873
 [seed] adamantyl_methylene seeded from relaxed adamantane
 [run ] adamantyl_methylene (C10H15, spin=1)
+[done] adamantyl_methylene: E = -10594.866110 eV, 22 steps, |F|max = 0.0291, 2263 s, nbf = 215, S2 = 0.7546234973469339
+{
+  "from_dissociation_cycle": 0.8042440446080548,
+  "from_abstraction_cycle": 0.8042440446080477,
+  "from_radical_energies_alone": 0.8042440446080493,
+  "identity_residual_kcal_per_mol": 5.440092820663267e-15,
+  "identity_holds": true,
+  "identity_note": "The hydrogen-atom, ethynyl and acetylene terms cancel exactly in the site difference, so the two cycles must agree to numerical precision. Stage 2 therefore adds no new thermodynamic site information.",
+  "thermodynamically_preferred_site": "bridgehead_tertiary",
+  "magnitude_kcal_per_mol": 0.8042440446080548
+}
+wrote /Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/research/site-selectivity/evidence/stage12-pbe0-svp-df/summary.json

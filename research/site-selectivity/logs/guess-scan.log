@@ -1,0 +1,18 @@
+  adamantyl_bridgehead     minao   E = -389.328641778 Ha  S2 = 0.7541
+  adamantyl_bridgehead     atom    E = -389.328641778 Ha  S2 = 0.7541
+  adamantyl_bridgehead     huckel  E = -389.328641778 Ha  S2 = 0.7541
+  adamantyl_bridgehead     1e      E = -389.328641778 Ha  S2 = 0.7541
+  adamantyl_methylene      minao   E = -389.327543108 Ha  S2 = 0.7546
+  adamantyl_methylene      atom    E = -389.327543108 Ha  S2 = 0.7546
+  adamantyl_methylene      huckel  E = -389.327543108 Ha  S2 = 0.7546
+  adamantyl_methylene      1e      E = -389.327543108 Ha  S2 = 0.7546
+  hydrogen_atom            minao   E = -0.500290804 Ha  S2 = 0.7500
+  hydrogen_atom            atom    E = -0.500290804 Ha  S2 = 0.7500
+  hydrogen_atom            huckel  E = -0.500290804 Ha  S2 = 0.7500
+  hydrogen_atom            1e      E = -0.500290804 Ha  S2 = 0.7500
+  ethynyl                  minao   E = -76.450406344 Ha  S2 = 0.7919
+  ethynyl                  atom    E = -76.450406344 Ha  S2 = 0.7919
+  ethynyl                  huckel  E = -76.450406344 Ha  S2 = 0.7919
+  ethynyl                  1e      E = -76.450406344 Ha  S2 = 0.7919
+max spread across guesses: 1.10e-07 kcal/mol | all guess-independent: True
+wrote /Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/research/site-selectivity/evidence/guess-scan-stage12/guess_scan.json

@@ -1,0 +1,78 @@
+{
+  "status": "complete",
+  "units": "kcal/mol",
+  "quantity_type": "adiabatic electronic energies; no zero-point, thermal or entropic terms",
+  "stage_1_adiabatic_dissociation_energy": {
+    "bridgehead_tertiary": 103.02526384460991,
+    "methylene_secondary": 103.82950788921796
+  },
+  "stage_2_ethynyl_abstraction_reaction_energy": {
+    "bridgehead_tertiary": -33.77586533420656,
+    "methylene_secondary": -32.97162128959851
+  },
+  "site_difference": {
+    "from_dissociation_cycle": 0.8042440446080548,
+    "from_abstraction_cycle": 0.8042440446080477,
+    "from_radical_energies_alone": 0.8042440446080493,
+    "identity_residual_kcal_per_mol": 5.440092820663267e-15,
+    "identity_holds": true,
+    "identity_note": "The hydrogen-atom, ethynyl and acetylene terms cancel exactly in the site difference, so the two cycles must agree to numerical precision. Stage 2 therefore adds no new thermodynamic site information.",
+    "thermodynamically_preferred_site": "bridgehead_tertiary",
+    "magnitude_kcal_per_mol": 0.8042440446080548
+  },
+  "energies_ev": {
+    "hydrogen_atom": -13.61501660704176,
+    "ethynyl": -2080.3443496471286,
+    "acetylene": -2099.8916246802764,
+    "adamantane": -10612.983600531199,
+    "adamantyl_bridgehead": -10594.90098564326,
+    "adamantyl_methylene": -10594.866110320674
+  },
+  "spin_diagnostics": {
+    "hydrogen_atom": {
+      "s2": 0.75,
+      "expected_s2": 0.75,
+      "spin_contamination": 0.0
+    },
+    "ethynyl": {
+      "s2": 0.791860854217493,
+      "expected_s2": 0.75,
+      "spin_contamination": 0.04186085421749297
+    },
+    "acetylene": {
+      "s2": 0.0,
+      "expected_s2": 0.0,
+      "spin_contamination": 0.0
+    },
+    "adamantane": {
+      "s2": 0.0,
+      "expected_s2": 0.0,
+      "spin_contamination": 0.0
+    },
+    "adamantyl_bridgehead": {
+      "s2": 0.7541371380574873,
+      "expected_s2": 0.75,
+      "spin_contamination": 0.004137138057487277
+    },
+    "adamantyl_methylene": {
+      "s2": 0.7546234973469339,
+      "expected_s2": 0.75,
+      "spin_contamination": 0.0046234973469339025
+    }
+  },
+  "force_residuals_ev_per_angstrom": {
+    "hydrogen_atom": 6.631668639385629e-31,
+    "ethynyl": 0.0106782827560733,
+    "acetylene": 0.016477388624251223,
+    "adamantane": 0.018313647642695264,
+    "adamantyl_bridgehead": 0.02936991390142043,
+    "adamantyl_methylene": 0.02913484490297941
+  },
+  "interpretation_limits": [
+    "These are thermodynamic reaction energies, not barriers. A thermodynamic site preference is not a kinetic selectivity and does not order the two abstraction rates.",
+    "This project's DFT has not reproduced a correct barrier for its calibration reaction, so DFT site energetics are screening values pending a high-level check.",
+    "Reaction energies omit zero-point energy, which differs between a broken C-H at a tertiary and a secondary carbon and is not negligible at this scale.",
+    "An energy difference expressed in units of k_B T is an energy-scale comparison only. It is not converted here into a success probability or an equilibrium population, because a driven positional operation is not an equilibrium process.",
+    "Both radicals are isolated relaxed molecules. The mounted, constrained radical in the 53-atom candidate is a different system."
+  ]
+}

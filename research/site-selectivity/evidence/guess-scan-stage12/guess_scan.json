@@ -1,0 +1,250 @@
+{
+  "purpose": "Guess-independence test for the open-shell DFT energies used in stage 1 and 2",
+  "guesses": [
+    "minao",
+    "atom",
+    "huckel",
+    "1e"
+  ],
+  "species": [
+    {
+      "species": "adamantyl_bridgehead",
+      "geometry": "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/research/site-selectivity/evidence/stage12-pbe0-svp-df/adamantyl_bridgehead/relaxed.xyz",
+      "spin_n_alpha_minus_n_beta": 1,
+      "method": "PBE0/def2-svp, grid level 3, no dispersion",
+      "basis_functions": 215,
+      "guesses_tested": [
+        "minao",
+        "atom",
+        "huckel",
+        "1e"
+      ],
+      "solutions": [
+        {
+          "initial_guess": "minao",
+          "converged": true,
+          "energy_hartree": -389.3286417780346,
+          "s2": 0.7541372969566709,
+          "effective_multiplicity": 2.0041330264797006,
+          "wall_seconds": 106.52494529099204
+        },
+        {
+          "initial_guess": "atom",
+          "converged": true,
+          "energy_hartree": -389.32864177789565,
+          "s2": 0.7541370964705294,
+          "effective_multiplicity": 2.0041328264070017,
+          "wall_seconds": 155.37799441698007
+        },
+        {
+          "initial_guess": "huckel",
+          "converged": true,
+          "energy_hartree": -389.32864177806175,
+          "s2": 0.7541371380741211,
+          "effective_multiplicity": 2.0041328679248003,
+          "wall_seconds": 152.28773608291522
+        },
+        {
+          "initial_guess": "1e",
+          "converged": true,
+          "energy_hartree": -389.3286417780704,
+          "s2": 0.7541375103440515,
+          "effective_multiplicity": 2.004133239427011,
+          "wall_seconds": 120.88854308403097
+        }
+      ],
+      "converged_count": 4,
+      "lowest_energy_hartree": -389.3286417780704,
+      "lowest_energy_guess": "1e",
+      "spread_kcal_per_mol": 1.0964891562649831e-07,
+      "guess_independent": true,
+      "s2_values": {
+        "minao": 0.7541372969566709,
+        "atom": 0.7541370964705294,
+        "huckel": 0.7541371380741211,
+        "1e": 0.7541375103440515
+      }
+    },
+    {
+      "species": "adamantyl_methylene",
+      "geometry": "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/research/site-selectivity/evidence/stage12-pbe0-svp-df/adamantyl_methylene/relaxed.xyz",
+      "spin_n_alpha_minus_n_beta": 1,
+      "method": "PBE0/def2-svp, grid level 3, no dispersion",
+      "basis_functions": 215,
+      "guesses_tested": [
+        "minao",
+        "atom",
+        "huckel",
+        "1e"
+      ],
+      "solutions": [
+        {
+          "initial_guess": "minao",
+          "converged": true,
+          "energy_hartree": -389.327543107603,
+          "s2": 0.7546237025581988,
+          "effective_multiplicity": 2.004618370222321,
+          "wall_seconds": 82.39694283297285
+        },
+        {
+          "initial_guess": "atom",
+          "converged": true,
+          "energy_hartree": -389.32754310751716,
+          "s2": 0.7546235298747774,
+          "effective_multiplicity": 2.0046181979367317,
+          "wall_seconds": 77.26580966706388
+        },
+        {
+          "initial_guess": "huckel",
+          "converged": true,
+          "energy_hartree": -389.3275431076647,
+          "s2": 0.7546237523552435,
+          "effective_multiplicity": 2.0046184199046397,
+          "wall_seconds": 89.76070179184899
+        },
+        {
+          "initial_guess": "1e",
+          "converged": true,
+          "energy_hartree": -389.32754310765006,
+          "s2": 0.7546238063234796,
+          "effective_multiplicity": 2.004618473748538,
+          "wall_seconds": 113.19290933408774
+        }
+      ],
+      "converged_count": 4,
+      "lowest_energy_hartree": -389.3275431076647,
+      "lowest_energy_guess": "huckel",
+      "spread_kcal_per_mol": 9.259875893506494e-08,
+      "guess_independent": true,
+      "s2_values": {
+        "minao": 0.7546237025581988,
+        "atom": 0.7546235298747774,
+        "huckel": 0.7546237523552435,
+        "1e": 0.7546238063234796
+      }
+    },
+    {
+      "species": "hydrogen_atom",
+      "geometry": "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/research/site-selectivity/evidence/stage12-pbe0-svp-df/hydrogen_atom/relaxed.xyz",
+      "spin_n_alpha_minus_n_beta": 1,
+      "method": "PBE0/def2-svp, grid level 3, no dispersion",
+      "basis_functions": 5,
+      "guesses_tested": [
+        "minao",
+        "atom",
+        "huckel",
+        "1e"
+      ],
+      "solutions": [
+        {
+          "initial_guess": "minao",
+          "converged": true,
+          "energy_hartree": -0.500290803730812,
+          "s2": 0.75,
+          "effective_multiplicity": 2.0,
+          "wall_seconds": 0.09467362496070564
+        },
+        {
+          "initial_guess": "atom",
+          "converged": true,
+          "energy_hartree": -0.5002908037305076,
+          "s2": 0.75,
+          "effective_multiplicity": 2.0,
+          "wall_seconds": 0.059693583054468036
+        },
+        {
+          "initial_guess": "huckel",
+          "converged": true,
+          "energy_hartree": -0.5002908037313056,
+          "s2": 0.75,
+          "effective_multiplicity": 2.0,
+          "wall_seconds": 0.04822283308021724
+        },
+        {
+          "initial_guess": "1e",
+          "converged": true,
+          "energy_hartree": -0.5002908037313056,
+          "s2": 0.75,
+          "effective_multiplicity": 2.0,
+          "wall_seconds": 0.0332804168574512
+        }
+      ],
+      "converged_count": 4,
+      "lowest_energy_hartree": -0.5002908037313056,
+      "lowest_energy_guess": "huckel",
+      "spread_kcal_per_mol": 5.007703251586326e-10,
+      "guess_independent": true,
+      "s2_values": {
+        "minao": 0.75,
+        "atom": 0.75,
+        "huckel": 0.75,
+        "1e": 0.75
+      }
+    },
+    {
+      "species": "ethynyl",
+      "geometry": "/Users/andresarriaga/Documents/ChatGPT/molecular nanomachines/research/site-selectivity/evidence/stage12-pbe0-svp-df/ethynyl/relaxed.xyz",
+      "spin_n_alpha_minus_n_beta": 1,
+      "method": "PBE0/def2-svp, grid level 3, no dispersion",
+      "basis_functions": 33,
+      "guesses_tested": [
+        "minao",
+        "atom",
+        "huckel",
+        "1e"
+      ],
+      "solutions": [
+        {
+          "initial_guess": "minao",
+          "converged": true,
+          "energy_hartree": -76.45040634402257,
+          "s2": 0.7918650806601715,
+          "effective_multiplicity": 2.041435848279511,
+          "wall_seconds": 0.7485950838308781
+        },
+        {
+          "initial_guess": "atom",
+          "converged": true,
+          "energy_hartree": -76.45040634404495,
+          "s2": 0.7918647968662675,
+          "effective_multiplicity": 2.0414355702458673,
+          "wall_seconds": 0.6820526658557355
+        },
+        {
+          "initial_guess": "huckel",
+          "converged": true,
+          "energy_hartree": -76.4504063440492,
+          "s2": 0.7918621581850136,
+          "effective_multiplicity": 2.0414329851210042,
+          "wall_seconds": 0.7029657089151442
+        },
+        {
+          "initial_guess": "1e",
+          "converged": true,
+          "energy_hartree": -76.4504063440408,
+          "s2": 0.7918631324187313,
+          "effective_multiplicity": 2.041433939581422,
+          "wall_seconds": 0.7777178750839084
+        }
+      ],
+      "converged_count": 4,
+      "lowest_energy_hartree": -76.4504063440492,
+      "lowest_energy_guess": "huckel",
+      "spread_kcal_per_mol": 1.6711293744637104e-08,
+      "guess_independent": true,
+      "s2_values": {
+        "minao": 0.7918650806601715,
+        "atom": 0.7918647968662675,
+        "huckel": 0.7918621581850136,
+        "1e": 0.7918631324187313
+      }
+    }
+  ],
+  "max_spread_kcal_per_mol": 1.0964891562649831e-07,
+  "all_guess_independent": true,
+  "limitations": [
+    "Agreement across four initial guesses is evidence against a low-lying alternative SCF solution, not proof that none exists.",
+    "PySCF stability analysis called both solutions stable in the documented Hartree-Fock failure, so it is recorded here and not treated as decisive.",
+    "This tests the self-consistent-field solution only. It says nothing about functional accuracy, basis adequacy, or multireference character."
+  ]
+}
