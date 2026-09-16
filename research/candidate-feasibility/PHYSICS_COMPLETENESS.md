@@ -32,35 +32,45 @@ which is satisfied.
 
 ## The four gaps that would change conclusions, in order
 
-### 1. Classical transition-state theory is outside its validity range here
+### 1. Whether classical rate theory applies here is unresolved, and one number decides it
 
 The transferred particle is a hydrogen atom, and hydrogen tunnels. How much is
 set by the barrier's curvature, not its height, through the crossover
-temperature `T_c = ħ|ω*| / (2π k_B)`. Measured across the range typical of
-hydrogen-transfer saddles:
+temperature `T_c = ħ|ω*| / (2π k_B) = 0.2290 × ω*[cm⁻¹]` kelvin. Above `T_c`
+tunneling is a correction; below it, tunneling is the mechanism and a classical
+rate is qualitatively wrong rather than merely inaccurate.
 
-| ω* (cm⁻¹) | T_c (K) | Is 298 K below it? |
-|---|---|---|
-| 1000 | 229 | no |
-| 1200 | 275 | no |
-| 1500 | **343** | **yes** |
-| 2000 | 458 | **yes** |
+| ω* (cm⁻¹) | T_c (K) | Is 298 K below it? | κ at 298 K |
+|---|---|---|---|
+| **259 (measured)** | **59** | no, 5× above | **1.07** |
+| 1000 | 229 | no | 3.63 |
+| 1500 | 343 | yes | diverges |
+| 1648 (experiment-implied) | 377 | yes | diverges |
 
-Above `T_c`, tunneling is a correction. Below it, tunneling is the mechanism
-and a classical rate is qualitatively wrong rather than merely inaccurate.
-Room temperature sits inside that range, and every cryogenic operating
-proposal is far below it — at 77 K even a soft 500i cm⁻¹ barrier is past
-crossover.
+**A correction to an earlier version of this document.** It asserted that
+hydrogen-transfer saddles "typically" run 1000–2000i and concluded room
+temperature sits below crossover. That was a generic expectation for the
+reaction class stated as a measurement of this reaction. The measurement was in
+`SOURCE_NOTES.md` line 33 the whole time: 259i, 50i, 50i cm⁻¹ from the source
+paper's Table 1. On that datum tunneling is a 7% correction, not the mechanism.
 
-Two consequences beyond kinetics. Tunneling reweights competing channels by
-barrier *width*, so a selectivity argument that compares only barrier heights
-is incomplete. And it predicts a large H/D kinetic isotope effect, which is a
-falsifiable experimental signature — something this project is short of.
+**But the question is genuinely open in both directions.** The 259i comes from
+a structure carrying three imaginary modes, which is not a verified saddle, at
+a geometry no functional here owns. Against it, the forensics lane finds that
+reproducing the experimental apparent activation energy from the zero-point
+corrected barrier requires roughly 1648i. Neither anchor is trustworthy. S1's
+refined saddle will produce the first ω* on a functional's own surface.
 
-What is needed: `ω*` from a verified saddle (S1's lane), then Eckart or
-instanton rate theory. `research/candidate-feasibility/tunneling.py` has the
-crossover and the parabolic-barrier corrections and deliberately stops short of
-Eckart rather than reproduce a long formula unverified.
+Two conditional consequences, which fire only if that saddle comes back stiff.
+Tunneling would reweight competing channels by barrier *width*, making any
+selectivity argument that compares only heights incomplete. And it would
+predict a large H/D kinetic isotope effect — a falsifiable experimental
+signature this project is short of.
+
+What is needed: ω* from a verified saddle, reported as a headline beside the
+barrier rather than buried in a mode table. `tunneling.py` has the crossover
+map and the parabolic corrections and deliberately stops short of Eckart rather
+than reproduce a long formula unverified.
 
 ### 2. Nobody has asked what positional precision the design needs — now answered
 
@@ -73,22 +83,34 @@ temperature is a distribution.
 Computed (`positional_control.py`, geometry plus equipartition, no quantum
 time):
 
-- The tip may wander **2.878 Å** laterally before a methylene hydrogen is
-  nearer than the target bridgehead hydrogen.
-- A 10⁻¹⁵ error rate therefore needs lateral σ < 0.346 Å, i.e. a lateral
-  stiffness above **0.214 eV/Å² (3.4 N/m)** at 298 K, or 0.9 N/m at 77 K.
-- 3.4 N/m is very soft. At 0.5 eV/Å² the mis-targeting rate is 10⁻³⁵.
+- The apex may move **2.495 Å in any direction** before a different hydrogen is
+  nearer than the target. The easiest escape is not lateral but tilted about
+  120° from the tool axis, down toward the equatorial methylenes.
+- A 10⁻¹⁵ error rate therefore needs per-axis σ < 0.292 Å, i.e. a stiffness
+  above **0.30 eV/Å² (4.8 N/m)** at 298 K, or 1.2 N/m at 77 K.
+- 4.8 N/m is very soft — a couple of orders of magnitude below ordinary
+  covalent stiffness. At 0.5 eV/Å² the mis-targeting probability is 10⁻²⁶.
 
-So thermal mis-targeting between these sites is **not** a credible failure
-mode, by roughly twenty orders of magnitude. This is the project's first
-positive feasibility result, and its scope is narrow: it says one specific
-failure mode is not what will kill the design.
+Two distinct margins there, which should not be blurred: the *stiffness*
+requirement is cleared by roughly an order of magnitude by any plausible mount,
+and that translates into an *error-rate* margin of many more orders because the
+probability falls exponentially in σ⁻².
 
-A methodological warning attached to it. Ranking rivals by lateral distance
-from the tool axis — the obvious approach — picks three hydrogens 1.452 Å
-off-axis and gives a frightening 0.73 Å margin. Those three sit at z = −3.66,
-on the far side of the cage, 7.4 Å from the apex, unreachable at any offset.
-The error is fourfold and in the alarming direction.
+**The condition that carries this result.** It is a criterion about which
+hydrogen is **nearest**, not which one **reacts**. Those coincide only if the
+competing barriers are comparable, which is A1's open question — and below the
+tunneling crossover they would decouple further, since a more distant site with
+a narrower barrier could win on width. So the finding is "thermal wander is not
+the binding risk, *given* that nearest implies reacting", never "positional
+control is solved."
+
+Two methodological warnings attached, both from errors made here and caught.
+Ranking rivals by lateral distance from the tool axis — the obvious approach —
+picks three hydrogens 1.452 Å off-axis and gives a frightening 0.73 Å margin;
+those three sit at z = −3.66, on the far side of the cage, unreachable at any
+offset. And using the purely lateral crossover, 2.878 Å, overstates the
+allowance by 15%, because thermal displacement is three-dimensional and finds
+the easiest direction rather than the sideways one.
 
 ### 3. The tool is thermodynamically hungry, which explains the selectivity problem
 
@@ -125,9 +147,20 @@ abstraction times two.
 
 ## Smaller gaps that still matter
 
-**Zero-point energy is missing from every barrier.** For a C–H bond it lowers a
-dissociation energy by roughly 4–5 kcal/mol, against a benchmark barrier of
-+2.4. The correction is larger than the quantity.
+**Zero-point energy is missing from every barrier, and the reason it matters is
+not the obvious one.** An earlier version of this document said the 4–5
+kcal/mol zero-point energy of a C–H stretch is larger than the +2.4 kcal/mol
+benchmark barrier it would correct. That compares the wrong things: the barrier
+correction is the *difference* in total zero-point energy between the
+transition structure and the reactants, and the C–H stretch is weakened rather
+than destroyed at the saddle, so most of it cancels. Temelso measures what
+survives for this exact reaction — 2.2 kcal/mol electronic against 1.7 at 0 K,
+so −0.5. The correction is a fifth of the barrier, not double it.
+
+It still matters, for a sharper reason: −0.5 kcal/mol is the same order as the
+1.0–1.3 kcal/mol kinetic site selectivity this design depends on, and it need
+not cancel between two sites whose C–H frequencies differ. The threat is that
+it is comparable to the signal and site-dependent, not that it is large.
 
 **Free energy is not electronic energy.** Bringing a tool and a substrate
 together costs translational and rotational entropy; every number here is a
