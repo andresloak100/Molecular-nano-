@@ -20,10 +20,11 @@ directions:
 
 ## Stage 0 — geometric site census. Complete.
 
-`site_census.py` → `evidence/stage0-site-census-r3/census.json`. No electronic
+`site_census.py` → `evidence/stage0-site-census-r5/census.json`. No electronic
 structure; this is measurement of the actual candidate coordinates. Earlier runs
-`stage0-site-census` (r1) and `-r2` are retained unmodified; **r3 is the live
-artifact** and the only one whose key names are unambiguous.
+r1 through r4 are retained unmodified; **r5 is the live artifact**. The margin
+value has never changed across runs; later runs add the margin metric, unambiguous
+key names, and the competitor shell grouping.
 
 | Quantity | Value |
 |---|---|
@@ -64,6 +65,35 @@ overstates the tolerance by a factor of two. An earlier census put the 5.200 Å
 block under a parent key named `selectivity_margin`, which is what misled
 readers; r3 renames it to `site_relocation_distances`.
 
+### The competitors form four degenerate shells
+
+| Shell | Sites | Apex displacement | Type | Hydrogens |
+|---|---|---|---|---|
+| 1 | 6 | 2.4950 Å | methylene secondary | 14–19 |
+| 2 | 3 | 4.0664 Å | methylene secondary | 21, 23, 25 |
+| 3 | 3 | 4.1968 Å | bridgehead tertiary | 11, 12, 13 |
+| 4 | 3 | 4.8821 Å | methylene secondary | 20, 22, 24 |
+
+Members agree to machine precision. Three of the four shells are methylene, so
+**site type alone does not identify a shell** — "the methylene competitor" is
+ambiguous. Reporting a single limiting hydrogen index previously caused three
+separate readers to mistake an arbitrary tie-break for a distinguished atom, and
+each named a different three-element subset of the six-fold shell 1; the census
+now reports the tied set and the shell grouping.
+
+**These shells are not a symmetry reduction.** They are a property of this tool
+placement on an unrelaxed candidate, and exact degeneracy is precisely what an
+idealized cage must produce. Relaxation, a different mount orientation or any
+azimuthal preference would lift the ties by an amount this file cannot bound.
+That is a different thing from the species-level symmetry used in stage 1, which
+*is* rigorous — see below.
+
+One consequence worth stating: the three remaining bridgehead hydrogens sit in
+shell 3, farther than nine methylene hydrogens. **Every nearest competitor is the
+opposite site type**, which per the pre-registration below is also the
+thermodynamically favoured type. Geometry and chemistry point the same unhelpful
+way — the closest wrong targets are also the easiest ones to abstract.
+
 ### What stage 0 establishes and what it does not
 
 It establishes that the fifteen wrong hydrogens are *positionally*
@@ -93,6 +123,26 @@ PBE0-D3(BJ)/def2-SVP, density fitting, six species each relaxed independently to
 `fmax` 0.03 eV/Å, one process, one thread. `species.py` builds the species; the
 adamantane cage is sliced out of the 53-atom candidate itself so the isolated
 molecule is constructed identically to the target cage.
+
+### Exactly two radicals, for rigorous reasons
+
+Isolated adamantane has T_d symmetry: its 4 bridgehead hydrogens form a single
+symmetry orbit and its 12 methylene hydrogens form another. So there are exactly
+**two** distinct adamantyl radicals. Deleting H14 rather than H16 does not give
+two similar molecules to be sampled; it gives the *same* molecule in two
+orientations, with exactly equal energy under any method.
+
+`tests/test_species_symmetry.py` verifies this from the actual coordinates
+instead of asserting the point group, by comparing sorted interatomic distance
+spectra — invariant to translation, rotation, reflection and atom ordering. All
+12 methylene radicals are congruent to within 1e-10 Å, all 4 bridgehead radicals
+likewise, and a negative control confirms the two classes are *not* congruent, so
+the reduction cannot have silently merged the two sites.
+
+This is why stage 1 computes one representative per environment and is complete
+rather than a screening shortcut, and it is why a proposal to cut stage 1 from
+six relaxations to one had no saving available: its six relaxations are six
+distinct chemical species, not six site samples.
 
 Stage 1 is the adiabatic C-H dissociation energy at each site,
 D = E(radical) + E(H) − E(adamantane). Stage 2 is the ethynyl abstraction
