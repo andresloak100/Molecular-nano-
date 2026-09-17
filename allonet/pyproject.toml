@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "allonet"
+version = "0.1.0"
+description = "The trust layer for AI x biology: validate identifiers, checksum sequences, fetch with provenance, verify claims against primary databases. Zero dependencies."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+keywords = [
+    "bioinformatics", "validation", "provenance", "uniprot", "pdb",
+    "ncbi", "ensembl", "ai-agents", "llm", "hallucination",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+[project.urls]
+Homepage = "https://github.com/andresloak100/allonet"
+
+[project.scripts]
+allonet = "allonet:main"
+
+[tool.setuptools]
+py-modules = ["allonet"]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
